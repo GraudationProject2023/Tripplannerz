@@ -28,3 +28,4 @@ Finally, members can get an information about finding shortest route through our
 6) Suggestions for activites And Attractions : In the ongoing itinerary, group members can suggest tourist destinations and activities to visit during the trip, which are added to the itinerary when the group leader accepts.
 
 7) Shortest route recommendation : After registering all the tourist spots to visit, press the shortest route recommendation button to recommend the shortest route. The default factor for determining the shortest route is time, but it can be changed to distance.
+</p>
