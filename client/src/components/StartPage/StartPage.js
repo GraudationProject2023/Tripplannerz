@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Logo from '../Image/Logo.png';
 import {Form, Input, Button} from 'antd';
+import axios from 'axios';
+
+var state={
+    createAuthCode : "",
+    authCodeCheck: false,
+};
 
 
 function StartPage(){
@@ -100,11 +106,53 @@ SecondModal.propTypes = {
     visible: PropTypes.bool,
 }
 
+ const [Email, setEmail] = useState("");
+ const [AuthCode, setAuthCode] = useState("");
+
+ const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+ }
+ const onAuthCodeHandler = (event) => {
+    setAuthCode(event.currentTarget.value);
+ }
+
+ const onSendEmailHandler = (event) => {
+    event.preventDefault();
+    state.createdAuthCode = Math.random().toString(36).substring(2,8);
+
+    const dataToSubmit = {
+        email: Email,
+        auth: state.createAuthCode,
+    };
+
+    axios.post("/api/users/sendEmail",dataToSubmit)
+    .then((response) => {
+        alert("인증코드가 발송되었습니다");
+    })
+    .catch(() => {
+        alert("인증코드 전송에 실패하였습니다.");
+    })
+}
+ 
+const onCheckHandler = (event) => {
+    event.preventDefault();
+
+    if(state.createdAuthCode === AuthCode){
+        state.authCodeCheck = true;
+        alert("이메일 인증에 성공하셨습니다.");
+    }
+    else{
+        state.authCodeCheck = false;
+        alert("인증코드가 일치하지 않습니다.");
+    }
+}
+
+
    return(
-    <div>
+    <div style={{marginLeft:"42%", marginTop:"15%"}}>
        <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} />
        <br />
-       <button style={{width:"295px", height:"61px", backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Login</button>
+       <button style={{width:"295px", height:"61px", marginLeft:"15px",marginTop:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Login</button>
        {
          modalVisible && <Modal
             visible={modalVisible}
@@ -114,13 +162,14 @@ SecondModal.propTypes = {
          >
             <div>
                 <h4>Login</h4>
+                <hr />
                 <Form>
                     <div>
-                      <label>Email</label>
+                      <lable>Email</lable>
                       <Input style={{marginLeft:"130px"}} id="email" placeholder="Enter your email" />
                     </div>
                     <div>
-                       <label>Password</label>
+                       <lable>Password</lable>
                        <Input style={{marginLeft: "100px"}} id="password" placeholder="Enter your password" />
                     </div>
                     <div>
@@ -131,7 +180,7 @@ SecondModal.propTypes = {
          </Modal>
        }
        <br />
-       <button style={{width:"295px", height:"61px", backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
+       <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
        {
           secondmodalVisible && <Modal
             visible={secondmodalVisible}
@@ -141,8 +190,59 @@ SecondModal.propTypes = {
           >
             <div>
                 <h4>Sign Up</h4>
+                <hr />
                 <Form>
-                    
+                <div>
+                <lable>Name</lable>
+                <Input id="name" style={{marginLeft:"130px"}} placeholder="Enter your name" />
+                </div>
+                <br />
+                <div>
+                <lable>Gender</lable>
+                <select id="Gender" name ="Gender" style={{marginLeft:"120px"}}>
+                <option defaultValue="(male/female)" hidden>(male/female)</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                </select>
+                </div>
+                <br />
+                <div>
+                <lable>Email</lable>
+                <Input id="email" style={{marginLeft:"135px"}} placeholder="Enter your email" />
+                <button style={{marginLeft:"20px"}}>check</button>
+                </div>
+                <br />
+                <div>
+                <lable>Code</lable>
+                <Input id ="code" style={{marginLeft:"135px"}} placeholder="Enter code which you get" />
+                </div>
+                <br />
+                <div>
+                <lable>Password</lable> 
+                <Input id="password" style={{marginLeft:"104px"}} placeholder="Enter your password" />  
+                </div>
+                <br />
+                <div>
+                <lable>Confirm Password</lable>
+                <Input id="password" style={{marginLeft:"40px"}} placeholder="Confirm your password" />
+                </div>
+                <br />
+                <div>
+                <lable>Phone Number</lable>
+                <Input id="number" style={{marginLeft:"58px"}} placeholder="Enter your phone number" />
+                <button style={{marginLeft:"20px"}}>check</button>
+                </div>
+                <br />
+                <div>
+                <lable>Code</lable>
+                <Input id ="code" style={{marginLeft:"133px"}} placeholder="Enter code which you get" />
+                </div>
+                <br />
+                <br />
+                <br />
+                <div>
+                  <Button style={{marginLeft:"250px"}}>Submit</Button>
+                </div>
                 </Form>
             </div>
           </Modal>
