@@ -5,18 +5,15 @@ import {
   Route 
 } from 'react-router-dom';
 
-import LoginPage from './components/LoginPage/LoginPage';
-import RegisterPage from './components/RegisterPage/RegisterPage';
+import StartPage from './components/StartPage/StartPage';
 
 function App() {
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path ="/" element={<LoginPage />} />
-          <Route path ="/login" element={<LoginPage />} />
-          <Route path ="/register" element={<RegisterPage />} />
-         </Routes>
+          <Route path ="/" element={<StartPage />} />
+        </Routes>
       </Suspense>
     </Router>
   );
