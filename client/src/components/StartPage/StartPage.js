@@ -147,6 +147,18 @@ const onCheckHandler = (event) => {
     }
 }
 
+const onPhoneNumberHandler = async(phoneNumber) => {
+    try{
+      const response = await axios.post('/api/auth/sms', {
+        phoneNumber: phoneNumber
+      });
+      console.log(response.data);  
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 
    return(
     <div style={{marginLeft:"42%", marginTop:"15%"}}>
