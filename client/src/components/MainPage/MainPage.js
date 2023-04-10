@@ -1,11 +1,14 @@
 import React from 'react';
+import User from '../Image/User.png';
+import New from '../Image/New.png';
+import My from '../Image/My.png';
 
 function MainPage(){
    return(
     <div>
         <div class ="card-horizontal">
             <div class="img-square-wrapper">
-                <img alt="새 일정 생성" />
+                <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
             </div>
             <div class ="card-body">
                 <h2 class="card-title">New Schedule</h2>
@@ -16,7 +19,7 @@ function MainPage(){
         </div>
         <div class ="card-horizontal">
             <div class="img-square-wrapper">
-                <img alt="동행자 찾기" />
+                <img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />
             </div>
             <div class ="card-body">
                 <h2 class="card-title">Find Companion</h2>
@@ -27,7 +30,7 @@ function MainPage(){
         </div>
         <div class ="card-horizontal">
             <div class="img-square-wrapper">
-                <img alt="내 일정 보기" />
+                <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
             </div>
             <div class ="card-body">
                 <h2 class="card-title">My Schedule</h2>
