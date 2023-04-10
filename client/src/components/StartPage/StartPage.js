@@ -2,7 +2,8 @@ import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Logo from '../Image/Logo.png';
-import {Form, Input, Button} from 'antd';
+import {Button, Form, FormControl} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 var state={
@@ -178,14 +179,15 @@ const onPhoneNumberHandler = async(phoneNumber) => {
                 <Form>
                     <div>
                       <lable>Email</lable>
-                      <Input style={{marginLeft:"130px"}} id="email" placeholder="Enter your email" />
+                      <FormControl type="email"id="email" placeholder="Enter your email" />
                     </div>
+                    <br />
                     <div>
                        <lable>Password</lable>
-                       <Input style={{marginLeft: "100px"}} id="password" placeholder="Enter your password" />
+                       <FormControl type="password" id="password" placeholder="Enter your password" />
                     </div>
                     <div>
-                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", width:"150px"}}>Enter</Button>
+                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Enter</Button>
                     </div>
                 </Form>
             </div>
@@ -206,54 +208,54 @@ const onPhoneNumberHandler = async(phoneNumber) => {
                 <Form>
                 <div>
                 <lable>Name</lable>
-                <Input id="name" style={{marginLeft:"130px"}} placeholder="Enter your name" />
+                <FormControl type="text" id="name" placeholder="Enter your name" />
                 </div>
                 <br />
                 <div>
                 <lable>Gender</lable>
-                <select id="Gender" name ="Gender" style={{marginLeft:"120px"}}>
+                <Form.Select id="Gender" name ="Gender">
                 <option defaultValue="(male/female)" hidden>(male/female)</option>
                 <option value="male">male</option>
                 <option value="female">female</option>
-                </select>
+                </Form.Select>
                 </div>
                 <br />
                 <div>
                 <lable>Email</lable>
-                <Input id="email" style={{marginLeft:"135px"}} placeholder="Enter your email" />
-                <button style={{marginLeft:"20px"}}>check</button>
+                <FormControl type="email" id="email" placeholder="Enter your email" />
+                <Button>check</Button>
                 </div>
                 <br />
                 <div>
                 <lable>Code</lable>
-                <Input id ="code" style={{marginLeft:"135px"}} placeholder="Enter code which you get" />
+                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
                 </div>
                 <br />
                 <div>
                 <lable>Password</lable> 
-                <Input id="password" style={{marginLeft:"104px"}} placeholder="Enter your password" />  
+                <FormControl type="password" id="password" placeholder="Enter your password" />  
                 </div>
                 <br />
                 <div>
                 <lable>Confirm Password</lable>
-                <Input id="password" style={{marginLeft:"40px"}} placeholder="Confirm your password" />
+                <FormControl type="password" id="password"  placeholder="Confirm your password" />
                 </div>
                 <br />
                 <div>
                 <lable>Phone Number</lable>
-                <Input id="number" style={{marginLeft:"58px"}} placeholder="Enter your phone number" />
-                <button style={{marginLeft:"20px"}}>check</button>
+                <FormControl type="text" id="number" placeholder="Enter your phone number" />
+                <Button>check</Button>
                 </div>
                 <br />
                 <div>
                 <lable>Code</lable>
-                <Input id ="code" style={{marginLeft:"133px"}} placeholder="Enter code which you get" />
+                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
                 </div>
                 <br />
                 <br />
                 <br />
                 <div>
-                  <Button style={{marginLeft:"250px"}}>Submit</Button>
+                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Submit</Button>
                 </div>
                 </Form>
             </div>
