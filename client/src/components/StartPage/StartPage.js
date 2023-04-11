@@ -169,7 +169,7 @@ const onPhoneNumberHandler = async(phoneNumber) => {
     <div style={{marginLeft:"42%", marginTop:"15%"}}>
        <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} />
        <br />
-       <button style={{width:"295px", height:"61px", marginLeft:"15px",marginTop:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Login</button>
+       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px",marginTop:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Login</button>
        {
          modalVisible && <Modal
             visible={modalVisible}
@@ -196,9 +196,9 @@ const onPhoneNumberHandler = async(phoneNumber) => {
                 </Form>
             </div>
          </Modal>
-       }
+       } */}
        <br />
-       <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
+       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
        {
           secondmodalVisible && <Modal
             visible={secondmodalVisible}
@@ -264,7 +264,7 @@ const onPhoneNumberHandler = async(phoneNumber) => {
                 </Form>
             </div>
           </Modal>
-       }
+       } */}
     </div>
     <Footer />
     </div>
