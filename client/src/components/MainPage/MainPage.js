@@ -2,11 +2,15 @@ import React from 'react';
 import User from '../Image/User.png';
 import New from '../Image/New.png';
 import My from '../Image/My.png';
+import NavBar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 function MainPage(){
    return(
     <div>
-        <div class ="card-horizontal">
+    <NavBar />
+    <div style={{marginLeft: "40%", marginTop:"10%"}}>
+        <div class ="card-horizontal" style={{border:"1px solid"}}>
             <div class="img-square-wrapper">
                 <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
             </div>
@@ -17,6 +21,7 @@ function MainPage(){
                 </p>
             </div>
         </div>
+        <br />
         <div class ="card-horizontal">
             <div class="img-square-wrapper">
                 <img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />
@@ -28,6 +33,7 @@ function MainPage(){
                 </p>
             </div>
         </div>
+        <br />
         <div class ="card-horizontal">
             <div class="img-square-wrapper">
                 <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
@@ -39,6 +45,8 @@ function MainPage(){
                 </p>
             </div>
         </div>
+    </div>
+    <Footer />
     </div>
    )
 }

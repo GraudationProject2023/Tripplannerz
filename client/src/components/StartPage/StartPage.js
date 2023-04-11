@@ -5,6 +5,8 @@ import Logo from '../Image/Logo.png';
 import {Button, Form, FormControl} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import NavBar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 var state={
     createAuthCode : "",
@@ -162,6 +164,8 @@ const onPhoneNumberHandler = async(phoneNumber) => {
 
 
    return(
+    <div>
+        <NavBar />
     <div style={{marginLeft:"42%", marginTop:"15%"}}>
        <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} />
        <br />
@@ -261,6 +265,8 @@ const onPhoneNumberHandler = async(phoneNumber) => {
             </div>
           </Modal>
        }
+    </div>
+    <Footer />
     </div>
    )
 }
