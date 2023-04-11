@@ -101,8 +101,14 @@ SecondModal.propTypes = {
     visible: PropTypes.bool,
 }
 
+function movetomain()
+{
+    window.location.href="/main";
+}
+
+
     return(
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid", marginTop:"5%"}} >
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF"}} >
             <Nav className="me-auto">
                 <Nav.Link>
                    Home
@@ -130,7 +136,7 @@ SecondModal.propTypes = {
                        <FormControl type="password" id="password" placeholder="Enter your password" />
                     </div>
                     <div>
-                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Enter</Button>
+                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={movetomain} >Enter</Button>
                     </div>
                 </Form>
             </div>
@@ -245,6 +251,8 @@ const ModalInner = styled.div`
     background-color: #fff;
     border-radius: 10px;
     max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
     top: 50%;
     transform: translateY(-50%);
     margin: 0 auto;
