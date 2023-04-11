@@ -108,11 +108,11 @@ function movetomain()
 
 
     return(
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF"}} >
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
             <Nav className="me-auto">
-                <Nav.Link>
-                   Home
-                </Nav.Link>
+                <Nav>
+                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000"}}>Home</Button>
+                </Nav>
                 <Nav>
                     <Button style={{marginLeft:"2400%",backgroundColor:"#FFFFFF",color:"#000000"}} onClick={openModal}>Login</Button>
                     {

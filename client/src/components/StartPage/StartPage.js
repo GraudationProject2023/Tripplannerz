@@ -7,6 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import Land1 from '../Image/랜딩페이지 1.png';
+import Land2 from '../Image/랜딩페이지 2.png';
+import Land3 from '../Image/랜딩페이지 3.png';
 
 var state={
     createAuthCode : "",
@@ -162,14 +165,21 @@ const onPhoneNumberHandler = async(phoneNumber) => {
     }
 }
 
+function movetomain(){
+    window.location.href="/main";
+}
 
    return(
     <div>
         <NavBar />
-    <div style={{marginLeft:"42%", marginTop:"15%"}}>
-       <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} />
+        <br />
+        <img src={Land1} alt="설명페이지1" style={{width:"100%"}} />
+        <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
+        <img src={Land3} alt="설명페이지3" style={{width:"100%"}} />
+    <div style={{marginLeft:"42%",marginTop:"5%"}}>
+       {/* <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} /> */}
        <br />
-       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px",marginTop:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Login</button>
+       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Start our Service</button>
        {
          modalVisible && <Modal
             visible={modalVisible}
@@ -191,12 +201,12 @@ const onPhoneNumberHandler = async(phoneNumber) => {
                        <FormControl type="password" id="password" placeholder="Enter your password" />
                     </div>
                     <div>
-                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Enter</Button>
+                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={movetomain} >Enter</Button>
                     </div>
                 </Form>
             </div>
          </Modal>
-       } */}
+       }
        <br />
        {/* <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
        {
@@ -266,7 +276,7 @@ const onPhoneNumberHandler = async(phoneNumber) => {
           </Modal>
        } */}
     </div>
-    <Footer />
+    <div style={{marginTop:"15%"}}></div>
     </div>
    )
 }
