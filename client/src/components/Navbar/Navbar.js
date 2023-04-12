@@ -1,23 +1,12 @@
-import React,{useState} from 'react';
+import React ,{useState} from 'react';
+import {Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Logo from '../Image/Logo.png';
-import {Button, Form, FormControl} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import NavBar from '../Navbar/Navbar';
-import Footer from '../Footer/Footer';
-import Land1 from '../Image/랜딩페이지 1.png';
-import Land2 from '../Image/랜딩페이지 2.png';
-import Land3 from '../Image/랜딩페이지 3.png';
-
-var state={
-    createAuthCode : "",
-    authCodeCheck: false,
-};
 
 
-function StartPage(){
+function NavBar(){
 
     const [modalVisible, setModalVisible] = useState(false);
     const [secondmodalVisible, setSecondModalVisible] = useState(false);
@@ -112,75 +101,21 @@ SecondModal.propTypes = {
     visible: PropTypes.bool,
 }
 
- const [Email, setEmail] = useState("");
- const [AuthCode, setAuthCode] = useState("");
-
- const onEmailHandler = (event) => {
-    setEmail(event.currentTarget.value);
- }
- const onAuthCodeHandler = (event) => {
-    setAuthCode(event.currentTarget.value);
- }
-
- const onSendEmailHandler = (event) => {
-    event.preventDefault();
-    state.createdAuthCode = Math.random().toString(36).substring(2,8);
-
-    const dataToSubmit = {
-        email: Email,
-        auth: state.createAuthCode,
-    };
-
-    axios.post("/api/users/sendEmail",dataToSubmit)
-    .then((response) => {
-        alert("인증코드가 발송되었습니다");
-    })
-    .catch(() => {
-        alert("인증코드 전송에 실패하였습니다.");
-    })
-}
- 
-const onCheckHandler = (event) => {
-    event.preventDefault();
-
-    if(state.createdAuthCode === AuthCode){
-        state.authCodeCheck = true;
-        alert("이메일 인증에 성공하셨습니다.");
-    }
-    else{
-        state.authCodeCheck = false;
-        alert("인증코드가 일치하지 않습니다.");
-    }
-}
-
-const onPhoneNumberHandler = async(phoneNumber) => {
-    try{
-      const response = await axios.post('/api/auth/sms', {
-        phoneNumber: phoneNumber
-      });
-      console.log(response.data);  
-    }
-    catch(error){
-        console.log(error);
-    }
-}
-
-function movetomain(){
+function movetomain()
+{
     window.location.href="/main";
 }
 
-   return(
-    <div>
-        <NavBar />
-        <br />
-        <img src={Land1} alt="설명페이지1" style={{width:"100%"}} />
-        <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
-        <img src={Land3} alt="설명페이지3" style={{width:"100%"}} />
-    <div style={{marginLeft:"42%",marginTop:"5%"}}>
-       {/* <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} /> */}
-       <br />
-       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Start our Service</button>
-       {
+
+    return(
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
+            <Nav className="me-auto">
+                <Nav>
+                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000"}}>Home</Button>
+                </Nav>
+                <Nav>
+                    <Button style={{marginLeft:"2400%",backgroundColor:"#FFFFFF",color:"#000000"}} onClick={openModal}>Login</Button>
+                    {
          modalVisible && <Modal
             visible={modalVisible}
             closable = {true}
@@ -207,9 +142,10 @@ function movetomain(){
             </div>
          </Modal>
        }
-       <br />
-       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
-       {
+                </Nav>
+                <Nav>
+                    <Button style={{marginLeft:"1900%", backgroundColor:"#FFFFFF", color:"#000000"}} onClick={openSecondModal}>Register</Button>
+                    {
           secondmodalVisible && <Modal
             visible={secondmodalVisible}
             closable={true}
@@ -274,14 +210,14 @@ function movetomain(){
                 </Form>
             </div>
           </Modal>
-       } */}
-    </div>
-    <div style={{marginTop:"15%"}}></div>
-    </div>
-   )
+       }
+                </Nav>
+            </Nav>
+        </Navbar>
+    )
 }
 
-export default StartPage;
+export default NavBar;
 
 const ModalWrapper = styled.div`
     box-sizing: border-box;
@@ -315,6 +251,8 @@ const ModalInner = styled.div`
     background-color: #fff;
     border-radius: 10px;
     max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
     top: 50%;
     transform: translateY(-50%);
     margin: 0 auto;
