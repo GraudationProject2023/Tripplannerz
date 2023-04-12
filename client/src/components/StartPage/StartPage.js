@@ -103,10 +103,10 @@ function SecondModal({className, onClose , maskClosable , closable , visible, ch
         <>
             <ModalOverlay visible = {visible} />
             <ModalWrapper className ={className} onClick={maskClosable ? onMaskClick : null} tabIndex="-1" visible={visible}>
-                <ModalInner tabIndex ="0" className = "modal-inner">
+                <ModalInner2 tabIndex ="0" className = "modal-inner">
                     {closable && <button style={{backgroundColor:"#FFFFFF",width:"30px", height:"30px", marginLeft:"500px"}} className="modal-close" onClick={close} >X</button>}
                     {children}
-                </ModalInner>
+                </ModalInner2>
             </ModalWrapper>
         </>
     )
@@ -224,7 +224,7 @@ function modalchange(){
                             maskClosable={true}
                             onClose={closeSecondModal}
                             >
-                            <div style={{marginTop:"80%"}}>
+                            <div>
                               <h4>Sign Up</h4>
                               <hr />
                               <Form>
@@ -279,6 +279,8 @@ function modalchange(){
                 <div>
                   <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
                 </div>
+                <br />
+                <br />
                 </Form>
             </div>
           </Modal>
@@ -286,6 +288,7 @@ function modalchange(){
                     </td>
                      </table>
                     </div>
+                    
                 </Form>
             </div>
          </Modal>
@@ -398,7 +401,29 @@ const ModalInner = styled.div`
     background-color: #fff;
     border-radius: 10px;
     max-width: 600px;
-    max-height: 150vh;
+    max-height: 51vh;
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow-y:auto;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    padding: 40px 20px;
+`;
+
+const ModalInner2 = styled.div`
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.5);
+    background-color: #fff;
+    border-radius: 10px;
+    max-width: 600px;
+    max-height: 60vh;
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow-y:auto;
     top: 50%;
     transform: translateY(-50%);
     margin: 0 auto;
