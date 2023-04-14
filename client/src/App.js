@@ -7,6 +7,7 @@ import {
 
 import StartPage from './components/StartPage/StartPage';
 import MainPage from './components/MainPage/MainPage';
+import SchedulePage from './components/SchedulePage/SchedulePage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path ="/" element={<StartPage />} />
           <Route path ="/main" element={<MainPage />} />
+          <Route path ="/schedule" element={<SchedulePage />} />
         </Routes>
       </Suspense>
     </Router>
