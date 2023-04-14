@@ -253,37 +253,37 @@ function modalchange(){
                              <FormControl type="text" id ="code" placeholder="Enter code which you get" />
                              </div>
                             <br />
-                <div>
-                <lable>Password</lable> 
-                <FormControl type="password" id="password" placeholder="Enter your password" />  
-                </div>
-                <br />
-                <div>
-                <lable>Confirm Password</lable>
-                <FormControl type="password" id="password"  placeholder="Confirm your password" />
-                </div>
-                <br />
-                <div>
-                <lable>Phone Number</lable>
-                <FormControl type="text" id="number" placeholder="Enter your phone number" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <br />
-                <br />
-                <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
-                </div>
-                <br />
-                <br />
-                </Form>
-            </div>
-          </Modal>
+                            <div>
+                            <lable>Password</lable> 
+                            <FormControl type="password" id="password" placeholder="Enter your password" />  
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Confirm Password</lable>
+                            <FormControl type="password" id="password"  placeholder="Confirm your password" />
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Phone Number</lable>
+                            <FormControl type="text" id="number" placeholder="Enter your phone number" />
+                            <Button>check</Button>
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Code</lable>
+                            <FormControl type="text" id ="code" placeholder="Enter code which you get" />
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div>
+                            <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
+                            </div>
+                            <br />
+                            <br />
+                       </Form>
+                   </div>
+              </Modal>
        } 
                     </td>
                      </table>

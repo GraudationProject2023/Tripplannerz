@@ -15,9 +15,9 @@ function MainPage(){
                 <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
             </div>
             <div class ="card-body">
-                <h2 class="card-title">New Schedule</h2>
+                <h2 class="card-title">새 일정 생성</h2>
                 <p class="card-text">
-                    Create your new travel schedule
+                    새로운 일정을 생성하세요.
                 </p>
             </div>
         </div>
@@ -27,9 +27,9 @@ function MainPage(){
                 <img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />
             </div>
             <div class ="card-body">
-                <h2 class="card-title">Find Companion</h2>
+                <h2 class="card-title">동행자 찾기</h2>
                 <p class="card-text">
-                    Find companion for your travel or Join to other's travel
+                    본인이 계획한 여행 일정의 동행자를 찾거나, 다른 사람들의 여행 일정에 참가하세요.
                 </p>
             </div>
         </div>
@@ -39,9 +39,9 @@ function MainPage(){
                 <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
             </div>
             <div class ="card-body">
-                <h2 class="card-title">My Schedule</h2>
+                <h2 class="card-title">내 여행 일정</h2>
                 <p class="card-text">
-                    Confirm your travel schedule
+                    본인의 여행 일정을 확인하세요.
                 </p>
             </div>
         </div>
