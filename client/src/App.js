@@ -8,6 +8,7 @@ import {
 import StartPage from './components/StartPage/StartPage';
 import MainPage from './components/MainPage/MainPage';
 import SchedulePage from './components/SchedulePage/SchedulePage';
+import InitPage from './components/InitPage/InitPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path ="/" element={<StartPage />} />
           <Route path ="/main" element={<MainPage />} />
           <Route path ="/schedule" element={<SchedulePage />} />
+          <Route path ="/init" element={<InitPage />} />
         </Routes>
       </Suspense>
     </Router>
