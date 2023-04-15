@@ -1,22 +1,26 @@
 import React, {useState} from 'react';
-import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import DatePicker,{ Calendar } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../Navbar/Navbar';
 
 
 function InitPage(){
-   const [currentMonth, setCurrentMonth] = useState(new Date());
+   const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')));
    const [nextMonth, setNextMonth] = useState(
     new Date(currentMonth.getFullYear(), currentMonth.getMonth() +1 , 1)
    );
 
    const handleCurrentMonthChange = (date) => {
       setCurrentMonth(date);
-      setNextMonth(new Date(date.getFullYear(), date.getMonth()+1,1));
+   }
+
+   const handleNextMonthChange = (date) => {
+      setNextMonth(date);
    }
 
    const disabledNextMonthDates = (date) => {
-      return date < currentMonth;
+      return  date > new Date(currentMonth.getFullYear(), currentMonth.getMonth(), currentMonth.getDate() -1 );
    };
 
 
@@ -28,23 +32,30 @@ function InitPage(){
          <table>
             <td><div>
             <h2>가는 날</h2>
-            <DatePicker 
+            <DatePicker
                selected={currentMonth}
                onChange={handleCurrentMonthChange}
-               showMonthYearPicker
+               placeholderText='가는 날 선택'
+               popperPlacement='bottom-start'
+               inline
             />
           </div></td>
             <td style={{paddingLeft:"100px"}}> <div>
             <h2>오는 날</h2>
-            <DatePicker 
+            <DatePicker
                selected={nextMonth}
-               minDate={currentMonth}
                filterDate={disabledNextMonthDates}
-               showMonthYearPicker
+               onChange ={handleNextMonthChange}
+               placeholderText='오는 날 선택'
+               popperPlacement='bottom-start'
+               inline
             />
           </div></td>
          </table>
-          
+         <div>
+            {console.log(currentMonth)}
+            {console.log(nextMonth)}
+         </div>
          
       </div>
       </div>
