@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -32,6 +31,11 @@ class DomainTest {
 
     @Test
     public void 팀별_멤버_출력() {
+
+        Member member = em.find(Member.class, 2L);
+
+        member.exit();
+        em.remove(member);
 
         List<Team> teamList = em.createQuery("select t from Team t", Team.class).getResultList();
 
@@ -81,9 +85,16 @@ class DomainTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void 팀삭제시_여행일정삭제() {
         Team team = em.find(Team.class, 1L);
         em.remove(team);
+    }
+
+    @Test
+    public void 회원탈퇴(){
+        Member member = em.find(Member.class, 1L);
+
+        member.exit();
+        em.remove(member);
     }
 }

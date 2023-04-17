@@ -45,8 +45,5 @@ public class Team {
         this.getTripList().add(trip);
     }
 
-    // == 멤버가 팀에서 탈퇴 == //
-    public void exit() {
-        this.getMemberTeamList().remove(this);
-    }
+    // 팀 삭제 권한은 팀장에게만 있음
 }
