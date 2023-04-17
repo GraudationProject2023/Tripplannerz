@@ -2,11 +2,50 @@ import React, {useState} from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Autocomplete from 'react-autocomplete';
 import DatePicker,{ Calendar } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../Navbar/Navbar';
 
+
+const Autocomplete = ({items}) => {
+   const [inputValue, setInputValue] = useState('');
+   const [suggestions, setSuggestions] = useState([]);
+
+   const handleInputChange = (e) => {
+      const value = e.target.value;
+      setInputValue(value);
+      if(value.length > 0) {
+         const filteredItems = items.filter((item) => 
+           item.toLowerCase().startsWith(value.toLowerCase())
+         );
+         setSuggestions(filteredItems);
+
+      } else {
+         setSuggestions([]);
+      }
+   };
+
+   const handleSelectSuggestion = (value) => {
+      setInputValue(value);
+      setSuggestions([]);
+   };
+
+   return (
+      <div>
+         <input type="text" value={inputValue} onChange={handleInputChange} placeholder = "Type member name" />
+          {suggestions.length > 0 && (
+            <ul>
+               {suggestions.map((suggestion) => (
+                  <li key={suggestion} onClick={() => handleSelectSuggestion(suggestion)}
+                  >
+                     {suggestion}
+                  </li>
+               ))}
+            </ul>
+          )}
+      </div>
+   )
+}
 
 function InitPage(){
    const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')));
@@ -14,10 +53,8 @@ function InitPage(){
     new Date(currentMonth.getFullYear(), currentMonth.getMonth() +1 , 1)
    );
 
-   const [value, setValue] = useState("");
-   const [members, setMembers] = useState(["John","Jane","Mike","Alice"]);
-   const [inputs, setInputs] = useState([]);
    const [modalVisible, setModalVisible] = useState(false);
+   const members = ['John','Jane','Jacob','Josh','Jessie'];
    
    const openModal = () => {
       setModalVisible(true);
@@ -26,18 +63,6 @@ function InitPage(){
    const closeModal = () => {
       setModalVisible(false);
    }
-
-   const handleAddInput = (value) => {
-      setInputs([...inputs, value]);
-      setValue("");
-    
-   }
-
-   const renderMemberItem = (item, isHighlighted) => (
-      <div style={{background: isHighlighted ? 'lightgray' : 'white'}}>
-         {item}
-      </div>
-   );
 
 
    const handleCurrentMonthChange = (date) => {
@@ -148,20 +173,7 @@ Modal.propTypes = {
                onClose = {closeModal}
               >
               <h2>멤버 검색</h2>
-              <Autocomplete 
-                items={members}
-                getItemValue={(item) => item}
-                renderItem = {renderMemberItem}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                onSelect={(value) => handleAddInput(value)}
-                placeholder = "Type member name"
-              />
-              {inputs.map((member,index) => (
-                 <div key={index +1}>
-                   {member}
-                 </div>
-              ))}
+               <Autocomplete items = {members} />
               </Modal>
            }   
          </div> 
