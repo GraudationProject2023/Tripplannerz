@@ -20,10 +20,10 @@ public class Team {
 
     private Long teamLeaderId;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<MemberTeam> memberTeamList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Trip> tripList = new ArrayList<>();
 
     @Builder
@@ -43,5 +43,10 @@ public class Team {
     public void setTrip(Trip trip) {
         trip.setTeam(this);
         this.getTripList().add(trip);
+    }
+
+    // == 멤버가 팀에서 탈퇴 == //
+    public void exit() {
+        this.getMemberTeamList().remove(this);
     }
 }

@@ -17,7 +17,7 @@ class DomainTest {
     private EntityManager em;
 
     @Test
-    public void 멤버별_소속팀_출력(){
+    public void 멤버별_소속팀_출력() {
         List<Member> memberList = em.createQuery("select m from Member m", Member.class).getResultList();
 
         for (Member member : memberList) {
@@ -31,7 +31,8 @@ class DomainTest {
     }
 
     @Test
-    public void 팀별_멤버_출력(){
+    public void 팀별_멤버_출력() {
+
         List<Team> teamList = em.createQuery("select t from Team t", Team.class).getResultList();
 
         for (Team team : teamList) {
@@ -45,7 +46,7 @@ class DomainTest {
     }
 
     @Test
-    public void 팀별_여행일정_출력(){
+    public void 팀별_여행일정_출력() {
         List<Team> teamList = em.createQuery("select t from Team t", Team.class).getResultList();
 
         for (Team team : teamList) {
@@ -59,7 +60,7 @@ class DomainTest {
     }
 
     @Test
-    public void 여행일정별_경유지_출력(){
+    public void 여행일정별_경유지_출력() {
         List<Trip> tripList = em.createQuery("select t from Trip t", Trip.class).getResultList();
 
         for (Trip trip : tripList) {
@@ -73,10 +74,16 @@ class DomainTest {
     }
 
     @Test
-    @Rollback(value = false)
-    public void 그룹_탈퇴(){
+    public void 그룹_탈퇴() {
         MemberTeam memberTeam = em.find(MemberTeam.class, 1L);
         memberTeam.exitMemberTeam();
         em.remove(memberTeam);
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void 팀삭제시_여행일정삭제() {
+        Team team = em.find(Team.class, 1L);
+        em.remove(team);
     }
 }
