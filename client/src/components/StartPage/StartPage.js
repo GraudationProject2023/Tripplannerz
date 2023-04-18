@@ -190,7 +190,7 @@ function modalchange(){
     <div style={{marginLeft:"42%",marginTop:"5%"}}>
        {/* <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} /> */}
        <br />
-       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Start our Service</button>
+       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>서비스 시작하기</button>
        {
          modalVisible && <Modal
             visible={modalVisible}
@@ -253,37 +253,37 @@ function modalchange(){
                              <FormControl type="text" id ="code" placeholder="Enter code which you get" />
                              </div>
                             <br />
-                <div>
-                <lable>Password</lable> 
-                <FormControl type="password" id="password" placeholder="Enter your password" />  
-                </div>
-                <br />
-                <div>
-                <lable>Confirm Password</lable>
-                <FormControl type="password" id="password"  placeholder="Confirm your password" />
-                </div>
-                <br />
-                <div>
-                <lable>Phone Number</lable>
-                <FormControl type="text" id="number" placeholder="Enter your phone number" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <br />
-                <br />
-                <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
-                </div>
-                <br />
-                <br />
-                </Form>
-            </div>
-          </Modal>
+                            <div>
+                            <lable>Password</lable> 
+                            <FormControl type="password" id="password" placeholder="Enter your password" />  
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Confirm Password</lable>
+                            <FormControl type="password" id="password"  placeholder="Confirm your password" />
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Phone Number</lable>
+                            <FormControl type="text" id="number" placeholder="Enter your phone number" />
+                            <Button>check</Button>
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Code</lable>
+                            <FormControl type="text" id ="code" placeholder="Enter code which you get" />
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div>
+                            <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
+                            </div>
+                            <br />
+                            <br />
+                       </Form>
+                   </div>
+              </Modal>
        } 
                     </td>
                      </table>
