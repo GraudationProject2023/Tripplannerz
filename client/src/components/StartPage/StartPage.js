@@ -10,6 +10,7 @@ import Footer from '../Footer/Footer';
 import Land1 from '../Image/랜딩페이지 1.png';
 import Land2 from '../Image/랜딩페이지 2.png';
 import Land3 from '../Image/랜딩페이지 3.png';
+import Loginpage from './Kakao/Loginpage';
 
 var state={
     createAuthCode : "",
@@ -294,73 +295,7 @@ function modalchange(){
          </Modal>
        }
        <br />
-       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
-       {
-          secondmodalVisible && <Modal
-            visible={secondmodalVisible}
-            closable={true}
-            maskClosable={true}
-            onClose={closeSecondModal}
-          >
-            <div>
-                <h4>Sign Up</h4>
-                <hr />
-                <Form>
-                <div>
-                <lable>Name</lable>
-                <FormControl type="text" id="name" placeholder="Enter your name" />
-                </div>
-                <br />
-                <div>
-                <lable>Gender</lable>
-                <Form.Select id="Gender" name ="Gender">
-                <option defaultValue="(male/female)" hidden>(male/female)</option>
-                <option value="male">male</option>
-                <option value="female">female</option>
-                </Form.Select>
-                </div>
-                <br />
-                <div>
-                <lable>Email</lable>
-                <FormControl type="email" id="email" placeholder="Enter your email" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <div>
-                <lable>Password</lable> 
-                <FormControl type="password" id="password" placeholder="Enter your password" />  
-                </div>
-                <br />
-                <div>
-                <lable>Confirm Password</lable>
-                <FormControl type="password" id="password"  placeholder="Confirm your password" />
-                </div>
-                <br />
-                <div>
-                <lable>Phone Number</lable>
-                <FormControl type="text" id="number" placeholder="Enter your phone number" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <br />
-                <br />
-                <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Submit</Button>
-                </div>
-                </Form>
-            </div>
-          </Modal>
-       } */}
+       <Loginpage />
     </div>
     <div style={{marginTop:"15%"}}></div>
     </div>
