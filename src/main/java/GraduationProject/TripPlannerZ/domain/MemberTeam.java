@@ -36,8 +36,14 @@ public class MemberTeam {
     }
 
     // == 그룹 탈퇴 == //
-    public static void exitMemberTeam(Member member, Team team) {
-        
+    public void exitMemberTeam() {
+        /*
+            1. Repository에서 Member Id와 Team Id를 파라미터로 받아서 memberTeam을 조회
+            2. Service에서 memberTeam.exitMemberTeam()을 통해 그룹 탈퇴함수에 접근
+            3. em.remove() 실행
+        */
+        this.member.getMemberTeamList().remove(this);
+        this.team.getMemberTeamList().remove(this);
     }
 
     // == 연관 관계편의 메서드 == //

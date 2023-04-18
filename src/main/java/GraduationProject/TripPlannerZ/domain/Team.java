@@ -20,10 +20,10 @@ public class Team {
 
     private Long teamLeaderId;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<MemberTeam> memberTeamList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Trip> tripList = new ArrayList<>();
 
     @Builder
@@ -44,4 +44,6 @@ public class Team {
         trip.setTeam(this);
         this.getTripList().add(trip);
     }
+
+    // 팀 삭제 권한은 팀장에게만 있음
 }
