@@ -27,6 +27,11 @@ function NavBar(){
         setSecondModalVisible(false);
     }
 
+    function Welcome() {
+        alert('가입이 완료되었습니다. 로그인을 해주세요!');
+        setSecondModalVisible(false);
+    }
+
     function Modal({className, onClose , maskClosable , closable , visible, children})
     {
     
@@ -111,10 +116,10 @@ function movetomain()
         <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
             <Nav className="me-auto">
                 <Nav>
-                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000"}}>Home</Button>
+                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>메인</Button>
                 </Nav>
-                <Nav>
-                    <Button style={{marginLeft:"2400%",backgroundColor:"#FFFFFF",color:"#000000"}} onClick={openModal}>Login</Button>
+                <Nav style={{marginLeft:"500%"}}>
+                    <Button style={{backgroundColor:"#FFFFFF",color:"#000000", width:"100px", height:"40px"}} onClick={openModal}>로그인</Button>
                     {
          modalVisible && <Modal
             visible={modalVisible}
@@ -143,8 +148,8 @@ function movetomain()
          </Modal>
        }
                 </Nav>
-                <Nav>
-                    <Button style={{marginLeft:"1900%", backgroundColor:"#FFFFFF", color:"#000000"}} onClick={openSecondModal}>Register</Button>
+                <Nav style={{marginLeft:"5%"}}>
+                    <Button style={{width:"100px",height:"40px", backgroundColor:"#FFFFFF", color:"#000000"}} onClick={openSecondModal}>회원가입</Button>
                     {
           secondmodalVisible && <Modal
             visible={secondmodalVisible}
@@ -205,7 +210,7 @@ function movetomain()
                 <br />
                 <br />
                 <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Submit</Button>
+                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={Welcome}>Submit</Button>
                 </div>
                 </Form>
             </div>
