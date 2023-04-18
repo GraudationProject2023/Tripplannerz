@@ -27,6 +27,11 @@ function NavBar(){
         setSecondModalVisible(false);
     }
 
+    function Welcome() {
+        alert('가입이 완료되었습니다. 로그인을 해주세요!');
+        setSecondModalVisible(false);
+    }
+
     function Modal({className, onClose , maskClosable , closable , visible, children})
     {
     
@@ -205,7 +210,7 @@ function movetomain()
                 <br />
                 <br />
                 <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Submit</Button>
+                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={Welcome}>Submit</Button>
                 </div>
                 </Form>
             </div>
