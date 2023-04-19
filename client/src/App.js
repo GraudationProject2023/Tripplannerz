@@ -8,6 +8,7 @@ import {
 import StartPage from './components/StartPage/StartPage';
 import MainPage from './components/MainPage/MainPage';
 import InitPage from './components/InitPage/InitPage';
+import LoginCallbackpage from './components/StartPage/Kakao/LoginCallbackpage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path ="/" element={<StartPage />} />
           <Route path ="/main" element={<MainPage />} />
           <Route path ="/schedule" element={<InitPage />} />
+          <Route path ="/logincallback" element={<LoginCallbackpage />} />
         </Routes>
       </Suspense>
     </Router>
