@@ -195,11 +195,11 @@ function modalchange(){
 }
 
 function move(){
-    var memberVO ={
+    var member ={
         name: name
     }
 
-    axios.post('/api/members',memberVO)
+    axios.post('/api/members',member)
     .then((res) => console.log(res));
 }
 
