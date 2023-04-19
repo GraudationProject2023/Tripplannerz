@@ -199,7 +199,7 @@ function move(){
         name: name
     }
 
-    axios.post('/api/members',member)
+    axios.post('/members',member)
     .then((res) => console.log(res));
 }
 
