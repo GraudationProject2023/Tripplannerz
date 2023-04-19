@@ -15,9 +15,9 @@ public class Member {
     @GeneratedValue
     @Column(name = "member_id")
     private Long id;
+    private String name;
     private String pw;
     private String email;
-    private String name;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String phoneNumber;
