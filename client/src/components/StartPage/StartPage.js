@@ -25,6 +25,12 @@ function StartPage(){
     const [modalVisible, setModalVisible] = useState(false);
     const [secondmodalVisible, setSecondModalVisible] = useState(false);
 
+    const[name, setName] = useState(""); //이름
+    
+    const onNamehandler = (event) => {
+        setName(event.target.value);
+    }
+
     const openModal = () => {
       
       setModalVisible(true);
@@ -40,6 +46,14 @@ function StartPage(){
     }
 
     const closeSecondModal = () => {
+
+        var data ={
+            name: name
+        }
+
+        axios.post('http://localhost:8080/member',data)
+        .then((res) => console.log(res));
+
         setSecondModalVisible(false);
     }
 
@@ -117,7 +131,7 @@ SecondModal.propTypes = {
     visible: PropTypes.bool,
 }
 
- const [Email, setEmail] = useState("");
+ const [email, setEmail] = useState("");
  const [AuthCode, setAuthCode] = useState("");
 
  const onEmailHandler = (event) => {
@@ -132,7 +146,7 @@ SecondModal.propTypes = {
     state.createdAuthCode = Math.random().toString(36).substring(2,8);
 
     const dataToSubmit = {
-        email: Email,
+        email: email,
         auth: state.createAuthCode,
     };
 
@@ -180,6 +194,14 @@ function modalchange(){
     localStorage.setItem("cast",1);
 }
 
+function move(){
+    var memberVO ={
+        name: name
+    }
+
+    axios.post('http://localhost:8080/members',memberVO)
+    .then((res) => console.log(res));
+}
 
    return(
     <div>
@@ -204,8 +226,8 @@ function modalchange(){
                 <hr />
                 <Form>
                     <div>
-                      <lable>Email</lable>
-                      <FormControl type="email"id="email" placeholder="Enter your email" />
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control type="email" id="email" placeholder="Enter your email" onChange={onEmailHandler} />
                     </div>
                     <br />
                     <div>
@@ -231,7 +253,7 @@ function modalchange(){
                               <Form>
                               <div>
                               <lable>Name</lable>
-                              <FormControl type="text" id="name" placeholder="Enter your name" />
+                              <Form.Control type="text" id="name" placeholder="Enter your name" onChange={onNamehandler} />
                               </div>
                               <br />
                               <div>
@@ -297,7 +319,10 @@ function modalchange(){
        <br />
        <Loginpage />
     </div>
-    <div style={{marginTop:"15%"}}></div>
+    <div>
+      <input type="text" placeholder="Enter your Name" onChange={onNamehandler} />
+      <button onClick={move}>submit</button>
+    </div>
     </div>
    )
 }
