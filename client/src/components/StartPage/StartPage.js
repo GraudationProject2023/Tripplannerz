@@ -199,7 +199,7 @@ function move(){
         name: name
     }
 
-    axios.post('/members',member)
+    axios.post('http://localhost:8080/members',member)
     .then((res) => console.log(res));
 }
 
