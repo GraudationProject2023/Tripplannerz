@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController // JSON 형태로 데이터를 반환하는 것
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class MemberController {
     @PostMapping(value = "/members")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
     public void createMember(@RequestBody MemberVO memberVO) {
-        Member joinMember= Member.builder()
+        Member joinMember = Member.builder()
                 .name(memberVO.getName())
                 .pw(memberVO.getPw())
                 .email(memberVO.getEmail())

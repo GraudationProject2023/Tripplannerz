@@ -21,7 +21,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String phoneNumber;
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberTeam> memberTeamList = new ArrayList<>();
 
