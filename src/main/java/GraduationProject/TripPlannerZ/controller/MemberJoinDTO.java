@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberVO {
+public class MemberJoinDTO {
 
     private String name;
     private String pw;

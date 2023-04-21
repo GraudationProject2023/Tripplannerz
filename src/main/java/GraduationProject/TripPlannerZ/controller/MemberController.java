@@ -18,13 +18,13 @@ public class MemberController {
 
     @PostMapping(value = "/members")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
-    public void createMember(@RequestBody MemberVO memberVO) {
+    public void createMember(@RequestBody MemberJoinDTO memberJoinDTO) {
         Member joinMember = Member.builder()
-                .name(memberVO.getName())
-                .pw(memberVO.getPw())
-                .email(memberVO.getEmail())
-                .gender(memberVO.getGender())
-                .phoneNumber(memberVO.getPhoneNumber())
+                .name(memberJoinDTO.getName())
+                .pw(memberJoinDTO.getPw())
+                .email(memberJoinDTO.getEmail())
+                .gender(memberJoinDTO.getGender())
+                .phoneNumber(memberJoinDTO.getPhoneNumber())
                 .memberTeamList(new ArrayList<>())
                 .build();
 
