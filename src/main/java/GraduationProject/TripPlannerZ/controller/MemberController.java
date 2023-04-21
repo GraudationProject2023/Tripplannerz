@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController // JSON 형태로 데이터를 반환하는 것
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class MemberController {
                 .email(memberVO.getEmail())
                 .gender(memberVO.getGender())
                 .phoneNumber(memberVO.getPhoneNumber())
+                .memberTeamList(new ArrayList<>())
                 .build();
 
         /*
