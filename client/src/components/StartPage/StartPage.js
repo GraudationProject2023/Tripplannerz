@@ -18,6 +18,8 @@ function SecondModal(props) {
   const [emailCodeValue, setEmailCodeValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [passwordCodeValue, setPasswordCodeValue] = useState("");
+  const [phonenumberValue, setPhonenumberValue] = useState("");
+  const [phonenumberCodeValue, setPhonenumberCodeValue] = useState("");
   
   
 
@@ -27,8 +29,23 @@ function SecondModal(props) {
     } else if(event.target.name === "Gender"){
         setGenderValue(event.target.value);
     }
-    else if(event.target.value === "Email"){
+    else if(event.target.name === "Email"){
         setEmailValue(event.target.value);
+    }
+    else if(event.target.name === "EmailCode"){
+      setEmailCodeValue(event.target.value);
+    }
+    else if(event.target.name === "Password"){
+      setPasswordValue(event.target.value);
+    }
+    else if(event.target.name === "Confirmpassword"){
+      setPasswordCodeValue(event.target.value);
+    }
+    else if(event.target.name === "Phone"){
+      setPhonenumberValue(event.target.value);
+    }
+    else if(event.target.name === "PhoneCode"){
+      setPhonenumberCodeValue(event.target.value);
     }
   };
 
@@ -36,10 +53,20 @@ function SecondModal(props) {
     props.onSave(inputValue);
     props.onSave(genderValue);
     props.onSave(emailValue);
+    props.onSave(emailCodeValue);
+    props.onSave(passwordValue);
+    props.onSave(passwordCodeValue);
+    props.onSave(phonenumberValue);
+    props.onSave(phonenumberCodeValue);
 
     setInputValue("");
     setGenderValue("");
     setEmailValue("");
+    setEmailCodeValue("");
+    setPasswordValue("");
+    setPasswordCodeValue("");
+    setPhonenumberValue("");
+    setPhonenumberCodeValue("");
   };
 
   return (
@@ -64,11 +91,16 @@ function SecondModal(props) {
                 <option value="female">female</option>
                 </Form.Select>
                 <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={genderValue}
+              type="email"
+              placeholder="Enter your email"
+              value={emailValue}
               onChange={handleInputChange}
-            />
+              />
+              <Form.Control type="text" placeholder="Enter your Email sent Code" value={emailCodeValue} onChange={handleInputChange} />
+              <Form.Control type="password" placeholder="Enter your Password" value= {passwordValue} onChange={handleInputChange} />
+              <Form.Control type="password" placeholder="Confirm your Password" value={passwordCodeValue} onChange={handleInputChange} />
+              <Form.Control type="text" placeholder = "Enter your Phone number" value={phonenumberValue} onChange={handleInputChange} />
+              <Form.Control type="text" placeholder = "Enter your Phone sent Code" value={phonenumberCodeValue} onChange={handleInputChange} />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -114,7 +146,18 @@ function FirstModal(props) {
         <Modal.Body>
           <Form>
             <Form.Group controlId="formBasicEmail">
-
+            <Form.Control
+              type="text"
+              placeholder="Enter your name"
+              value={emailValue}
+              onChange={handleInputChange}
+            />
+            <Form.Control
+              type="text"
+              placeholder="Enter your name"
+              value={passwordValue}
+              onChange={handleInputChange}
+            />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -136,6 +179,12 @@ function StartPage() {
     const [name, setName] = useState('');
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
+    const [emailcode, setEmailcode] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmpassword] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
+    const [phonenumbercode, setPhonenumbercode] = useState('');
+
   
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -144,12 +193,24 @@ function StartPage() {
     const handleNameChange = (event) => setName(event.target.value);
     const handleGenderChange = (event) => setGender(event.target.vaule);
     const handleEmailChange = (event) => setEmail(event.target.value);
+    const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
+    const handlePasswordChange = (event) => setPassword(event.target.value);
+    const handleConfirmPasswordChange = (event) =>setConfirmpassword(event.target.value);
+    const handlePhoneChange = (event) => setPhonenumber(event.target.value);
+    const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
 
     const handleSubmit = (event) => {
       event.preventDefault();
       setShowModal(false);
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
     };
+
+    const handleLogin = (event) => {
+      event.preventDefault();
+      setFirstShowModal(false);
+      alert(`${name}님! 로그인이 되었습니다.`);
+      window.location.href="/main";
+    }
   
     return (
       <div className="StartPage">
@@ -169,7 +230,7 @@ function StartPage() {
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
-              <Form.Control type="text" id="name" placeholder="Enter your name" onChange={handleNameChange} />
+              <Form.Control type="text" id="name" placeholder="Enter your Name" onChange={handleNameChange} />
             </Form>
             <Form onSubmit={handleSubmit}>
             <Form.Select
@@ -185,15 +246,31 @@ function StartPage() {
             </Form.Select>
             </Form>
             <Form onSubmit={handleSubmit}>
-              <Form.Control type="text" id="Email" placeholder="Enter your email" onChange={handleEmailChange} />
+              <Form.Control type="text" id="Email" placeholder="Enter your Email" onChange={handleEmailChange} />
             </Form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Control type="password" id="Confirmpassword" placeholder="Confirm your Password" onChange={handleConfirmPasswordChange} />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onChange={handlePhoneChange} />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Control type="text" id="PhoneCode" placeholder ="Enter your Phone sent code" onChange={handlePhoneCodeChange} />
+            </Form>
+            
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              닫기
             </Button>
             <Button variant="primary" type="submit" onClick={handleSubmit}>
-              Save Changes
+              저장하기
             </Button>
           </Modal.Footer>
         </Modal>
@@ -204,8 +281,28 @@ function StartPage() {
         <Modal show={firstshowModal} onHide={handleFirstClose}>
           <Modal.Header closeButton>
             <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
+            </Modal.Header>
+            <Modal.Body>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Control type="email" placeholder ="Enter your Email" onChange={handleEmailChange}/>
+                </Form>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Control type="password" placeholder ="Enter your Password" onChange={handlePasswordChange} />
+                </Form>
+                <Button variant="secondary" onClick={handleFirstClose}>
+              닫기
+            </Button>
+            <Button variant="primary" type="submit" onClick={handleLogin}>
+              접속하기
+            </Button>
+                <hr />
+                <h5>소셜 로그인</h5>
+                <Loginpage />
+            </Modal.Body>
+            <Modal.Footer>
+          </Modal.Footer>
         </Modal>
+          {name}
         </div>
       </div>
     );
