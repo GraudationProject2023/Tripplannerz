@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Logo from '../Image/Logo.png';
@@ -10,6 +10,7 @@ import Footer from '../Footer/Footer';
 import Land1 from '../Image/랜딩페이지 1.png';
 import Land2 from '../Image/랜딩페이지 2.png';
 import Land3 from '../Image/랜딩페이지 3.png';
+import Loginpage from './Kakao/Loginpage';
 
 var state={
     createAuthCode : "",
@@ -19,11 +20,21 @@ var state={
 
 function StartPage(){
 
+    
+
     const [modalVisible, setModalVisible] = useState(false);
     const [secondmodalVisible, setSecondModalVisible] = useState(false);
 
+    const[name, setName] = useState(""); //이름
+    
+    const onNamehandler = (event) => {
+        setName(event.target.value);
+    }
+
     const openModal = () => {
+      
       setModalVisible(true);
+      
     }
   
     const closeModal = () => {
@@ -35,6 +46,14 @@ function StartPage(){
     }
 
     const closeSecondModal = () => {
+
+        var data ={
+            name: name
+        }
+
+        axios.post('http://localhost:8080/member',data)
+        .then((res) => console.log(res));
+
         setSecondModalVisible(false);
     }
 
@@ -99,10 +118,10 @@ function SecondModal({className, onClose , maskClosable , closable , visible, ch
         <>
             <ModalOverlay visible = {visible} />
             <ModalWrapper className ={className} onClick={maskClosable ? onMaskClick : null} tabIndex="-1" visible={visible}>
-                <ModalInner tabIndex ="0" className = "modal-inner">
+                <ModalInner2 tabIndex ="0" className = "modal-inner">
                     {closable && <button style={{backgroundColor:"#FFFFFF",width:"30px", height:"30px", marginLeft:"500px"}} className="modal-close" onClick={close} >X</button>}
                     {children}
-                </ModalInner>
+                </ModalInner2>
             </ModalWrapper>
         </>
     )
@@ -112,7 +131,7 @@ SecondModal.propTypes = {
     visible: PropTypes.bool,
 }
 
- const [Email, setEmail] = useState("");
+ const [email, setEmail] = useState("");
  const [AuthCode, setAuthCode] = useState("");
 
  const onEmailHandler = (event) => {
@@ -127,7 +146,7 @@ SecondModal.propTypes = {
     state.createdAuthCode = Math.random().toString(36).substring(2,8);
 
     const dataToSubmit = {
-        email: Email,
+        email: email,
         auth: state.createAuthCode,
     };
 
@@ -169,6 +188,21 @@ function movetomain(){
     window.location.href="/main";
 }
 
+
+function modalchange(){
+    closeModal();
+    localStorage.setItem("cast",1);
+}
+
+function move(){
+    var member ={
+        name: name
+    }
+
+    axios.post('http://localhost:8080/members',member)
+    .then((res) => console.log(res));
+}
+
    return(
     <div>
         <NavBar />
@@ -179,7 +213,7 @@ function movetomain(){
     <div style={{marginLeft:"42%",marginTop:"5%"}}>
        {/* <img src={Logo} alt="로고" style={{width:"327px", height:"274px"}} /> */}
        <br />
-       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>Start our Service</button>
+       <button style={{width:"295px", height:"61px", marginLeft:"15px" ,backgroundColor:"#AA0140", color:"#FFFFFF"}} onClick={openModal}>서비스 시작하기</button>
        {
          modalVisible && <Modal
             visible={modalVisible}
@@ -192,8 +226,8 @@ function movetomain(){
                 <hr />
                 <Form>
                     <div>
-                      <lable>Email</lable>
-                      <FormControl type="email"id="email" placeholder="Enter your email" />
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control type="email" id="email" placeholder="Enter your email" onChange={onEmailHandler} />
                     </div>
                     <br />
                     <div>
@@ -201,82 +235,94 @@ function movetomain(){
                        <FormControl type="password" id="password" placeholder="Enter your password" />
                     </div>
                     <div>
-                     <Button style={{marginLeft: "200px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={movetomain} >Enter</Button>
+                     <table>
+                     <td><Button style={{marginLeft: "120px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={movetomain} >Enter</Button>
+                     </td>
+                     <td>
+                        <Button style={{marginLeft: "20px", marginTop:"100px", backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={openSecondModal} >Register</Button>
+                        {
+                            secondmodalVisible && <Modal
+                            visible={secondmodalVisible}
+                            closable={true}
+                            maskClosable={true}
+                            onClose={closeSecondModal}
+                            >
+                            <div>
+                              <h4>Sign Up</h4>
+                              <hr />
+                              <Form>
+                              <div>
+                              <lable>Name</lable>
+                              <Form.Control type="text" id="name" placeholder="Enter your name" onChange={onNamehandler} />
+                              </div>
+                              <br />
+                              <div>
+                              <lable>Gender</lable>
+                              <Form.Select id="Gender" name ="Gender">
+                              <option defaultValue="(male/female)" hidden>(male/female)</option>
+                              <option value="male">male</option>
+                              <option value="female">female</option>
+                              </Form.Select>
+                              </div>
+                              <br />
+                              <div>
+                              <lable>Email</lable>
+                             <FormControl type="email" id="email" placeholder="Enter your email" />
+                             <Button>check</Button>
+                             </div>
+                             <br />
+                             <div>
+                             <lable>Code</lable>
+                             <FormControl type="text" id ="code" placeholder="Enter code which you get" />
+                             </div>
+                            <br />
+                            <div>
+                            <lable>Password</lable> 
+                            <FormControl type="password" id="password" placeholder="Enter your password" />  
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Confirm Password</lable>
+                            <FormControl type="password" id="password"  placeholder="Confirm your password" />
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Phone Number</lable>
+                            <FormControl type="text" id="number" placeholder="Enter your phone number" />
+                            <Button>check</Button>
+                            </div>
+                            <br />
+                            <div>
+                            <lable>Code</lable>
+                            <FormControl type="text" id ="code" placeholder="Enter code which you get" />
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <div>
+                            <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}} onClick={closeSecondModal}>Submit</Button>
+                            </div>
+                            <br />
+                            <br />
+                       </Form>
+                   </div>
+              </Modal>
+       } 
+                    </td>
+                     </table>
                     </div>
+                    
                 </Form>
             </div>
          </Modal>
        }
        <br />
-       {/* <button style={{width:"295px", height:"61px", marginLeft:"15px", marginTop:"15px" ,backgroundColor:"#000000", color:"#FFFFFF"}} onClick={openSecondModal}>Register</button>
-       {
-          secondmodalVisible && <Modal
-            visible={secondmodalVisible}
-            closable={true}
-            maskClosable={true}
-            onClose={closeSecondModal}
-          >
-            <div>
-                <h4>Sign Up</h4>
-                <hr />
-                <Form>
-                <div>
-                <lable>Name</lable>
-                <FormControl type="text" id="name" placeholder="Enter your name" />
-                </div>
-                <br />
-                <div>
-                <lable>Gender</lable>
-                <Form.Select id="Gender" name ="Gender">
-                <option defaultValue="(male/female)" hidden>(male/female)</option>
-                <option value="male">male</option>
-                <option value="female">female</option>
-                </Form.Select>
-                </div>
-                <br />
-                <div>
-                <lable>Email</lable>
-                <FormControl type="email" id="email" placeholder="Enter your email" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <div>
-                <lable>Password</lable> 
-                <FormControl type="password" id="password" placeholder="Enter your password" />  
-                </div>
-                <br />
-                <div>
-                <lable>Confirm Password</lable>
-                <FormControl type="password" id="password"  placeholder="Confirm your password" />
-                </div>
-                <br />
-                <div>
-                <lable>Phone Number</lable>
-                <FormControl type="text" id="number" placeholder="Enter your phone number" />
-                <Button>check</Button>
-                </div>
-                <br />
-                <div>
-                <lable>Code</lable>
-                <FormControl type="text" id ="code" placeholder="Enter code which you get" />
-                </div>
-                <br />
-                <br />
-                <br />
-                <div>
-                  <Button style={{marginLeft:"200px" , backgroundColor:"#FFFFFF", color:"black", width:"150px"}}>Submit</Button>
-                </div>
-                </Form>
-            </div>
-          </Modal>
-       } */}
+       <Loginpage />
     </div>
-    <div style={{marginTop:"15%"}}></div>
+    <div>
+      <input type="text" placeholder="Enter your Name" onChange={onNamehandler} />
+      <button onClick={move}>submit</button>
+    </div>
     </div>
    )
 }
@@ -315,6 +361,29 @@ const ModalInner = styled.div`
     background-color: #fff;
     border-radius: 10px;
     max-width: 600px;
+    max-height: 51vh;
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow-y:auto;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    padding: 40px 20px;
+`;
+
+const ModalInner2 = styled.div`
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.5);
+    background-color: #fff;
+    border-radius: 10px;
+    max-width: 600px;
+    max-height: 60vh;
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow-y:auto;
     top: 50%;
     transform: translateY(-50%);
     margin: 0 auto;
