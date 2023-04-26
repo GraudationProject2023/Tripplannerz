@@ -294,24 +294,17 @@ function StartPage() {
       axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
       }).then(res => console.log(res))
+      .catch(error => {
+        console.error(error);
+      })
     }
 
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.get('http://localhost:8080/api/members/emailConfirm')
-      .then(response => {
-        const code = JSON.parse(response.data);
-        console.log(code);
-        
-        if(code === emailcode){
-          console.log("success");
-          alert('인증성공');
-        }
-        else if(code === "" || code !== emailcode){
-          console.log("fail");
-          alert('인증번호가 틀렸습니다.');
-          setEmailcode("");
-        }
+      axios.post('http://localhost:8080/api/members/emailConfirm',{
+          emailConfirmCode: emailcode
+      })
+      .then(response => { console.log(response);
       })
       .catch(error => {
         console.error(error);
