@@ -191,7 +191,7 @@ function StartPage() {
     const handleFirstClose = () => setFirstShowModal(false);
     const handleFirstShow = () => setFirstShowModal(true);
     const handleNameChange = (event) => setName(event.target.value);
-    const handleGenderChange = (event) => setGender(event.target.vaule);
+    const handleGenderChange = (event) => setGender(event.target.value);
     const handleEmailChange = (event) => setEmail(event.target.value);
     const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
@@ -201,6 +201,14 @@ function StartPage() {
 
     const handleSubmit = (event) => {
       event.preventDefault();
+      axios.post('http://localhost:8080/api/members',{
+        name: name,
+        gender : gender,
+        pw : password,
+        email : email,
+        phoneNumber : phonenumber
+      }).then(res => console.log(res))
+
       setShowModal(false);
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
     };
@@ -302,7 +310,6 @@ function StartPage() {
             <Modal.Footer>
           </Modal.Footer>
         </Modal>
-          {name}
         </div>
       </div>
     );
