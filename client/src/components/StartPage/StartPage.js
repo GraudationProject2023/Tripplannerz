@@ -187,14 +187,27 @@ function StartPage() {
     const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
     const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
     const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
-  
+    const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
+
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
     const handleFirstClose = () => setFirstShowModal(false);
     const handleFirstShow = () => setFirstShowModal(true);
     const handleNameChange = (event) => setName(event.target.value);
     const handleGenderChange = (event) => setGender(event.target.value);
-    const handleEmailChange = (event) => setEmail(event.target.value);
+    const handleEmailChange = (event) => 
+      {
+        const e = event.target.value;
+        if(e.indexOf('@') === -1){
+          event.target.setCustomValidity('@기호를 입력해주세요');
+          setCheckemail(false);
+        }
+        else{
+          event.target.setCustomValidity('');
+          setCheckemail(true);
+        }
+        setEmail(event.target.value);
+      }
     const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
     const handleConfirmPasswordChange = (event) =>
@@ -308,6 +321,7 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
               <Form.Control type="text" id="Email" placeholder="Enter your Email" onChange={handleEmailChange} />
             </Form>
+            {checkemail === false ? '@기호를 입력해주세요' : ''}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
