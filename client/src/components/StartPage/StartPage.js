@@ -288,7 +288,14 @@ function StartPage() {
       alert(`${name}님! 로그인이 되었습니다.`);
       window.location.href="/main";
     }
-  
+
+    const EmailSend = (event) => {
+      event.preventDefault();
+      axios.post('http://localhost:8080/api/members/emailConfirm',{
+        email: email
+      }).then(res => console.log(res))
+    }
+
     return (
       <div className="StartPage">
          <NavBar />
@@ -326,9 +333,11 @@ function StartPage() {
               <Form.Control type="text" id="Email" placeholder="Enter your Email" onChange={handleEmailChange} />
             </Form>
             {checkemail === false ? '@기호를 입력해주세요' : ''}
+            <Button onClick={EmailSend}>전송</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
+            <Button>확인</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
             </Form>
