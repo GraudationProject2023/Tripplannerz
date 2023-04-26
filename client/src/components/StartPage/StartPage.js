@@ -184,7 +184,7 @@ function StartPage() {
     const [confirmpassword, setConfirmpassword] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
     const [phonenumbercode, setPhonenumbercode] = useState("");
-
+    const [correct, setCorrect] = useState(false);
   
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -195,7 +195,20 @@ function StartPage() {
     const handleEmailChange = (event) => setEmail(event.target.value);
     const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
-    const handleConfirmPasswordChange = (event) =>setConfirmpassword(event.target.value);
+    const handleConfirmPasswordChange = (event) =>
+    { 
+      const CONFIRMPASSWORD = event.target.value;
+      if(confirmpassword !== password.slice(0,-1))
+      {
+        console.log("error")
+        setCorrect(false);
+      }
+      else{
+        console.log("success")
+        setCorrect(true);
+      }
+      setConfirmpassword(CONFIRMPASSWORD);
+    }
     const handlePhoneChange = (event) => setPhonenumber(event.target.value);
     const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
 
@@ -265,6 +278,7 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Confirmpassword" placeholder="Confirm your Password" onChange={handleConfirmPasswordChange} />
             </Form>
+            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onChange={handlePhoneChange} />
             </Form>
