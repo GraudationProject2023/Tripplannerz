@@ -301,7 +301,7 @@ function StartPage() {
 
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirm',{
+      axios.post('http://localhost:8080/api/members/emailConfirmCode',{
           emailConfirmCode: emailcode
       })
       .then(response => { console.log(response);
