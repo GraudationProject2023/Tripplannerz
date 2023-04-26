@@ -12,6 +12,7 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
+
 class DomainTest {
 
     @Autowired
@@ -89,6 +90,7 @@ class DomainTest {
     @Test
     public void 팀삭제시_여행일정삭제() {
         Team team = em.find(Team.class, 2L);
+        Team team = em.find(Team.class, 1L);
         em.remove(team);
     }
 

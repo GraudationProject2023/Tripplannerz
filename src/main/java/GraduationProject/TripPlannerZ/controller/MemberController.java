@@ -2,6 +2,11 @@ package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
 import jakarta.persistence.EntityManager;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +21,9 @@ public class MemberController {
 
     private final EntityManager em;
 
+
     @PostMapping(value = "/api/members")
+
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
     public void createMember(@RequestBody MemberJoinDTO memberJoinDTO) {
         Member joinMember = Member.builder()
@@ -36,4 +43,5 @@ public class MemberController {
 
         em.persist(joinMember);
     }
+
 }
