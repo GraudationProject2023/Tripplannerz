@@ -58,7 +58,11 @@ function Loginpage(props){
     }
     return(<>
        <div>
+
          <img className="kakaoimage" alt="Kakaoimage" onClick={moving} style={{marginTop: "65.8px",width:"62.4px", height:"62.4px"}} src={Kakaoimage} />
+
+         <img className="kakaoimage" alt="Kakaoimage" onClick={moving} style={{marginTop: "65.8px", marginLeft: "255px",width:"62.4px", height:"62.4px"}} src={Kakaoimage} />
+
        </div>
     </>)
 }
