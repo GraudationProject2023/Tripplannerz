@@ -266,7 +266,7 @@ function StartPage() {
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members',{
+      axios.post('http://localhost:8080/api/members/join',{
         name: name,
         gender : gender,
         pw : password,
@@ -280,6 +280,10 @@ function StartPage() {
 
     const handleLogin = (event) => {
       event.preventDefault();
+      axios.post('http://localhost:8080/api/members/login',{
+        email: email,
+        pw: password
+      }).then(res => console.log(res))
       setFirstShowModal(false);
       alert(`${name}님! 로그인이 되었습니다.`);
       window.location.href="/main";
