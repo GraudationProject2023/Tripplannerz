@@ -16,7 +16,7 @@ public class MemberController {
 
     private final EntityManager em;
 
-    @PostMapping(value = "/members")
+    @PostMapping(value = "/api/members")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
     public void createMember(@RequestBody MemberJoinDTO memberJoinDTO) {
         Member joinMember = Member.builder()
