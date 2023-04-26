@@ -1,13 +1,12 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import GraduationProject.TripPlannerZ.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityManager;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController // JSON 형태로 데이터를 반환하는 것
@@ -27,6 +27,7 @@ public class MemberController {
 
     private final EntityManager em;
     private final EmailService emailService;
+    private final MemberRepository memberRepository;
 
     @PostMapping(value = "/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
@@ -49,17 +50,42 @@ public class MemberController {
         em.persist(joinMember);
     }
 
-    @PostMapping("/members/emailConfirm")
-    public ResponseEntity<String> sendVerificationCode(@RequestBody Map<String,String> requestBody) throws MessagingException, UnsupportedEncodingException {
+    @RequestMapping("/members/emailConfirm")
+    public ResponseEntity<String> getEmail(@RequestBody Map<String, String> requestBody, HttpServletRequest request)
+            throws MessagingException, UnsupportedEncodingException {
+
         String email = requestBody.get("email");
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isPresent()) {
+            return ResponseEntity.ok().body("{\"result\": no}");
+        }
 
         // 이메일 인증 코드 생성
         String verificationCode = emailService.generateVerificationCode(email);
 
+        request.getSession().setAttribute("code", verificationCode);
+        System.out.println(request.getSession().getAttribute("code"));
+
         // 이메일 인증 코드 전송
         emailService.sendVerificationCode(email, verificationCode);
 
-        // 이메일 인증 코드 전송 성공 메시지 반환
-        return ResponseEntity.ok().body(verificationCode);
+        // 이메일 인증 코드 전송
+        return ResponseEntity.ok().body("{\"result\": ok}");
+    }
+
+    @PostMapping("/members/emailConfirmCode")
+    public ResponseEntity<String> checkVerificationCode(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
+        String confirmCode = (String) request.getSession().getAttribute("code");
+
+        System.out.println(confirmCode);
+
+        String code = requestBody.get("emailConfirmCode");
+        System.out.println("code = " + code);
+
+        if (confirmCode.equals(code))
+            return ResponseEntity.ok().body("{\"result\": ok}");
+        else
+            return ResponseEntity.ok().body("{\"result\": no}");
     }
 }
