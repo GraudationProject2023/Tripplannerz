@@ -296,6 +296,30 @@ function StartPage() {
       }).then(res => console.log(res))
     }
 
+    const EmailCheck = (event) => {
+      event.preventDefault();
+      axios.get('http://localhost:8080/api/members/emailConfirm')
+      .then(response => {
+        const code = JSON.parse(response.data);
+        console.log(code);
+        
+        if(code === emailcode){
+          console.log("success");
+          alert('인증성공');
+        }
+        else if(code === "" || code !== emailcode){
+          console.log("fail");
+          alert('인증번호가 틀렸습니다.');
+          setEmailcode("");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      })
+    }
+
+
+
     return (
       <div className="StartPage">
          <NavBar />
@@ -337,7 +361,7 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
-            <Button>확인</Button>
+            <Button onClick={EmailCheck}>확인</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
             </Form>
