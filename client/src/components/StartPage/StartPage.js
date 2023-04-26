@@ -14,6 +14,7 @@ import Land2 from '../Image/랜딩페이지 2.png';
 import Land3 from '../Image/랜딩페이지 3.png';
 import Loginpage from './Kakao/Loginpage';
 
+//hotfix
 
 function SecondModal(props) {
   const [inputValue, setInputValue] = useState("");
