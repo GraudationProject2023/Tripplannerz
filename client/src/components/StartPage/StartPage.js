@@ -176,14 +176,14 @@ function FirstModal(props) {
 function StartPage() {
     const [showModal, setShowModal] = useState(false);
     const [firstshowModal, setFirstShowModal] = useState(false);
-    const [name, setName] = useState('');
-    const [gender, setGender] = useState('');
-    const [email, setEmail] = useState('');
-    const [emailcode, setEmailcode] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmpassword, setConfirmpassword] = useState('');
-    const [phonenumber, setPhonenumber] = useState('');
-    const [phonenumbercode, setPhonenumbercode] = useState('');
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [email, setEmail] = useState("");
+    const [emailcode, setEmailcode] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmpassword, setConfirmpassword] = useState("");
+    const [phonenumber, setPhonenumber] = useState("");
+    const [phonenumbercode, setPhonenumbercode] = useState("");
 
   
     const handleClose = () => setShowModal(false);
@@ -249,8 +249,8 @@ function StartPage() {
               <option defaultValue="(male/female)" hidden>
                 (male/female)
               </option>
-              <option value="male">male</option>
-              <option value="female">female</option>
+              <option value="MALE">male</option>
+              <option value="FEMALE">female</option>
             </Form.Select>
             </Form>
             <Form onSubmit={handleSubmit}>
