@@ -26,6 +26,12 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Email 인증
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// 인증 유효시간 설정
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
