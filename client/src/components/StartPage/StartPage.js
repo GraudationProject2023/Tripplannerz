@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Modal, Form, Button, FormControl } from "react-bootstrap";
 import styled from 'styled-components';
 import Logo from '../Image/Logo.png';
@@ -176,15 +176,17 @@ function FirstModal(props) {
 function StartPage() {
     const [showModal, setShowModal] = useState(false);
     const [firstshowModal, setFirstShowModal] = useState(false);
-    const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [email, setEmail] = useState("");
-    const [emailcode, setEmailcode] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmpassword, setConfirmpassword] = useState("");
-    const [phonenumber, setPhonenumber] = useState("");
-    const [phonenumbercode, setPhonenumbercode] = useState("");
-    const [correct, setCorrect] = useState(false);
+    const [name, setName] = useState(""); //이름
+    const [gender, setGender] = useState(""); //성별
+    const [email, setEmail] = useState(""); // 이메일
+    const [emailcode, setEmailcode] = useState(""); //이메일 인증 코드
+    const [password, setPassword] = useState(""); // 비밀번호
+    const [confirmpassword, setConfirmpassword] = useState(""); // 비밀번호 확인
+    const [phonenumber, setPhonenumber] = useState(""); //핸드폰번호
+    const [phonenumbercode, setPhonenumbercode] = useState(""); // 핸드폰 인증 코드
+    const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+    const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
+    const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
   
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -209,8 +211,45 @@ function StartPage() {
       }
       setConfirmpassword(CONFIRMPASSWORD);
     }
-    const handlePhoneChange = (event) => setPhonenumber(event.target.value);
-    const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
+
+    const characterCheck = (event) => {
+      var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]/gi;
+      if(event.target.value !== undefined && regExp.test(event.target.value)){
+        event.target.value = event.target.value.substring(0, event.target.value.length-1);
+      }
+    }
+
+    const handlePhoneChange = (event) => {
+      var newNumber = event.target.value;
+      const NoHyphen = newNumber.replace(/-/g, '');
+      
+      if(newNumber.includes("-"))
+      {
+        setPhonenumber(newNumber.replace(/-/g,''));
+        setHyphen(true);
+        return;
+      }
+      if(newNumber.length > phonenumber.length){
+        setHyphen(true);
+      } else {
+        setHyphen(false);
+      }
+
+      if(/^\d{10,11}$/.test(NoHyphen)){
+        setCompletenumber(NoHyphen);
+        setHyphen(false);
+        setPhonenumber(newNumber);
+      } else {
+        setPhonenumber(phonenumber);
+        setHyphen(false);
+      }
+    };
+
+    // useEffect(() => {
+    //   setHyphen(completenumber.length < phonenumber.length);
+    // },[completenumber,phonenumber]);
+
+      const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -219,7 +258,7 @@ function StartPage() {
         gender : gender,
         pw : password,
         email : email,
-        phoneNumber : phonenumber
+        phoneNumber : completenumber
       }).then(res => console.log(res))
 
       setShowModal(false);
@@ -280,8 +319,11 @@ function StartPage() {
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
             <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onChange={handlePhoneChange} />
+            <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onKeyUp={characterCheck} onKeyDown={characterCheck} onChange={handlePhoneChange} />
             </Form>
+            {hyphen && (
+              <div>하이픈(-)을 제거해주세요.</div>
+            )}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="PhoneCode" placeholder ="Enter your Phone sent code" onChange={handlePhoneCodeChange} />
             </Form>
