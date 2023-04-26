@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Modal, Form, Button, FormControl } from "react-bootstrap";
 import styled from 'styled-components';
 import Logo from '../Image/Logo.png';
@@ -10,7 +10,7 @@ import Land1 from '../Image/랜딩페이지 1.png';
 import Land2 from '../Image/랜딩페이지 2.png';
 import Land3 from '../Image/랜딩페이지 3.png';
 import Loginpage from './Kakao/Loginpage';
-
+//hotfix add
 function SecondModal(props) {
   const [inputValue, setInputValue] = useState("");
   const [genderValue, setGenderValue] = useState("");
@@ -176,37 +176,102 @@ function FirstModal(props) {
 function StartPage() {
     const [showModal, setShowModal] = useState(false);
     const [firstshowModal, setFirstShowModal] = useState(false);
-    const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [email, setEmail] = useState("");
-    const [emailcode, setEmailcode] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmpassword, setConfirmpassword] = useState("");
-    const [phonenumber, setPhonenumber] = useState("");
-    const [phonenumbercode, setPhonenumbercode] = useState("");
+    const [name, setName] = useState(""); //이름
+    const [gender, setGender] = useState(""); //성별
+    const [email, setEmail] = useState(""); // 이메일
+    const [emailcode, setEmailcode] = useState(""); //이메일 인증 코드
+    const [password, setPassword] = useState(""); // 비밀번호
+    const [confirmpassword, setConfirmpassword] = useState(""); // 비밀번호 확인
+    const [phonenumber, setPhonenumber] = useState(""); //핸드폰번호
+    const [phonenumbercode, setPhonenumbercode] = useState(""); // 핸드폰 인증 코드
+    const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+    const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
+    const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
+    const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
 
-  
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
     const handleFirstClose = () => setFirstShowModal(false);
     const handleFirstShow = () => setFirstShowModal(true);
     const handleNameChange = (event) => setName(event.target.value);
     const handleGenderChange = (event) => setGender(event.target.value);
-    const handleEmailChange = (event) => setEmail(event.target.value);
+    const handleEmailChange = (event) => 
+      {
+        const e = event.target.value;
+        if(e.indexOf('@') === -1){
+          event.target.setCustomValidity('@기호를 입력해주세요');
+          setCheckemail(false);
+        }
+        else{
+          event.target.setCustomValidity('');
+          setCheckemail(true);
+        }
+        setEmail(event.target.value);
+      }
     const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
-    const handleConfirmPasswordChange = (event) =>setConfirmpassword(event.target.value);
-    const handlePhoneChange = (event) => setPhonenumber(event.target.value);
-    const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
+    const handleConfirmPasswordChange = (event) =>
+    { 
+      const CONFIRMPASSWORD = event.target.value;
+      if(confirmpassword !== password.slice(0,-1))
+      {
+        console.log("error")
+        setCorrect(false);
+      }
+      else{
+        console.log("success")
+        setCorrect(true);
+      }
+      setConfirmpassword(CONFIRMPASSWORD);
+    }
+
+    const characterCheck = (event) => {
+      var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]/gi;
+      if(event.target.value !== undefined && regExp.test(event.target.value)){
+        event.target.value = event.target.value.substring(0, event.target.value.length-1);
+      }
+    }
+
+    const handlePhoneChange = (event) => {
+      var newNumber = event.target.value;
+      const NoHyphen = newNumber.replace(/-/g, '');
+      
+      if(newNumber.includes("-"))
+      {
+        setPhonenumber(newNumber.replace(/-/g,''));
+        setHyphen(true);
+        return;
+      }
+      if(newNumber.length > phonenumber.length){
+        setHyphen(true);
+      } else {
+        setHyphen(false);
+      }
+
+      if(/^\d{10,11}$/.test(NoHyphen)){
+        setCompletenumber(NoHyphen);
+        setHyphen(false);
+        setPhonenumber(newNumber);
+      } else {
+        setPhonenumber(phonenumber);
+        setHyphen(false);
+      }
+    };
+
+    // useEffect(() => {
+    //   setHyphen(completenumber.length < phonenumber.length);
+    // },[completenumber,phonenumber]);
+
+      const handlePhoneCodeChange = (event) => setPhonenumbercode(event.target.value);
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members',{
+      axios.post('http://localhost:8080/api/members/join',{
         name: name,
         gender : gender,
         pw : password,
         email : email,
-        phoneNumber : phonenumber
+        phoneNumber : completenumber
       }).then(res => console.log(res))
 
       setShowModal(false);
@@ -215,11 +280,22 @@ function StartPage() {
 
     const handleLogin = (event) => {
       event.preventDefault();
+      axios.post('http://localhost:8080/api/members/login',{
+        email: email,
+        pw: password
+      }).then(res => console.log(res))
       setFirstShowModal(false);
       alert(`${name}님! 로그인이 되었습니다.`);
       window.location.href="/main";
     }
-  
+
+    const EmailSend = (event) => {
+      event.preventDefault();
+      axios.post('http://localhost:8080/api/members/emailConfirm',{
+        email: email
+      }).then(res => console.log(res))
+    }
+
     return (
       <div className="StartPage">
          <NavBar />
@@ -256,18 +332,25 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
               <Form.Control type="text" id="Email" placeholder="Enter your Email" onChange={handleEmailChange} />
             </Form>
+            {checkemail === false ? '@기호를 입력해주세요' : ''}
+            <Button onClick={EmailSend}>전송</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
+            <Button>확인</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
             </Form>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Confirmpassword" placeholder="Confirm your Password" onChange={handleConfirmPasswordChange} />
             </Form>
+            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
             <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onChange={handlePhoneChange} />
+            <Form.Control type="text" id="Phone" placeholder ="Enter your Phonenumber" onKeyUp={characterCheck} onKeyDown={characterCheck} onChange={handlePhoneChange} />
             </Form>
+            {hyphen && (
+              <div>하이픈(-)을 제거해주세요.</div>
+            )}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="PhoneCode" placeholder ="Enter your Phone sent code" onChange={handlePhoneCodeChange} />
             </Form>

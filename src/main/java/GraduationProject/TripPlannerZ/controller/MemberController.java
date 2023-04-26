@@ -4,6 +4,11 @@ import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityManager;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
