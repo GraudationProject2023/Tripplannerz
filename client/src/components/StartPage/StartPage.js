@@ -10,6 +10,7 @@ import Land1 from '../Image/랜딩페이지 1.png';
 import Land2 from '../Image/랜딩페이지 2.png';
 import Land3 from '../Image/랜딩페이지 3.png';
 import Loginpage from './Kakao/Loginpage';
+axios.defaults.withCredentials = true;
 //hotfix add
 function SecondModal(props) {
   const [inputValue, setInputValue] = useState("");
@@ -20,8 +21,8 @@ function SecondModal(props) {
   const [passwordCodeValue, setPasswordCodeValue] = useState("");
   const [phonenumberValue, setPhonenumberValue] = useState("");
   const [phonenumberCodeValue, setPhonenumberCodeValue] = useState("");
-  
-  
+
+
 
   const handleInputChange = (event) => {
     if(event.target.name === "Name"){
@@ -48,6 +49,22 @@ function SecondModal(props) {
       setPhonenumberCodeValue(event.target.value);
     }
   };
+
+  const EmailCheck = (event) => {
+    event.preventDefault();
+    axios.post('http://localhost:8080/api/members/emailConfirm',{
+          emailConfirmCode: emailCodeValue
+  },{
+    headers: {
+      'Content-Type':'application/json'
+    }
+  })
+    .then(response => { console.log(response);
+    })
+    .catch(error => {
+      console.error(error.response);
+    })
+  }
 
   const handleSaveClick = () => {
     props.onSave(inputValue);
@@ -97,6 +114,7 @@ function SecondModal(props) {
               onChange={handleInputChange}
               />
               <Form.Control type="text" placeholder="Enter your Email sent Code" value={emailCodeValue} onChange={handleInputChange} />
+              <button onClick = {EmailCheck}>확인</button>
               <Form.Control type="password" placeholder="Enter your Password" value= {passwordValue} onChange={handleInputChange} />
               <Form.Control type="password" placeholder="Confirm your Password" value={passwordCodeValue} onChange={handleInputChange} />
               <Form.Control type="text" placeholder = "Enter your Phone number" value={phonenumberValue} onChange={handleInputChange} />
@@ -119,9 +137,9 @@ function SecondModal(props) {
 function FirstModal(props) {
     const [emailValue, setEmailValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
-    
-    
-  
+
+
+
     const handleInputChange = (event) => {
       if(event.target.name === "Email"){
       setEmailValue(event.target.value);
@@ -130,14 +148,14 @@ function FirstModal(props) {
           setPasswordValue(event.target.value);
       }
     };
-  
+
     const handleSaveClick = () => {
       props.onSave(emailValue);
       props.onSave(passwordValue);
-    
+
       setEmailValue("");
     };
-  
+
     return (
       <Modal show={props.show} onHide={props.onClose}>
         <Modal.Header closeButton>
@@ -179,7 +197,7 @@ function StartPage() {
     const [name, setName] = useState(""); //이름
     const [gender, setGender] = useState(""); //성별
     const [email, setEmail] = useState(""); // 이메일
-    const [emailcode, setEmailcode] = useState(""); //이메일 인증 코드
+    const [emailcode, setEmailcode] = useState("000000"); //이메일 인증 코드
     const [password, setPassword] = useState(""); // 비밀번호
     const [confirmpassword, setConfirmpassword] = useState(""); // 비밀번호 확인
     const [phonenumber, setPhonenumber] = useState(""); //핸드폰번호
@@ -195,7 +213,7 @@ function StartPage() {
     const handleFirstShow = () => setFirstShowModal(true);
     const handleNameChange = (event) => setName(event.target.value);
     const handleGenderChange = (event) => setGender(event.target.value);
-    const handleEmailChange = (event) => 
+    const handleEmailChange = (event) =>
       {
         const e = event.target.value;
         if(e.indexOf('@') === -1){
@@ -211,7 +229,7 @@ function StartPage() {
     const handleEmailCodeChange = (event) => setEmailcode(event.target.value);
     const handlePasswordChange = (event) => setPassword(event.target.value);
     const handleConfirmPasswordChange = (event) =>
-    { 
+    {
       const CONFIRMPASSWORD = event.target.value;
       if(confirmpassword !== password.slice(0,-1))
       {
@@ -235,7 +253,7 @@ function StartPage() {
     const handlePhoneChange = (event) => {
       var newNumber = event.target.value;
       const NoHyphen = newNumber.replace(/-/g, '');
-      
+
       if(newNumber.includes("-"))
       {
         setPhonenumber(newNumber.replace(/-/g,''));
@@ -290,28 +308,72 @@ function StartPage() {
     }
 
     const EmailSend = (event) => {
+      console.log(typeof(emailcode))
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
+      },{
+        "Content-Type":"application/json"
       }).then(res => console.log(res))
       .catch(error => {
-        console.error(error);
+        console.error(error.response);
       })
     }
 
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirmCode',{
-          emailConfirmCode: emailcode
-      })
+      axios.post('http://localhost:8080/api/members/emailConfirm',{
+            emailConfirmCode: emailcode
+    },{
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
       .then(response => { console.log(response);
       })
       .catch(error => {
-        console.error(error);
+        console.error(error.response);
       })
     }
 
+    async function verifyEmail() {
+      const emailcode = document.querySelector("#EmailCode").value;
+      console.log("Email code value:",emailcode);
+      const responsedata = await fetch(`/api/members/emailConfirm?email=${email}`,{withCredentials: true});
+      console.log("Response:", responsedata);
+      const urlParams = new URLSearchParams(responsedata.url.split('?')[1]);
+      const code = urlParams.get('email');
+      console.log(code);
 
+      const verifyResponse = await fetch(`http://localhost:8080/api/members/emailConfirmCode?email=${email}&code=${emailcode}`, {
+      method: "POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        emailConfirmCode: code
+      })
+
+      , withCredentials:true
+      });
+      console.log("Verification:",verifyResponse)
+
+      if (verifyResponse.ok) {
+        const result = await verifyResponse;
+        console.log("Result:", result);
+        if (result === "ok") {
+          // 일치하면 성공 메시지 표시
+          console.log("Verification succeeded.");
+        } else {
+          // 일치하지 않으면 실패 메시지 표시
+          console.log("Verification failed.");
+        }
+      } else {
+        // 요청 실패시 에러 메시지 표시
+        console.error("Verification request failed.");
+      }
+
+      }
 
     return (
       <div className="StartPage">
@@ -324,7 +386,7 @@ function StartPage() {
         <Button variant="primary" onClick={handleShow}>
           회원가입 하기
         </Button>
-  
+
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Sign Up</Modal.Title>
@@ -354,7 +416,7 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
-            <Button onClick={EmailCheck}>확인</Button>
+            <Button onClick={verifyEmail}>확인</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
             </Form>
