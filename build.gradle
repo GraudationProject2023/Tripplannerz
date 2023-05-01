@@ -32,6 +32,12 @@ dependencies {
 
 	// 인증 유효시간 설정
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// 레디스
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'io.lettuce:lettuce-core:6.2.1.RELEASE'
+
+
 }
 
 tasks.named('test') {
