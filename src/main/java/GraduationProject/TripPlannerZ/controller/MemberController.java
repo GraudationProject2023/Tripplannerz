@@ -15,6 +15,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Transactional
 @RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 public class MemberController {
 
     private final EmailService emailService;
