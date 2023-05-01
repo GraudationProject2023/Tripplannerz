@@ -30,6 +30,7 @@ public class LoginController {
         if (member.isPresent() && member.get().getPw() == loginMember.getPw()) {
             HttpSession session = request.getSession();
             session.setAttribute("loginMember", loginMember);
+            
         } else if (member.isPresent() && member.get().getPw() != loginMember.getPw()){
             model.addAttribute("res", "wrongPw");
         } else {

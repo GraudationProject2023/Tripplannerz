@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
+
 @RestController // JSON 형태로 데이터를 반환하는 것
 @RequiredArgsConstructor
 @Transactional
@@ -50,42 +50,5 @@ public class MemberController {
         em.persist(joinMember);
     }
 
-    @RequestMapping("/members/emailConfirm")
-    public ResponseEntity<String> getEmail(@RequestBody Map<String, String> requestBody, HttpServletRequest request)
-            throws MessagingException, UnsupportedEncodingException {
 
-        String email = requestBody.get("email");
-        Optional<Member> member = memberRepository.findByEmail(email);
-
-        if (member.isPresent()) {
-            return ResponseEntity.ok().body("{\"result\": no}");
-        }
-
-        // 이메일 인증 코드 생성
-        String verificationCode = emailService.generateVerificationCode(email);
-
-        request.getSession().setAttribute("code", verificationCode);
-        System.out.println(request.getSession().getAttribute("code"));
-
-        // 이메일 인증 코드 전송
-        emailService.sendVerificationCode(email, verificationCode);
-
-        // 이메일 인증 코드 전송
-        return ResponseEntity.ok().body("{\"result\": ok}");
-    }
-
-    @PostMapping("/members/emailConfirmCode")
-    public ResponseEntity<String> checkVerificationCode(@RequestBody Map<String, String> requestBody, HttpServletRequest request) {
-        String confirmCode = (String) request.getSession().getAttribute("code");
-
-        System.out.println(confirmCode);
-
-        String code = requestBody.get("emailConfirmCode");
-        System.out.println("code = " + code);
-
-        if (confirmCode.equals(code))
-            return ResponseEntity.ok().body("{\"result\": ok}");
-        else
-            return ResponseEntity.ok().body("{\"result\": no}");
-    }
 }
