@@ -319,6 +319,7 @@ function StartPage() {
       })
     }
 
+    var requestword = "";
     const EmailCheck = (event) => {
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/emailConfirmCode',{
@@ -328,6 +329,14 @@ function StartPage() {
         'Content-Type':'application/json'
     })
       .then(response => { console.log(response);
+            requestword = response.data.result;
+            if(requestword ===true)
+            {
+                alert('이메일 인증 성공');
+            }
+            else {
+                alert('이메일 인증 코드 틀림')
+            }
       })
       .catch(error => {
         console.error(error.response);
@@ -343,9 +352,9 @@ function StartPage() {
          <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
         <img src={Land3} alt="설명페이지3" style={{width:"100%"}} />
         <div style={{marginLeft:"42%",marginTop:"5%"}}>
-        <Button variant="primary" onClick={handleShow}>
-          회원가입 하기
-        </Button>
+//        <Button variant="primary" onClick={handleShow}>
+//          회원가입 하기
+//        </Button>
 
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -405,9 +414,9 @@ function StartPage() {
           </Modal.Footer>
         </Modal>
 
-        <Button variant="primary" onClick={handleFirstShow}>
-          로그인하기
-        </Button>
+//        <Button variant="primary" onClick={handleFirstShow}>
+//          로그인하기
+//        </Button>
         <Modal show={firstshowModal} onHide={handleFirstClose}>
           <Modal.Header closeButton>
             <Modal.Title>Login</Modal.Title>
