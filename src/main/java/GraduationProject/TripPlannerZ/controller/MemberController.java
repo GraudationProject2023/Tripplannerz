@@ -1,22 +1,14 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import GraduationProject.TripPlannerZ.service.EmailService;
-import jakarta.mail.MessagingException;
-import jakarta.persistence.EntityManager;
-
-import jakarta.servlet.http.HttpServletRequest;
+import GraduationProject.TripPlannerZ.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
 
 
 @RestController // JSON 형태로 데이터를 반환하는 것
@@ -25,9 +17,8 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class MemberController {
 
-    private final EntityManager em;
     private final EmailService emailService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @PostMapping(value = "/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
@@ -47,7 +38,7 @@ public class MemberController {
             null이 들어와도 DB에 알아서 null로 대입됨
          */
 
-        em.persist(joinMember);
+        memberService.join(joinMember);
     }
 
 
