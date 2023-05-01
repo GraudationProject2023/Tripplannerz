@@ -287,6 +287,7 @@ const handleClose = () => setShowModal(false);
 
     const handleSubmit = (event) => {
       event.preventDefault();
+      if(requestword === true){
       axios.post('http://localhost:8080/api/members/join',{
         name: name,
         gender : gender,
@@ -297,8 +298,12 @@ const handleClose = () => setShowModal(false);
 
       setShowModal(false);
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
-    };
+    }
 
+    else {
+      alert('이메일 인증을 먼저 진행해주세요.');
+    }
+    }
     const handleLogin = (event) => {
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/login',{
