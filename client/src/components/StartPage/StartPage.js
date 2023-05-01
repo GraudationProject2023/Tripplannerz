@@ -319,6 +319,7 @@ function StartPage() {
       })
     }
 
+    var requestword = "";
     const EmailCheck = (event) => {
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/emailConfirmCode',{
@@ -328,6 +329,14 @@ function StartPage() {
         'Content-Type':'application/json'
     })
       .then(response => { console.log(response);
+            requestword = response.data.result;
+            if(requestword ===true)
+            {
+                alert('이메일 인증 성공');
+            }
+            else {
+                alert('이메일 인증 코드 틀림')
+            }
       })
       .catch(error => {
         console.error(error.response);
