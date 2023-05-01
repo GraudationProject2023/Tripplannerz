@@ -52,7 +52,7 @@ function SecondModal(props) {
 
   const EmailCheck = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8080/api/members/emailConfirm',{
+    axios.post('http://localhost:8080/api/members/emailConfirmCode',{
           emailConfirmCode: emailCodeValue
   },{
     headers: {
