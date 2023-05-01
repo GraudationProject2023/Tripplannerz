@@ -31,8 +31,13 @@ public class MailController {
     }
 
     @PostMapping("/members/emailConfirmCode")
-    public ResponseEntity<String> checkCode(@RequestParam("email") String email, @RequestParam("code") String code) {
+    public ResponseEntity<String> checkCode(@RequestBody Map<String, String> requestBody) {
+
+        String email = requestBody.get("email");
+        String code = requestBody.get("emailConfirmCode");
+
         if (emailService.verifyEmailCode(email, code)) {
+            System.out.println("email = " + email);
             System.out.println("성공");
             emailService.delete(email);
             return ResponseEntity.ok().body("{\"result\": true}");
