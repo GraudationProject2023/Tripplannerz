@@ -197,7 +197,7 @@ function StartPage() {
     const [name, setName] = useState(""); //이름
     const [gender, setGender] = useState(""); //성별
     const [email, setEmail] = useState(""); // 이메일
-    const [emailcode, setEmailcode] = useState("000000"); //이메일 인증 코드
+    const [emailCode, setEmailcode] = useState("000000"); //이메일 인증 코드
     const [password, setPassword] = useState(""); // 비밀번호
     const [confirmpassword, setConfirmpassword] = useState(""); // 비밀번호 확인
     const [phonenumber, setPhonenumber] = useState(""); //핸드폰번호
@@ -308,7 +308,6 @@ function StartPage() {
     }
 
     const EmailSend = (event) => {
-      console.log(typeof(emailcode))
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
@@ -320,60 +319,30 @@ function StartPage() {
       })
     }
 
+    var requestword = "";
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirm',{
-            emailConfirmCode: emailcode
+      axios.post('http://localhost:8080/api/members/emailConfirmCode',{
+            emailConfirmCode: emailCode,
+            email: email
     },{
-      headers: {
         'Content-Type':'application/json'
-      }
     })
       .then(response => { console.log(response);
+            requestword = response.data.result;
+            if(requestword ===true)
+            {
+                alert('이메일 인증 성공');
+            }
+            else {
+                alert('이메일 인증 코드 틀림')
+            }
       })
       .catch(error => {
         console.error(error.response);
       })
     }
 
-    async function verifyEmail() {
-      const emailcode = document.querySelector("#EmailCode").value;
-      console.log("Email code value:",emailcode);
-      const responsedata = await fetch(`/api/members/emailConfirm?email=${email}`,{withCredentials: true});
-      console.log("Response:", responsedata);
-      const urlParams = new URLSearchParams(responsedata.url.split('?')[1]);
-      const code = urlParams.get('email');
-      console.log(code);
-
-      const verifyResponse = await fetch(`http://localhost:8080/api/members/emailConfirmCode?email=${email}&code=${emailcode}`, {
-      method: "POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        emailConfirmCode: code
-      })
-
-      , withCredentials:true
-      });
-      console.log("Verification:",verifyResponse)
-
-      if (verifyResponse.ok) {
-        const result = await verifyResponse;
-        console.log("Result:", result);
-        if (result === "ok") {
-          // 일치하면 성공 메시지 표시
-          console.log("Verification succeeded.");
-        } else {
-          // 일치하지 않으면 실패 메시지 표시
-          console.log("Verification failed.");
-        }
-      } else {
-        // 요청 실패시 에러 메시지 표시
-        console.error("Verification request failed.");
-      }
-
-      }
 
     return (
       <div className="StartPage">
@@ -383,9 +352,9 @@ function StartPage() {
          <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
         <img src={Land3} alt="설명페이지3" style={{width:"100%"}} />
         <div style={{marginLeft:"42%",marginTop:"5%"}}>
-        <Button variant="primary" onClick={handleShow}>
+        {/*<Button variant="primary" onClick={handleShow}>
           회원가입 하기
-        </Button>
+        </Button>*/}
 
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -416,7 +385,7 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="Enter your Email sent code" onChange={handleEmailCodeChange} />
             </Form>
-            <Button onClick={verifyEmail}>확인</Button>
+            <Button onClick={EmailCheck}>확인</Button>
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="Enter your Password" onChange={handlePasswordChange} />
             </Form>
@@ -445,9 +414,9 @@ function StartPage() {
           </Modal.Footer>
         </Modal>
 
-        <Button variant="primary" onClick={handleFirstShow}>
+        {/*<Button variant="primary" onClick={handleFirstShow}>
           로그인하기
-        </Button>
+        </Button>*/}
         <Modal show={firstshowModal} onHide={handleFirstClose}>
           <Modal.Header closeButton>
             <Modal.Title>Login</Modal.Title>
