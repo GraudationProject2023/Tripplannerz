@@ -202,9 +202,11 @@ function NavBar(){
     const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
     const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
     const [emailSuccess , setEmailSuccess] = useState(false);
+    const [loginSuccess , setLoginSuccess] = useState(false);
 
     useEffect(() => {
          localStorage.setItem("cast",0);
+         localStorage.setItem("vest",0);
     },[]);
 
 
@@ -299,28 +301,49 @@ function movetomain()
         email : email,
         phoneNumber : completenumber
       }).then(res => console.log(res))
-
-      setShowModal(false);
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
+      setShowModal(false);
     }
 
     else if(cas === '0') {
       alert('이메일 인증을 먼저 진행해주세요.');
     }
     }
+
     const handleLogin = (event) => {
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/login',{
         email: email,
         pw: password
-      }).then(res => console.log(res))
-      setFirstShowModal(false);
-      alert(`${name}님! 로그인이 되었습니다.`);
-      window.location.href="/main";
+      }).then(res => {
+         console.log(res);
+         var rlt = res.data.result;
+         if(rlt === true)
+         {
+            localStorage.setItem("vest",1);
+         }
+         else {
+            localStorage.setItem("vest",0);
+         }
+
+         var set = localStorage.getItem("vest");
+
+         if(set === '1')
+         {
+             alert(`${name}님! 로그인이 되었습니다.`);
+             setFirstShowModal(false);
+             window.location.href="/main";
+         }
+         else if(set === '0') {
+             alert('로그인이 실패하였습니다. 다시 입력해주세요')
+         }
+      }).catch(error => {
+        console.error(error.response);
+      })
+
     }
 
     const EmailSend = (event) => {
-      console.log(typeof(emailcode))
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
