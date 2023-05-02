@@ -45,4 +45,5 @@ public class MailController {
         System.out.println("실패");
         return ResponseEntity.ok().body("{\"result\": false}");
     }
+
 }
