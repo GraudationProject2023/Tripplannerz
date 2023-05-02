@@ -37,7 +37,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'io.lettuce:lettuce-core:6.2.1.RELEASE'
 
-
+	// Spring Security
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {
