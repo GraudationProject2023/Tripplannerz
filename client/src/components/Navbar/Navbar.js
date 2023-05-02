@@ -201,8 +201,11 @@ function NavBar(){
     const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
     const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
     const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
+    const [emailSuccess , setEmailSuccess] = useState(false);
 
-
+    useEffect(() => {
+         localStorage.setItem("cast",0);
+    },[]);
 
 
 function movetomain()
@@ -210,7 +213,7 @@ function movetomain()
     window.location.href="/main";
 }
 
-const handleClose = () => setShowModal(false);
+    const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
     const handleFirstClose = () => setFirstShowModal(false);
     const handleFirstShow = () => setFirstShowModal(true);
@@ -287,7 +290,8 @@ const handleClose = () => setShowModal(false);
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      if(requestword === true){
+      var cas = localStorage.getItem("cast");
+      if(cas === '1'){
       axios.post('http://localhost:8080/api/members/join',{
         name: name,
         gender : gender,
@@ -300,7 +304,7 @@ const handleClose = () => setShowModal(false);
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
     }
 
-    else {
+    else if(cas === '0') {
       alert('이메일 인증을 먼저 진행해주세요.');
     }
     }
@@ -340,9 +344,12 @@ const handleClose = () => setShowModal(false);
         requestword = response.data.result;
         if(requestword === true)
         {
+          setEmailSuccess(true);
+          localStorage.setItem("cast",1);
           alert('이메일 인증 성공');
         }
         else {
+          localStorage.setItem("cast",0);
           alert('이메일 인증 코드 틀림');
         }
       })
