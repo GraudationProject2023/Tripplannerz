@@ -53,9 +53,6 @@ public class LoginController {
     public void logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        Member member = (Member) session.getAttribute("loginMember");
-        System.out.println("member.getEmail() = " + member.getEmail());
-
         if (session != null)
             session.invalidate();
     }
