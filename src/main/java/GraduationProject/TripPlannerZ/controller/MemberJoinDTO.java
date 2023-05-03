@@ -17,5 +17,4 @@ public class MemberJoinDTO {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String phoneNumber;
 }
