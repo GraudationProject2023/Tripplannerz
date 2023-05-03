@@ -29,7 +29,6 @@ public class MemberController {
                 .pw(memberJoinDTO.getPw())
                 .email(memberJoinDTO.getEmail())
                 .gender(memberJoinDTO.getGender())
-                .phoneNumber(memberJoinDTO.getPhoneNumber())
                 .memberTeamList(new ArrayList<>())
                 .build();
 

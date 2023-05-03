@@ -50,10 +50,10 @@ public class LoginController {
     }
 
     @GetMapping("/members/logout")
-    public void logout(HttpServletRequest request){
+    public void logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        if(session!=null)
+        if (session != null)
             session.invalidate();
     }
 }
