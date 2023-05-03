@@ -20,17 +20,15 @@ public class Member {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String phoneNumber;
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberTeam> memberTeamList = new ArrayList<>();
 
     @Builder
-    public Member(String pw, String email, String name, Gender gender, String phoneNumber, List<MemberTeam> memberTeamList) {
+    public Member(String pw, String email, String name, Gender gender, List<MemberTeam> memberTeamList) {
         this.pw = pw;
         this.email = email;
         this.name = name;
         this.gender = gender;
-        this.phoneNumber = phoneNumber;
         this.memberTeamList = memberTeamList;
     }
 

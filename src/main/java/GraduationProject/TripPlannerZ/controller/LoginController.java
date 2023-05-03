@@ -48,4 +48,12 @@ public class LoginController {
         return ResponseEntity.ok().body("{\"result\": true}");
 
     }
+
+    @GetMapping("/members/logout")
+    public void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null)
+            session.invalidate();
+    }
 }
