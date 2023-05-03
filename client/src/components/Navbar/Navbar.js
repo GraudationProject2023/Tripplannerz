@@ -463,15 +463,6 @@ function movetomain()
             <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
-            <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" id="Phone" placeholder ="핸드폰 번호를 입력해주세요" onKeyUp={characterCheck} onKeyDown={characterCheck} onChange={handlePhoneChange} />
-            </Form>
-            {hyphen && (
-              <div>하이픈(-)을 제거해주세요.</div>
-            )}
-            <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" id="PhoneCode" placeholder ="핸드폰 인증 코드를 입력해주세요" onChange={handlePhoneCodeChange} />
-            </Form>
 
           </Modal.Body>
           <Modal.Footer>
