@@ -12,7 +12,7 @@ function MainPage(){
       axios.get('http://localhost:8080/api/members/logout')
       .then(res=>console.log(res))
 
-//      window.location.href="/";
+      window.location.href="/";
    }
 
    return(
