@@ -293,6 +293,12 @@ function movetomain()
     const handleSubmit = (event) => {
       event.preventDefault();
       var cas = localStorage.getItem("cast");
+
+      if(!name || !gender || !password || !email)
+      {
+          alert('모든 항목을 입력하셔야 합니다.')
+      }
+      else {
       if(cas === '1'){
       axios.post('http://localhost:8080/api/members/join',{
         name: name,
@@ -309,7 +315,7 @@ function movetomain()
       alert('이메일 인증을 먼저 진행해주세요.');
     }
     }
-
+}
     const handleLogin = (event) => {
       event.preventDefault();
       axios.post('http://localhost:8080/api/members/login',{
