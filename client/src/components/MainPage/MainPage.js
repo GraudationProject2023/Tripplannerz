@@ -4,11 +4,15 @@ import New from '../Image/New.png';
 import My from '../Image/My.png';
 import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import axios from 'axios';
 
 function MainPage(){
 
    function logout(){
-      window.location.href="/";
+      axios.get('http://localhost:8080/api/members/logout')
+      .then(res=>console.log(res))
+
+//      window.location.href="/";
    }
 
    return(
