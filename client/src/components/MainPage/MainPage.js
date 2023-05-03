@@ -6,9 +6,15 @@ import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 
 function MainPage(){
+
+   function logout(){
+      window.location.href="/";
+   }
+
    return(
     <div>
     <NavBar />
+
     <div style={{marginLeft: "35%", marginTop:"10%"}}>
         <div class ="card-horizontal" style={{border:"1px solid", width:"650px"}}>
             <div class="img-square-wrapper">
@@ -46,6 +52,7 @@ function MainPage(){
             </div>
         </div>
     </div>
+    <button onClick={logout}>로그아웃</button>
     <Footer />
     </div>
    )
