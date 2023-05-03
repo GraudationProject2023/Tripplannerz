@@ -4,11 +4,21 @@ import New from '../Image/New.png';
 import My from '../Image/My.png';
 import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
+import axios from 'axios';
 
 function MainPage(){
+
+   function logout(){
+      axios.get('http://localhost:8080/api/members/logout')
+      .then(res=>console.log(res))
+
+//      window.location.href="/";
+   }
+
    return(
     <div>
     <NavBar />
+
     <div style={{marginLeft: "35%", marginTop:"10%"}}>
         <div class ="card-horizontal" style={{border:"1px solid", width:"650px"}}>
             <div class="img-square-wrapper">
@@ -46,6 +56,7 @@ function MainPage(){
             </div>
         </div>
     </div>
+    <button onClick={logout}>로그아웃</button>
     <Footer />
     </div>
    )
