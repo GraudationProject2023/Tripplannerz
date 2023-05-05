@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -49,6 +49,11 @@ const Autocomplete = ({items}) => {
 }
 
 function InitPage(){
+
+   useEffect(() => {
+     localStorage.setItem("vest",1);
+   },[])
+
    const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')));
    const [nextMonth, setNextMonth] = useState(
     new Date(currentMonth.getFullYear(), currentMonth.getMonth() +1 , 1)
