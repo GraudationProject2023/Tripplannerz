@@ -206,7 +206,6 @@ function NavBar(){
 
     useEffect(() => {
          localStorage.setItem("cast",0);
-         localStorage.setItem("vest",0);
     },[]);
 
 
@@ -387,15 +386,41 @@ function movetomain()
       })
     }
 
+    function logout(){
+          axios.get('http://localhost:8080/api/members/logout')
+          .then(res=> {
+          console.log(res);
+          alert('정상적으로 로그아웃 되었습니다.');
+          localStorage.setItem("vest",0);
+          })
+          .catch(error=>{
+          console.log(error);
+          alert('서버와의 연결이 끊어졌습니다.');
+          localStorage.setItem("vest",0);
+          })
 
+          window.location.href="/";
+       }
+
+    var offset = localStorage.getItem("vest");
+
+    function LogoutMain(){
+      window.location.href="/";
+    }
+
+    function LoginMain(){
+      window.location.href="/main";
+    }
+
+    if(offset === '0'){
     return(
         <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
             <Nav className="me-auto">
                 <Nav style={{marginTop:"1%"}}>
-                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>메인</Button>
+                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LogoutMain}>메인</Button>
                 </Nav>
-                <Nav style={{marginLeft:"500%", marginTop:"1%"}}>
-                <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>
+                <Nav style={{marginLeft:"400%", marginTop:"1%"}}>
+                <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
                   로그인
                 </Button>
                 <Modal show={firstshowModal} onHide={handleFirstClose}>
@@ -422,7 +447,7 @@ function movetomain()
             <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>
+        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
           회원가입
         </Button>
 
@@ -479,6 +504,25 @@ function movetomain()
             </Nav>
         </Navbar>
     )
+    }
+    else if(offset === '1')
+    {
+      return(
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
+          <Nav className="me-auto">
+                        <Nav style={{marginTop:"1%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LoginMain}>메인</Button>
+                        </Nav>
+                        <Nav style={{marginLeft:"380%", marginTop:"1%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                        </Nav>
+                        <Nav style={{marginTop:"1%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}}>마이페이지</Button>
+                        </Nav>
+          </Nav>
+        </Navbar>
+      )
+    }
 }
 
 export default NavBar;

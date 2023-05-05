@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import User from '../Image/User.png';
 import New from '../Image/New.png';
 import My from '../Image/My.png';
@@ -10,15 +10,27 @@ function MainPage(){
 
    function logout(){
       axios.get('http://localhost:8080/api/members/logout')
-      .then(res=>console.log(res))
+      .then(res=> {
+      console.log(res);
+      alert('정상적으로 로그아웃 되었습니다.');
+      localStorage.setItem("vest",0);
+      })
+      .catch(error=>{
+      console.log(error);
+      alert('서버와의 연결이 끊어졌습니다.');
+      localStorage.setItem("vest",0);
+      })
 
       window.location.href="/";
    }
 
+   useEffect(() => {
+     localStorage.setItem("vest",1);
+   },[])
+
    return(
     <div>
     <NavBar />
-
     <div style={{marginLeft: "35%", marginTop:"10%"}}>
         <div class ="card-horizontal" style={{border:"1px solid", width:"650px"}}>
             <div class="img-square-wrapper">
@@ -56,7 +68,6 @@ function MainPage(){
             </div>
         </div>
     </div>
-    <button onClick={logout}>로그아웃</button>
     <Footer />
     </div>
    )
