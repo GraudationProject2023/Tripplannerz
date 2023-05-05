@@ -413,6 +413,7 @@ function movetomain()
           window.location.href="/";
        }
 
+    var successEmail = localStorage.getItem("cast");
     var offset = localStorage.getItem("vest");
 
     function LogoutMain(){
@@ -490,12 +491,14 @@ function movetomain()
             <Form onSubmit={handleSubmit}>
               <Form.Control type="text" id="Email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
             </Form>
+            {successEmail !== '1' ? <div>
             <Button onClick={EmailSend}>전송</Button>
             {emailtimer ? <CountdownTimer onButtonClick={onButtonClick}/> : ""}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="이메일 인증 코드를 입력해주세요" onChange={handleEmailCodeChange} />
             </Form>
             <Button onClick={EmailCheck}>확인</Button>
+            </div> : ""}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
             </Form>
