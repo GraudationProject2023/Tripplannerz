@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DatePicker,{ Calendar } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../Navbar/Navbar';
-import Background from '../Image/랜딩페이지 4.png';
+
 
 
 const Autocomplete = ({items}) => {
@@ -49,6 +49,11 @@ const Autocomplete = ({items}) => {
 }
 
 function InitPage(){
+
+   useEffect(() => {
+     localStorage.setItem("vest",1);
+   },[])
+
    const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')));
    const [nextMonth, setNextMonth] = useState(
     new Date(currentMonth.getFullYear(), currentMonth.getMonth() +1 , 1)
@@ -119,7 +124,6 @@ Modal.propTypes = {
       <div>
         <NavBar />
         <div style={{marginLeft:"35%", marginTop:"15%"}}>
-        <img src={Background} alt="배경" style={{width:"100%"}} />
          <table>
             <tr>
                <td>

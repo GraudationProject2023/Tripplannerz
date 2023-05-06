@@ -1,0 +1,48 @@
+.navbar-toggle{
+  position: absolute;
+  margin-top: 20px;
+  left: 20px;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  height: 4000%;
+  width: 28%;
+  margin-top: 35px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color:  rgba(0, 0, 0, 0.9);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-links.active{
+  transform:translateX(0);
+  position: absolute;
+}
+
+.navbar-close {
+position: absolute;
+top: 150%;
+left: 15px;
+transform: translateY(-50%);
+font-size: 1.8rem;
+background-color: transparent;
+border: none;
+cursor: pointer;
+outline: none;
+opacity: 0;
+transition: opacity 0.3s ease-in-out;
+}
+.navbar-close.active {
+opacity: 1;
+}

@@ -1,10 +1,13 @@
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from '../StartPage/Kakao/Loginpage';
+import CountdownTimer from '../../util/CountdownTimer';
+import Menu from '../Image/메뉴바.png';
+import './Navbar.css';
 axios.defaults.withCredentials = true;
 
 function SecondModal(props) {
@@ -203,10 +206,10 @@ function NavBar(){
     const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
     const [emailSuccess , setEmailSuccess] = useState(false);
     const [loginSuccess , setLoginSuccess] = useState(false);
+    const [emailtimer, setEmailTimer] = useState(false);
 
     useEffect(() => {
          localStorage.setItem("cast",0);
-         localStorage.setItem("vest",0);
     },[]);
 
 
@@ -351,12 +354,19 @@ function movetomain()
 
     const EmailSend = (event) => {
       event.preventDefault();
+      if(checkemail === true){
       axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
       }).then(res => console.log(res))
       .catch(error => {
         console.error(error.response);
       })
+
+      setEmailTimer(true);
+    }
+    else if(checkemail === false){
+      alert('이메일 형식이 틀렸습니다. @기호를 사용하셔야 합니다.')
+    }
     }
 
     var requestword ="";
@@ -376,10 +386,12 @@ function movetomain()
           setEmailSuccess(true);
           localStorage.setItem("cast",1);
           alert('이메일 인증 성공');
+          setEmailTimer(false);
         }
         else {
           localStorage.setItem("cast",0);
           alert('이메일 인증 코드 틀림');
+          setEmailTimer(false);
         }
       })
       .catch(error => {
@@ -387,15 +399,71 @@ function movetomain()
       })
     }
 
+    function logout(){
+          axios.get('http://localhost:8080/api/members/logout')
+          .then(res=> {
+          console.log(res);
+          alert('정상적으로 로그아웃 되었습니다.');
+          localStorage.setItem("vest",0);
+          })
+          .catch(error=>{
+          console.log(error);
+          alert('서버와의 연결이 끊어졌습니다.');
+          localStorage.setItem("vest",0);
+          })
 
+          window.location.href="/";
+       }
+
+    var successEmail = localStorage.getItem("cast");
+    var offset = localStorage.getItem("vest");
+
+    function LogoutMain(){
+      window.location.href="/";
+    }
+
+    const onButtonClick = () => {
+      console.log('이메일 전송 완료');
+    };
+
+    //메뉴바
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedList, setSelectedList] = useState("");
+    const navbarLinksRef = useRef(null);
+    const toggleNavbar = () => {
+       setIsOpen(!isOpen);
+    };
+    const closeNavbar = () => {
+       setIsOpen(false);
+    }
+
+    const handleListClick = (list) => {
+          setSelectedList(list);
+    };
+
+    useEffect(() => {
+     const handleClickOutside = (event) => {
+       if(navbarLinksRef.current && !navbarLinksRef.current.contains(event.target)){
+          setIsOpen(false);
+       }
+     };
+     document.addEventListener('mousedown', handleClickOutside);
+     return () => {
+       document.removeEventListener('mousedown', handleClickOutside);
+     };
+
+    }, [navbarLinksRef]);
+
+
+    if(offset === '0'){
     return(
         <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
             <Nav className="me-auto">
                 <Nav style={{marginTop:"1%"}}>
-                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>메인</Button>
+                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LogoutMain}>메인</Button>
                 </Nav>
-                <Nav style={{marginLeft:"500%", marginTop:"1%"}}>
-                <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>
+                <Nav style={{marginLeft:"400%", marginTop:"1%"}}>
+                <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
                   로그인
                 </Button>
                 <Modal show={firstshowModal} onHide={handleFirstClose}>
@@ -422,7 +490,7 @@ function movetomain()
             <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"40px"}}>
+        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
           회원가입
         </Button>
 
@@ -450,12 +518,14 @@ function movetomain()
             <Form onSubmit={handleSubmit}>
               <Form.Control type="text" id="Email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
             </Form>
-            {checkemail === false ? '@기호를 입력해주세요' : ''}
+            {successEmail !== '1' ? <div>
             <Button onClick={EmailSend}>전송</Button>
+            {emailtimer ? <CountdownTimer onButtonClick={onButtonClick}/> : ""}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="text" id="EmailCode" placeholder="이메일 인증 코드를 입력해주세요" onChange={handleEmailCodeChange} />
             </Form>
             <Button onClick={EmailCheck}>확인</Button>
+            </div> : ""}
             <Form onSubmit={handleSubmit}>
             <Form.Control type="password" id="Password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
             </Form>
@@ -479,6 +549,39 @@ function movetomain()
             </Nav>
         </Navbar>
     )
+    }
+    else if(offset === '1')
+    {
+
+      return(
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
+          <Nav className="me-auto">
+                        <Nav style={{marginTop:"1%"}}>
+                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"40px"}} onClick={toggleNavbar} />
+                            <i className="fa fa-bars"></i>
+                          <ul className={isOpen ? 'navbar-links active' : 'navbar-links'} ref={navbarLinksRef}>
+                             <li style={{marginTop:"-750px",width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list1")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴1</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list2")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴2</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list3")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴3</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list4")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴4</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                          </ul>
+                          <button style={{width:"50px",height:"50px",marginLeft:"22%",marginTop:"3%",backgroundColor:"white"}} className={isOpen ? 'navbar-close active' : 'navbar-close'} onClick={closeNavbar}>X</button>
+                        </Nav>
+                        <Nav style={{marginLeft:"580%", marginTop:"1%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                        </Nav>
+                        <Nav style={{marginTop:"1%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}}>마이페이지</Button>
+                        </Nav>
+          </Nav>
+        </Navbar>
+      )
+    }
 }
 
 export default NavBar;
