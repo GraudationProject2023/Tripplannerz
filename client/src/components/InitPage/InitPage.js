@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import DatePicker,{ Calendar } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../Navbar/Navbar';
-import Background from '../Image/랜딩페이지 4.png';
+
 
 
 const Autocomplete = ({items}) => {
@@ -124,7 +124,6 @@ Modal.propTypes = {
       <div>
         <NavBar />
         <div style={{marginLeft:"35%", marginTop:"15%"}}>
-        <img src={Background} alt="배경" style={{width:"100%"}} />
          <table>
             <tr>
                <td>

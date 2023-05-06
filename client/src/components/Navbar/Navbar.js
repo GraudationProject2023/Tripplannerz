@@ -1,4 +1,4 @@
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
+import Menu from '../Image/메뉴바.png';
+import './Navbar.css';
 axios.defaults.withCredentials = true;
 
 function SecondModal(props) {
@@ -420,13 +422,38 @@ function movetomain()
       window.location.href="/";
     }
 
-    function LoginMain(){
-      window.location.href="/main";
-    }
-
     const onButtonClick = () => {
       console.log('이메일 전송 완료');
     };
+
+    //메뉴바
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedList, setSelectedList] = useState("");
+    const navbarLinksRef = useRef(null);
+    const toggleNavbar = () => {
+       setIsOpen(!isOpen);
+    };
+    const closeNavbar = () => {
+       setIsOpen(false);
+    }
+
+    const handleListClick = (list) => {
+          setSelectedList(list);
+    };
+
+    useEffect(() => {
+     const handleClickOutside = (event) => {
+       if(navbarLinksRef.current && !navbarLinksRef.current.contains(event.target)){
+          setIsOpen(false);
+       }
+     };
+     document.addEventListener('mousedown', handleClickOutside);
+     return () => {
+       document.removeEventListener('mousedown', handleClickOutside);
+     };
+
+    }, [navbarLinksRef]);
+
 
     if(offset === '0'){
     return(
@@ -525,13 +552,27 @@ function movetomain()
     }
     else if(offset === '1')
     {
+
       return(
        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
           <Nav className="me-auto">
                         <Nav style={{marginTop:"1%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LoginMain}>메인</Button>
+                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"40px"}} onClick={toggleNavbar} />
+                            <i className="fa fa-bars"></i>
+                          <ul className={isOpen ? 'navbar-links active' : 'navbar-links'} ref={navbarLinksRef}>
+                             <li style={{marginTop:"-750px",width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list1")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴1</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list2")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴2</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list3")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴3</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                             <li onClick={() => handleListClick("list4")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴4</li>
+                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
+                          </ul>
+                          <button style={{width:"50px",height:"50px",marginLeft:"22%",marginTop:"3%",backgroundColor:"white"}} className={isOpen ? 'navbar-close active' : 'navbar-close'} onClick={closeNavbar}>X</button>
                         </Nav>
-                        <Nav style={{marginLeft:"380%", marginTop:"1%"}}>
+                        <Nav style={{marginLeft:"580%", marginTop:"1%"}}>
                            <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
                         </Nav>
                         <Nav style={{marginTop:"1%"}}>

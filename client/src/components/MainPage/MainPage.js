@@ -5,7 +5,8 @@ import My from '../Image/My.png';
 import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import axios from 'axios';
-
+import Background from '../Image/랜딩페이지 4.png';
+import './MainPage.css';
 function MainPage(){
 
    function logout(){
@@ -31,8 +32,9 @@ function MainPage(){
    return(
     <div>
     <NavBar />
-    <div style={{marginLeft: "35%", marginTop:"10%"}}>
-        <div class ="card-horizontal" style={{border:"1px solid", width:"650px"}}>
+    <img src={Background} alt="배경" style={{width:"100%", height:"5%"}} />
+    <div style={{marginLeft: "30%", marginTop:"5%"}}>
+        <div class ="card-horizontal" style={{border:"1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
                 <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
             </div>
@@ -44,7 +46,7 @@ function MainPage(){
             </div>
         </div>
         <br />
-        <div class ="card-horizontal" style={{border: "1px solid", width:"650px"}}>
+        <div class ="card-horizontal" style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
                 <img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />
             </div>
@@ -56,7 +58,7 @@ function MainPage(){
             </div>
         </div>
         <br />
-        <div class ="card-horizontal" style={{border: "1px solid", width:"650px"}}>
+        <div class ="card-horizontal" style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
                 <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
             </div>
@@ -68,7 +70,8 @@ function MainPage(){
             </div>
         </div>
     </div>
-    <Footer />
+    <br />
+    <br />
     </div>
    )
 }
