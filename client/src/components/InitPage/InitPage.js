@@ -126,14 +126,14 @@ Modal.propTypes = {
         <NavBar />
         <img src={Image} alt="새일정페이지" style={{width:"100%", height:"1000px", marginTop:"-300px"}} />
         <div style={{marginTop:"5%", border:"1px solid black", borderWidth:"5px"}}>
-          <Form>
+          <Form style={{marginLeft:"30%"}}>
             <table>
             <td><Form.Label style={{fontSize:"20px"}}>팀 이름  &nbsp; &nbsp; </Form.Label></td>
             <td style={{padding:"10px"}}><Form.Control type="text" id="Team" placeholder="팀 이름을 입력하세요." style={{width: "430px"}} />
             </td>
             </table>
           </Form>
-            <Form>
+            <Form style={{marginLeft:"30%"}}>
                    <table>
                    <td>
                    <Form.Label style={{fontSize:"20px"}}>일정 날짜 &nbsp; &nbsp;</Form.Label>
@@ -163,7 +163,7 @@ Modal.propTypes = {
                    </td>
                    </table>
                 </Form>
-                 <Form>
+                 <Form style={{marginLeft:"30%"}}>
                  <table>
                     <td>
                     <Form.Label style={{fontSize:"20px"}}>일정 제목 &nbsp;</Form.Label>
@@ -173,7 +173,7 @@ Modal.propTypes = {
                     </td>
                  </table>
                  </Form>
-                 <Form>
+                 <Form style={{marginLeft:"30%"}}>
                    <table>
                    <td>
                    <Form.Label style={{fontSize:"20px"}}>일정 내용 &nbsp;</Form.Label>
@@ -183,7 +183,7 @@ Modal.propTypes = {
                    </td>
                    </table>
                  </Form>
-                   <Button style={{marginLeft:"25%", marginTop:"5%"}} onClick={openModal}>일정 생성</Button>
+                   <Button style={{width:"200px",marginLeft:"44%", marginTop:"1%"}} onClick={openModal}>일정 생성</Button>
                    {
                            modalVisible && <Modal
                             visible = {modalVisible}
@@ -200,6 +200,8 @@ Modal.propTypes = {
             {console.log(currentMonth)}
             {console.log(nextMonth)}
         </div>
+        <br />
+        <br />
       </div>
    );
 }
