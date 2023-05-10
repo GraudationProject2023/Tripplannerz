@@ -23,6 +23,7 @@ public class Trip {
     private String period;
     private String content;
     private boolean publicSetting;
+    private String startingDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
@@ -34,9 +35,10 @@ public class Trip {
     //private Chat chat;
 
     @Builder
-    public Trip(Long id, String title, String period, String content, boolean publicSetting, Team team, List<TripLocation> tripLocationList) {
+    public Trip(Long id, String title, String startingDate, String period, String content, boolean publicSetting, Team team, List<TripLocation> tripLocationList) {
         this.id = id;
         this.title = title;
+        this.startingDate = startingDate;
         this.period = period;
         this.content = content;
         this.publicSetting = publicSetting;
