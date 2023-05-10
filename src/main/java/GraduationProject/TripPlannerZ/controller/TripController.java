@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 public class TripController {
 
-    @PostMapping()
+    @PostMapping("/create")
+    public voidg
 
 
 
