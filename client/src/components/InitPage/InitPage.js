@@ -8,6 +8,7 @@ import NavBar from '../Navbar/Navbar';
 import Image from '../Image/새일정페이지 1.png';
 import {Button, Form} from 'react-bootstrap';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const Autocomplete = ({items}) => {
    const [inputValue, setInputValue] = useState('');
@@ -119,7 +120,9 @@ function InitPage(){
        alert('모든 항목을 입력하세요');
     }
     else {
-    axios.post('http://localhost:8080/api/trip/create',data)
+    axios.post('http://localhost:8080/api/trip/create',data,{
+        withCredentials: true
+    })
     .then(
       res => {console.log(res);
         alert('일정이 생성되었습니다.');
