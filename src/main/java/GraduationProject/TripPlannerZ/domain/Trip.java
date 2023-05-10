@@ -29,7 +29,7 @@ public class Trip {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<TripLocation> tripLocationList = new ArrayList<>();
 
     //private Chat chat;
