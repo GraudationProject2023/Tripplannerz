@@ -12,4 +12,5 @@ public class TripCreateDTO {
     private String title;
     private String startingDate;
     private String content;
+    private String period;
 }

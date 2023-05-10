@@ -1,19 +1,62 @@
 package GraduationProject.TripPlannerZ.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.domain.MemberTeam;
+import GraduationProject.TripPlannerZ.domain.Team;
+import GraduationProject.TripPlannerZ.domain.Trip;
+import GraduationProject.TripPlannerZ.repository.MemberRepository;
+import GraduationProject.TripPlannerZ.repository.MemberTeamRepository;
+import GraduationProject.TripPlannerZ.service.TeamService;
+import GraduationProject.TripPlannerZ.service.TripService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 public class TripController {
 
-    @PostMapping("/create")
-    public voidg
+    private final TripService tripService;
+    private final TeamService teamService;
+    private final MemberTeamRepository memberTeamRepository;
+    private final MemberRepository memberRepository;
 
+    @PostMapping("/trip/create")
+    public void createTrip(@RequestBody TripCreateDTO tripCreateDTO, HttpServletRequest request) {
 
+        // 여행일정 생성
+        Trip trip = Trip.builder()
+                .title(tripCreateDTO.getTitle())
+                .content(tripCreateDTO.getContent())
+                .startingDate(tripCreateDTO.getStartingDate())
+                .period(tripCreateDTO.getPeriod())
+                .build();
+
+        // 멤버 찾기
+        HttpSession session = request.getSession(false);
+        //Member member = (Member) session.getAttribute("loginMember");
+        Member member = memberRepository.findByEmail("1@naver.com").get();
+
+        // 일정 생성 누르는 순간 팀이 만들어짐
+        Team team = Team.builder()
+                .tripList(new ArrayList<>())
+                .memberTeamList(new ArrayList<>())
+                .build();
+
+        // 멤버와 팀의 연관관계 설정
+        MemberTeam memberTeam = MemberTeam.joinMemberTeam(member, team);
+
+        // 팀과 여행일정의 연관관계 설정
+        team.setTrip(trip);
+
+        memberTeamRepository.save(memberTeam);
+        tripService.createTrip(trip);
+        teamService.createTeam(team);
+    }
 
 }
