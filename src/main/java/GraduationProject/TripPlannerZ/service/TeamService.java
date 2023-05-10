@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TeamService {
     private final TeamRepository teamRepository;
 
+    @Transactional
     public Long createTeam(Team team){
         teamRepository.save(team);
         return team.getId();

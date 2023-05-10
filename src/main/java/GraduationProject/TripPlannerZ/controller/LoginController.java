@@ -43,7 +43,7 @@ public class LoginController {
         HttpSession session = request.getSession(true);
 
         // 세션에 로그인한 회원 정보 보관
-        session.setAttribute("loginMember", member);
+        session.setAttribute("loginMember", member.getEmail());
 
         return ResponseEntity.ok().body("{\"result\": true}");
 

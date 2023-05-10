@@ -22,7 +22,7 @@ public class MailController {
     public ResponseEntity<String> sendEmail(@RequestBody Map<String, String> requestBody) throws MessagingException {
 
         String email = requestBody.get("email");
-        if(memberService.validateDuplicateMember(email).isPresent()){
+        if(memberService.findByEmail(email).isPresent()){
             return ResponseEntity.ok().body("{\"result\": false}");
         }
 

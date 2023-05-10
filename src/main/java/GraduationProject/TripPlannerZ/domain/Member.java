@@ -20,7 +20,7 @@ public class Member {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberTeam> memberTeamList = new ArrayList<>();
 
     @Builder
