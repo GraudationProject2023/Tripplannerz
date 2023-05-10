@@ -29,12 +29,17 @@ function MainPage(){
      localStorage.setItem("vest",1);
    },[])
 
+   function movetoSchedule(){
+    window.location.href="/schedule";
+   }
+
+
    return(
     <div>
     <NavBar />
     <img src={Background} alt="배경" style={{width:"100%", height:"5%"}} />
     <div style={{marginLeft: "30%", marginTop:"5%"}}>
-        <div class ="card-horizontal" style={{border:"1px solid", width:"650px", borderRadius:"10px"}}>
+        <div class ="card-horizontal" onClick={movetoSchedule} style={{border:"1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
                 <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
             </div>
