@@ -207,6 +207,12 @@ function StartPage() {
     const [completenumber, setCompletenumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
     const [checkemail, setCheckemail] =useState(false); //이메일 @기호 포함여부
 
+    useEffect(() => {
+       localStorage.setItem("vest",0);
+    },[])
+
+
+
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
     const handleFirstClose = () => setFirstShowModal(false);
