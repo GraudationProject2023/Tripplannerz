@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import NavBar from '../Navbar/Navbar';
 import Image from '../Image/새일정페이지 1.png';
 import {Button, Form} from 'react-bootstrap';
-
+import axios from 'axios';
 
 const Autocomplete = ({items}) => {
    const [inputValue, setInputValue] = useState('');
@@ -55,6 +55,8 @@ function InitPage(){
      localStorage.setItem("vest",1);
    },[])
 
+   const [title, setTitle] = useState("");
+   const [context, setContext] = useState("");
    const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')));
    const [nextMonth, setNextMonth] = useState(
     new Date(currentMonth.getFullYear(), currentMonth.getMonth() +1 , 1)
@@ -71,6 +73,13 @@ function InitPage(){
       setModalVisible(false);
    }
 
+   const handleTitle = (title) => {
+     setTitle(title.target.value);
+   }
+
+   const handleContext = (context) => {
+     setContext(context.target.value);
+   }
 
    const handleCurrentMonthChange = (date) => {
       setCurrentMonth(date);
@@ -83,6 +92,42 @@ function InitPage(){
    const disabledNextMonthDates = (date) => {
       return  date > new Date(currentMonth.getFullYear(), currentMonth.getMonth(), currentMonth.getDate() -1 );
    };
+
+   const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const nextDay = moment(currentMonth).add(1,'day');
+    const nextMonth = moment(currentMonth).add(1,'month');
+
+    const start = new Date(nextDay);
+    const startdate = start.toISOString().slice(0,10);
+
+    const end = new Date(nextMonth);
+    const enddate = end.toISOString().slice(0,10);
+
+    const diff = (end - start)/(1000*60*60*24);
+    const realDays = String(diff);
+
+    var data ={
+      title: title,
+      content: context,
+      startingdate: startdate,
+      period: realDays
+    };
+    if(!title || !context || !currentMonth || !nextMonth)
+    {
+       alert('모든 항목을 입력하세요');
+    }
+    else {
+    axios.post('http://localhost:8080/api/trip/create',data)
+    .then(
+      res => {console.log(res);
+        alert('일정이 생성되었습니다.');
+    })
+    .catch(error => console.log(error))
+    }
+   }
+
 
    function Modal({className, onClose , maskClosable , closable , visible, children})
     {
@@ -127,11 +172,11 @@ Modal.propTypes = {
         <img src={Image} alt="새일정페이지" style={{width:"100%", height:"1000px", marginTop:"-300px"}} />
         <div style={{marginTop:"5%", border:"1px solid black", borderWidth:"5px"}}>
           <Form style={{marginLeft:"30%"}}>
-            <table>
+           {/* <table>
             <td><Form.Label style={{fontSize:"20px"}}>팀 이름  &nbsp; &nbsp; </Form.Label></td>
             <td style={{padding:"10px"}}><Form.Control type="text" id="Team" placeholder="팀 이름을 입력하세요." style={{width: "430px"}} />
             </td>
-            </table>
+            </table> */}
           </Form>
             <Form style={{marginLeft:"30%"}}>
                    <table>
@@ -169,7 +214,7 @@ Modal.propTypes = {
                     <Form.Label style={{fontSize:"20px"}}>일정 제목 &nbsp;</Form.Label>
                     </td>
                     <td>
-                    <Form.Control type="text" placeholder="일정의 제목을 입력해주세요." style={{width:"430px"}} />
+                    <Form.Control type="text"  onChange={handleTitle} placeholder="일정의 제목을 입력해주세요." style={{width:"430px"}} />
                     </td>
                  </table>
                  </Form>
@@ -179,26 +224,12 @@ Modal.propTypes = {
                    <Form.Label style={{fontSize:"20px"}}>일정 내용 &nbsp;</Form.Label>
                    </td>
                    <td>
-                   <textarea class="form-control" placeholder ="일정 내용을 입력해주세요." style={{width:"430px", height:"200px"}} />
+                   <textarea class="form-control"  onChange={handleContext} placeholder ="일정 내용을 입력해주세요." style={{width:"430px", height:"200px"}} />
                    </td>
                    </table>
                  </Form>
-                   <Button style={{width:"200px",marginLeft:"44%", marginTop:"1%"}} onClick={openModal}>일정 생성</Button>
-                   {
-                           modalVisible && <Modal
-                            visible = {modalVisible}
-                            closable = {true}
-                            maskClosable = {true}
-                            onClose = {closeModal}
-                           >
-                           <h2>멤버 검색</h2>
-                            <Autocomplete items = {members} />
-                           </Modal>
-                    }
-        </div>
-        <div>
-            {console.log(currentMonth)}
-            {console.log(nextMonth)}
+                   <Button style={{width:"200px",marginLeft:"44%", marginTop:"1%"}} onClick={handleSubmit}>일정 생성</Button>
+
         </div>
         <br />
         <br />
