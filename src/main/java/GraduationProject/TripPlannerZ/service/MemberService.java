@@ -23,7 +23,7 @@ public class MemberService {
     }
 
     // 중복 회원 검색
-    public Optional<Member> validateDuplicateMember(String email) {
+    public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 }

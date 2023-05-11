@@ -1,11 +1,9 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.service.EmailService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,12 +11,10 @@ import java.util.ArrayList;
 
 @RestController // JSON 형태로 데이터를 반환하는 것
 @RequiredArgsConstructor
-@Transactional
 @RequestMapping("/api")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 public class MemberController {
 
-    private final EmailService emailService;
     private final MemberService memberService;
 
     @PostMapping(value = "/members/join")
