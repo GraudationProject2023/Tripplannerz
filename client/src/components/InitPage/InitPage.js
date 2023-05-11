@@ -142,8 +142,8 @@ function InitPage(){
     };
     var markers = [];
     var map = new kakao.maps.Map(mapContainer, mapOption);
-    var ps = new kakao.maps.services.Places();
-    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+//    var ps = new kakao.maps.services.Places();
+//    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 //
 //    function displayPlaces(places){
 //       var listEl = document.getElementById('placesList');
