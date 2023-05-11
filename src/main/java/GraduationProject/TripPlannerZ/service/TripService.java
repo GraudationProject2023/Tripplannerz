@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TripService {
     private final TripRepository tripRepository;
 
+    @Transactional
     public Long createTrip(Trip trip){
         tripRepository.save(trip);
         return trip.getId();
