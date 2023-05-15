@@ -89,10 +89,13 @@ public class MemberController {
 
     @GetMapping("/members/trip")
     public List<MemberTripDTO> searchTrip(HttpServletRequest request,
-                           @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum, // @RequestParam은 Json데이터 처리 x
-                           @RequestParam(required = false, name = "size", defaultValue = "10") int pageSize) {
+                                          @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum, // @RequestParam은 Json데이터 처리 x
+                                          @RequestParam(required = false, name = "size", defaultValue = "10") int pageSize) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("loginMember");
+
+        if (pageNum > 0)
+            pageNum--;
 
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Trip> trippage = memberService.findTrip(email, pageable);
@@ -102,6 +105,7 @@ public class MemberController {
                 .map(trip -> new MemberTripDTO(trip))
                 .collect(Collectors.toList());
 
+        System.out.println("실행 ");
         return result;
     }
 }
