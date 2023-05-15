@@ -1,33 +1,48 @@
+
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
 import Posts from './Posts';
+axios.defaults.withCredentials = true;
 
 function SearchPage(){
 
     const [data, setData] = useState([]);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
 
-    useEffect(() => {
-        const fetchData = async() => {
-            setLoading(true);
-            const response = await axios.get(
-                "https://jsonplaceholder.typicode.com/posts"
-            );
-            setPosts(response.data);
-            setLoading(false);
-        };
-        fetchData();
-    },[]);
 
-//    useEffect(() => {
-//      axios.get('')
-//      .then(response => response.json())
-//      .then(data => setData(data));
-//    },[]);
+    useEffect(() => {
+        console.log(currentPage);
+         const fetchData = async() => {
+                        setLoading(true);
+                        const response = await axios.get(
+                            `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                            {
+                                withCredentials: true
+                            }
+                        );
+                        console.log(response.data);
+                        setPosts(response.data);
+                        setLoading(false);
+                    };
+        fetchData();
+
+        function ShowData(){
+            return(
+            <ul>
+                    {posts.map((post) => (
+                      <li key={post.id}><div>일정제목: {post.title}</div></li>
+                    ))}
+                  </ul>
+            )
+        }
+        ShowData();
+    },[currentPage]);
+
+
        const indexOfLast = currentPage * postsPerPage;
         const indexOfFirst = indexOfLast - postsPerPage;
         const currentPosts = (posts) => {
@@ -35,6 +50,21 @@ function SearchPage(){
           currentPosts = posts.slice(indexOfFirst, indexOfLast);
           return currentPosts;
         };
+
+     const fetchData = async(pageNum) => {
+                          try{
+                            const response = await axios.get('http://localhost:8080/api/members/trip?page=${currentpage}',
+                            {
+                              withCredentials: true
+                            }
+                            );
+                            const data = response.data;
+                            console.log(data);
+
+                          } catch(error){
+                            console.error(error);
+            }
+         }
 
     return(
     <div>
@@ -77,3 +107,4 @@ function SearchPage(){
 }
 
 export default SearchPage;
+

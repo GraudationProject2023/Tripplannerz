@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const PageUl = styled.ul`
     float: left;
@@ -49,6 +50,7 @@ const Pagination = ({postsPerPage, totalPosts, paginate}) => {
     }
 
 
+
     return (
      <div>
        <nav>
@@ -56,7 +58,7 @@ const Pagination = ({postsPerPage, totalPosts, paginate}) => {
          {pageNumbers.map((number) => (
             <PageLi key={number} className="page-item">
                <PageSpan onClick={() => paginate(number)} className="page-link">
-                  {number}
+                    {number}
                </PageSpan>
             </PageLi>
          ))}
@@ -64,6 +66,6 @@ const Pagination = ({postsPerPage, totalPosts, paginate}) => {
        </nav>
      </div>
     );
-};
+}
 
 export default Pagination;
