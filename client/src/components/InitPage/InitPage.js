@@ -134,6 +134,10 @@ function InitPage(){
 
     //카카오지도
     const {kakao} = window;
+    const [area, setArea] = useState("");
+    const handleArea = (e) => {
+        setArea(e.target.value);
+    }
     useEffect(() => {
     var mapContainer = document.getElementById('map');
     var mapOption = {
@@ -142,26 +146,26 @@ function InitPage(){
     };
     var markers = [];
     var map = new kakao.maps.Map(mapContainer, mapOption);
-//    var ps = new kakao.maps.services.Places();
-//    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-//
-//    function displayPlaces(places){
-//       var listEl = document.getElementById('placesList');
-//       var menuEl = document.getElementById('menu_wrap');
-//       var fragment = document.createDocumentFragment();
-//       var bounds = new kakao.maps.LatLngBounds();
-//       var listStr = '';
-//
-//       removeAllChildNods(listEl);
-//       removeMarker();
-//
-//       for(var i = 0; i<places.length; i++)
-//       {
-//          var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-//          var marker = addMarker(placePosition, i);
-//          var itemEl = getListItem(i,places[i]);
-//          bounds.extend(placePosition);
-//
+    var ps = new kakao.maps.services.Places();
+    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+    function displayPlaces(places){
+       var listEl = document.getElementById('placesList');
+       var menuEl = document.getElementById('menu_wrap');
+       var fragment = document.createDocumentFragment();
+       var bounds = new kakao.maps.LatLngBounds();
+       var listStr = '';
+
+       removeAllChildNods(listEl);
+       removeMarker();
+
+       for(var i = 0; i<places.length; i++)
+       {
+          var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+          var marker = addMarker(placePosition, i);
+          var itemEl = getListItem(i,places[i]);
+          bounds.extend(placePosition);
+
 //          (function(marker,title){
 //             kakao.maps.event.addListener(marker, 'mouseover', function(){
 //                displayInfowindow(marker,title);
@@ -175,105 +179,104 @@ function InitPage(){
 //                infowindow.close();
 //             };
 //          })(marker,places[i].place_name);
-//
-//          fragment.appendChild(itemEl);
-//       }
-//       listEl.appendChild(fragment);
-//       menuEl.scrollTop = 0;
-//
-//       map.setBounds(bounds);
-//    }
-//    function getListItem(index,places){
-//         var el = document.createElement('li'),
-//            itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-//                        '<div class="info">' +
-//                        '   <h5>' + places.place_name + '</h5>';
-//
-//            if (places.road_address_name) {
-//                itemStr += '    <span>' + places.road_address_name + '</span>' +
-//                            '   <span class="jibun gray">' +  places.address_name  + '</span>';
-//            } else {
-//                itemStr += '    <span>' +  places.address_name  + '</span>';
-//            }
-//
-//              itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-//                        '</div>';
-//
-//            el.innerHTML = itemStr;
-//            el.className = 'item';
-//
-//            return el;
-//    }
-//
-//    function placesSearchCB(data, status, pagination){
-//        if(status === kakao.maps.services.Status.OK){
-//            displayPlaces(data);
-//            displayPagination(pagination);
-//        }
+
+          fragment.appendChild(itemEl);
+       }
+       listEl.appendChild(fragment);
+       menuEl.scrollTop = 0;
+
+       map.setBounds(bounds);
+    }
+    function getListItem(index,places){
+         var el = document.createElement('li'),
+            itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+                        '<div class="info">' +
+                        '   <h5>' + places.place_name + '</h5>';
+
+            if (places.road_address_name) {
+                itemStr += '    <span>' + places.road_address_name + '</span>' +
+                            '   <span class="jibun gray">' +  places.address_name  + '</span>';
+            } else {
+                itemStr += '    <span>' +  places.address_name  + '</span>';
+            }
+
+              itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+                        '</div>';
+
+            el.innerHTML = itemStr;
+            el.className = 'item';
+
+            return el;
+    }
+
+    function placesSearchCB(data, status, pagination){
+        if(status === kakao.maps.services.Status.OK){
+            displayPlaces(data);
+            displayPagination(pagination);
+        }
 //        else if(status === kakao.maps.services.Status.ZERO_RESULT){
 //            alert('검색 결과가 존재하지 않습니다.');
 //            return;
 //        }
-//        else if(status === kakao.maps.services.Status.ERROR){
-//            alert('검색 결과 중 오류가 발생했습니다.');
-//            return;
-//        }
-//    }
-//
-//    function searchPlaces(){
-//        var keyword = document.getElementById('keyword').value;
-//        if(!keyword.replace(/^\s+|\s+$/g, '')){
-//          alert('키워드를 입력해주세요!');
-//          return false;
-//        }
-//        ps.keywordSearch(keyword, placesSearchCB);
-//    }
-//
-//    searchPlaces();
-//
-//    function displayInfowindow(marker, title) {
-//        var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-//
-//        infowindow.setContent(content);
-//        infowindow.open(map, marker);
-//    }
-//
-//
-//
-//    function displayPagination(pagination) {
-//        var paginationEl = document.getElementById('pagination'),
-//            fragment = document.createDocumentFragment(),
-//            i;
-//
-//        while (paginationEl.hasChildNodes()) {
-//            paginationEl.removeChild (paginationEl.lastChild);
-//        }
-//
-//        for (i=1; i<=pagination.last; i++) {
-//            var el = document.createElement('a');
-//            el.href = "#";
-//            el.innerHTML = i;
-//
-//            if (i===pagination.current) {
-//                el.className = 'on';
-//            } else {
-//                el.onclick = (function(i) {
-//                    return function() {
-//                        pagination.gotoPage(i);
-//                    }
-//                })(i);
-//            }
-//
-//            fragment.appendChild(el);
-//        }
-//        paginationEl.appendChild(fragment);
-//    }
-//
-//    function removeAllChildNods(el) {
-//        while (el.hasChildNodes()) {
-//            el.removeChild (el.lastChild);
-//        }
-//    }
+        else if(status === kakao.maps.services.Status.ERROR){
+            alert('검색 결과 중 오류가 발생했습니다.');
+            return;
+        }
+    }
+
+    function searchPlaces(){
+        var keyword = document.getElementById('keyword').value;
+        if(!keyword.replace(/^\s+|\s+$/g, '')){
+          return false;
+        }
+        ps.keywordSearch(keyword, placesSearchCB);
+    }
+
+    searchPlaces();
+
+    function displayInfowindow(marker, title) {
+        var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
+    }
+
+
+
+    function displayPagination(pagination) {
+        var paginationEl = document.getElementById('pagination'),
+            fragment = document.createDocumentFragment(),
+            i;
+
+        while (paginationEl.hasChildNodes()) {
+            paginationEl.removeChild (paginationEl.lastChild);
+        }
+
+        for (i=1; i<=pagination.last; i++) {
+            var el = document.createElement('a');
+            el.href = "#";
+            el.innerHTML = i;
+
+            if (i===pagination.current) {
+                el.className = 'on';
+            } else {
+                el.onclick = (function(i) {
+                    return function() {
+                        pagination.gotoPage(i);
+                    }
+                })(i);
+            }
+
+            fragment.appendChild(el);
+        }
+        paginationEl.appendChild(fragment);
+    }
+
+    function removeAllChildNods(el) {
+        while (el.hasChildNodes()) {
+            el.removeChild (el.lastChild);
+        }
+    }
 
     function addMarker(position)
     {
@@ -310,7 +313,7 @@ function InitPage(){
         markers = [];
     }
 
-    },[]);
+    },[area]);
    return(
       <div>
         <NavBar />
@@ -373,29 +376,31 @@ function InitPage(){
                    </td>
                    </table>
                  </Form>
-                  <div class="map_wrap">
-                     <div id="map" style={{marginLeft:"50%",marginTop:"-25%",width:"600px",height:"350px"}}>
-                     </div>
-                     <div id="menu_wrap" class="bg_white">
-                        <div class="option">
-                           <div>
-                              <form onsubmit="searchPlaces(); return false;">
-                                 키워드: <input type="text" value="이태원 맛집" id="keyword" size="15" />
-                                 <button type="submit">검색하기</button>
-                              </form>
-                           </div>
-                        </div>
-                        <hr />
-                        <ul id="placesList"></ul>
-                        <div id="pagination"></div>
-                     </div>
-                  </div>
+
                    <br/>
                  </div>
+
                  <br />
                  <Button style={{width:"200px",marginLeft:"43%"}} onClick={handleSubmit}>일정 생성</Button>
         <br />
         <br />
+        <div class="map_wrap" style={{marginLeft:"55%",marginTop:"-33%" ,width:"500px",height:"500px"}}>
+                             <div id="menu_wrap" class="bg_white">
+                                <div class="option">
+                                   <div>
+                                      <form onsubmit="searchPlaces(); return false;">
+                                         키워드: <input type="text" onChange={handleArea} value={area} id="keyword" size="15" />
+                                         {/*<button type="submit">검색하기</button>*/}
+                                      </form>
+                                   </div>
+                                </div>
+                                <div id="map" style={{width:"500px",height:"350px"}}>
+                                </div>
+                                <hr />
+                                <ul id="placesList" hidden></ul>
+                               <div id="pagination" hidden></div>
+                             </div>
+                          </div>
       </div>
    );
 }

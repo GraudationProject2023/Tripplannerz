@@ -33,6 +33,9 @@ function MainPage(){
     window.location.href="/schedule";
    }
 
+   function movetoMySchedule(){
+    window.location.href="/search";
+   }
 
    return(
     <div>
@@ -63,7 +66,7 @@ function MainPage(){
             </div>
         </div>
         <br />
-        <div class ="card-horizontal" style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
+        <div class ="card-horizontal" onClick={movetoMySchedule} style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
                 <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
             </div>
