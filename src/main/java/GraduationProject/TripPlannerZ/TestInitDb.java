@@ -129,6 +129,75 @@ public class TestInitDb {
                     .title("미국여행")
                     .tripLocationList(new ArrayList<>())
                     .build();
+            Trip trip6 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip7 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip8 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip9 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip10 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip11 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip12 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip13 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip14 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip15 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+            Trip trip16 = Trip.builder()
+                    .title("미국여행")
+                    .tripLocationList(new ArrayList<>())
+                    .build();
+
+            team1.setTrip(trip6);
+            team1.setTrip(trip7);
+            team1.setTrip(trip8);
+            team1.setTrip(trip9);
+            team1.setTrip(trip10);
+            team1.setTrip(trip11);
+            team1.setTrip(trip12);
+            team1.setTrip(trip13);
+            team1.setTrip(trip14);
+            team1.setTrip(trip15);
+            team1.setTrip(trip16);
+            em.persist(trip6);
+            em.persist(trip7);
+            em.persist(trip8);
+            em.persist(trip9);
+            em.persist(trip10);
+            em.persist(trip11);
+            em.persist(trip12);
+            em.persist(trip13);
+            em.persist(trip14);
+            em.persist(trip15);
+            em.persist(trip16);
+
+
 
             team1.setTrip(trip1);
             team1.setTrip(trip2);
