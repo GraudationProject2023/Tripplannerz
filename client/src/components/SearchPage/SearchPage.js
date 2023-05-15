@@ -2,7 +2,6 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
-import Posts from './Posts';
 axios.defaults.withCredentials = true;
 
 function SearchPage(){
@@ -29,19 +28,16 @@ function SearchPage(){
                         setLoading(false);
                     };
         fetchData();
-
-        function ShowData(){
-            return(
-            <ul>
-                    {posts.map((post) => (
-                      <li key={post.id}><div>일정제목: {post.title}</div></li>
-                    ))}
-                  </ul>
-            )
-        }
-        ShowData();
     },[currentPage]);
-
+    function ShowData(){
+                return(
+                <ul>
+                        {posts.map((post) => (
+                          <li key={post.id}><div>일정제목: {post.title}</div></li>
+                        ))}
+                      </ul>
+                )
+            }
 
        const indexOfLast = currentPage * postsPerPage;
         const indexOfFirst = indexOfLast - postsPerPage;
@@ -65,6 +61,21 @@ function SearchPage(){
                             console.error(error);
             }
          }
+
+
+   const Posts = ({ posts, loading}) => {
+     return (
+       <>
+       {loading ? <div> loading... </div> : <ShowData />}
+       <ul>
+        {posts.map((post) => (
+          <li key={post.id}><div>일정제목: {post.title}</div></li>
+        ))}
+       </ul>
+     </>
+   );
+ };
+
 
     return(
     <div>
@@ -107,4 +118,3 @@ function SearchPage(){
 }
 
 export default SearchPage;
-
