@@ -44,7 +44,7 @@ const PageSpan = styled.span`
 const Pagination = ({postsPerPage, totalPosts, paginate}) => {
 
     const pageNumbers = [];
-    for(let i = 1; i <=Math.ceil(totalPosts/postsPerPage); i++)
+    for(let i = 1; i <=10; i++)
     {
         pageNumbers.push(i);
     }
