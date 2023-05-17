@@ -111,66 +111,82 @@ public class TestInitDb {
             // Trip 설정
             Trip trip1 = Trip.builder()
                     .title("3박 4일")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip2 = Trip.builder()
                     .title("당일")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip3 = Trip.builder()
                     .title("1박 2일")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip4 = Trip.builder()
                     .title("일본여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip5 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip6 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip7 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip8 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip9 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip10 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip11 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip12 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip13 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip14 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip15 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip16 = Trip.builder()
                     .title("미국여행")
+                    .content("123123123123123123")
                     .tripLocationList(new ArrayList<>())
                     .build();
 
