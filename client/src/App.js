@@ -11,6 +11,8 @@ import InitPage from './components/InitPage/InitPage';
 import LoginCallbackpage from './components/StartPage/Kakao/LoginCallbackpage';
 import Chat from './components/Chat/Chat';
 import Search from './components/SearchPage/SearchPage';
+import SearchResult from './components/SearchPage/SearchResultPage';
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path ="/logincallback" element={<LoginCallbackpage />} />
           <Route path ="/chat" element={<Chat />} />
           <Route path ="/search" element={<Search />} />
+          <Route path ="/search/:postId" element={<SearchResult />} />
         </Routes>
       </Suspense>
     </Router>

@@ -36,7 +36,12 @@ function SearchPage(){
                 return(
                 <ul>
                         {posts.map((post) => (
-                          <li key={post.id}><div>일정제목: {post.title}</div></li>
+                          <li key={post.id}>
+                           <table>
+                              <td><div>일정제목: {post.title}</div></td>
+                              <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
+                           </table>
+                          </li>
                         ))}
                       </ul>
                 )
@@ -67,19 +72,27 @@ function SearchPage(){
          }
 
 
-   const Posts = ({ posts, loading}) => {
+   const Posts = ({ posts, loading, handleClick}) => {
      return (
        <>
        {loading ? '': <ShowData />}
        <ul>
         {posts.map((post) => (
-          <li key={post.id}><div>일정제목: {post.title}</div></li>
+          <li key={post.id}>
+            <table>
+            <td><div>일정제목: {post.title}</div></td>
+            <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
+            </table>
+          </li>
+
         ))}
        </ul>
      </>
    );
  };
-
+    const handleClick = (postId) => {
+        window.location.href = `/search/${postId}`;
+    }
 
     return(
     <div>
@@ -94,7 +107,7 @@ function SearchPage(){
             </tr>
          </thead>
          <tbody>
-          <Posts posts={currentPosts(posts)} loading={loading}></Posts>
+          <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
                                <br />
                                <br />
                             <Pagination
@@ -103,6 +116,7 @@ function SearchPage(){
                                    paginate={(pageNumber) => setCurrentPage(pageNumber)}
                                    total={total}
                                  ></Pagination>
+
          </tbody>
          {/*<tbody>
           {data.map(item => (
