@@ -11,7 +11,7 @@ function SearchPage(){
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
-
+    const [total, setTotal] = useState(13);
 
     useEffect(() => {
         console.log(currentPage);
@@ -24,11 +24,13 @@ function SearchPage(){
                             }
                         );
                         console.log(response.data);
-                        setPosts(response.data);
+                        setPosts(response.data.result);
+                        setTotal(response.data.total);
                         setLoading(false);
                     };
         fetchData();
     },[currentPage]);
+
     function ShowData(){
                 if(currentPage !== 1){
                 return(
@@ -68,7 +70,7 @@ function SearchPage(){
    const Posts = ({ posts, loading}) => {
      return (
        <>
-       {loading ? <div> loading... </div> : <ShowData />}
+       {loading ? '': <ShowData />}
        <ul>
         {posts.map((post) => (
           <li key={post.id}><div>일정제목: {post.title}</div></li>
@@ -99,6 +101,7 @@ function SearchPage(){
                                    postsPerPage={postsPerPage}
                                    totalPosts={posts.length}
                                    paginate={(pageNumber) => setCurrentPage(pageNumber)}
+                                   total={total}
                                  ></Pagination>
          </tbody>
          {/*<tbody>
