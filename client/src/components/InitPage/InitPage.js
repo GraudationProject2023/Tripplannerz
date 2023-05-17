@@ -127,6 +127,7 @@ function InitPage(){
     .then(
       res => {console.log(res);
         alert('일정이 생성되었습니다.');
+        window.location.href="/main";
     })
     .catch(error => console.log(error))
     }

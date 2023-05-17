@@ -30,6 +30,7 @@ function SearchPage(){
         fetchData();
     },[currentPage]);
     function ShowData(){
+                if(currentPage !== 1){
                 return(
                 <ul>
                         {posts.map((post) => (
@@ -37,6 +38,7 @@ function SearchPage(){
                         ))}
                       </ul>
                 )
+            }
             }
 
        const indexOfLast = currentPage * postsPerPage;
