@@ -111,82 +111,82 @@ public class TestInitDb {
             // Trip 설정
             Trip trip1 = Trip.builder()
                     .title("3박 4일")
-                    .content("123123123123123123")
+                    .content("1")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip2 = Trip.builder()
                     .title("당일")
-                    .content("123123123123123123")
+                    .content("2")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip3 = Trip.builder()
                     .title("1박 2일")
-                    .content("123123123123123123")
+                    .content("3")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip4 = Trip.builder()
                     .title("일본여행")
-                    .content("123123123123123123")
+                    .content("4")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip5 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("5")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip6 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("6")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip7 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("7")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip8 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("8")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip9 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("9")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip10 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("10")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip11 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("11")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip12 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("12")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip13 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("13")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip14 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("14")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip15 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("15")
                     .tripLocationList(new ArrayList<>())
                     .build();
             Trip trip16 = Trip.builder()
                     .title("미국여행")
-                    .content("123123123123123123")
+                    .content("16")
                     .tripLocationList(new ArrayList<>())
                     .build();
 
@@ -201,6 +201,11 @@ public class TestInitDb {
             team1.setTrip(trip14);
             team1.setTrip(trip15);
             team1.setTrip(trip16);
+            em.persist(trip1);
+            em.persist(trip2);
+            em.persist(trip3);
+            em.persist(trip4);
+            em.persist(trip5);
             em.persist(trip6);
             em.persist(trip7);
             em.persist(trip8);
