@@ -2,7 +2,6 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
-import Posts from './Posts';
 axios.defaults.withCredentials = true;
 
 function SearchPage(){
@@ -12,7 +11,7 @@ function SearchPage(){
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
-
+    const [total, setTotal] = useState(13);
 
     useEffect(() => {
         console.log(currentPage);
@@ -25,23 +24,24 @@ function SearchPage(){
                             }
                         );
                         console.log(response.data);
-                        setPosts(response.data);
+                        setPosts(response.data.result);
+                        setTotal(response.data.total);
                         setLoading(false);
                     };
         fetchData();
-
-        function ShowData(){
-            return(
-            <ul>
-                    {posts.map((post) => (
-                      <li key={post.id}><div>일정제목: {post.title}</div></li>
-                    ))}
-                  </ul>
-            )
-        }
-        ShowData();
     },[currentPage]);
 
+    function ShowData(){
+                if(currentPage !== 1){
+                return(
+                <ul>
+                        {posts.map((post) => (
+                          <li key={post.id}><div>일정제목: {post.title}</div></li>
+                        ))}
+                      </ul>
+                )
+            }
+            }
 
        const indexOfLast = currentPage * postsPerPage;
         const indexOfFirst = indexOfLast - postsPerPage;
@@ -66,6 +66,21 @@ function SearchPage(){
             }
          }
 
+
+   const Posts = ({ posts, loading}) => {
+     return (
+       <>
+       {loading ? '': <ShowData />}
+       <ul>
+        {posts.map((post) => (
+          <li key={post.id}><div>일정제목: {post.title}</div></li>
+        ))}
+       </ul>
+     </>
+   );
+ };
+
+
     return(
     <div>
      <div style={{border:"1px solid black",width:"50%",marginLeft:"20%"}}>
@@ -86,6 +101,7 @@ function SearchPage(){
                                    postsPerPage={postsPerPage}
                                    totalPosts={posts.length}
                                    paginate={(pageNumber) => setCurrentPage(pageNumber)}
+                                   total={total}
                                  ></Pagination>
          </tbody>
          {/*<tbody>
@@ -107,4 +123,3 @@ function SearchPage(){
 }
 
 export default SearchPage;
-
