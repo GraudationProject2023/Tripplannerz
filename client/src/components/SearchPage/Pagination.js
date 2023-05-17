@@ -41,13 +41,15 @@ const PageSpan = styled.span`
     }
 `;
 
-const Pagination = ({postsPerPage, totalPosts, paginate}) => {
+const Pagination = ({postsPerPage, totalPosts, paginate, total}) => {
 
     const pageNumbers = [];
-    for(let i = 1; i <=10; i++)
+    var t = total;
+    for(let i = 1; i <= t/10 + 1; i++)
     {
         pageNumbers.push(i);
     }
+
 
 
 
