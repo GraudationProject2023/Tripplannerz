@@ -5,22 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberTripDTO {
+public class MemberTripContentDTO {
 
-    private String id;
-    private String title;
     private String period;
     private String content;
     private String startingDate;
 
-    public MemberTripDTO(Trip trip) {
-        this.id = UUID.randomUUID().toString();
-        title = trip.getTitle();
+    public MemberTripContentDTO(Trip trip) {
         period = trip.getPeriod();
         content = trip.getContent();
         startingDate = trip.getStartingDate();
