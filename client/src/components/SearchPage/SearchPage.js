@@ -2,7 +2,9 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
+import {Button} from 'react-bootstrap';
 import './SearchPage.css';
+import Navbar from '../Navbar/Navbar';
 axios.defaults.withCredentials = true;
 
 
@@ -14,6 +16,7 @@ function SearchPage(){
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
     const [total, setTotal] = useState(13);
+
 
     useEffect(() => {
         console.log(currentPage);
@@ -40,13 +43,13 @@ function SearchPage(){
                 <ul className="list">
                         {posts.map((post) => (
                           <div>
-                          <li key={post.id} className="listkey">
+                          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
                             <table>
                             <td><div>{post.title}</div></td>
-                            <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
+                            <td><div>{post.startingDate}</div></td>
                             </table>
                           </li>
-                          <hr/>
+
                           </div>
                         ))}
                        </ul>
@@ -86,13 +89,15 @@ function SearchPage(){
        <ul className="list">
         {posts.map((post) => (
           <div>
-          <li key={post.id} className="listkey">
+          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
             <table>
+            <tr onClick={()=>handleClick(post.id)}>
             <td><div>{post.title}</div></td>
-            <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
+             <td><div>{post.startingDate}</div></td>
+            </tr>
             </table>
           </li>
-          <hr/>
+
           </div>
         ))}
        </ul>
@@ -104,6 +109,12 @@ function SearchPage(){
     }
 
     return(
+    <div>
+      <Navbar />
+      <div className = "start">
+            <h4>참여하고 싶은 일정들을 찾아보세요</h4>
+            </div>
+
     <div className="container">
      <div className="table-container">
       <table className="table">
@@ -125,8 +136,21 @@ function SearchPage(){
             total={total}
           ></Pagination>
        </div>
+
+
         {console.log(total)}
 
+    </div>
+      <div className="searchText">
+                  <table>
+                  <td>
+                     <input type="text" placeholder="검색어를 입력하세요"/>
+                  </td>
+                  <td>
+                     <Button>검색</Button>
+                  </td>
+                  </table>
+                </div>
     </div>
     )
 }
