@@ -91,8 +91,9 @@ public class MemberController {
 
     @GetMapping("/members/trip")
     public MemberTripTotalDTO searchTrip(HttpServletRequest request,
-                                         @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum, // @RequestParam은 Json데이터 처리 x
-                                         @RequestParam(required = false, name = "size", defaultValue = "10") int pageSize) {
+                                         @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum,
+                                         // @RequestParam은 Json데이터 처리 x
+                                         @RequestParam(required = false, name = "size", defaultValue = "2") int pageSize) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("loginMember");
         if (pageNum > 0)
