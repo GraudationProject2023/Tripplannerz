@@ -1,0 +1,24 @@
+.container {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.table-container{
+    border: 1px solid black;
+}
+
+.table{
+   width: 100%;
+}
+
+.table-head {
+    background-color: #333;
+    color: #fff;
+}
+
+.table th,
+.table td{
+    padding: 8px;
+    text-align: left;
+}
+
