@@ -12,9 +12,11 @@ public class MemberTripTitleDTO {
 
     private String id;
     private String title;
+    private String startingDate;
 
     public MemberTripTitleDTO(Trip trip) {
         this.id = trip.getUUID();
-        title = trip.getTitle();
+        this.title = trip.getTitle();
+        this.startingDate = trip.getStartingDate();
     }
 }
