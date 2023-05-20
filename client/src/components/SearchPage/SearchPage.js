@@ -2,7 +2,9 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
+import './SearchPage.css';
 axios.defaults.withCredentials = true;
+
 
 function SearchPage(){
 
@@ -80,7 +82,7 @@ function SearchPage(){
         {posts.map((post) => (
           <li key={post.id}>
             <table>
-            <td><div>일정제목: {post.title}</div></td>
+            <td><div>{post.title}</div></td>
             <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
             </table>
           </li>
@@ -95,40 +97,26 @@ function SearchPage(){
     }
 
     return(
-    <div>
-     <div style={{border:"1px solid black",width:"50%",marginLeft:"20%"}}>
-      <table>
-         <thead>
+    <div className="container">
+     <div className="table-container">
+      <table className="table">
+         <thead className="table-head">
             <tr>
-              <th>팀 이름</th>
-              <th>일정 제목 &nbsp;</th>
+              <th>일정 제목</th>
               <th>인원 수 &nbsp;</th>
               <th>일정 날짜 &nbsp;</th>
             </tr>
          </thead>
          <tbody>
           <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
-                               <br />
-                               <br />
-                            <Pagination
-                                   postsPerPage={postsPerPage}
-                                   totalPosts={posts.length}
-                                   paginate={(pageNumber) => setCurrentPage(pageNumber)}
-                                   total={total}
-                                 ></Pagination>
-
-         </tbody>
-         {/*<tbody>
-          {data.map(item => (
-           <tr key={item.id}>
-             <td>{item.Name}</td>
-             <td>{item.Title}</td>
-             <td>{item.people}</td>
-             <td>{item.Date}</td>
-           </tr>
-          ))}
-          </tbody>*/}
+          </tbody>
        </table>
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={posts.length}
+            paginate={(pageNumber) => setCurrentPage(pageNumber)}
+            total={total}
+          ></Pagination>
        </div>
 
 

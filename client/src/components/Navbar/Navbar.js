@@ -210,6 +210,7 @@ function NavBar(){
 
     useEffect(() => {
          localStorage.setItem("cast",0);
+         document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
 
 
