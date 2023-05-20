@@ -230,153 +230,188 @@ public class TestInitDb {
             em.persist(trip4);
             em.persist(trip5);
 
-            Trip t1=Trip.builder()
+            Trip t1 = Trip.builder()
                     .title("t1")
                     .content("test1")
+                    .period("1")
                     .startingDate("1111.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t2=Trip.builder()
+            Trip t2 = Trip.builder()
                     .title("t2")
                     .content("test2")
+                    .period("1")
                     .startingDate("1112.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t3=Trip.builder()
+            Trip t3 = Trip.builder()
                     .title("t3")
                     .content("test3")
+                    .period("1")
                     .startingDate("1113.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t4=Trip.builder()
+            Trip t4 = Trip.builder()
                     .title("t4")
                     .content("test4")
+                    .period("1")
                     .startingDate("1114.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t5=Trip.builder()
+            Trip t5 = Trip.builder()
                     .title("t5")
                     .content("test5")
+                    .period("1")
                     .startingDate("1115.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t6=Trip.builder()
+            Trip t6 = Trip.builder()
                     .title("t6")
                     .content("test6")
+                    .period("30")
                     .startingDate("1116.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t7=Trip.builder()
+            Trip t7 = Trip.builder()
                     .title("t7")
                     .content("test7")
+                    .period("7")
                     .startingDate("1117.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t8=Trip.builder()
+            Trip t8 = Trip.builder()
                     .title("t8")
                     .content("test8")
+                    .period("6")
                     .startingDate("1118.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t9=Trip.builder()
+            Trip t9 = Trip.builder()
                     .title("t9")
                     .content("test9")
+                    .period("5")
                     .startingDate("1119.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t10=Trip.builder()
+            Trip t10 = Trip.builder()
                     .title("t10")
                     .content("test10")
+                    .period("4")
                     .startingDate("1111.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t11=Trip.builder()
+            Trip t11 = Trip.builder()
                     .title("t11")
                     .content("test11")
+                    .period("3")
                     .startingDate("1121.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t12=Trip.builder()
+            Trip t12 = Trip.builder()
                     .title("t2")
                     .content("test12")
+                    .period("3")
                     .startingDate("1121.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t13=Trip.builder()
+            Trip t13 = Trip.builder()
                     .title("t13")
                     .content("test13")
+                    .period("9")
                     .startingDate("1131.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t14=Trip.builder()
+            Trip t14 = Trip.builder()
                     .title("t14")
                     .content("test14")
+                    .period("11")
                     .startingDate("1141.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t15=Trip.builder()
+            Trip t15 = Trip.builder()
                     .title("t15")
                     .content("test15")
+                    .period("12")
                     .startingDate("1151.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t16=Trip.builder()
+            Trip t16 = Trip.builder()
                     .title("t16")
                     .content("test16")
+                    .period("13")
                     .startingDate("1161.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t17=Trip.builder()
+            Trip t17 = Trip.builder()
                     .title("t17")
                     .content("test17")
+                    .period("14")
                     .startingDate("1171.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t18=Trip.builder()
+            Trip t18 = Trip.builder()
                     .title("t18")
                     .content("test18")
+                    .period("6")
                     .startingDate("1181.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t19=Trip.builder()
+            Trip t19 = Trip.builder()
                     .title("t19")
                     .content("test19")
+                    .period("40")
                     .startingDate("1191.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
-            Trip t20=Trip.builder()
+            Trip t20 = Trip.builder()
                     .title("t20")
                     .content("test20")
+                    .period("12")
                     .startingDate("1201.11.11")
                     .tripLocationList(new ArrayList<>())
                     .build();
 
 
-            team1.setTrip(t1);em.persist(t1);
-            team1.setTrip(t2);em.persist(t2);
-            team1.setTrip(t3);em.persist(t3);
-            team1.setTrip(t4);em.persist(t4);
-            team1.setTrip(t5);em.persist(t5);
-            team1.setTrip(t6);em.persist(t6);
-            team1.setTrip(t7);em.persist(t7);
-            team1.setTrip(t8);em.persist(t8);
-            team1.setTrip(t9);em.persist(t9);
-            team1.setTrip(t10);em.persist(t10);
-            team1.setTrip(t11);em.persist(t11);
-            team1.setTrip(t12);em.persist(t12);
-            team1.setTrip(t13);em.persist(t13);
-            team1.setTrip(t14);em.persist(t14);
-            team1.setTrip(t15);em.persist(t15);
-            team1.setTrip(t16);em.persist(t16);
-            team1.setTrip(t17);em.persist(t17);
-            team1.setTrip(t18);em.persist(t18);
-            team1.setTrip(t19);em.persist(t19);
-            team1.setTrip(t20);em.persist(t20);
-
-
-
-
-
+            team1.setTrip(t1);
+            em.persist(t1);
+            team1.setTrip(t2);
+            em.persist(t2);
+            team1.setTrip(t3);
+            em.persist(t3);
+            team1.setTrip(t4);
+            em.persist(t4);
+            team1.setTrip(t5);
+            em.persist(t5);
+            team1.setTrip(t6);
+            em.persist(t6);
+            team1.setTrip(t7);
+            em.persist(t7);
+            team1.setTrip(t8);
+            em.persist(t8);
+            team1.setTrip(t9);
+            em.persist(t9);
+            team1.setTrip(t10);
+            em.persist(t10);
+            team1.setTrip(t11);
+            em.persist(t11);
+            team1.setTrip(t12);
+            em.persist(t12);
+            team1.setTrip(t13);
+            em.persist(t13);
+            team1.setTrip(t14);
+            em.persist(t14);
+            team1.setTrip(t15);
+            em.persist(t15);
+            team1.setTrip(t16);
+            em.persist(t16);
+            team1.setTrip(t17);
+            em.persist(t17);
+            team1.setTrip(t18);
+            em.persist(t18);
+            team1.setTrip(t19);
+            em.persist(t19);
+            team1.setTrip(t20);
+            em.persist(t20);
 
 
             // 여행지에서 경로 설정
