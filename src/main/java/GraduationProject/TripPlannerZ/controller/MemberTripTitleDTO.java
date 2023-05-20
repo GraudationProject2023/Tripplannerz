@@ -13,10 +13,12 @@ public class MemberTripTitleDTO {
     private String id;
     private String title;
     private String startingDate;
+    private String period;
 
     public MemberTripTitleDTO(Trip trip) {
         this.id = trip.getUUID();
         this.title = trip.getTitle();
         this.startingDate = trip.getStartingDate();
+        this.period = trip.getPeriod();
     }
 }
