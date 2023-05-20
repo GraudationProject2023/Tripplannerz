@@ -64,7 +64,7 @@ const Pagination = ({postsPerPage, totalPosts, paginate, total}) => {
 
     const pageNumbers = [];
     var t = total;
-    for(let i = 1; i <= t/10 + 1; i++)
+    for(let i = 1; i <= t/4 + 1; i++)
     {
         pageNumbers.push(i);
     }

@@ -36,16 +36,21 @@ function SearchPage(){
     function ShowData(){
                 if(currentPage !== 1){
                 return(
-                <ul>
+                <>
+                <ul className="list">
                         {posts.map((post) => (
-                          <li key={post.id}>
-                           <table>
-                              <td><div>일정제목: {post.title}</div></td>
-                              <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
-                           </table>
+                          <div>
+                          <li key={post.id} className="listkey">
+                            <table>
+                            <td><div>{post.title}</div></td>
+                            <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
+                            </table>
                           </li>
+                          <hr/>
+                          </div>
                         ))}
-                      </ul>
+                       </ul>
+                </>
                 )
             }
             }
@@ -78,15 +83,17 @@ function SearchPage(){
      return (
        <>
        {loading ? '': <ShowData />}
-       <ul>
+       <ul className="list">
         {posts.map((post) => (
-          <li key={post.id}>
+          <div>
+          <li key={post.id} className="listkey">
             <table>
             <td><div>{post.title}</div></td>
             <td><div><button onClick={() => handleClick(post.id)}>클릭</button></div></td>
             </table>
           </li>
-
+          <hr/>
+          </div>
         ))}
        </ul>
      </>
@@ -118,7 +125,7 @@ function SearchPage(){
             total={total}
           ></Pagination>
        </div>
-
+        {console.log(total)}
 
     </div>
     )
