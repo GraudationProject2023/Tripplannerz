@@ -5,6 +5,7 @@ import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.service.LoginService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 
+import GraduationProject.TripPlannerZ.service.TripService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final LoginService loginService;
+    private final TripService tripService;
 
     @PostMapping("/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
@@ -88,12 +90,12 @@ public class MemberController {
     }
 
     @GetMapping("/members/trip")
-    public TripTotalDTO searchTrip(HttpServletRequest request,
-                                          @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum, // @RequestParam은 Json데이터 처리 x
-                                          @RequestParam(required = false, name = "size", defaultValue = "10") int pageSize) {
+    public MemberTripTotalDTO searchTrip(HttpServletRequest request,
+                                         @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum,
+                                         // @RequestParam은 Json데이터 처리 x
+                                         @RequestParam(required = false, name = "size", defaultValue = "2") int pageSize) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("loginMember");
-
         if (pageNum > 0)
             pageNum--;
 
@@ -101,11 +103,19 @@ public class MemberController {
         Page<Trip> trippage = memberService.findTrip(email, pageable);
         List<Trip> trips = trippage.getContent();
 
-        Long total= trippage.getTotalElements();
-        List<MemberTripDTO> result = trips.stream()
-                .map(trip -> new MemberTripDTO(trip))
+        Long total = trippage.getTotalElements();
+        List<MemberTripTitleDTO> result = trips.stream()
+                .map(trip -> new MemberTripTitleDTO(trip))
                 .collect(Collectors.toList());
 
-        return new TripTotalDTO(result, total);
+        return new MemberTripTotalDTO(result, total);
+    }
+
+    @GetMapping("/members/trip/result")
+    public MemberTripContentDTO searchTrip(@RequestParam("id") String id) {
+
+        Trip trip = tripService.findByUUID(id).get();
+        return new MemberTripContentDTO(trip);
+
     }
 }

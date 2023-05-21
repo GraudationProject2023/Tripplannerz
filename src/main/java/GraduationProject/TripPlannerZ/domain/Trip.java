@@ -19,6 +19,7 @@ public class Trip {
     @GeneratedValue
     @Column(name = "trip_id")
     private Long id;
+    private String UUID;
     private String title;
     private String period;
     private String content;
@@ -37,6 +38,7 @@ public class Trip {
     @Builder
     public Trip(Long id, String title, String startingDate, String period, String content, boolean publicSetting, Team team, List<TripLocation> tripLocationList) {
         this.id = id;
+        this.UUID = java.util.UUID.randomUUID().toString();
         this.title = title;
         this.startingDate = startingDate;
         this.period = period;

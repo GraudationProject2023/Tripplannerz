@@ -2,7 +2,11 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
+import {Button} from 'react-bootstrap';
+import './SearchPage.css';
+import Navbar from '../Navbar/Navbar';
 axios.defaults.withCredentials = true;
+
 
 function SearchPage(){
 
@@ -12,6 +16,7 @@ function SearchPage(){
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
     const [total, setTotal] = useState(13);
+
 
     useEffect(() => {
         console.log(currentPage);
@@ -34,11 +39,21 @@ function SearchPage(){
     function ShowData(){
                 if(currentPage !== 1){
                 return(
-                <ul>
+                <>
+                <ul className="list">
                         {posts.map((post) => (
-                          <li key={post.id}><div>일정제목: {post.title}</div></li>
+                          <div>
+                          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
+                            <table>
+                            <td><div>{post.title}</div></td>
+                            <td><div>{post.startingDate}</div></td>
+                            </table>
+                          </li>
+
+                          </div>
                         ))}
-                      </ul>
+                       </ul>
+                </>
                 )
             }
             }
@@ -67,57 +82,75 @@ function SearchPage(){
          }
 
 
-   const Posts = ({ posts, loading}) => {
+   const Posts = ({ posts, loading, handleClick}) => {
      return (
        <>
        {loading ? '': <ShowData />}
-       <ul>
+       <ul className="list">
         {posts.map((post) => (
-          <li key={post.id}><div>일정제목: {post.title}</div></li>
+          <div>
+          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
+            <table>
+            <tr onClick={()=>handleClick(post.id)}>
+            <td><div>{post.title}</div></td>
+             <td><div>{post.startingDate}</div></td>
+            </tr>
+            </table>
+          </li>
+
+          </div>
         ))}
        </ul>
      </>
    );
  };
-
+    const handleClick = (postId) => {
+        window.location.href = `/search/${postId}`;
+    }
 
     return(
     <div>
-     <div style={{border:"1px solid black",width:"50%",marginLeft:"20%"}}>
-      <table>
-         <thead>
+      <Navbar />
+      <div className = "start">
+            <h4>참여하고 싶은 일정들을 찾아보세요</h4>
+            </div>
+
+    <div className="container">
+     <div className="table-container">
+      <table className="table">
+         <thead className="table-head">
             <tr>
-              <th>팀 이름</th>
-              <th>일정 제목 &nbsp;</th>
+              <th>일정 제목</th>
               <th>인원 수 &nbsp;</th>
               <th>일정 날짜 &nbsp;</th>
             </tr>
          </thead>
          <tbody>
-          <Posts posts={currentPosts(posts)} loading={loading}></Posts>
-                               <br />
-                               <br />
-                            <Pagination
-                                   postsPerPage={postsPerPage}
-                                   totalPosts={posts.length}
-                                   paginate={(pageNumber) => setCurrentPage(pageNumber)}
-                                   total={total}
-                                 ></Pagination>
-         </tbody>
-         {/*<tbody>
-          {data.map(item => (
-           <tr key={item.id}>
-             <td>{item.Name}</td>
-             <td>{item.Title}</td>
-             <td>{item.people}</td>
-             <td>{item.Date}</td>
-           </tr>
-          ))}
-          </tbody>*/}
+          <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
+          </tbody>
        </table>
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={posts.length}
+            paginate={(pageNumber) => setCurrentPage(pageNumber)}
+            total={total}
+          ></Pagination>
        </div>
 
 
+        {console.log(total)}
+
+    </div>
+      <div className="searchText">
+                  <table>
+                  <td>
+                     <input type="text" placeholder="검색어를 입력하세요"/>
+                  </td>
+                  <td>
+                     <Button>검색</Button>
+                  </td>
+                  </table>
+                </div>
     </div>
     )
 }

@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TripTotalDTO {
+public class MemberTripTotalDTO {
 
-    private List<MemberTripDTO> result;
+    private List<MemberTripTitleDTO> result;
     private long total;
 }
