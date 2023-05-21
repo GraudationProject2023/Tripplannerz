@@ -337,6 +337,7 @@ function movetomain()
       }).then(res => {
          console.log(res);
          var rlt = res.data.result;
+         var na = res.data.name;
          if(rlt === true)
          {
             localStorage.setItem("vest",1);
@@ -349,7 +350,7 @@ function movetomain()
 
          if(set === '1')
          {
-             alert(`${name}님! 로그인이 되었습니다.`);
+             alert(`${na}님! 로그인이 되었습니다.`);
              setFirstShowModal(false);
              window.location.href="/main";
          }
