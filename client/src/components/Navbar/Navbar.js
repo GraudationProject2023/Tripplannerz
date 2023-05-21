@@ -7,7 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
-import Menu from '../Image/메뉴바.png';
+import Menu from '../Image/Menu.png';
+import notice from '../Image/notice.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
 
@@ -567,13 +568,19 @@ function movetomain()
 
       return(
       <div className ="navbar">
-       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"22.5%"}} >
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"whitesmoke",height:"15%"}} >
                 <Nav className="me-auto">
                         <Nav>
-                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px"}} />
+                           <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"100px", marginTop:"0%"}} />
                         </Nav>
-                        <Nav style={{marginLeft:"1000%",marginTop:"-45%"}}>
-                           <img src={image} style={{width:"30px",height:"30px",marginLeft: "3000%", marginTop:"-110%"}} onClick={toggleMypage} />
+                        <Nav className = "inputbox">
+                          <input type="text" placeholder="동행을 찾아보세요" />
+                        </Nav>
+                        <Nav className = "notice">
+                          <img src={notice}/>
+                        </Nav>
+                        <Nav className ="user">
+                            <img src={image} onClick={toggleMypage} />
                              {esOpen && (
                                    <ul className="mypage-content">
                                       <table>
@@ -591,6 +598,7 @@ function movetomain()
                     </Nav>
 
         </Navbar>
+        <hr />
         </div>
       )
     }
