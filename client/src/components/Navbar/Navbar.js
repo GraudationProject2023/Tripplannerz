@@ -455,10 +455,19 @@ function movetomain()
 
     }, [navbarLinksRef]);
 
+    //마이페이지
+    const [esOpen, setesOpen] = useState(false);
+    const toggleMypage = () => {
+        setesOpen(!esOpen);
+    }
+    const closeMypage = () => {
+        toggleMypage();
+    }
 
     if(offset === '0'){
     return(
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
+        <div className ="navbar">
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"20%"}} >
             <Nav className="me-auto">
                 <Nav style={{marginTop:"1%"}}>
                    <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LogoutMain}>메인</Button>
@@ -491,7 +500,7 @@ function movetomain()
             <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
+        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFF",color:"#000000",width:"100px",height:"37px"}}>
           회원가입
         </Button>
 
@@ -549,38 +558,38 @@ function movetomain()
                 </Nav>
             </Nav>
         </Navbar>
+        </div>
     )
     }
     else if(offset === '1')
     {
 
       return(
-       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
-          <Nav className="me-auto">
-                        <Nav style={{marginTop:"1%"}}>
-                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"40px"}} onClick={toggleNavbar} />
-                            <i className="fa fa-bars"></i>
-                          <ul className={isOpen ? 'navbar-links active' : 'navbar-links'} ref={navbarLinksRef}>
-                             <li style={{marginTop:"-750px",width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list1")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴1</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list2")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴2</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list3")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴3</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list4")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴4</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                          </ul>
-                          <button style={{width:"50px",height:"50px",marginLeft:"22%",marginTop:"3%",backgroundColor:"white"}} className={isOpen ? 'navbar-close active' : 'navbar-close'} onClick={closeNavbar}>X</button>
+      <div className ="navbar">
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"20%"}} >
+                <Nav className="me-auto">
+                        <Nav>
+                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"40px"}} />
                         </Nav>
-                        <Nav style={{marginLeft:"580%", marginTop:"1%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                        <Nav style={{marginLeft:"1000%",marginTop:"-45%"}}>
+                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}} onClick={toggleMypage}>마이페이지</Button>
+                             {esOpen && (
+                                   <ul className="mypage-content">
+                                      <table>
+                                      <tr><Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>{}님</Button></tr>
+                                      <hr />
+                                      <tr>
+                                        <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                                      </tr>
+                                      </table>
+                                   </ul>
+                             )}
                         </Nav>
-                        <Nav style={{marginTop:"1%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}}>마이페이지</Button>
-                        </Nav>
-          </Nav>
+
+                    </Nav>
+
         </Navbar>
+        </div>
       )
     }
 }

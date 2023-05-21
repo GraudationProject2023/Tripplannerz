@@ -32,6 +32,7 @@ public class TestInitDb {
             Member member1 = Member.builder()
                     .pw("1")
                     .email("1@naver.com")
+                    .name("admin")
                     .memberTeamList(new ArrayList<>())
                     .build();
             Member member2 = Member.builder()
