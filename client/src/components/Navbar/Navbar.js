@@ -1,6 +1,7 @@
 import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import image from '../Image/마이페이지.png';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
@@ -566,20 +567,21 @@ function movetomain()
 
       return(
       <div className ="navbar">
-       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"20%"}} >
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"22.5%"}} >
                 <Nav className="me-auto">
                         <Nav>
-                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"40px"}} />
+                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px"}} />
                         </Nav>
                         <Nav style={{marginLeft:"1000%",marginTop:"-45%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}} onClick={toggleMypage}>마이페이지</Button>
+                           <img src={image} style={{width:"30px",height:"30px",marginLeft: "3000%", marginTop:"-110%"}} onClick={toggleMypage} />
                              {esOpen && (
                                    <ul className="mypage-content">
                                       <table>
-                                      <tr><Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>{}님</Button></tr>
-                                      <hr />
+                                      <br />
+                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>`${name}님`</Button></tr>
+                                      <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
                                       <tr>
-                                        <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                                        <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>
                                       </tr>
                                       </table>
                                    </ul>

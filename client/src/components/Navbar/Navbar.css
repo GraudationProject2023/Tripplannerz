@@ -13,8 +13,10 @@
 .mypage-content{
     position: absolute;
     top: calc(40%);
+    margin-left: 59.5%;
     width: 150px;
-    height: 150px;
+    height: 100px;
     background-color: white;
     zIndex: 999;
 }
+
