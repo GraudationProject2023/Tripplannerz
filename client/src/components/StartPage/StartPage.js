@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Modal, Form, Button, FormControl } from "react-bootstrap";
 import styled from 'styled-components';
-import Logo from '../Image/Logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import NavBar from '../Navbar/Navbar';
@@ -358,9 +357,7 @@ function StartPage() {
          <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
         <img src={Land3} alt="설명페이지3" style={{width:"100%"}} />
         <div style={{marginLeft:"42%",marginTop:"5%"}}>
-        {/*<Button variant="primary" onClick={handleShow}>
-          회원가입 하기
-        </Button>*/}
+
 
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>

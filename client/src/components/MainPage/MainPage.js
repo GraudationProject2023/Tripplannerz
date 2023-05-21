@@ -1,7 +1,4 @@
 import React,{useEffect} from 'react';
-import User from '../Image/User.png';
-import New from '../Image/New.png';
-import My from '../Image/My.png';
 import NavBar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import axios from 'axios';
@@ -44,7 +41,7 @@ function MainPage(){
     <div style={{marginLeft: "30%", marginTop:"5%"}}>
         <div class ="card-horizontal" onClick={movetoSchedule} style={{border:"1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
-                <img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />
+                {/*<img src={New} style={{width:"100px", height:"100px"}} alt="새 일정 생성" />*/}
             </div>
             <div class ="card-body">
                 <h2 class="card-title">새 일정 생성</h2>
@@ -56,7 +53,7 @@ function MainPage(){
         <br />
         <div class ="card-horizontal" style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
-                <img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />
+                {/*<img src={User} style={{width:"100px", height:"100px"}} alt="동행자 찾기" />*/}
             </div>
             <div class ="card-body">
                 <h2 class="card-title">동행자 찾기</h2>
@@ -68,7 +65,7 @@ function MainPage(){
         <br />
         <div class ="card-horizontal" onClick={movetoMySchedule} style={{border: "1px solid", width:"650px", borderRadius:"10px"}}>
             <div class="img-square-wrapper">
-                <img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />
+                {/*<img src={My} style={{width:"100px", height:"100px"}} alt="내 일정 보기" />*/}
             </div>
             <div class ="card-body">
                 <h2 class="card-title">내 여행 일정</h2>
