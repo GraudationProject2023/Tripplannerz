@@ -77,7 +77,8 @@ public class MemberController {
         // 세션에 로그인한 회원 정보 보관
         session.setAttribute("loginMember", member.getEmail());
 
-        return ResponseEntity.ok().body("{\"result\": true}");
+        String responseBody = "{\"result\": true, \"name\": \"" + member.getName() + "\"}";
+        return ResponseEntity.ok().body(responseBody);
 
     }
 
