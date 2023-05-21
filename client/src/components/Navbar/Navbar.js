@@ -322,8 +322,15 @@ function movetomain()
     }
     }
 }
+
+
     const handleLogin = (event) => {
       event.preventDefault();
+
+      const emailValue = email;
+      const passwordValue = password;
+
+
       axios.post('http://localhost:8080/api/members/login',{
         email: email,
         pw: password
@@ -484,17 +491,21 @@ function movetomain()
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Form.Control type="email" placeholder ="이메일을 입력해주세요" onChange={handleEmailChange}/>
+                  <Form.Control type="email" onEnterPress={handleLogin} placeholder ="이메일을 입력해주세요" onChange={handleEmailChange}/>
+                  <Form.Control type="password" onEnterPress={handleLogin} placeholder ="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+                    <Button variant="secondary" onClick={handleFirstClose}>
+                                 닫기
+                    </Button>
+                   <Button variant="primary" type="submit" onClick={handleLogin}>
+                                 접속하기
+                   </Button>
                 </Form>
+
                 <Form onSubmit={handleSubmit}>
-                  <Form.Control type="password" placeholder ="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+
                 </Form>
-                <Button variant="secondary" onClick={handleFirstClose}>
-              닫기
-            </Button>
-            <Button variant="primary" type="submit" onClick={handleLogin}>
-              접속하기
-            </Button>
+
+
                 <hr />
                 <h5>소셜 로그인</h5>
                 <Loginpage />
