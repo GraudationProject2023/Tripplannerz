@@ -1,12 +1,14 @@
 import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import image from '../Image/마이페이지.png';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
-import Menu from '../Image/메뉴바.png';
+import Menu from '../Image/Menu.png';
+import notice from '../Image/notice.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
 
@@ -566,20 +568,27 @@ function movetomain()
 
       return(
       <div className ="navbar">
-       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"20%"}} >
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"whitesmoke",height:"15%"}} >
                 <Nav className="me-auto">
                         <Nav>
-                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"40px"}} />
+                           <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"100px", marginTop:"0%"}} />
                         </Nav>
-                        <Nav style={{marginLeft:"1000%",marginTop:"-45%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}} onClick={toggleMypage}>마이페이지</Button>
+                        <Nav className = "inputbox">
+                          <input type="text" placeholder="동행을 찾아보세요" />
+                        </Nav>
+                        <Nav className = "notice">
+                          <img src={notice}/>
+                        </Nav>
+                        <Nav className ="user">
+                            <img src={image} onClick={toggleMypage} />
                              {esOpen && (
                                    <ul className="mypage-content">
                                       <table>
-                                      <tr><Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>{}님</Button></tr>
-                                      <hr />
+                                      <br />
+                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>`${name}님`</Button></tr>
+                                      <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
                                       <tr>
-                                        <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                                        <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>
                                       </tr>
                                       </table>
                                    </ul>
@@ -589,6 +598,7 @@ function movetomain()
                     </Nav>
 
         </Navbar>
+        <hr />
         </div>
       )
     }

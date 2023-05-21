@@ -9,12 +9,41 @@
   cursor: pointer;
   outline: none;
 }
+.inputbox{
+   position: absolute;
+   margin-top: -0.5%;
+   margin-left: 25%;
+
+}
+.inputbox input{
+    width: 400px;
+    border-radius: 10px;
+    border : 1px solid white;
+}
+
+.notice{
+    position: absolute;
+    margin-left: 65%;
+    margin-top: -0.3%;
+}
+.notice img{
+    margin-top: -6.25px;
+    width: 22px;
+    height: 29px;
+}
+
+.user{
+    margin-left: -10%;
+}
+
 
 .mypage-content{
     position: absolute;
-    top: calc(40%);
+    top: calc(65%);
+    margin-left: 79%;
     width: 150px;
-    height: 150px;
+    height: 100px;
     background-color: white;
     zIndex: 999;
 }
+
