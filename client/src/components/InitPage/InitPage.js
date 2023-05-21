@@ -9,6 +9,7 @@ import Image from '../Image/새일정페이지 1.png';
 import {Button, Form} from 'react-bootstrap';
 import {Map, MapMarker} from 'react-kakao-maps-sdk';
 import axios from 'axios';
+import './InitPage.css';
 axios.defaults.withCredentials = true;
 
 const Autocomplete = ({items}) => {
@@ -319,14 +320,7 @@ function InitPage(){
       <div>
         <NavBar />
         <img src={Image} alt="새일정페이지" style={{width:"100%", height:"1000px", marginTop:"-300px"}} />
-        <div style={{marginTop:"5%", border:"1px solid black", borderWidth:"5px"}}>
-          <Form style={{marginLeft:"30%"}}>
-           {/* <table>
-            <td><Form.Label style={{fontSize:"20px"}}>팀 이름  &nbsp; &nbsp; </Form.Label></td>
-            <td style={{padding:"10px"}}><Form.Control type="text" id="Team" placeholder="팀 이름을 입력하세요." style={{width: "430px"}} />
-            </td>
-            </table> */}
-          </Form>
+        <div style={{marginTop:"5%"}}>
             <Form style={{marginLeft:"10%"}}>
                    <table>
                    <td>
@@ -334,13 +328,14 @@ function InitPage(){
                       </td>
                       <td>
                       <table>
-                      <td>
+                      <td style={{padding: "10px"}}>
                       <h5>가는 날 </h5>
                       <DatePicker
                          selected={currentMonth}
                          onChange={handleCurrentMonthChange}
                          placeholderText='가는 날 선택'
                          popperPlacement='bottom-start'
+                         className="goingDate"
                       />
                       </td>
                       <td style={{padding:"50px"}}>
@@ -351,6 +346,7 @@ function InitPage(){
                          onChange ={handleNextMonthChange}
                          placeholderText='오는 날 선택'
                          popperPlacement='bottom-start'
+                         className="comingDate"
                       />
                       </td>
                    </table>
@@ -363,7 +359,7 @@ function InitPage(){
                     <Form.Label style={{fontSize:"20px"}}>일정 제목 &nbsp;</Form.Label>
                     </td>
                     <td>
-                    <Form.Control type="text"  onChange={handleTitle} placeholder="일정의 제목을 입력해주세요." style={{width:"430px"}} />
+                    <Form.Control type="text"  onChange={handleTitle} placeholder="일정의 제목을 입력해주세요." style={{width:"500%"}} />
                     </td>
                  </table>
                  </Form>
@@ -373,7 +369,7 @@ function InitPage(){
                    <Form.Label style={{fontSize:"20px"}}>일정 내용 &nbsp;</Form.Label>
                    </td>
                    <td>
-                   <textarea class="form-control"  onChange={handleContext} placeholder ="일정 내용을 입력해주세요." style={{width:"430px", height:"200px"}} />
+                   <textarea class="form-control"  onChange={handleContext} placeholder ="일정 내용을 입력해주세요." style={{width:"530%", height:"200px"}} />
                    </td>
                    </table>
                  </Form>
@@ -385,7 +381,7 @@ function InitPage(){
                  <Button style={{width:"200px",marginLeft:"43%"}} onClick={handleSubmit}>일정 생성</Button>
         <br />
         <br />
-        <div class="map_wrap" style={{marginLeft:"55%",marginTop:"-33%" ,width:"500px",height:"500px"}}>
+        <div class="map_wrap" style={{width:"500px",height:"500px"}}>
                              <div id="menu_wrap" class="bg_white">
                                 <div class="option">
                                    <div>
