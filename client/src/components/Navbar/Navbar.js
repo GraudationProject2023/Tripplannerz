@@ -12,184 +12,6 @@ import notice from '../Image/notice.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
 
-function SecondModal(props) {
-    const [inputValue, setInputValue] = useState("");
-    const [genderValue, setGenderValue] = useState("");
-    const [emailValue, setEmailValue] = useState("");
-    const [emailCodeValue, setEmailCodeValue] = useState("");
-    const [passwordValue, setPasswordValue] = useState("");
-    const [passwordCodeValue, setPasswordCodeValue] = useState("");
-    const [phonenumberValue, setPhonenumberValue] = useState("");
-    const [phonenumberCodeValue, setPhonenumberCodeValue] = useState("");
-
-
-
-    const handleInputChange = (event) => {
-      if(event.target.name === "Name"){
-      setInputValue(event.target.value);
-      } else if(event.target.name === "Gender"){
-          setGenderValue(event.target.value);
-      }
-      else if(event.target.name === "Email"){
-          setEmailValue(event.target.value);
-      }
-      else if(event.target.name === "EmailCode"){
-        setEmailCodeValue(event.target.value);
-      }
-      else if(event.target.name === "Password"){
-        setPasswordValue(event.target.value);
-      }
-      else if(event.target.name === "Confirmpassword"){
-        setPasswordCodeValue(event.target.value);
-      }
-      else if(event.target.name === "Phone"){
-        setPhonenumberValue(event.target.value);
-      }
-      else if(event.target.name === "PhoneCode"){
-        setPhonenumberCodeValue(event.target.value);
-      }
-    };
-
-    const EmailCheck = (event) => {
-      event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirm',{
-            emailConfirmCode: emailCodeValue
-    },{
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
-      .then(response => { console.log(response);
-      })
-      .catch(error => {
-        console.error(error.response);
-      })
-    }
-
-    const handleSaveClick = () => {
-      props.onSave(inputValue);
-      props.onSave(genderValue);
-      props.onSave(emailValue);
-      props.onSave(emailCodeValue);
-      props.onSave(passwordValue);
-      props.onSave(passwordCodeValue);
-      props.onSave(phonenumberValue);
-      props.onSave(phonenumberCodeValue);
-
-      setInputValue("");
-      setGenderValue("");
-      setEmailValue("");
-      setEmailCodeValue("");
-      setPasswordValue("");
-      setPasswordCodeValue("");
-      setPhonenumberValue("");
-      setPhonenumberCodeValue("");
-    };
-
-    return (
-      <Modal show={props.show} onHide={props.onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Enter your name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <Form.Label>Gender</Form.Label>
-                  <Form.Select id = "Gender" name="Gender" value={genderValue} onChange={handleInputChange}>
-                  <option defaultValue="(male/female)" hidden>(male/female)</option>
-                  <option value="male">male</option>
-                  <option value="female">female</option>
-                  </Form.Select>
-                  <Form.Control
-                type="email"
-                placeholder="Enter your email"
-                value={emailValue}
-                onChange={handleInputChange}
-                />
-                <Form.Control type="text" placeholder="Enter your Email sent Code" value={emailCodeValue} onChange={handleInputChange} />
-                <button onClick = {EmailCheck}>확인</button>
-                <Form.Control type="password" placeholder="Enter your Password" value= {passwordValue} onChange={handleInputChange} />
-                <Form.Control type="password" placeholder="Confirm your Password" value={passwordCodeValue} onChange={handleInputChange} />
-                <Form.Control type="text" placeholder = "Enter your Phone number" value={phonenumberValue} onChange={handleInputChange} />
-                <Form.Control type="text" placeholder = "Enter your Phone sent Code" value={phonenumberCodeValue} onChange={handleInputChange} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveClick}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-  function FirstModal(props) {
-    const [emailValue, setEmailValue] = useState("");
-    const [passwordValue, setPasswordValue] = useState("");
-
-
-
-    const handleInputChange = (event) => {
-      if(event.target.name === "Email"){
-      setEmailValue(event.target.value);
-      }
-      else if(event.target.value === "Password"){
-          setPasswordValue(event.target.value);
-      }
-    };
-
-    const handleSaveClick = () => {
-      props.onSave(emailValue);
-      props.onSave(passwordValue);
-
-      setEmailValue("");
-    };
-
-    return (
-      <Modal show={props.show} onHide={props.onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={emailValue}
-              onChange={handleInputChange}
-            />
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={passwordValue}
-              onChange={handleInputChange}
-            />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveClick}>
-            로그인하기
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
 function NavBar(){
 
     const [showModal, setShowModal] = useState(false);
@@ -209,6 +31,13 @@ function NavBar(){
     const [emailSuccess , setEmailSuccess] = useState(false);
     const [loginSuccess , setLoginSuccess] = useState(false);
     const [emailtimer, setEmailTimer] = useState(false);
+
+    //다중 모달
+    const [nestedModal, setNestedModal] = useState(false);
+    const handleCloseNested = () => setNestedModal(false);
+    const showNestedModal = () => setNestedModal(true);
+    const handleNestedModal = () => setNestedModal(true);
+
 
     useEffect(() => {
          localStorage.setItem("cast",0);
@@ -560,17 +389,40 @@ function movetomain()
 
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              닫기
+            <Button style={{marginLeft:"-10px"}} variant="secondary" onClick={handleNestedModal}>
+              다음
             </Button>
+            {
+
+                <Modal show={nestedModal} onHide={handleCloseNested}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>태그</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                            <h5>hello</h5>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                확인
+                            </Button>
+                          </Modal.Footer>
+                          </Modal>
+
+            }
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               저장하기
             </Button>
           </Modal.Footer>
         </Modal>
 
-                </Nav>
-            </Nav>
+             </Nav>
+          </Nav>
         </Navbar>
         </div>
     )
