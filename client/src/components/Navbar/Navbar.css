@@ -1,49 +1,67 @@
-.navbar-toggle{
+.navbar-toggle {
   position: absolute;
-  margin-top: -35px;
+  top: 50%;
   left: 100px;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   font-size: 1.8rem;
   background-color: transparent;
   border: none;
   cursor: pointer;
   outline: none;
 }
-.inputbox{
-   position: absolute;
-   margin-top: -0.5%;
-   margin-left: 25%;
 
-}
-.inputbox input{
-    width: 400px;
-    border-radius: 10px;
-    border : 1px solid white;
+.inputbox {
+  position: absolute;
+  top: 50%;
+  left: 58.7%;
+  transform: translate(-50%, -50%);
 }
 
-.notice{
-    position: absolute;
-    margin-left: 65%;
-    margin-top: -0.3%;
-}
-.notice img{
-    margin-top: -6.25px;
-    width: 22px;
-    height: 29px;
+.inputbox input {
+  width: 400px;
+  border-radius: 10px;
+  border: 1px solid white;
 }
 
-.user{
-    margin-left: -10%;
+.new {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
 }
 
-
-.mypage-content{
-    position: absolute;
-    top: calc(65%);
-    margin-left: 79%;
-    width: 150px;
-    height: 100px;
-    background-color: white;
-    zIndex: 999;
+.search {
+  position: absolute;
+  top: 50%;
+  left: 27%;
+  transform: translate(-50%, -50%);
 }
 
+.notice {
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translate(0, -50%);
+}
+
+.notice img {
+  width: 22px;
+  height: 29px;
+}
+
+.user {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translate(0, -50%);
+}
+
+.mypage-content {
+  position: absolute;
+  top: calc(65% + 15px);
+  right: 21%;
+  width: 150px;
+  height: 100px;
+  background-color: white;
+  z-index: 999;
+}

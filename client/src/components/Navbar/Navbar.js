@@ -588,6 +588,12 @@ function movetomain()
                         <Nav className = "inputbox">
                           <input type="text" placeholder="동행을 찾아보세요" />
                         </Nav>
+                        <Nav className = "new">
+                            <a href="/schedule">일정생성</a>
+                        </Nav>
+                        <Nav className = "search">
+                            <a href="/search">일정조회</a>
+                        </Nav>
                         <Nav className = "notice">
                           <img src={notice}/>
                         </Nav>
@@ -597,7 +603,7 @@ function movetomain()
                                    <ul className="mypage-content">
                                       <table>
                                       <br />
-                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>`${name}님`</Button></tr>
+                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>${name}님</Button></tr>
                                       <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
                                       <tr>
                                         <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>
