@@ -430,7 +430,7 @@ function movetomain()
     var offset = localStorage.getItem("vest");
 
     function LogoutMain(){
-      window.location.href="/";
+      window.location.href="/main";
     }
 
     const onButtonClick = () => {
@@ -477,12 +477,12 @@ function movetomain()
     if(offset === '0'){
     return(
         <div className ="navbar">
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"20%"}} >
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"15%"}} >
             <Nav className="me-auto">
                 <Nav style={{marginTop:"1%"}}>
-                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LogoutMain}>메인</Button>
+                   <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                 </Nav>
-                <Nav style={{marginLeft:"400%", marginTop:"1%"}}>
+                <Nav style={{marginLeft:"650%", marginTop:"1%"}}>
                 <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
                   로그인
                 </Button>
@@ -514,7 +514,7 @@ function movetomain()
             <Modal.Footer>
           </Modal.Footer>
         </Modal>
-        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFF",color:"#000000",width:"100px",height:"37px"}}>
+        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
           회원가입
         </Button>
 
@@ -583,16 +583,16 @@ function movetomain()
        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"whitesmoke",height:"15%"}} >
                 <Nav className="me-auto">
                         <Nav>
-                           <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"100px", marginTop:"0%"}} />
+                           <img src={Menu} onClick={movetomain} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                         </Nav>
                         <Nav className = "inputbox">
                           <input type="text" placeholder="동행을 찾아보세요" />
                         </Nav>
                         <Nav className = "new">
-                            <a href="/schedule">일정생성</a>
+                            <a href="/schedule" class="button">일정생성</a>
                         </Nav>
                         <Nav className = "search">
-                            <a href="/search">일정조회</a>
+                            <a href="/search" class="button">일정조회</a>
                         </Nav>
                         <Nav className = "notice">
                           <img src={notice}/>
