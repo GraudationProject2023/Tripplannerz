@@ -65,3 +65,10 @@
   background-color: white;
   z-index: 999;
 }
+
+.button{
+    color: #000;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
