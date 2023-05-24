@@ -7,19 +7,20 @@ import axios from 'axios';
 axios.withCredentials = true;
 
 
-function FileUpload(props) {
+function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
+    const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...acceptedFiles, ...prevImages]);
-  }, []);
+    onImageUpload(updatedImages);
+  }, [onImageUpload]);
 
   const onDelete = (index) => {
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages.splice(index, 1);
-      return updatedImages;
-    });
+    const updatedImages = [...images];
+    updatedImages.splice(index,1);
+    setImages(updatedImages);
+    onImageUpload(updatedImages);
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -87,11 +88,16 @@ function FileUpload(props) {
 }
 
 function FindPage(){
+    const [images, setImages] = useState([]);
     const [title,setTitle] = useState('');
     const [capacity, setCapacity] = useState('');
     const [date, setDate] = useState('');
     const [going, setGoing] = useState('');
     const [coming, setComing] = useState('');
+
+    const handleImageUpload = (selectedImages) => {
+        setImages(selectedImages);
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -106,6 +112,10 @@ function FindPage(){
         formData.append('date',string_date);
         formData.append('goingDate',string_going_date);
         formData.append('comingDate',string_coming_date);
+
+        images.forEach((image, index) => {
+            formData.append(`image${index}`,image);
+        })
 
          for(const entry of formData.entries()){
                         const [key,value] = entry;
@@ -129,7 +139,8 @@ function FindPage(){
           <h2>동행자 찾기</h2>
            <br />
            <h4>사진 업로드</h4>
-           <FileUpload />
+           <FileUpload onImageUpload = {handleImageUpload} />
+           {console.log(images)}
            <Form onSubmit={handleSubmit}>
            <Form.Group controlId="formTitle">
            <Form.Label>제목</Form.Label>
