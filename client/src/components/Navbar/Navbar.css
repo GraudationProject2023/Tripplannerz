@@ -72,3 +72,50 @@
     outline: none;
     text-decoration: none;
 }
+
+.nested{
+   margin-left: -20px;
+}
+
+.button_table_btn_s {
+    margin-right: 10px;
+    font-size: 13px;font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    float: left;
+    align-items: center;
+    text-align: center;
+    width:"Hug";
+    height:"Hug";
+    padding:"7px 14px 7px 14px";
+    color:  #000000;
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    padding:7px,14px;
+    gap:10px;
+    border: 2px solid #000000;}
+.button_table_btn_ns {
+    margin-right: 10px;
+    font-size: 13px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    float: left;
+    align-items: center;
+    text-align: center;
+    width:"Hug";
+    height:"49px";
+    padding:"7px 14px 7px 14px";
+    border: none;
+    border-radius: 50px;
+    padding:7px,14px;
+    gap:10px;
+        color:  #FFFFFF;
+        background-color: #AA0140;
+        border: 0px solid #000000;
+    }
