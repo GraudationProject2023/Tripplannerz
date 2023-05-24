@@ -1,7 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
+import {Form, Button} from 'react-bootstrap';
 import './FindPage.css';
+import axios from 'axios';
+axios.withCredentials = true;
 
 
 function FileUpload(props) {
@@ -84,6 +87,40 @@ function FileUpload(props) {
 }
 
 function FindPage(){
+    const [title,setTitle] = useState('');
+    const [capacity, setCapacity] = useState('');
+    const [date, setDate] = useState('');
+    const [going, setGoing] = useState('');
+    const [coming, setComing] = useState('');
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+
+        var string_date = date.toString();
+        var string_going_date = going.toString();
+        var string_coming_date = coming.toString();
+        formData.append('title', title);
+        formData.append('capacity',capacity);
+        formData.append('date',string_date);
+        formData.append('goingDate',string_going_date);
+        formData.append('comingDate',string_coming_date);
+
+         for(const entry of formData.entries()){
+                        const [key,value] = entry;
+                        console.log(`Key: ${key}, Value: ${value}`);
+                    }
+
+        axios.post('https://localhost:8080/api/find',formData,{
+            withCredentials: true
+        })
+        .then((response) => {
+            console.log(response);
+            console.log(formData);
+
+        });
+    };
 
     return (
         <div className="Structure">
@@ -91,7 +128,34 @@ function FindPage(){
           <div className="Find">
           <h2>동행자 찾기</h2>
            <br />
+           <h4>사진 업로드</h4>
            <FileUpload />
+           <Form onSubmit={handleSubmit}>
+           <Form.Group controlId="formTitle">
+           <Form.Label>제목</Form.Label>
+           <Form.Control type="text" onChange={(e) => setTitle(e.target.value)} />
+           </Form.Group>
+           <Form.Group controlId="formCapacity">
+           <Form.Label>모집인원</Form.Label>
+           <Form.Control type="number" onChange={(e) => setCapacity(e.target.value)} />
+           </Form.Group>
+           <Form.Group controlId="formDate">
+           <Form.Label>마감날짜</Form.Label>
+           <Form.Control type="date" onChange={(e) => setDate(e.target.value)} />
+           </Form.Group>
+           <Form.Group controlId="formItinerary">
+           <Form.Label>여행일정</Form.Label>
+           <h5>가는 날</h5><Form.Control type="date" onChange={(e) => setGoing(e.target.value)} />
+           <h5>오는 날</h5><Form.Control type="date" onChange={(e) => setComing(e.target.value)} />
+           </Form.Group>
+
+           <Button variant="primary" type="submit">
+            제출
+           </Button>
+           </Form>
+
+
+
           </div>
         </div>
     )
