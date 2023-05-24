@@ -43,7 +43,43 @@ function NavBar(){
          localStorage.setItem("cast",0);
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
+    const Button1 = () => {
+            const arr = [{id: 1 }, {id: 2 }, { id: 3 },{id : 4},{id : 5},{id : 6},{id: 7},{id: 8}, {id: 9}, {id: 10}];
+            const [pick1, setPick1] = useState(arr);
+            const [select1, setSelect1] = useState([]);
 
+            const handleButtonClick = (itemId) => {
+                if(select1.includes(itemId)){
+                  setSelect1(select1.filter((button) => button !== itemId));
+                }
+                else if(select1.length < 3){
+                    setSelect1((select1) => [...select1, itemId]);
+                }
+            }
+
+            return pick1.map((item) => (
+              <div className="button_container">
+
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    !select1.includes(item.id)
+                      ? setSelect1((select1) => [...select1, item.id])
+                      : setSelect1(select1.filter((button) => button !== item.id));
+                  }}
+                  className={
+                    select1.includes(item.id)
+                      ? "button_table_btn_ns"
+                      : "button_table_btn_s"
+                  }
+                  style={{width:"76px",height:"29px"}}
+                  disabled={select1.length >= 3 && !select1.includes(item.id)}
+                >
+                  {item.id}
+                </button>
+              </div>
+            ));
+          };
 
 function movetomain()
 {
@@ -399,13 +435,7 @@ function movetomain()
                             <Modal.Title>태그</Modal.Title>
                           </Modal.Header>
                           <Modal.Body>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
-                            <h5>hello</h5>
+                            <Button1 />
                           </Modal.Body>
                           <Modal.Footer>
                             <Button variant="primary" type="submit" onClick={handleCloseNested}>
