@@ -9,6 +9,13 @@ import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
 import Menu from '../Image/Menu.png';
 import notice from '../Image/notice.png';
+import sight from '../Image/관광지.png';
+import culture from '../Image/문화시설.png';
+import festival from '../Image/축제.png';
+import surfing from '../Image/서핑.png';
+import hotel from '../Image/호텔.png';
+import shopping from '../Image/쇼핑.png';
+import restaurant from '../Image/레스토랑.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
 
@@ -44,7 +51,7 @@ function NavBar(){
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
     const Button1 = () => {
-            const arr = [{id: 1, name: "관광지" }, {id: 2, name: "문화시설"}, { id: 3, name: "축제공연행사" },{id : 4, name: "레포츠"},{id : 5, name:"호캉스"},{id: 6, name:"쇼핑"},{id: 7,name:"맛집탐방"}];
+            const arr = [{id: 1, name: "관광지",image: sight }, {id: 2, name: "문화시설", image: culture}, { id: 3, name: "축제 • 공연", image: festival },{id : 4, name: "레포츠", image: surfing},{id : 5, name:"호캉스",image: hotel},{id: 6, name:"쇼핑",image: shopping},{id: 7,name:"맛집탐방",image: restaurant}];
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
 
@@ -57,28 +64,24 @@ function NavBar(){
                 }
             }
 
-            return pick1.map((item) => (
-              <div className="button_container">
-
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    !select1.includes(item.id)
-                      ? setSelect1((select1) => [...select1, item.id])
-                      : setSelect1(select1.filter((button) => button !== item.id));
-                  }}
-                  className={
-                    select1.includes(item.id)
-                      ? "button_table_btn_ns"
-                      : "button_table_btn_s"
-                  }
-                  style={{width:"100px",height:"50px",marginBottom:"50px", marginTop:"50px"}}
-                  disabled={select1.length >= 3 && !select1.includes(item.id)}
-                >
-                  {item.name}
-                </button>
-              </div>
-            ));
+            return (
+                 <div>
+                      {pick1.map((item) => (
+                        <div
+                          key={item.id}
+                          className={
+                            select1.includes(item.id)
+                              ? "button_table_btn_ns"
+                              : "button_table_btn_s"
+                          }
+                          onClick={() => handleButtonClick(item.id)}
+                        >
+                          <img style={{width:"50px",height:"50px",marginTop:"5px"}} src={item.image} alt={item.name} className="card_image" />
+                          <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
+                        </div>
+                      ))}
+                    </div>
+            )
           };
 
 function movetomain()
