@@ -70,7 +70,8 @@ function NavBar(){
 
 
     const Button1 = () => {
-            const arr = [{id: 1, name: "관광지",image: sight }, {id: 2, name: "문화시설", image: culture}, { id: 3, name: "축제 • 공연", image: festival },{id : 4, name: "레포츠", image: surfing},{id : 5, name:"호캉스",image: hotel},{id: 6, name:"쇼핑",image: shopping},{id: 7,name:"맛집탐방",image: restaurant}];
+            const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
+
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
             const [ranking, setRanking] = useState([]);
@@ -90,7 +91,7 @@ function NavBar(){
                             for(let i = 0; i < select1.length; i++)
                             {
                                 const button = pick1.find((item) => item.id === select1[i]);
-                                rankingText.push(`${i+1}순위: ${button.name}`);
+                                rankingText.push(`${button.code}`);
 
                             }
                             setRanking(rankingText);
@@ -235,7 +236,6 @@ function movetomain()
         gender : gender,
         pw : password,
         email : email,
-        phoneNumber : completenumber,
         types: rank
 
       }).then(res => console.log(res))
@@ -483,27 +483,27 @@ function movetomain()
             <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
+            <Button variant="secondary" onClick={handleNestedModal}>
+                          태그선택
+                        </Button>
 
+                        {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
+                                      <Modal.Header closeButton>
+                                        <Modal.Title>태그</Modal.Title>
+                                      </Modal.Header>
+                                      <Modal.Body>
+                                        <Button1 />
+                                      </Modal.Body>
+                                      <Modal.Footer>
+                                       <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                            확인
+                                       </Button>
+                                      </Modal.Footer>
+                                      </Modal>
+                        )}
           </Modal.Body>
           <Modal.Footer>
-            <Button style={{marginLeft:"-10px"}} variant="secondary" onClick={handleNestedModal}>
-              다음
-            </Button>
 
-            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>태그</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <Button1 />
-                          </Modal.Body>
-                          <Modal.Footer>
-                           <Button variant="primary" type="submit" onClick={handleCloseNested}>
-                                확인
-                           </Button>
-                          </Modal.Footer>
-                          </Modal>
-            )}
 
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               저장하기
