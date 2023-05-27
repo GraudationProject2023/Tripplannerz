@@ -44,7 +44,7 @@ function NavBar(){
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
     const Button1 = () => {
-            const arr = [{id: 1 }, {id: 2 }, { id: 3 },{id : 4},{id : 5},{id : 6},{id: 7},{id: 8}, {id: 9}, {id: 10}];
+            const arr = [{id: 1, name: "관광지" }, {id: 2, name: "문화시설"}, { id: 3, name: "축제공연행사" },{id : 4, name: "레포츠"},{id : 5, name:"호캉스"},{id: 6, name:"쇼핑"},{id: 7,name:"맛집탐방"}];
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
 
@@ -72,10 +72,10 @@ function NavBar(){
                       ? "button_table_btn_ns"
                       : "button_table_btn_s"
                   }
-                  style={{width:"76px",height:"29px"}}
+                  style={{width:"100px",height:"50px",marginBottom:"50px", marginTop:"50px"}}
                   disabled={select1.length >= 3 && !select1.includes(item.id)}
                 >
-                  {item.id}
+                  {item.name}
                 </button>
               </div>
             ));
