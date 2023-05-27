@@ -87,13 +87,13 @@
     float: left;
     align-items: center;
     text-align: center;
-    width:"Hug";
-    height:"Hug";
+    width:  200px;
+    height: 100px;
     padding:"7px 14px 7px 14px";
     color:  #000000;
     background-color: #FFFFFF;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     padding:7px,14px;
     gap:10px;
     border: 2px solid #000000;}
@@ -108,15 +108,15 @@
     float: left;
     align-items: center;
     text-align: center;
-    width:"Hug";
-    height:"49px";
+    width: 200px;
+    height: 100px;
     padding:"7px 14px 7px 14px";
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     padding:7px,14px;
     gap:10px;
         color:  #FFFFFF;
-        background-color: #AA0140;
+        background-color: skyblue;
         border: 0px solid #000000;
     }
 .modal-header{
