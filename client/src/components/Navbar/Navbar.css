@@ -119,3 +119,10 @@
         background-color: #AA0140;
         border: 0px solid #000000;
     }
+.modal-header{
+    height: 100px;
+}
+
+.modal-footer{
+    height: 100px;
+}
