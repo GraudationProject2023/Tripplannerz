@@ -41,21 +41,41 @@ function NavBar(){
 
     //다중 모달
     const [nestedModal, setNestedModal] = useState(false);
-    const handleCloseNested = () => setNestedModal(false);
+    const handleCloseNested = () => {
+            var res = localStorage.getItem("rank");
+            if(res === "-1")
+            {
+                alert("태그를 최소 1개 이상 선택하셔야 합니다.");
+            }
+            else{
+              setNestedModal(false);
+            }
+    }
 
-    const handleNestedModal = () => setNestedModal(true);
+    const handleNestedModal = () => {
+
+
+              setNestedModal(true);
+
+    }
 
 
     useEffect(() => {
          localStorage.setItem("cast",0);
+         localStorage.setItem("rank",-1);
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
 
+
+
+
     const Button1 = () => {
-            const arr = [{id: 1, name: "관광지",image: sight }, {id: 2, name: "문화시설", image: culture}, { id: 3, name: "축제 • 공연", image: festival },{id : 4, name: "레포츠", image: surfing},{id : 5, name:"호캉스",image: hotel},{id: 6, name:"쇼핑",image: shopping},{id: 7,name:"맛집탐방",image: restaurant}];
+            const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
+
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
             const [ranking, setRanking] = useState([]);
+
 
             const handleButtonClick = (itemId) => {
                 if(select1.includes(itemId)){
@@ -66,19 +86,27 @@ function NavBar(){
                 }
             }
 
-            const setRankingText = () => {
-                const rankingText = [];
-                for(let i = 0; i < select1.length; i++)
-                {
-                    const button = pick1.find((item) => item.id === select1[i]);
-                    rankingText.push(`${i+1}순위: ${button.name}`);
+             const setRankingText = () => {
+                            const rankingText = [];
+                            for(let i = 0; i < select1.length; i++)
+                            {
+                                const button = pick1.find((item) => item.id === select1[i]);
+                                rankingText.push(`${button.code}`);
 
-                }
-                setRanking(rankingText);
-            };
+                            }
+                            setRanking(rankingText);
+                            if(rankingText.length === 0)
+                            {
+                                localStorage.setItem("rank",-1);
+                            }
+                            else{
+                            localStorage.setItem("rank",rankingText);
+                            }
+                        };
 
             useEffect(() => {
                 setRankingText();
+
             },[select1]);
 
 
@@ -104,7 +132,9 @@ function NavBar(){
                           )}
                         </div>
                       ))}
+
                     </div>
+
 
                     </div>
             )
@@ -193,8 +223,9 @@ function movetomain()
     const handleSubmit = (event) => {
       event.preventDefault();
       var cas = localStorage.getItem("cast");
+      var rank = localStorage.getItem("rank");
 
-      if(!name || !gender || !password || !email)
+      if(!name || !gender || !password || !email || rank === "-1")
       {
           alert('모든 항목을 입력하셔야 합니다.')
       }
@@ -205,7 +236,8 @@ function movetomain()
         gender : gender,
         pw : password,
         email : email,
-        phoneNumber : completenumber
+        types: rank
+
       }).then(res => console.log(res))
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
       setShowModal(false);
@@ -451,27 +483,27 @@ function movetomain()
             <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
+            <Button variant="secondary" onClick={handleNestedModal}>
+                          태그선택
+                        </Button>
 
+                        {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
+                                      <Modal.Header closeButton>
+                                        <Modal.Title>태그</Modal.Title>
+                                      </Modal.Header>
+                                      <Modal.Body>
+                                        <Button1 />
+                                      </Modal.Body>
+                                      <Modal.Footer>
+                                       <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                            확인
+                                       </Button>
+                                      </Modal.Footer>
+                                      </Modal>
+                        )}
           </Modal.Body>
           <Modal.Footer>
-            <Button style={{marginLeft:"-10px"}} variant="secondary" onClick={handleNestedModal}>
-              다음
-            </Button>
 
-            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>태그</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <Button1 />
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="primary" type="submit" onClick={handleCloseNested}>
-                                확인
-                            </Button>
-                          </Modal.Footer>
-                          </Modal>
-            )}
 
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               저장하기
