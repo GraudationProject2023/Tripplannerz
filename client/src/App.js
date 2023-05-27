@@ -12,6 +12,7 @@ import LoginCallbackpage from './components/StartPage/Kakao/LoginCallbackpage';
 import Chat from './components/Chat/Chat';
 import Search from './components/SearchPage/SearchPage';
 import SearchResult from './components/SearchPage/SearchResultPage';
+import Find from './components/FindPage/FindPage';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path ="/chat" element={<Chat />} />
           <Route path ="/search" element={<Search />} />
           <Route path ="/search/:postId" element={<SearchResult />} />
+          <Route path ="/find" element={<Find />} />
         </Routes>
       </Suspense>
     </Router>
