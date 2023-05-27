@@ -42,7 +42,7 @@ function NavBar(){
     //다중 모달
     const [nestedModal, setNestedModal] = useState(false);
     const handleCloseNested = () => setNestedModal(false);
-    const showNestedModal = () => setNestedModal(true);
+
     const handleNestedModal = () => setNestedModal(true);
 
 
@@ -50,10 +50,12 @@ function NavBar(){
          localStorage.setItem("cast",0);
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
+
     const Button1 = () => {
             const arr = [{id: 1, name: "관광지",image: sight }, {id: 2, name: "문화시설", image: culture}, { id: 3, name: "축제 • 공연", image: festival },{id : 4, name: "레포츠", image: surfing},{id : 5, name:"호캉스",image: hotel},{id: 6, name:"쇼핑",image: shopping},{id: 7,name:"맛집탐방",image: restaurant}];
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
+            const [ranking, setRanking] = useState([]);
 
             const handleButtonClick = (itemId) => {
                 if(select1.includes(itemId)){
@@ -64,7 +66,24 @@ function NavBar(){
                 }
             }
 
+            const setRankingText = () => {
+                const rankingText = [];
+                for(let i = 0; i < select1.length; i++)
+                {
+                    const button = pick1.find((item) => item.id === select1[i]);
+                    rankingText.push(`${i+1}순위: ${button.name}`);
+
+                }
+                setRanking(rankingText);
+            };
+
+            useEffect(() => {
+                setRankingText();
+            },[select1]);
+
+
             return (
+            <div>
                  <div>
                       {pick1.map((item) => (
                         <div
@@ -78,8 +97,15 @@ function NavBar(){
                         >
                           <img style={{width:"50px",height:"50px",marginTop:"5px"}} src={item.image} alt={item.name} className="card_image" />
                           <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
+                          {select1.includes(item.id) && (
+                            <div className="rank_text">
+                              {ranking.find((rank) => rank.includes(item.name))}
+                            </div>
+                          )}
                         </div>
                       ))}
+                    </div>
+
                     </div>
             )
           };
@@ -431,9 +457,8 @@ function movetomain()
             <Button style={{marginLeft:"-10px"}} variant="secondary" onClick={handleNestedModal}>
               다음
             </Button>
-            {
 
-                <Modal show={nestedModal} onHide={handleCloseNested}>
+            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
                           <Modal.Header closeButton>
                             <Modal.Title>태그</Modal.Title>
                           </Modal.Header>
@@ -446,8 +471,8 @@ function movetomain()
                             </Button>
                           </Modal.Footer>
                           </Modal>
+            )}
 
-            }
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               저장하기
             </Button>
