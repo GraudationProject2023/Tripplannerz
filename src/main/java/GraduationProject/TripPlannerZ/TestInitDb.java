@@ -1,20 +1,15 @@
 package GraduationProject.TripPlannerZ;
 
-import GraduationProject.TripPlannerZ.domain.*;
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
 public class TestInitDb {
 
-    private final InitService initService;
+    //private final InitService initService;
 
+    /*
     @PostConstruct
     public void init() {
         initService.dbInit();
@@ -434,5 +429,7 @@ public class TestInitDb {
             em.persist(tripLocation7);
             em.persist(tripLocation8);
         }
+
     }
+    */
 }

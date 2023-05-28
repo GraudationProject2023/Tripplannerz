@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberTripContentDTO {
 
-    private String period;
     private String content;
     private String startingDate;
 
     public MemberTripContentDTO(Trip trip) {
-        period = trip.getPeriod();
         content = trip.getContent();
         startingDate = trip.getStartingDate();
     }
