@@ -296,7 +296,7 @@ function movetomain()
     const EmailSend = (event) => {
       event.preventDefault();
       if(checkemail === true){
-      axios.post('http://localhost:9581/api/members/emailConfirm',{
+      axios.post('http://localhost:8080/api/members/emailConfirm',{
         email: email
       }).then(res => console.log(res))
       .catch(error => {
@@ -314,7 +314,7 @@ function movetomain()
 
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:9581/api/members/emailConfirmCode',{
+      axios.post('http://localhost:8080/api/members/emailConfirmCode',{
             emailConfirmCode: emailCode,
             email: email
     },{
