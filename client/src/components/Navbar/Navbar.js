@@ -75,6 +75,7 @@ function NavBar(){
             const [pick1, setPick1] = useState(arr);
             const [select1, setSelect1] = useState([]);
             const [ranking, setRanking] = useState([]);
+            const [show, setShow] = useState([]);
 
 
             const handleButtonClick = (itemId) => {
@@ -88,12 +89,15 @@ function NavBar(){
 
              const setRankingText = () => {
                             const rankingText = [];
+                            const rankingShow = [];
                             for(let i = 0; i < select1.length; i++)
                             {
                                 const button = pick1.find((item) => item.id === select1[i]);
+                                rankingShow.push(`${i+1}순위`);
                                 rankingText.push(`${button.code}`);
 
                             }
+                            setShow(rankingShow);
                             setRanking(rankingText);
                             if(rankingText.length === 0)
                             {
@@ -127,7 +131,7 @@ function NavBar(){
                           <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
                           {select1.includes(item.id) && (
                             <div className="rank_text">
-                              {ranking.find((rank) => rank.includes(item.name))}
+                              {show[select1.indexOf(item.id)]}
                             </div>
                           )}
                         </div>
@@ -292,7 +296,7 @@ function movetomain()
     const EmailSend = (event) => {
       event.preventDefault();
       if(checkemail === true){
-      axios.post('http://localhost:8080/api/members/emailConfirm',{
+      axios.post('http://localhost:9581/api/members/emailConfirm',{
         email: email
       }).then(res => console.log(res))
       .catch(error => {
@@ -310,7 +314,7 @@ function movetomain()
 
     const EmailCheck = (event) => {
       event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirmCode',{
+      axios.post('http://localhost:9581/api/members/emailConfirmCode',{
             emailConfirmCode: emailCode,
             email: email
     },{
@@ -483,7 +487,9 @@ function movetomain()
             <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
-            <Button variant="secondary" onClick={handleNestedModal}>
+            <br />
+            <br />
+            <Button style={{marginLeft: "40%"}} variant="secondary" onClick={handleNestedModal}>
                           태그선택
                         </Button>
 
