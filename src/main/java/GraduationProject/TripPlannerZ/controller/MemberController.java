@@ -1,7 +1,11 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.domain.MemberParty;
+import GraduationProject.TripPlannerZ.domain.MemberPreference;
 import GraduationProject.TripPlannerZ.domain.Trip;
+import GraduationProject.TripPlannerZ.dto.MemberJoin;
+import GraduationProject.TripPlannerZ.repository.MemberPreferenceRepository;
 import GraduationProject.TripPlannerZ.service.LoginService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 
@@ -9,9 +13,6 @@ import GraduationProject.TripPlannerZ.service.TripService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,31 +30,48 @@ public class MemberController {
     private final MemberService memberService;
     private final LoginService loginService;
     private final TripService tripService;
+    private final MemberPreferenceRepository memberPreferenceRepository;
 
     @PostMapping("/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
-    public void createMember(@RequestBody MemberJoinDTO memberJoinDTO) {
+    public void createMember(@RequestBody MemberJoin memberJoin) {
         Member joinMember = Member.builder()
-                .name(memberJoinDTO.getName())
-                .pw(memberJoinDTO.getPw())
-                .email(memberJoinDTO.getEmail())
-                .gender(memberJoinDTO.getGender())
-                .memberTeamList(new ArrayList<>())
+                .name(memberJoin.getName())
+                .pw(memberJoin.getPw())
+                .email(memberJoin.getEmail())
+                .gender(memberJoin.getGender())
+                .types(new ArrayList<>())
                 .build();
+
+        memberService.join(joinMember);
+
+        String[] preferenceList = memberJoin.getTypes().split(",");
+
+        for (int i = 0; i < preferenceList.length; i++) {
+            MemberPreference memberPreference = MemberPreference.setTypes(preferenceList[i], joinMember, i);
+            memberPreferenceRepository.save(memberPreference);
+        }
+
 
         /*
             프론트에서 데이터를 넘길 때에
             name, pw, email, gender, phoneNumber 라는 필드 명은 동일하게 넘어와야함.
             null이 들어와도 DB에 알아서 null로 대입됨
          */
-
-        memberService.join(joinMember);
     }
 
     @PostMapping("/members/login")
     public ResponseEntity<String> login(@RequestBody MemberLoginDTO loginMember, HttpServletRequest request) {
 
         Member member = loginService.Login(loginMember.getEmail(), loginMember.getPw());
+
+        System.out.println("=======================");
+        List<MemberParty> memberPartyList = member.getMemberPartyList();
+        System.out.println("memberPartyList.size() = " + memberPartyList.size());
+        for (MemberParty memberParty : memberPartyList) {
+            System.out.println("memberParty = " + memberParty);
+        }
+        System.out.println("=======================");
 
         if (member == null) // 이메일이 존재하지 않거나, 비밀번호가 일치하지 않음
             return ResponseEntity.ok().body("{\"result\": false}");
@@ -90,27 +108,27 @@ public class MemberController {
             session.invalidate();
     }
 
-    @GetMapping("/members/trip")
-    public MemberTripTotalDTO searchTrip(HttpServletRequest request,
-                                         @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum,
-                                         // @RequestParam은 Json데이터 처리 x
-                                         @RequestParam(required = false, name = "size", defaultValue = "2") int pageSize) {
-        HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("loginMember");
-        if (pageNum > 0)
-            pageNum--;
-
-        Pageable pageable = PageRequest.of(pageNum, pageSize);
-        Page<Trip> trippage = memberService.findTrip(email, pageable);
-        List<Trip> trips = trippage.getContent();
-
-        Long total = trippage.getTotalElements();
-        List<MemberTripTitleDTO> result = trips.stream()
-                .map(trip -> new MemberTripTitleDTO(trip))
-                .collect(Collectors.toList());
-
-        return new MemberTripTotalDTO(result, total);
-    }
+//    @GetMapping("/members/trip")
+//    public MemberTripTotalDTO searchTrip(HttpServletRequest request,
+//                                         @RequestParam(required = false, name = "page", defaultValue = "0") int pageNum,
+//                                         // @RequestParam은 Json데이터 처리 x
+//                                         @RequestParam(required = false, name = "size", defaultValue = "2") int pageSize) {
+//        HttpSession session = request.getSession(false);
+//        String email = (String) session.getAttribute("loginMember");
+//        if (pageNum > 0)
+//            pageNum--;
+//
+//        Pageable pageable = PageRequest.of(pageNum, pageSize);
+//        Page<Trip> trippage = memberService.findTrip(email, pageable);
+//        List<Trip> trips = trippage.getContent();
+//
+//        Long total = trippage.getTotalElements();
+//        List<MemberTripTitleDTO> result = trips.stream()
+//                .map(trip -> new MemberTripTitleDTO(trip))
+//                .collect(Collectors.toList());
+//
+//        return new MemberTripTotalDTO(result, total);
+//    }
 
     @GetMapping("/members/trip/result")
     public MemberTripContentDTO searchTrip(@RequestParam("id") String id) {

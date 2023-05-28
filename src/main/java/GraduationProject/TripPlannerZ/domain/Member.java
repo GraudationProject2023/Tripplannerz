@@ -20,16 +20,21 @@ public class Member {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<MemberTeam> memberTeamList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberPreference> types = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberParty> memberPartyList = new ArrayList<>();
 
     @Builder
-    public Member(String pw, String email, String name, Gender gender, List<MemberTeam> memberTeamList) {
+    public Member(String pw, String email, String name, Gender gender, List<MemberPreference> types, List<MemberParty> memberPartyList) {
         this.pw = pw;
         this.email = email;
         this.name = name;
         this.gender = gender;
-        this.memberTeamList = memberTeamList;
+        this.types = types;
+        this.memberPartyList = memberPartyList;
     }
 
     // == 회원 탈퇴 == //
@@ -38,10 +43,10 @@ public class Member {
             1. 넘겨받은 MemberId로 Service에서 이 함수를 호출 한다.
             2. Repository를 통해 em.remove()를 한다.
          */
-        List<MemberTeam> memberTeams = this.getMemberTeamList();
+        List<MemberParty> memberParties = this.getMemberPartyList();
 
-        for (MemberTeam memberTeam : memberTeams) {
-            memberTeam.getTeam().getMemberTeamList().remove(memberTeam);
+        for (MemberParty memberParty : memberParties) {
+            memberParty.getParty().getMemberPartyList().remove(memberParty);
         }
     }
 }
