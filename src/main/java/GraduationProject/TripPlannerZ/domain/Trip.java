@@ -21,30 +21,32 @@ public class Trip {
     private Long id;
     private String UUID;
     private String title;
-    private String period;
-    private String content;
-    private boolean publicSetting;
+
+    @OneToMany(mappedBy = "trip")
+    private List<TripImage> tripImages = new ArrayList<>();
+    private Long recruitNum;
+    private String closeRecruitDate;
     private String startingDate;
+    private String comingDate;
+    private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
-    private List<TripLocation> tripLocationList = new ArrayList<>();
+    @OneToOne(mappedBy = "trip", fetch = FetchType.LAZY)
+    private Party group;
 
     //private Chat chat;
 
     @Builder
-    public Trip(Long id, String title, String startingDate, String period, String content, boolean publicSetting, Team team, List<TripLocation> tripLocationList) {
-        this.id = id;
+    public Trip(String title, List<TripImage> tripImage, Long recruitNum,
+                String closeRecruitDate, String content,
+                String startingDate, String comingDate, Party group) {
         this.UUID = java.util.UUID.randomUUID().toString();
         this.title = title;
+        this.recruitNum = recruitNum;
+        this.closeRecruitDate = closeRecruitDate;
         this.startingDate = startingDate;
-        this.period = period;
+        this.comingDate = comingDate;
+        this.group = group;
         this.content = content;
-        this.publicSetting = publicSetting;
-        this.team = team;
-        this.tripLocationList = tripLocationList;
+        this.tripImages = tripImage;
     }
 }
