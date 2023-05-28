@@ -112,7 +112,7 @@ function SearchPage(){
     <div>
       <Navbar />
       <div className = "start">
-            <h4>참여하고 싶은 일정들을 찾아보세요</h4>
+            <h4>내 일정 보기</h4>
             </div>
 
     <div className="container">

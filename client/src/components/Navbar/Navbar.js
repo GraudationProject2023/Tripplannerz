@@ -1,192 +1,23 @@
 import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import image from '../Image/마이페이지.png';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
-import Menu from '../Image/메뉴바.png';
+import Menu from '../Image/Menu.png';
+import notice from '../Image/notice.png';
+import sight from '../Image/관광지.png';
+import culture from '../Image/문화시설.png';
+import festival from '../Image/축제.png';
+import surfing from '../Image/서핑.png';
+import hotel from '../Image/호텔.png';
+import shopping from '../Image/쇼핑.png';
+import restaurant from '../Image/레스토랑.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
-
-function SecondModal(props) {
-    const [inputValue, setInputValue] = useState("");
-    const [genderValue, setGenderValue] = useState("");
-    const [emailValue, setEmailValue] = useState("");
-    const [emailCodeValue, setEmailCodeValue] = useState("");
-    const [passwordValue, setPasswordValue] = useState("");
-    const [passwordCodeValue, setPasswordCodeValue] = useState("");
-    const [phonenumberValue, setPhonenumberValue] = useState("");
-    const [phonenumberCodeValue, setPhonenumberCodeValue] = useState("");
-
-
-
-    const handleInputChange = (event) => {
-      if(event.target.name === "Name"){
-      setInputValue(event.target.value);
-      } else if(event.target.name === "Gender"){
-          setGenderValue(event.target.value);
-      }
-      else if(event.target.name === "Email"){
-          setEmailValue(event.target.value);
-      }
-      else if(event.target.name === "EmailCode"){
-        setEmailCodeValue(event.target.value);
-      }
-      else if(event.target.name === "Password"){
-        setPasswordValue(event.target.value);
-      }
-      else if(event.target.name === "Confirmpassword"){
-        setPasswordCodeValue(event.target.value);
-      }
-      else if(event.target.name === "Phone"){
-        setPhonenumberValue(event.target.value);
-      }
-      else if(event.target.name === "PhoneCode"){
-        setPhonenumberCodeValue(event.target.value);
-      }
-    };
-
-    const EmailCheck = (event) => {
-      event.preventDefault();
-      axios.post('http://localhost:8080/api/members/emailConfirm',{
-            emailConfirmCode: emailCodeValue
-    },{
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
-      .then(response => { console.log(response);
-      })
-      .catch(error => {
-        console.error(error.response);
-      })
-    }
-
-    const handleSaveClick = () => {
-      props.onSave(inputValue);
-      props.onSave(genderValue);
-      props.onSave(emailValue);
-      props.onSave(emailCodeValue);
-      props.onSave(passwordValue);
-      props.onSave(passwordCodeValue);
-      props.onSave(phonenumberValue);
-      props.onSave(phonenumberCodeValue);
-
-      setInputValue("");
-      setGenderValue("");
-      setEmailValue("");
-      setEmailCodeValue("");
-      setPasswordValue("");
-      setPasswordCodeValue("");
-      setPhonenumberValue("");
-      setPhonenumberCodeValue("");
-    };
-
-    return (
-      <Modal show={props.show} onHide={props.onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Enter your name</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                value={inputValue}
-                onChange={handleInputChange}
-              />
-              <Form.Label>Gender</Form.Label>
-                  <Form.Select id = "Gender" name="Gender" value={genderValue} onChange={handleInputChange}>
-                  <option defaultValue="(male/female)" hidden>(male/female)</option>
-                  <option value="male">male</option>
-                  <option value="female">female</option>
-                  </Form.Select>
-                  <Form.Control
-                type="email"
-                placeholder="Enter your email"
-                value={emailValue}
-                onChange={handleInputChange}
-                />
-                <Form.Control type="text" placeholder="Enter your Email sent Code" value={emailCodeValue} onChange={handleInputChange} />
-                <button onClick = {EmailCheck}>확인</button>
-                <Form.Control type="password" placeholder="Enter your Password" value= {passwordValue} onChange={handleInputChange} />
-                <Form.Control type="password" placeholder="Confirm your Password" value={passwordCodeValue} onChange={handleInputChange} />
-                <Form.Control type="text" placeholder = "Enter your Phone number" value={phonenumberValue} onChange={handleInputChange} />
-                <Form.Control type="text" placeholder = "Enter your Phone sent Code" value={phonenumberCodeValue} onChange={handleInputChange} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveClick}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-  function FirstModal(props) {
-    const [emailValue, setEmailValue] = useState("");
-    const [passwordValue, setPasswordValue] = useState("");
-
-
-
-    const handleInputChange = (event) => {
-      if(event.target.name === "Email"){
-      setEmailValue(event.target.value);
-      }
-      else if(event.target.value === "Password"){
-          setPasswordValue(event.target.value);
-      }
-    };
-
-    const handleSaveClick = () => {
-      props.onSave(emailValue);
-      props.onSave(passwordValue);
-
-      setEmailValue("");
-    };
-
-    return (
-      <Modal show={props.show} onHide={props.onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={emailValue}
-              onChange={handleInputChange}
-            />
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={passwordValue}
-              onChange={handleInputChange}
-            />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSaveClick}>
-            로그인하기
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
 
 function NavBar(){
 
@@ -208,11 +39,106 @@ function NavBar(){
     const [loginSuccess , setLoginSuccess] = useState(false);
     const [emailtimer, setEmailTimer] = useState(false);
 
+    //다중 모달
+    const [nestedModal, setNestedModal] = useState(false);
+    const handleCloseNested = () => {
+            var res = localStorage.getItem("rank");
+            if(res === "-1")
+            {
+                alert("태그를 최소 1개 이상 선택하셔야 합니다.");
+            }
+            else{
+              setNestedModal(false);
+            }
+    }
+
+    const handleNestedModal = () => {
+
+
+              setNestedModal(true);
+
+    }
+
+
     useEffect(() => {
          localStorage.setItem("cast",0);
+         localStorage.setItem("rank",-1);
          document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
     },[]);
 
+
+
+
+    const Button1 = () => {
+            const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
+
+            const [pick1, setPick1] = useState(arr);
+            const [select1, setSelect1] = useState([]);
+            const [ranking, setRanking] = useState([]);
+
+
+            const handleButtonClick = (itemId) => {
+                if(select1.includes(itemId)){
+                  setSelect1(select1.filter((button) => button !== itemId));
+                }
+                else if(select1.length < 3){
+                    setSelect1((select1) => [...select1, itemId]);
+                }
+            }
+
+             const setRankingText = () => {
+                            const rankingText = [];
+                            for(let i = 0; i < select1.length; i++)
+                            {
+                                const button = pick1.find((item) => item.id === select1[i]);
+                                rankingText.push(`${button.code}`);
+
+                            }
+                            setRanking(rankingText);
+                            if(rankingText.length === 0)
+                            {
+                                localStorage.setItem("rank",-1);
+                            }
+                            else{
+                            localStorage.setItem("rank",rankingText);
+                            }
+                        };
+
+            useEffect(() => {
+                setRankingText();
+
+            },[select1]);
+
+
+            return (
+            <div>
+                 <div>
+                      {pick1.map((item) => (
+                        <div
+                          key={item.id}
+                          className={
+                            select1.includes(item.id)
+                              ? "button_table_btn_ns"
+                              : "button_table_btn_s"
+                          }
+                          onClick={() => handleButtonClick(item.id)}
+                        >
+                          <img style={{width:"50px",height:"50px",marginTop:"5px"}} src={item.image} alt={item.name} className="card_image" />
+                          <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
+                          {select1.includes(item.id) && (
+                            <div className="rank_text">
+                              {ranking.find((rank) => rank.includes(item.name))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+
+                    </div>
+
+
+                    </div>
+            )
+          };
 
 function movetomain()
 {
@@ -297,8 +223,9 @@ function movetomain()
     const handleSubmit = (event) => {
       event.preventDefault();
       var cas = localStorage.getItem("cast");
+      var rank = localStorage.getItem("rank");
 
-      if(!name || !gender || !password || !email)
+      if(!name || !gender || !password || !email || rank === "-1")
       {
           alert('모든 항목을 입력하셔야 합니다.')
       }
@@ -309,7 +236,8 @@ function movetomain()
         gender : gender,
         pw : password,
         email : email,
-        phoneNumber : completenumber
+        types: rank
+
       }).then(res => console.log(res))
       alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
       setShowModal(false);
@@ -320,14 +248,22 @@ function movetomain()
     }
     }
 }
+
+
     const handleLogin = (event) => {
       event.preventDefault();
+
+      const emailValue = email;
+      const passwordValue = password;
+
+
       axios.post('http://localhost:8080/api/members/login',{
         email: email,
         pw: password
       }).then(res => {
          console.log(res);
          var rlt = res.data.result;
+         var na = res.data.name;
          if(rlt === true)
          {
             localStorage.setItem("vest",1);
@@ -340,7 +276,7 @@ function movetomain()
 
          if(set === '1')
          {
-             alert(`${name}님! 로그인이 되었습니다.`);
+             alert(`${na}님! 로그인이 되었습니다.`);
              setFirstShowModal(false);
              window.location.href="/main";
          }
@@ -420,7 +356,7 @@ function movetomain()
     var offset = localStorage.getItem("vest");
 
     function LogoutMain(){
-      window.location.href="/";
+      window.location.href="/main";
     }
 
     const onButtonClick = () => {
@@ -455,15 +391,24 @@ function movetomain()
 
     }, [navbarLinksRef]);
 
+    //마이페이지
+    const [esOpen, setesOpen] = useState(false);
+    const toggleMypage = () => {
+        setesOpen(!esOpen);
+    }
+    const closeMypage = () => {
+        toggleMypage();
+    }
 
     if(offset === '0'){
     return(
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
+        <div className ="navbar">
+        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"15%"}} >
             <Nav className="me-auto">
                 <Nav style={{marginTop:"1%"}}>
-                   <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={LogoutMain}>메인</Button>
+                   <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                 </Nav>
-                <Nav style={{marginLeft:"400%", marginTop:"1%"}}>
+                <Nav style={{marginLeft:"650%", marginTop:"1%"}}>
                 <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
                   로그인
                 </Button>
@@ -473,17 +418,21 @@ function movetomain()
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Form.Control type="email" placeholder ="이메일을 입력해주세요" onChange={handleEmailChange}/>
+                  <Form.Control type="email" onEnterPress={handleLogin} placeholder ="이메일을 입력해주세요" onChange={handleEmailChange}/>
+                  <Form.Control type="password" onEnterPress={handleLogin} placeholder ="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+                    <Button variant="secondary" onClick={handleFirstClose}>
+                                 닫기
+                    </Button>
+                   <Button variant="primary" type="submit" onClick={handleLogin}>
+                                 접속하기
+                   </Button>
                 </Form>
+
                 <Form onSubmit={handleSubmit}>
-                  <Form.Control type="password" placeholder ="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+
                 </Form>
-                <Button variant="secondary" onClick={handleFirstClose}>
-              닫기
-            </Button>
-            <Button variant="primary" type="submit" onClick={handleLogin}>
-              접속하기
-            </Button>
+
+
                 <hr />
                 <h5>소셜 로그인</h5>
                 <Loginpage />
@@ -534,53 +483,83 @@ function movetomain()
             <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
             </Form>
             {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
+            <Button variant="secondary" onClick={handleNestedModal}>
+                          태그선택
+                        </Button>
 
+                        {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
+                                      <Modal.Header closeButton>
+                                        <Modal.Title>태그</Modal.Title>
+                                      </Modal.Header>
+                                      <Modal.Body>
+                                        <Button1 />
+                                      </Modal.Body>
+                                      <Modal.Footer>
+                                       <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                            확인
+                                       </Button>
+                                      </Modal.Footer>
+                                      </Modal>
+                        )}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              닫기
-            </Button>
+
+
             <Button variant="primary" type="submit" onClick={handleSubmit}>
               저장하기
             </Button>
           </Modal.Footer>
         </Modal>
 
-                </Nav>
-            </Nav>
+             </Nav>
+          </Nav>
         </Navbar>
+        </div>
     )
     }
     else if(offset === '1')
     {
 
       return(
-       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#FFFFFF",height:"5%"}} >
-          <Nav className="me-auto">
-                        <Nav style={{marginTop:"1%"}}>
-                          <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"40px"}} onClick={toggleNavbar} />
-                            <i className="fa fa-bars"></i>
-                          <ul className={isOpen ? 'navbar-links active' : 'navbar-links'} ref={navbarLinksRef}>
-                             <li style={{marginTop:"-750px",width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list1")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴1</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list2")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴2</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list3")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴3</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                             <li onClick={() => handleListClick("list4")} style={{color:'white',width:"310px",height:"40px",marginLeft:"20px",paddingLeft:"10px",paddingTop:"10px",textAlign:"left",'border-width':"1px",'border-style':"solid",'border-color':"#E5E5E5"}}>메뉴4</li>
-                             <li style={{width:"330px",marginLeft:"15px"}}><hr/></li>
-                          </ul>
-                          <button style={{width:"50px",height:"50px",marginLeft:"22%",marginTop:"3%",backgroundColor:"white"}} className={isOpen ? 'navbar-close active' : 'navbar-close'} onClick={closeNavbar}>X</button>
+      <div className ="navbar">
+       <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"whitesmoke",height:"15%"}} >
+                <Nav className="me-auto">
+                        <Nav>
+                           <img src={Menu} onClick={movetomain} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                         </Nav>
-                        <Nav style={{marginLeft:"580%", marginTop:"1%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}} onClick={logout}>로그아웃</Button>
+                        <Nav className = "inputbox">
+                          <input type="text" placeholder="동행을 찾아보세요" />
                         </Nav>
-                        <Nav style={{marginTop:"1%"}}>
-                           <Button style={{backgroundColor:"#FFFFFF",color:"#000000",width:"120px",height:"37px"}}>마이페이지</Button>
+                        <Nav className = "new">
+                            <a href="/schedule" class="button">일정생성</a>
                         </Nav>
-          </Nav>
+                        <Nav className = "search">
+                            <a href="/search" class="button">일정조회</a>
+                        </Nav>
+                        <Nav className = "notice">
+                          <img src={notice}/>
+                        </Nav>
+                        <Nav className ="user">
+                            <img src={image} onClick={toggleMypage} />
+                             {esOpen && (
+                                   <ul className="mypage-content">
+                                      <table>
+                                      <br />
+                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>${name}님</Button></tr>
+                                      <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
+                                      <tr>
+                                        <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>
+                                      </tr>
+                                      </table>
+                                   </ul>
+                             )}
+                        </Nav>
+
+                    </Nav>
+
         </Navbar>
+        <hr />
+        </div>
       )
     }
 }
