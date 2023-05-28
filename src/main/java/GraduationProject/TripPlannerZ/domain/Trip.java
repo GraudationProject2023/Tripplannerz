@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +22,8 @@ public class Trip {
     private String UUID;
     private String title;
 
-    private String image_uuid;
+    @OneToMany(mappedBy = "trip")
+    private List<TripImage> tripImages = new ArrayList<>();
     private Long recruitNum;
     private String closeRecruitDate;
     private String startingDate;
@@ -32,7 +36,7 @@ public class Trip {
     //private Chat chat;
 
     @Builder
-    public Trip(String title, String image_uuid, Long recruitNum,
+    public Trip(String title, List<TripImage> tripImage, Long recruitNum,
                 String closeRecruitDate, String content,
                 String startingDate, String comingDate, Party group) {
         this.UUID = java.util.UUID.randomUUID().toString();
@@ -43,6 +47,6 @@ public class Trip {
         this.comingDate = comingDate;
         this.group = group;
         this.content = content;
-        this.image_uuid = image_uuid;
+        this.tripImages = tripImage;
     }
 }
