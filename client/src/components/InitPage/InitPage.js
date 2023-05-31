@@ -168,19 +168,6 @@ function InitPage(){
           var itemEl = getListItem(i,places[i]);
           bounds.extend(placePosition);
 
-//          (function(marker,title){
-//             kakao.maps.event.addListener(marker, 'mouseover', function(){
-//                displayInfowindow(marker,title);
-//             });
-//
-//             itemEl.onmouseover = function() {
-//                displayInfowindow(marker, title);
-//             };
-//
-//             itemEl.onmouseout = function(){
-//                infowindow.close();
-//             };
-//          })(marker,places[i].place_name);
 
           fragment.appendChild(itemEl);
        }
@@ -316,11 +303,82 @@ function InitPage(){
     }
 
     },[area]);
+
+    //카테고리
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedSubCategory, setSelectedSubCategory] = useState('');
+
+
+    const categories = ['서울','인천','세종','대전','대구','광주','울산','부산','제주','경기','강원','충북','충남','전북','전남','경북','경남']
+
+    const subCategories = {
+        '서울' : ['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],
+        '인천' : ['계양구','남동구','동구','미추홀구','부평구','서구','연수구','중구','강화군','옹진군'],
+        '세종' : ['세종'],
+        '대전' : ['대덕구','동구','서구','유성구','중구'],
+        '대구' : ['남구','동구','달서구','북구','서구','수성구','중구','달성군'],
+        '광주' : ['광산구','남구','동구','북구','서구'],
+        '울산' : ['남구','동구','북구','중구','울주군'],
+        '부산' : ['강서구','금정구','남구','동구','동래구','북구','부산진구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군'],
+        '제주' : ['제주','서귀포']
+    };
+
+    const handleCategoryChange = (category) => {
+      if(selectedCategory === category){
+        setSelectedCategory('');
+        setSelectedCategory('');
+      }
+      else{
+        setSelectedCategory(category);
+        setSelectedSubCategory('');
+    }
+    }
+
+    const handleSubCategoryChange = (subCategory) => {
+        setSelectedSubCategory(subCategory);
+    };
+
+
    return(
       <div>
         <NavBar />
-        <img src={Image} alt="새일정페이지" style={{width:"100%", height:"1000px", marginTop:"-300px"}} />
+        <img src={Image} alt="새일정페이지" style={{width:"100%", height:"5%", marginTop:"-15%"}} />
         <div style={{marginTop:"5%"}}>
+            <Form style={{marginLeft: "10%"}}>
+                    <table>
+                    <td>
+                    <div style={{width:"100px"}}>
+                    {categories.map((category) => (
+                        <div key={category} style={{marginRight: '10px', padding: '5px', border:'1px solid #ccc', cursor : 'pointer'}} onClick={() => handleCategoryChange(category)}
+                        >
+                        {category}
+                        </div>
+                    ))}
+                    </div></td>
+                    <td>
+                    <div style={{width:"300px"}}>
+                    {selectedCategory && (
+                            <div style={{ marginTop: '10px' }}>
+                              {subCategories[selectedCategory].map((subCategory) => (
+                                <div
+                                  key={subCategory}
+                                  style={{
+                                    marginRight: '10px',
+                                    padding: '5px',
+                                    border: '1px solid #ccc',
+                                    backgroundColor: 'white',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  {subCategory}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          </div>
+                          </td>
+                          </table>
+            </Form>
             <Form style={{marginLeft:"10%"}}>
                    <table>
                    <td>
