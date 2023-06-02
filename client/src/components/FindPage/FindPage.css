@@ -1,15 +1,30 @@
-.Structure {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+.Title{
+    margin-left: 45%;
 }
-
 .Find {
     margin-top: 7%;
 }
 
 .List{
     margin-top: 7%;
+}
+.image-title{
+    margin-top: 1%;
+    margin-left: 10%;
+}
+.form-Title{
+    margin-top: -16%;
+    margin-left: 32%;
+}
+.form-Number{
+    margin-top: 1%;
+    margin-left: 32%;
+}
+.form-Date{
+    margin-top: 1%;
+    margin-left: 32%;
+}
+.form-Itinerary{
+    margin-top: -10.5%;
+    margin-left: 55%;
 }
