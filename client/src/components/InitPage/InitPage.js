@@ -168,19 +168,6 @@ function InitPage(){
           var itemEl = getListItem(i,places[i]);
           bounds.extend(placePosition);
 
-//          (function(marker,title){
-//             kakao.maps.event.addListener(marker, 'mouseover', function(){
-//                displayInfowindow(marker,title);
-//             });
-//
-//             itemEl.onmouseover = function() {
-//                displayInfowindow(marker, title);
-//             };
-//
-//             itemEl.onmouseout = function(){
-//                infowindow.close();
-//             };
-//          })(marker,places[i].place_name);
 
           fragment.appendChild(itemEl);
        }
@@ -316,11 +303,15 @@ function InitPage(){
     }
 
     },[area]);
+
+
+
    return(
       <div>
         <NavBar />
-        <img src={Image} alt="새일정페이지" style={{width:"100%", height:"1000px", marginTop:"-300px"}} />
+        <img src={Image} alt="새일정페이지" style={{width:"100%", height:"5%", marginTop:"-15%"}} />
         <div style={{marginTop:"5%"}}>
+
             <Form style={{marginLeft:"10%"}}>
                    <table>
                    <td>
