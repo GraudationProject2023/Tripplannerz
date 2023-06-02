@@ -192,20 +192,22 @@ function FindPage(){
               <h2>동행자 모집하기</h2>
               </div>
                <br />
-              <Form style={{ marginLeft: "10%" }}>
+              <Form style={{border:"1px solid black" }}>
                 <table>
                   <tbody>
                     <tr>
                       <td>
-                        <div style={{ width: "100px" }}>
+                        <div style={{ width: "100px",height:"370px" }}>
                           {mainCategories.map((category) => (
                             <div
                               key={category}
                               style={{
                                 marginRight: '10px',
-                                padding: '5px',
+                                marginTop:'1px',
+                                padding: '29px',
                                 border: '1px solid #ccc',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                textAlign:'center'
                               }}
                               onClick={() => handleMainCategoryChange(category)}
                             >
@@ -215,7 +217,7 @@ function FindPage(){
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "100px" }}>
+                        <div style={{ width: "100px",height:"370px" }}>
                           {selectedMainCategory && (
                             <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
                               {categories[selectedMainCategory].map((category) => (
@@ -224,7 +226,7 @@ function FindPage(){
                                   style={{
                                     width: '80px',
                                     marginRight: '10px',
-                                    padding: '5px',
+                                    padding: '10px',
                                     border: '1px solid #ccc',
                                     backgroundColor: 'white',
                                     cursor: 'pointer'
@@ -239,25 +241,31 @@ function FindPage(){
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "300px" }}>
+                        <div style={{ width: "1200px",height:"370px" }}>
                           {selectedCategory && (
                             <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
-                              {subCategories[selectedCategory].map((subCategory) => (
+                              {subCategories[selectedCategory].map((subCategory,index) => (
                                 <div
                                   key={subCategory}
                                   style={{
-                                    width: '80px',
+                                    display:'flex',
+                                    flexWrap: 'wrap',
+                                    width: '100px',
+                                    marginTop: '1px',
+
                                     marginRight: '10px',
                                     padding: '5px',
                                     border: '1px solid #ccc',
                                     backgroundColor: 'white',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
+
                                   }}
                                   onClick={() => handleSubCategoryChange(subCategory)}
                                 >
-                                  {subCategory}
+                                {subCategory}
                                 </div>
                               ))}
+
                             </div>
                           )}
                         </div>
