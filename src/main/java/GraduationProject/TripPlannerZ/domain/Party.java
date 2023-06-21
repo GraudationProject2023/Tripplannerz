@@ -30,4 +30,9 @@ public class Party {
         this.trip = trip;
         this.memberPartyList = memberPartyList;
     }
+
+    // == 연관관계 편의 메서드 == //
+    public void setTrip(Trip trip){
+        this.trip = trip;
+    }
 }
