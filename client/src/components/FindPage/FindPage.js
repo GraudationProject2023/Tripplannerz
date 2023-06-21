@@ -10,9 +10,8 @@ axios.withCredentials = true;
 
 function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
-
   const onDrop = useCallback((acceptedFiles) => {
-    const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
+  const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...acceptedFiles, ...prevImages]);
     onImageUpload(updatedImages);
   }, [onImageUpload]);
@@ -73,6 +72,7 @@ function FileUpload({onImageUpload}) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {console.log(images)}
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
         {images.map((image, index) => (
@@ -90,7 +90,7 @@ function FileUpload({onImageUpload}) {
 }
 
 function FindPage(){
-        const [images, setImages] = useState([]);
+        const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
         const [date, setDate] = useState('');
@@ -100,8 +100,8 @@ function FindPage(){
         const [selectedCategory, setSelectedCategory] = useState('');
         const [selectedSubCategory, setSelectedSubCategory] = useState('');
 
-        const handleImageUpload = (selectedImages) => {
-            setImages(selectedImages);
+        const handleImageUpload = (uploadedImages) => {
+            setSelectedImages(uploadedImages);
         }
 
 
@@ -120,10 +120,8 @@ function FindPage(){
             formData.append('comingDate',string_coming_date);
             formData.append('area',selectedCategory);
             formData.append('sigungu',selectedSubCategory);
+            formData.append('image',selectedimages[0]);
 
-            images.forEach((image, index) => {
-                formData.append(`image${index}`,image);
-            })
 
              for(const entry of formData.entries()){
                             const [key,value] = entry;
@@ -211,7 +209,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(images)}
+              {console.log(selectedimages)}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
