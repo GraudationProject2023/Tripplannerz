@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class TripCreate {
     private String comingDate;
     private String area;
     private String sigungu;
+    private MultipartFile uploadFile;
 }
