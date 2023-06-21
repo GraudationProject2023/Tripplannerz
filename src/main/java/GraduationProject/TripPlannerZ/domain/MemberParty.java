@@ -23,7 +23,7 @@ public class MemberParty {
     private Party party;
 
     // == 생성 메서드 == //
-    static MemberParty newTrip(Member member, Party party) {
+    public static MemberParty addPartyMember(Member member, Party party) {
         MemberParty memberParty = new MemberParty();
         memberParty.setMember(member);
         memberParty.setParty(party);
