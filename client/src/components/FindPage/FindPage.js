@@ -99,7 +99,7 @@ function FindPage(){
         const [selectedMainCategory, setSelectedMainCategory] = useState('');
         const [selectedCategory, setSelectedCategory] = useState('');
         const [selectedSubCategory, setSelectedSubCategory] = useState('');
-
+        const blob = new Blob([selectedimages],{type:'multipart/form-data'})
         const handleImageUpload = (uploadedImages) => {
             setSelectedImages(uploadedImages);
         }
@@ -120,7 +120,7 @@ function FindPage(){
             formData.append('comingDate',string_coming_date);
             formData.append('area',selectedCategory);
             formData.append('sigungu',selectedSubCategory);
-            formData.append('image',selectedimages[0]);
+            formData.append('image',blob,selectedimages[0]);
 
 
              for(const entry of formData.entries()){
