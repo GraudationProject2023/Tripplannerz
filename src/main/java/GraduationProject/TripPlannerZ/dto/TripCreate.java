@@ -11,10 +11,10 @@ public class TripCreate {
 
     private String UUID;
     private String title;
-    private int recruitNum;
+    private int capacity;
     private String closeRecruitDate;
-    private String startingDate;
+    private String goingDate;
     private String comingDate;
-    private String areaName;
-    private String sigunguName;
+    private String area;
+    private String sigungu;
 }

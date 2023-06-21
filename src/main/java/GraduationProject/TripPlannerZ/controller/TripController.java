@@ -13,7 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -29,7 +32,7 @@ public class TripController {
     private final SigunguRepository sigunguRepository;
 
     @PostMapping("/trip/create")
-    public void createTrip(@RequestBody TripCreate tripCreate, HttpServletRequest request) {
+    public void createTrip(@RequestBody TripCreate tripCreate, HttpServletRequest request, MultipartFile[] uploadFile) throws IOException {
 
         // 멤버 찾기
         HttpSession session = request.getSession(false);
@@ -45,15 +48,17 @@ public class TripController {
         MemberParty memberParty = MemberParty.addPartyMember(member, party);
 
         // 도시 번호 지정
-        Sigungu sigungu = sigunguRepository.findByName(tripCreate.getSigunguName());
+        Sigungu sigungu = sigunguRepository.findByName(tripCreate.getSigungu());
         Area area = sigungu.getArea();
+
+
 
         // group에서 여행 일정 생성
         Trip trip = Trip.builder()
                 .title(tripCreate.getTitle())
                 .tripImage(new ArrayList<>())
-                .recruitNum(tripCreate.getRecruitNum())
-                .startingDate(tripCreate.getStartingDate())
+                .recruitNum(tripCreate.getCapacity())
+                .startingDate(tripCreate.getGoingDate())
                 .comingDate(tripCreate.getComingDate())
                 .closeRecruitDate(tripCreate.getCloseRecruitDate())
                 .party(party)
@@ -62,8 +67,22 @@ public class TripController {
                 .build();
         // 이미지 넣기 추가
 
-
         memberPartyRepository.save(memberParty);
         tripService.createTrip(trip);
+
+        for (MultipartFile file : uploadFile) {
+            if(!file.isEmpty()) {
+                TripImage tripImage = TripImage.builder().trip(trip).build();
+
+                File newFile = new File(tripImage.getImg_uuid());
+                file.transferTo(newFile);
+            }
+        }
+
+    }
+
+    @PostMapping("/trip/select")
+    public void selectSigungu() {
+
     }
 }
