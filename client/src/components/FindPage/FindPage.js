@@ -43,10 +43,11 @@ function FileUpload({onImageUpload}) {
   };
 
   const imageStyle = {
+    display: 'absolute',
     width: '150px',
     height: '150px',
     marginRight: '10px',
-    marginLeft: '180px',
+    marginLeft: '-70px',
   };
 
   const buttonStyle = {
@@ -66,8 +67,8 @@ function FileUpload({onImageUpload}) {
     backgroundColor: '#AA0140',
     borderWidth: '0',
     lineHeight: '26px',
-    marginLeft: '120px',
-    marginTop: '-155px'
+    marginLeft: '-350px',
+    marginTop: '-150px'
   };
 
   return (
@@ -91,7 +92,7 @@ function FileUpload({onImageUpload}) {
 function FindPage(){
         const [images, setImages] = useState([]);
         const [title,setTitle] = useState('');
-        const [capacity, setCapacity] = useState('');
+        const [capacity, setCapacity] = useState(0);
         const [date, setDate] = useState('');
         const [going, setGoing] = useState('');
         const [coming, setComing] = useState('');
@@ -299,7 +300,15 @@ function FindPage(){
                <div className="form-Number">
                <Form.Group controlId="formCapacity">
                <Form.Label>모집인원</Form.Label>
-                <Slider />
+
+
+                <Slider
+                   onAfterChange={(e) => setCapacity(e)}
+                />
+
+                {Math.ceil(capacity / 10)}명
+
+
                </Form.Group>
                </div>
                <div className="form-Date">
