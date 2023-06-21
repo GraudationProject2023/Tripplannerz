@@ -90,7 +90,7 @@ function FileUpload({onImageUpload}) {
 }
 
 function FindPage(){
-        const [images, setImages] = useState([]);
+        const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
         const [date, setDate] = useState('');
@@ -100,8 +100,8 @@ function FindPage(){
         const [selectedCategory, setSelectedCategory] = useState('');
         const [selectedSubCategory, setSelectedSubCategory] = useState('');
 
-        const handleImageUpload = (selectedImages) => {
-            setImages(selectedImages);
+        const handleImageUpload = (uploadedImages) => {
+            setSelectedImages(uploadedImages);
         }
 
 
@@ -121,8 +121,8 @@ function FindPage(){
             formData.append('area',selectedCategory);
             formData.append('sigungu',selectedSubCategory);
 
-            images.forEach((image, index) => {
-                formData.append(`image${index}`,image);
+            selectedimages.forEach((image, index) => {
+                formData.append(`image`,selectedimages);
             })
 
              for(const entry of formData.entries()){
@@ -211,7 +211,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(images)}
+              {console.log(selectedimages)}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
