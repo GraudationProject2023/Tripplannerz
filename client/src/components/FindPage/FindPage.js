@@ -96,10 +96,14 @@ function FindPage(){
         const [date, setDate] = useState('');
         const [going, setGoing] = useState('');
         const [coming, setComing] = useState('');
+        const [selectedMainCategory, setSelectedMainCategory] = useState('');
+        const [selectedCategory, setSelectedCategory] = useState('');
+        const [selectedSubCategory, setSelectedSubCategory] = useState('');
 
         const handleImageUpload = (selectedImages) => {
             setImages(selectedImages);
         }
+
 
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -111,9 +115,11 @@ function FindPage(){
             var string_coming_date = coming.toString();
             formData.append('title', title);
             formData.append('capacity',capacity);
-            formData.append('date',string_date);
+            formData.append('closeRecruitDate',string_date);
             formData.append('goingDate',string_going_date);
             formData.append('comingDate',string_coming_date);
+            formData.append('area',selectedCategory);
+            formData.append('sigungu',selectedSubCategory);
 
             images.forEach((image, index) => {
                 formData.append(`image${index}`,image);
@@ -131,13 +137,14 @@ function FindPage(){
                 console.log(response);
                 console.log(formData);
 
+            })
+            .catch((response) => {
+                console.log(response);
+                console.log(formData);
             });
         };
 
         //카테고리
-        const [selectedMainCategory, setSelectedMainCategory] = useState('');
-        const [selectedCategory, setSelectedCategory] = useState('');
-        const [selectedSubCategory, setSelectedSubCategory] = useState('');
 
         const mainCategories = ['특별시/도','광역시','도'];
 
@@ -181,15 +188,18 @@ function FindPage(){
               if(selectedCategory === category){
                 setSelectedCategory('');
                 setSelectedSubCategory('');
+
               }
               else{
                 setSelectedCategory(category);
                 setSelectedSubCategory('');
+
             }
             }
 
             const handleSubCategoryChange = (subCategory) => {
                 setSelectedSubCategory(subCategory);
+
             };
 
 
@@ -200,6 +210,9 @@ function FindPage(){
               <div className="Find">
               <div className="Title">
               <h2>동행자 모집하기</h2>
+              </div>
+              <div>
+              <h5>현재 선택된 도시는 {selectedCategory} {selectedSubCategory} 입니다.</h5>
               </div>
                <br />
               <Form style={{border:"1px solid black" }}>
@@ -288,7 +301,6 @@ function FindPage(){
                 <div className="image-title">
                <h4>사진 업로드</h4>
                <FileUpload onImageUpload = {handleImageUpload} />
-               {console.log(images)}
                </div>
                <Form onSubmit={handleSubmit}>
                <div className="form-Title">
