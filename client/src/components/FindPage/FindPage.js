@@ -130,7 +130,8 @@ function FindPage(){
                             console.log(`Key: ${key}, Value: ${value}`);
                         }
 
-            axios.post('http://localhost:8080/trip/create',formData,{
+            axios.post('http://localhost:8080/api/trip/create',formData,{
+                headers: {'Content-Type': 'multipart/form-data'},
                 withCredentials: true
             })
             .then((response) => {
