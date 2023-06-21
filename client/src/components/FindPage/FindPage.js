@@ -130,15 +130,17 @@ function FindPage(){
                             console.log(`Key: ${key}, Value: ${value}`);
                         }
 
-            axios.post('https://localhost:8080/trip/create',formData,{
+            axios.post('http://localhost:8080/trip/create',formData,{
                 withCredentials: true
             })
             .then((response) => {
+                alert('여행이 생성되었습니다!');
                 console.log(response);
                 console.log(formData);
-
+                window.location.href="/main";
             })
             .catch((response) => {
+                alert('오류가 발생하였습니다.');
                 console.log(response);
                 console.log(formData);
             });
@@ -342,7 +344,7 @@ function FindPage(){
                </div>
                 <hr />
                <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
-                제출
+                등록
                </Button>
                </Form>
 
