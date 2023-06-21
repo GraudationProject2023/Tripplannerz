@@ -4,7 +4,6 @@ import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
-import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
@@ -32,7 +31,12 @@ public class TripController {
     private final SigunguRepository sigunguRepository;
 
     @PostMapping("/trip/create")
-    public void createTrip(@RequestBody TripCreate tripCreate, HttpServletRequest request, MultipartFile[] uploadFile) throws IOException {
+    public void createTrip(@RequestParam("title") String title, @RequestParam("capacity") int capacity,
+                           @RequestParam("closeRecruitDate") String closeRecruitDate,
+                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
+                           @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
+                           @RequestPart(value = "image0", required = false) MultipartFile uploadFile,
+                           HttpServletRequest request) throws IOException {
 
         // 멤버 찾기
         HttpSession session = request.getSession(false);
@@ -46,39 +50,46 @@ public class TripController {
         partyService.createParty(party);
 
         MemberParty memberParty = MemberParty.addPartyMember(member, party);
+        memberPartyRepository.save(memberParty);
 
         // 도시 번호 지정
-        Sigungu sigungu = sigunguRepository.findByName(tripCreate.getSigungu());
-        Area area = sigungu.getArea();
-
+        Sigungu sigunguNum = sigunguRepository.findByName(sigungu);
+        Area areaNum = sigunguNum.getArea();
 
 
         // group에서 여행 일정 생성
         Trip trip = Trip.builder()
-                .title(tripCreate.getTitle())
+                .title(title)
                 .tripImage(new ArrayList<>())
-                .recruitNum(tripCreate.getCapacity())
-                .startingDate(tripCreate.getGoingDate())
-                .comingDate(tripCreate.getComingDate())
-                .closeRecruitDate(tripCreate.getCloseRecruitDate())
+                .recruitNum(capacity)
+                .startingDate(goingDate)
+                .comingDate(comingDate)
+                .closeRecruitDate(closeRecruitDate)
                 .party(party)
-                .areaCode(area.getCode())
-                .sigunguCode(sigungu.getCode())
+                .areaCode(areaNum.getCode())
+                .sigunguCode(sigunguNum.getCode())
                 .build();
         // 이미지 넣기 추가
 
-        memberPartyRepository.save(memberParty);
+        System.out.println("==========================1");
+
         tripService.createTrip(trip);
 
-        for (MultipartFile file : uploadFile) {
-            if(!file.isEmpty()) {
-                TripImage tripImage = TripImage.builder().trip(trip).build();
-
-                File newFile = new File(tripImage.getImg_uuid());
-                file.transferTo(newFile);
-            }
-        }
-
+        System.out.println("==========================2");
+        TripImage tripImage = TripImage.builder().trip(trip).build();
+        File newFile = new File(tripImage.getImg_uuid());
+        uploadFile.transferTo(newFile);
+//
+//
+//        for (MultipartFile file : uploadFile) {
+//            if(!file.isEmpty()) {
+//                TripImage tripImage = TripImage.builder().trip(trip).build();
+//
+//
+//                File newFile = new File(tripImage.getImg_uuid());
+//                file.transferTo(newFile);
+//            }
+//        }
     }
 
     @PostMapping("/trip/select")
