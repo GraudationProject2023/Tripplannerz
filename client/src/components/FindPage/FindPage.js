@@ -130,7 +130,7 @@ function FindPage(){
                             console.log(`Key: ${key}, Value: ${value}`);
                         }
 
-            axios.post('https://localhost:8080/api/find',formData,{
+            axios.post('https://localhost:8080/trip/create',formData,{
                 withCredentials: true
             })
             .then((response) => {
@@ -208,6 +208,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
+              {console.log(images)}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
