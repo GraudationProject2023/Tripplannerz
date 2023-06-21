@@ -4,6 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
 import './FindPage.css';
 import axios from 'axios';
+import Slider, {Range} from 'rc-slider';
 axios.withCredentials = true;
 
 
@@ -298,7 +299,7 @@ function FindPage(){
                <div className="form-Number">
                <Form.Group controlId="formCapacity">
                <Form.Label>모집인원</Form.Label>
-               <Form.Control style={{width:"300px"}} type="number" onChange={(e) => setCapacity(e.target.value)} />
+                <Slider />
                </Form.Group>
                </div>
                <div className="form-Date">
