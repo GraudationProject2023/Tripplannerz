@@ -10,9 +10,8 @@ axios.withCredentials = true;
 
 function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
-
   const onDrop = useCallback((acceptedFiles) => {
-    const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
+  const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...acceptedFiles, ...prevImages]);
     onImageUpload(updatedImages);
   }, [onImageUpload]);
@@ -73,6 +72,7 @@ function FileUpload({onImageUpload}) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {console.log(images)}
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
         {images.map((image, index) => (
@@ -120,10 +120,8 @@ function FindPage(){
             formData.append('comingDate',string_coming_date);
             formData.append('area',selectedCategory);
             formData.append('sigungu',selectedSubCategory);
+            formData.append('image',selectedimages[0]);
 
-            selectedimages.forEach((image, index) => {
-                formData.append(`image`,selectedimages);
-            })
 
              for(const entry of formData.entries()){
                             const [key,value] = entry;
