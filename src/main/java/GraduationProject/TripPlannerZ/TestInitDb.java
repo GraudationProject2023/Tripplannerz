@@ -1,19 +1,38 @@
 package GraduationProject.TripPlannerZ;
 
+import GraduationProject.TripPlannerZ.CityNum.Area;
+import GraduationProject.TripPlannerZ.CityNum.AreaRepository;
+import GraduationProject.TripPlannerZ.CityNum.Sigungu;
+import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.domain.MemberParty;
+import GraduationProject.TripPlannerZ.domain.Party;
+import GraduationProject.TripPlannerZ.domain.Trip;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
 public class TestInitDb {
 
-    //private final InitService initService;
+    private final InitService initService;
 
-    /*
+
     @PostConstruct
     public void init() {
         initService.dbInit();
+        initService.setCityNum();
+        initService.setSeoul();
+        initService.setInCheon();
+        initService.setDaeJeon();
+        initService.setDaeGu();
+        initService.setGwangJu();
     }
+
 
     @Component
     @Transactional
@@ -21,415 +40,540 @@ public class TestInitDb {
     static class InitService {
 
         private final EntityManager em;
+        private final AreaRepository areaRepository;
 
         public void dbInit() {
             // Member 생성
-            Member member1 = Member.builder()
-                    .pw("1")
+            Member member = Member.builder()
+                    .name("1")
                     .email("1@naver.com")
-                    .name("admin")
-                    .memberTeamList(new ArrayList<>())
+                    .pw("1")
+                    .types(new ArrayList<>())
+                    .memberPartyList(new ArrayList<>())
                     .build();
-            Member member2 = Member.builder()
-                    .pw("2")
-                    .email("2@naver.com")
-                    .memberTeamList(new ArrayList<>())
-                    .build();
-            Member member3 = Member.builder()
-                    .pw("3")
-                    .email("3@naver.com")
-                    .memberTeamList(new ArrayList<>())
-                    .build();
-            Member member4 = Member.builder()
-                    .pw("4")
-                    .email("4@naver.com")
-                    .memberTeamList(new ArrayList<>())
-                    .build();
-            em.persist(member1);
-            em.persist(member2);
-            em.persist(member3);
-            em.persist(member4);
+            em.persist(member);
 
-            // Team 생성
-            Team team1 = Team.builder()
-                    .memberTeamList(new ArrayList<>())
-                    .tripList(new ArrayList<>())
+            // party 생성
+            Party party = Party.builder()
+                    .memberPartyList(new ArrayList<>())
                     .build();
-            Team team2 = Team.builder()
-                    .memberTeamList(new ArrayList<>())
-                    .tripList(new ArrayList<>())
+            em.persist(party);
+
+            MemberParty memberParty = MemberParty.addPartyMember(member, party);
+            em.persist(memberParty);
+
+            Trip trip = Trip.builder()
+                    .comingDate("2023.05.05")
+                    .startingDate("2023.05.01")
+                    .title("서울여행")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023.04.11")
                     .build();
-            Team team3 = Team.builder()
-                    .memberTeamList(new ArrayList<>())
-                    .tripList(new ArrayList<>())
-                    .build();
-            em.persist(team1);
-            em.persist(team2);
-            em.persist(team3);
+            em.persist(trip);
 
-            // MemberTeam 생성
-            MemberTeam memberTeam1 = MemberTeam.joinMemberTeam(member1, team1); // member1 -> 팀1에 참여하면서 바로 팀리더
-            MemberTeam memberTeam2 = MemberTeam.joinMemberTeam(member2, team1); // member2 -> 팀1에 참여
-            MemberTeam memberTeam3 = MemberTeam.joinMemberTeam(member3, team1); // member3 -> 팀1에 참여
-            MemberTeam memberTeam4 = MemberTeam.joinMemberTeam(member2, team2); // member2 -> 팀2에 참여하면서 바로 팀리더
-            MemberTeam memberTeam5 = MemberTeam.joinMemberTeam(member3, team2); // member3 -> 팀2에 참여
-            MemberTeam memberTeam6 = MemberTeam.joinMemberTeam(member4, team3); // member4 -> 팀3에 참여하면서 바로 팀리더
+        }
 
-            em.persist(memberTeam1);
-            em.persist(memberTeam2);
-            em.persist(memberTeam3);
-            em.persist(memberTeam4);
-            em.persist(memberTeam5);
-            em.persist(memberTeam6);
-
-            // Location 생성
-            Location location1 = Location.builder()
+        public void setCityNum() {
+            Area area1 = Area.builder()
+                    .code(1)
                     .name("서울")
-                    .tripLocationList(new ArrayList<>())
+                    .sigunguList(new ArrayList<>())
                     .build();
-            Location location2 = Location.builder()
-                    .name("부산")
-                    .tripLocationList(new ArrayList<>())
+
+            Area area2 = Area.builder()
+                    .code(2)
+                    .name("인천")
+                    .sigunguList(new ArrayList<>())
                     .build();
-            Location location3 = Location.builder()
-                    .name("울산")
-                    .tripLocationList(new ArrayList<>())
+
+            Area area3 = Area.builder()
+                    .code(3)
+                    .name("대전")
+                    .sigunguList(new ArrayList<>())
                     .build();
-            Location location4 = Location.builder()
+
+            Area area4 = Area.builder()
+                    .code(4)
                     .name("대구")
+                    .sigunguList(new ArrayList<>())
                     .build();
 
-            em.persist(location1);
-            em.persist(location2);
-            em.persist(location3);
-            em.persist(location4);
-
-            // Trip 설정
-            Trip trip1 = Trip.builder()
-                    .title("3박 4일")
-                    .content("1")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip2 = Trip.builder()
-                    .title("당일")
-                    .content("2")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip3 = Trip.builder()
-                    .title("1박 2일")
-                    .content("3")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip4 = Trip.builder()
-                    .title("일본여행")
-                    .content("4")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip5 = Trip.builder()
-                    .title("미국여행")
-                    .content("5")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip6 = Trip.builder()
-                    .title("미국여행")
-                    .content("6")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip7 = Trip.builder()
-                    .title("미국여행")
-                    .content("7")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip8 = Trip.builder()
-                    .title("미국여행")
-                    .content("8")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip9 = Trip.builder()
-                    .title("미국여행")
-                    .content("9")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip10 = Trip.builder()
-                    .title("미국여행")
-                    .content("10")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip11 = Trip.builder()
-                    .title("미국여행")
-                    .content("11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip12 = Trip.builder()
-                    .title("미국여행")
-                    .content("12")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip13 = Trip.builder()
-                    .title("미국여행")
-                    .content("13")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip14 = Trip.builder()
-                    .title("미국여행")
-                    .content("14")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip15 = Trip.builder()
-                    .title("미국여행")
-                    .content("15")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip trip16 = Trip.builder()
-                    .title("미국여행")
-                    .content("16")
-                    .tripLocationList(new ArrayList<>())
+            Area area5 = Area.builder()
+                    .code(5)
+                    .name("광주")
+                    .sigunguList(new ArrayList<>())
                     .build();
 
-            team1.setTrip(trip6);
-            team1.setTrip(trip7);
-            team1.setTrip(trip8);
-            team1.setTrip(trip9);
-            team1.setTrip(trip10);
-            team1.setTrip(trip11);
-            team1.setTrip(trip12);
-            team1.setTrip(trip13);
-            team1.setTrip(trip14);
-            team1.setTrip(trip15);
-            team1.setTrip(trip16);
-            em.persist(trip1);
-            em.persist(trip2);
-            em.persist(trip3);
-            em.persist(trip4);
-            em.persist(trip5);
-            em.persist(trip6);
-            em.persist(trip7);
-            em.persist(trip8);
-            em.persist(trip9);
-            em.persist(trip10);
-            em.persist(trip11);
-            em.persist(trip12);
-            em.persist(trip13);
-            em.persist(trip14);
-            em.persist(trip15);
-            em.persist(trip16);
-
-            team1.setTrip(trip1);
-            team1.setTrip(trip2);
-            team2.setTrip(trip3);
-            team3.setTrip(trip4);
-            team3.setTrip(trip5);
-
-            em.persist(trip1);
-            em.persist(trip2);
-            em.persist(trip3);
-            em.persist(trip4);
-            em.persist(trip5);
-
-            Trip t1 = Trip.builder()
-                    .title("t1")
-                    .content("test1")
-                    .period("1")
-                    .startingDate("1111.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t2 = Trip.builder()
-                    .title("t2")
-                    .content("test2")
-                    .period("1")
-                    .startingDate("1112.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t3 = Trip.builder()
-                    .title("t3")
-                    .content("test3")
-                    .period("1")
-                    .startingDate("1113.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t4 = Trip.builder()
-                    .title("t4")
-                    .content("test4")
-                    .period("1")
-                    .startingDate("1114.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t5 = Trip.builder()
-                    .title("t5")
-                    .content("test5")
-                    .period("1")
-                    .startingDate("1115.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t6 = Trip.builder()
-                    .title("t6")
-                    .content("test6")
-                    .period("30")
-                    .startingDate("1116.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t7 = Trip.builder()
-                    .title("t7")
-                    .content("test7")
-                    .period("7")
-                    .startingDate("1117.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t8 = Trip.builder()
-                    .title("t8")
-                    .content("test8")
-                    .period("6")
-                    .startingDate("1118.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t9 = Trip.builder()
-                    .title("t9")
-                    .content("test9")
-                    .period("5")
-                    .startingDate("1119.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t10 = Trip.builder()
-                    .title("t10")
-                    .content("test10")
-                    .period("4")
-                    .startingDate("1111.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t11 = Trip.builder()
-                    .title("t11")
-                    .content("test11")
-                    .period("3")
-                    .startingDate("1121.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t12 = Trip.builder()
-                    .title("t2")
-                    .content("test12")
-                    .period("3")
-                    .startingDate("1121.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t13 = Trip.builder()
-                    .title("t13")
-                    .content("test13")
-                    .period("9")
-                    .startingDate("1131.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t14 = Trip.builder()
-                    .title("t14")
-                    .content("test14")
-                    .period("11")
-                    .startingDate("1141.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t15 = Trip.builder()
-                    .title("t15")
-                    .content("test15")
-                    .period("12")
-                    .startingDate("1151.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t16 = Trip.builder()
-                    .title("t16")
-                    .content("test16")
-                    .period("13")
-                    .startingDate("1161.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t17 = Trip.builder()
-                    .title("t17")
-                    .content("test17")
-                    .period("14")
-                    .startingDate("1171.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t18 = Trip.builder()
-                    .title("t18")
-                    .content("test18")
-                    .period("6")
-                    .startingDate("1181.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t19 = Trip.builder()
-                    .title("t19")
-                    .content("test19")
-                    .period("40")
-                    .startingDate("1191.11.11")
-                    .tripLocationList(new ArrayList<>())
-                    .build();
-            Trip t20 = Trip.builder()
-                    .title("t20")
-                    .content("test20")
-                    .period("12")
-                    .startingDate("1201.11.11")
-                    .tripLocationList(new ArrayList<>())
+            Area area6 = Area.builder()
+                    .code(6)
+                    .name("부산")
+                    .sigunguList(new ArrayList<>())
                     .build();
 
+            Area area7 = Area.builder()
+                    .code(7)
+                    .name("울산")
+                    .sigunguList(new ArrayList<>())
+                    .build();
 
-            team1.setTrip(t1);
-            em.persist(t1);
-            team1.setTrip(t2);
-            em.persist(t2);
-            team1.setTrip(t3);
-            em.persist(t3);
-            team1.setTrip(t4);
-            em.persist(t4);
-            team1.setTrip(t5);
-            em.persist(t5);
-            team1.setTrip(t6);
-            em.persist(t6);
-            team1.setTrip(t7);
-            em.persist(t7);
-            team1.setTrip(t8);
-            em.persist(t8);
-            team1.setTrip(t9);
-            em.persist(t9);
-            team1.setTrip(t10);
-            em.persist(t10);
-            team1.setTrip(t11);
-            em.persist(t11);
-            team1.setTrip(t12);
-            em.persist(t12);
-            team1.setTrip(t13);
-            em.persist(t13);
-            team1.setTrip(t14);
-            em.persist(t14);
-            team1.setTrip(t15);
-            em.persist(t15);
-            team1.setTrip(t16);
-            em.persist(t16);
-            team1.setTrip(t17);
-            em.persist(t17);
-            team1.setTrip(t18);
-            em.persist(t18);
-            team1.setTrip(t19);
-            em.persist(t19);
-            team1.setTrip(t20);
-            em.persist(t20);
+            Area area8 = Area.builder()
+                    .code(8)
+                    .name("세종특별자치시")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area9 = Area.builder()
+                    .code(31)
+                    .name("경기도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area10 = Area.builder()
+                    .code(32)
+                    .name("강원도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area11 = Area.builder()
+                    .code(33)
+                    .name("충청북도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area12 = Area.builder()
+                    .code(34)
+                    .name("충청남도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area13 = Area.builder()
+                    .code(35)
+                    .name("경상북도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area14 = Area.builder()
+                    .code(36)
+                    .name("경상남도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area15 = Area.builder()
+                    .code(37)
+                    .name("전라북도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area16 = Area.builder()
+                    .code(38)
+                    .name("전라남도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            Area area17 = Area.builder()
+                    .code(39)
+                    .name("제주도")
+                    .sigunguList(new ArrayList<>())
+                    .build();
+
+            em.persist(area1);
+            em.persist(area2);
+            em.persist(area3);
+            em.persist(area4);
+            em.persist(area5);
+            em.persist(area6);
+            em.persist(area7);
+            em.persist(area8);
+            em.persist(area9);
+            em.persist(area10);
+            em.persist(area11);
+            em.persist(area12);
+            em.persist(area13);
+            em.persist(area14);
+            em.persist(area15);
+            em.persist(area16);
+            em.persist(area17);
+        }
+
+        public void setSeoul() {
+            Area area = areaRepository.findByName("서울");
+
+            Sigungu s1 = Sigungu.builder()
+                    .code(1)
+                    .name("강남구")
+                    .area(area)
+                    .build();
+
+            Sigungu s2 = Sigungu.builder()
+                    .code(2)
+                    .name("강동구")
+                    .area(area)
+                    .build();
+            Sigungu s3 = Sigungu.builder()
+                    .code(3)
+                    .name("강북구")
+                    .area(area)
+                    .build();
+            Sigungu s4 = Sigungu.builder()
+                    .code(4)
+                    .name("강서구")
+                    .area(area)
+                    .build();
+            Sigungu s5 = Sigungu.builder()
+                    .code(5)
+                    .name("관악구")
+                    .area(area)
+                    .build();
+            Sigungu s6 = Sigungu.builder()
+                    .code(6)
+                    .name("광진구")
+                    .area(area)
+                    .build();
+            Sigungu s7 = Sigungu.builder()
+                    .code(7)
+                    .name("구로구")
+                    .area(area)
+                    .build();
+            Sigungu s8 = Sigungu.builder()
+                    .code(8)
+                    .name("금천구")
+                    .area(area)
+                    .build();
+            Sigungu s9 = Sigungu.builder()
+                    .code(9)
+                    .name("노원구")
+                    .area(area)
+                    .build();
+            Sigungu s10 = Sigungu.builder()
+                    .code(1)
+                    .name("도봉구")
+                    .area(area)
+                    .build();
+            Sigungu s11 = Sigungu.builder()
+                    .code(1)
+                    .name("동대문구")
+                    .area(area)
+                    .build();
+            Sigungu s12 = Sigungu.builder()
+                    .code(1)
+                    .name("동작구")
+                    .area(area)
+                    .build();
+            Sigungu s13 = Sigungu.builder()
+                    .code(13)
+                    .name("마포구")
+                    .area(area)
+                    .build();
+            Sigungu s14 = Sigungu.builder()
+                    .code(14)
+                    .name("서대문구")
+                    .area(area)
+                    .build();
+            Sigungu s15 = Sigungu.builder()
+                    .code(15)
+                    .name("서초구")
+                    .area(area)
+                    .build();
+            Sigungu s16 = Sigungu.builder()
+                    .code(16)
+                    .name("성동구")
+                    .area(area)
+                    .build();
+            Sigungu s17 = Sigungu.builder()
+                    .code(17)
+                    .name("구로구")
+                    .area(area)
+                    .build();
+            Sigungu s18 = Sigungu.builder()
+                    .code(18)
+                    .name("송파구")
+                    .area(area)
+                    .build();
+            Sigungu s19 = Sigungu.builder()
+                    .code(19)
+                    .name("양천구")
+                    .area(area)
+                    .build();
+            Sigungu s20 = Sigungu.builder()
+                    .code(20)
+                    .name("영등포구")
+                    .area(area)
+                    .build();
+            Sigungu s21 = Sigungu.builder()
+                    .code(21)
+                    .name("용산구")
+                    .area(area)
+                    .build();
+            Sigungu s22 = Sigungu.builder()
+                    .code(22)
+                    .name("은평구")
+                    .area(area)
+                    .build();
+            Sigungu s23 = Sigungu.builder()
+                    .code(23)
+                    .name("종로구")
+                    .area(area)
+                    .build();
+            Sigungu s24 = Sigungu.builder()
+                    .code(24)
+                    .name("중구")
+                    .area(area)
+                    .build();
+            Sigungu s25 = Sigungu.builder()
+                    .code(25)
+                    .name("중랑구")
+                    .area(area)
+                    .build();
+
+            em.persist(s1);
+            em.persist(s2);
+            em.persist(s3);
+            em.persist(s4);
+            em.persist(s5);
+            em.persist(s6);
+            em.persist(s7);
+            em.persist(s8);
+            em.persist(s9);
+            em.persist(s10);
+            em.persist(s11);
+            em.persist(s12);
+            em.persist(s13);
+            em.persist(s14);
+            em.persist(s15);
+            em.persist(s16);
+            em.persist(s17);
+            em.persist(s18);
+            em.persist(s19);
+            em.persist(s20);
+            em.persist(s21);
+            em.persist(s22);
+            em.persist(s23);
+            em.persist(s24);
+            em.persist(s25);
+
+        }
+
+        public void setInCheon() {
+            Area area = areaRepository.findByName("인천");
+
+            Sigungu s1 = Sigungu.builder()
+                    .code(1)
+                    .name("강화군")
+                    .area(area)
+                    .build();
+
+            Sigungu s2 = Sigungu.builder()
+                    .code(2)
+                    .name("계양구")
+                    .area(area)
+                    .build();
+
+            Sigungu s3 = Sigungu.builder()
+                    .code(3)
+                    .name("미추홀구")
+                    .area(area)
+                    .build();
+
+            Sigungu s4 = Sigungu.builder()
+                    .code(4)
+                    .name("남동구")
+                    .area(area)
+                    .build();
+
+            Sigungu s5 = Sigungu.builder()
+                    .code(5)
+                    .name("동구")
+                    .area(area)
+                    .build();
+
+            Sigungu s6 = Sigungu.builder()
+                    .code(6)
+                    .name("부평구")
+                    .area(area)
+                    .build();
+
+            Sigungu s7 = Sigungu.builder()
+                    .code(7)
+                    .name("서구")
+                    .area(area)
+                    .build();
+
+            Sigungu s8 = Sigungu.builder()
+                    .code(8)
+                    .name("연수구")
+                    .area(area)
+                    .build();
+            Sigungu s9 = Sigungu.builder()
+                    .code(9)
+                    .name("옹진군")
+                    .area(area)
+                    .build();
+
+            Sigungu s10 = Sigungu.builder()
+                    .code(10)
+                    .name("중구")
+                    .area(area)
+                    .build();
+
+            em.persist(s1);
+            em.persist(s2);
+            em.persist(s3);
+            em.persist(s4);
+            em.persist(s5);
+            em.persist(s6);
+            em.persist(s7);
+            em.persist(s8);
+            em.persist(s9);
+            em.persist(s10);
+
+        }
+
+        public void setDaeJeon() {
+
+            Area area = areaRepository.findByName("대전");
+            em.persist(area);
+
+            Sigungu s1 = Sigungu.builder()
+                    .code(1)
+                    .name("대덕구")
+                    .area(area)
+                    .build();
+
+            Sigungu s2 = Sigungu.builder()
+                    .code(2)
+                    .name("동구")
+                    .area(area)
+                    .build();
+
+            Sigungu s3 = Sigungu.builder()
+                    .code(3)
+                    .name("서구")
+                    .area(area)
+                    .build();
+
+            Sigungu s4 = Sigungu.builder()
+                    .code(4)
+                    .name("유성구")
+                    .area(area)
+                    .build();
+
+            Sigungu s5 = Sigungu.builder()
+                    .code(5)
+                    .name("중구")
+                    .area(area)
+                    .build();
+
+            em.persist(s1);
+            em.persist(s2);
+            em.persist(s3);
+            em.persist(s4);
+            em.persist(s5);
 
 
-            // 여행지에서 경로 설정
-            TripLocation tripLocation1 = TripLocation.setTripLocation(trip1, location1);
-            TripLocation tripLocation2 = TripLocation.setTripLocation(trip1, location2);
-            TripLocation tripLocation3 = TripLocation.setTripLocation(trip1, location3);
-            TripLocation tripLocation4 = TripLocation.setTripLocation(trip1, location4);
-            TripLocation tripLocation5 = TripLocation.setTripLocation(trip2, location1);
-            TripLocation tripLocation6 = TripLocation.setTripLocation(trip2, location2);
-            TripLocation tripLocation7 = TripLocation.setTripLocation(trip3, location3);
-            TripLocation tripLocation8 = TripLocation.setTripLocation(trip3, location4);
+        }
 
-            em.persist(tripLocation1);
-            em.persist(tripLocation2);
-            em.persist(tripLocation3);
-            em.persist(tripLocation4);
-            em.persist(tripLocation5);
-            em.persist(tripLocation6);
-            em.persist(tripLocation7);
-            em.persist(tripLocation8);
+        public void setDaeGu() {
+            Area area = areaRepository.findByName("대구");
+            em.persist(area);
+
+            Sigungu s1 = Sigungu.builder()
+                    .code(1)
+                    .name("남구")
+                    .area(area)
+                    .build();
+
+            Sigungu s2 = Sigungu.builder()
+                    .code(2)
+                    .name("달서구")
+                    .area(area)
+                    .build();
+
+            Sigungu s3 = Sigungu.builder()
+                    .code(3)
+                    .name("달성군")
+                    .area(area)
+                    .build();
+
+            Sigungu s4 = Sigungu.builder()
+                    .code(4)
+                    .name("동구")
+                    .area(area)
+                    .build();
+
+            Sigungu s5 = Sigungu.builder()
+                    .code(5)
+                    .name("북구")
+                    .area(area)
+                    .build();
+
+            Sigungu s6 = Sigungu.builder()
+                    .code(6)
+                    .name("서구")
+                    .area(area)
+                    .build();
+
+            Sigungu s7 = Sigungu.builder()
+                    .code(7)
+                    .name("수성구")
+                    .area(area)
+                    .build();
+
+            Sigungu s8 = Sigungu.builder()
+                    .code(8)
+                    .name("중구")
+                    .area(area)
+                    .build();
+
+            em.persist(s1);
+            em.persist(s2);
+            em.persist(s3);
+            em.persist(s4);
+            em.persist(s5);
+            em.persist(s6);
+            em.persist(s7);
+            em.persist(s8);
+        }
+
+        public void setGwangJu() {
+            Area area = areaRepository.findByName("광주");
+            em.persist(area);
+
+            Sigungu s1 = Sigungu.builder()
+                    .code(1)
+                    .name("광산구")
+                    .area(area)
+                    .build();
+            Sigungu s2 = Sigungu.builder()
+                    .code(2)
+                    .name("남구")
+                    .area(area)
+                    .build();
+            Sigungu s3 = Sigungu.builder()
+                    .code(3)
+                    .name("동구")
+                    .area(area)
+                    .build();
+            Sigungu s4 = Sigungu.builder()
+                    .code(4)
+                    .name("북구")
+                    .area(area)
+                    .build();
+            Sigungu s5 = Sigungu.builder()
+                    .code(5)
+                    .name("서구")
+                    .area(area)
+                    .build();
+
+            em.persist(s1);
+            em.persist(s2);
+            em.persist(s3);
+            em.persist(s4);
+            em.persist(s5);
         }
 
     }
-    */
+
 }
