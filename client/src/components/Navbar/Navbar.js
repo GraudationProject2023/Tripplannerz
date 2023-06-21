@@ -537,7 +537,7 @@ function movetomain()
                           <input type="text" placeholder="동행을 찾아보세요" />
                         </Nav>
                         <Nav className = "new">
-                            <a href="/schedule" class="button">일정생성</a>
+                            <a href="/find" class="button">일정생성</a>
                         </Nav>
                         <Nav className = "search">
                             <a href="/search" class="button">일정조회</a>
