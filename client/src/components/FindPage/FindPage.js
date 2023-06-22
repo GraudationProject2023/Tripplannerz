@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
@@ -12,8 +12,17 @@ function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
   const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...acceptedFiles, ...prevImages]);
-    onImageUpload(updatedImages);
+  acceptedFiles.forEach((file) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = function (event) {
+        const convertedImage = event.target.result;
+        setImages((prevImages) => [...prevImages, convertedImage]);
+        onImageUpload(convertedImage);
+    };
+
+      fileReader.readAsDataURL(file);
+    });
   }, [onImageUpload]);
 
   const onDelete = (index) => {
@@ -89,7 +98,11 @@ function FileUpload({onImageUpload}) {
   );
 }
 
+
+
+
 function FindPage(){
+
         const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
@@ -104,23 +117,41 @@ function FindPage(){
             setSelectedImages(uploadedImages);
         }
 
+        useEffect(() => {
+                 localStorage.setItem("cast",1);
+                 localStorage.setItem("rank",-1);
+                 localStorage.setItem("vest",1);
+                 document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+            },[]);
 
         const handleSubmit = (event) => {
             event.preventDefault();
 
             const formData = new FormData();
 
-            var string_date = date.toString();
-            var string_going_date = going.toString();
-            var string_coming_date = coming.toString();
-            formData.append('title', title);
-            formData.append('capacity',capacity);
-            formData.append('closeRecruitDate',string_date);
-            formData.append('goingDate',string_going_date);
-            formData.append('comingDate',string_coming_date);
-            formData.append('area',selectedCategory);
-            formData.append('sigungu',selectedSubCategory);
-            formData.append('image',blob,selectedimages[0]);
+            var closeRecruitDate = date.toString();
+            var goingDate = going.toString();
+            var comingDate = coming.toString();
+            var area = selectedCategory;
+            var sigungu = selectedSubCategory;
+
+            const contentsData = {
+                title,
+                capacity,
+                closeRecruitDate,
+                goingDate,
+                comingDate,
+                area,
+                sigungu,
+            };
+
+            formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
+
+            for(let i = 0; i < selectedimages.length; i++)
+            {
+                formData.append("file",selectedimages[i]);
+            }
+
 
 
              for(const entry of formData.entries()){
@@ -209,7 +240,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(selectedimages)}
+              {console.log(selectedimages[0])}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
@@ -300,7 +331,9 @@ function FindPage(){
                 </table>
               </Form>
                 <hr />
+
                 <div className="image-title">
+
                <h4>사진 업로드</h4>
                <FileUpload onImageUpload = {handleImageUpload} />
                </div>
