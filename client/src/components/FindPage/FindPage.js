@@ -10,9 +10,8 @@ axios.withCredentials = true;
 
 function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
-
   const onDrop = useCallback((acceptedFiles) => {
-    const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
+  const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...acceptedFiles, ...prevImages]);
     onImageUpload(updatedImages);
   }, [onImageUpload]);
@@ -73,6 +72,7 @@ function FileUpload({onImageUpload}) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {console.log(images)}
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
         {images.map((image, index) => (
@@ -90,7 +90,7 @@ function FileUpload({onImageUpload}) {
 }
 
 function FindPage(){
-        const [images, setImages] = useState([]);
+        const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
         const [date, setDate] = useState('');
@@ -99,9 +99,9 @@ function FindPage(){
         const [selectedMainCategory, setSelectedMainCategory] = useState('');
         const [selectedCategory, setSelectedCategory] = useState('');
         const [selectedSubCategory, setSelectedSubCategory] = useState('');
-
-        const handleImageUpload = (selectedImages) => {
-            setImages(selectedImages);
+        const blob = new Blob([selectedimages],{type:'multipart/form-data'})
+        const handleImageUpload = (uploadedImages) => {
+            setSelectedImages(uploadedImages);
         }
 
 
@@ -120,25 +120,26 @@ function FindPage(){
             formData.append('comingDate',string_coming_date);
             formData.append('area',selectedCategory);
             formData.append('sigungu',selectedSubCategory);
+            formData.append('image',blob,selectedimages[0]);
 
-            images.forEach((image, index) => {
-                formData.append(`image${index}`,image);
-            })
 
              for(const entry of formData.entries()){
                             const [key,value] = entry;
                             console.log(`Key: ${key}, Value: ${value}`);
                         }
 
-            axios.post('https://localhost:8080/trip/create',formData,{
+            axios.post('http://localhost:8080/api/trip/create',formData,{
+                headers: {'Content-Type': 'multipart/form-data'},
                 withCredentials: true
             })
             .then((response) => {
+                alert('여행이 생성되었습니다!');
                 console.log(response);
                 console.log(formData);
-
+                window.location.href="/main";
             })
             .catch((response) => {
+                alert('오류가 발생하였습니다.');
                 console.log(response);
                 console.log(formData);
             });
@@ -208,7 +209,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(images)}
+              {console.log(selectedimages)}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
@@ -342,7 +343,7 @@ function FindPage(){
                </div>
                 <hr />
                <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
-                제출
+                등록
                </Button>
                </Form>
 
