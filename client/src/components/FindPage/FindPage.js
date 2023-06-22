@@ -148,7 +148,7 @@ function FindPage(){
 
             formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
 
-            formData.append("image",selectedimages);
+            formData.append("image",new Blob([selectedimages],{type: "multipart/form-data"}));
 
 
 
