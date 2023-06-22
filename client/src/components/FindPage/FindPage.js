@@ -110,16 +110,23 @@ function FindPage(){
 
             const formData = new FormData();
 
-            var string_date = date.toString();
-            var string_going_date = going.toString();
-            var string_coming_date = coming.toString();
-            formData.append('title', title);
-            formData.append('capacity',capacity);
-            formData.append('closeRecruitDate',string_date);
-            formData.append('goingDate',string_going_date);
-            formData.append('comingDate',string_coming_date);
-            formData.append('area',selectedCategory);
-            formData.append('sigungu',selectedSubCategory);
+            var closeRecruitDate = date.toString();
+            var goingDate = going.toString();
+            var comingDate = coming.toString();
+            var area = selectedCategory;
+            var sigungu = selectedSubCategory;
+
+            const contentsData = {
+                title,
+                capacity,
+                closeRecruitDate,
+                goingDate,
+                comingDate,
+                area,
+                sigungu,
+            };
+
+            formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
             formData.append('image',blob,selectedimages[0]);
 
 
@@ -209,7 +216,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(selectedimages)}
+              {console.log(selectedimages[0])}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
