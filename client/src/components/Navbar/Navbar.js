@@ -572,4 +572,3 @@ function movetomain()
 }
 
 export default NavBar;
-
