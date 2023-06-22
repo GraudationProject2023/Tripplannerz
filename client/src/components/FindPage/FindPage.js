@@ -11,19 +11,17 @@ axios.withCredentials = true;
 function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
-  const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
-  acceptedFiles.forEach((file) => {
     const fileReader = new FileReader();
 
     fileReader.onload = function (event) {
-        const convertedImage = event.target.result;
-        setImages((prevImages) => [...prevImages, convertedImage]);
-        onImageUpload(convertedImage);
+      const convertedImage = event.target.result;
+      setImages((prevImages) => [...prevImages, convertedImage]);
+      onImageUpload(convertedImage);
     };
 
-      fileReader.readAsDataURL(file);
-    });
+    fileReader.readAsDataURL(acceptedFiles[0]);
   }, [onImageUpload]);
+
 
   const onDelete = (index) => {
     const updatedImages = [...images];
@@ -84,14 +82,17 @@ function FileUpload({onImageUpload}) {
         {console.log(images)}
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
-        {images.map((image, index) => (
+
+        <img src={images} alt={`Uploaded`} style={imageStyle} />
+
+        {/*images.map((image, index) => (
                   <div key={index} style={imageContainerStyle}>
                     <img src={URL.createObjectURL(image)} alt={`Uploaded ${index}`} style={imageStyle} />
                     <button style={buttonStyle} onClick={() => onDelete(index)}>
                       X
                     </button>
                   </div>
-                ))}
+                ))*/}
       </div>
 
     </div>
@@ -147,10 +148,7 @@ function FindPage(){
 
             formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
 
-            for(let i = 0; i < selectedimages.length; i++)
-            {
-                formData.append("file",selectedimages[i]);
-            }
+            formData.append("image",selectedimages);
 
 
 
@@ -240,7 +238,7 @@ function FindPage(){
             <div className="Structure">
               <Navbar />
               <div className="Find">
-              {console.log(selectedimages[0])}
+              {console.log(selectedimages)}
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
