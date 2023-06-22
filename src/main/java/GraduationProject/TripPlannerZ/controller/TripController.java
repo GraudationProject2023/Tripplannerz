@@ -4,6 +4,7 @@ import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
 import GraduationProject.TripPlannerZ.service.MemberService;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,12 +35,14 @@ public class TripController {
     private final TripImageRepository tripImageRepository;
 
     @PostMapping("/trip/create")
-    public void createTrip(@RequestParam("title") String title, @RequestParam("capacity") int capacity,
-                           @RequestParam("closeRecruitDate") String closeRecruitDate,
-                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
-                           @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
-                           @RequestPart(value = "image", required = false) MultipartFile uploadFile,
+    public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") List<MultipartFile> uploadFile,
                            HttpServletRequest request) throws IOException {
+//            @RequestParam("title") String title, @RequestParam("capacity") int capacity,
+//                           @RequestParam("closeRecruitDate") String closeRecruitDate,
+//                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
+//                           @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
+//                           @RequestPart(value = "image", required = false) MultipartFile uploadFile,
+//                           HttpServletRequest request) throws IOException {
 
         // 멤버 찾기
         HttpSession session = request.getSession(false);
@@ -55,18 +59,18 @@ public class TripController {
         memberPartyRepository.save(memberParty);
 
         // 도시 번호 지정
-        Sigungu sigunguNum = sigunguRepository.findByName(sigungu);
+        Sigungu sigunguNum = sigunguRepository.findByName(tripCreate.getSigungu());
         Area areaNum = sigunguNum.getArea();
 
 
         // group에서 여행 일정 생성
         Trip trip = Trip.builder()
-                .title(title)
+                .title(tripCreate.getTitle())
                 .tripImage(new ArrayList<>())
-                .recruitNum(capacity)
-                .startingDate(goingDate)
-                .comingDate(comingDate)
-                .closeRecruitDate(closeRecruitDate)
+                .recruitNum(tripCreate.getCapacity())
+                .startingDate(tripCreate.getGoingDate())
+                .comingDate(tripCreate.getComingDate())
+                .closeRecruitDate(tripCreate.getCloseRecruitDate())
                 .party(party)
                 .areaCode(areaNum.getCode())
                 .sigunguCode(sigunguNum.getCode())
@@ -78,24 +82,24 @@ public class TripController {
         tripService.createTrip(trip);
 
         System.out.println("==========================2");
-        TripImage tripImage = TripImage.builder().trip(trip).build();
-        tripImageRepository.save(tripImage);
-        File newFile = new File(tripImage.getImg_uuid());
-        uploadFile.transferTo(newFile);
+//        TripImage tripImage = TripImage.builder().trip(trip).build();
+//        tripImageRepository.save(tripImage);
+//        File newFile = new File(tripImage.getImg_uuid());
+//        uploadFile.transferTo(newFile);
+//
+//
+//        System.out.println("uploadFile = " + uploadFile);
+//
+//
+        for (MultipartFile file : uploadFile) {
+            if(!file.isEmpty()) {
+                TripImage tripImage = TripImage.builder().trip(trip).build();
+                tripImageRepository.save(tripImage);
 
-
-        System.out.println("uploadFile = " + uploadFile);
-//
-//
-//        for (MultipartFile file : uploadFile) {
-//            if(!file.isEmpty()) {
-//                TripImage tripImage = TripImage.builder().trip(trip).build();
-//
-//
-//                File newFile = new File(tripImage.getImg_uuid());
-//                file.transferTo(newFile);
-//            }
-//        }
+                File newFile = new File(tripImage.getImg_uuid());
+                file.transferTo(newFile);
+            }
+        }
     }
 
     @PostMapping("/trip/select")
