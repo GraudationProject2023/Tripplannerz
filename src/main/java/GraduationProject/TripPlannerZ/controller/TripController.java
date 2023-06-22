@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,14 +34,14 @@ public class TripController {
     private final TripImageRepository tripImageRepository;
 
     @PostMapping("/trip/create")
-    public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") List<MultipartFile> uploadFile,
+    public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile,
                            HttpServletRequest request) throws IOException {
 //            @RequestParam("title") String title, @RequestParam("capacity") int capacity,
 //                           @RequestParam("closeRecruitDate") String closeRecruitDate,
 //                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
 //                           @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
 //                           @RequestPart(value = "image", required = false) MultipartFile uploadFile,
-//                           HttpServletRequest request) throws IOException {
+//                           HttpServletRequesrt request) throws IOException {
 
         // 멤버 찾기
         HttpSession session = request.getSession(false);
@@ -75,31 +74,44 @@ public class TripController {
                 .areaCode(areaNum.getCode())
                 .sigunguCode(sigunguNum.getCode())
                 .build();
-        // 이미지 넣기 추가
-
-        System.out.println("==========================1");
-
         tripService.createTrip(trip);
 
-        System.out.println("==========================2");
-//        TripImage tripImage = TripImage.builder().trip(trip).build();
-//        tripImageRepository.save(tripImage);
-//        File newFile = new File(tripImage.getImg_uuid());
-//        uploadFile.transferTo(newFile);
-//
-//
-//        System.out.println("uploadFile = " + uploadFile);
-//
-//
-        for (MultipartFile file : uploadFile) {
-            if(!file.isEmpty()) {
-                TripImage tripImage = TripImage.builder().trip(trip).build();
-                tripImageRepository.save(tripImage);
+        // 이미지 넣기 추가
+        TripImage tripImage = TripImage.builder().trip(trip).build();
+        tripImageRepository.save(tripImage);
+        File newFile = new File(tripImage.getImg_uuid());
+        uploadFile.transferTo(newFile);
 
-                File newFile = new File(tripImage.getImg_uuid());
-                file.transferTo(newFile);
-            }
-        }
+        // 이미지 파일로 변환
+//        byte[] fileData = uploadFile.getBytes();
+//        File newFile = new File(tripImage.getImg_uuid());
+//        FileOutputStream fos = new FileOutputStream(newFile);
+//        fos.write(fileData);
+//        fos.close();
+
+        /*
+        byte[] fileData = multipartFile.getBytes();
+
+        // 이미지 파일로 변환
+        File outputFile = new File(outputPath);
+        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+        fileOutputStream.write(fileData);
+        fileOutputStream.close();
+         */
+
+
+        System.out.println("uploadFile = " + uploadFile);
+//
+//
+//        for (MultipartFile file : uploadFile) {
+//            if(!file.isEmpty()) {
+//                TripImage tripImage = TripImage.builder().trip(trip).build();
+//                tripImageRepository.save(tripImage);
+//
+//                File newFile = new File(tripImage.getImg_uuid());
+//                file.transferTo(newFile);
+//            }
+//        }
     }
 
     @PostMapping("/trip/select")
