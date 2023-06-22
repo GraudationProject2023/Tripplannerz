@@ -9,7 +9,12 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 function MainPage(){
-
+    useEffect(() => {
+                    localStorage.setItem("cast",1);
+                    localStorage.setItem("rank",-1);
+                    localStorage.setItem("vest",1);
+                    document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+               },[]);
 
    function MainSlider(){
         const settings = {

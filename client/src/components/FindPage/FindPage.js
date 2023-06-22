@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
@@ -89,7 +89,11 @@ function FileUpload({onImageUpload}) {
   );
 }
 
+
+
+
 function FindPage(){
+        const inputRef = useRef();
         const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
@@ -104,6 +108,12 @@ function FindPage(){
             setSelectedImages(uploadedImages);
         }
 
+        useEffect(() => {
+                 localStorage.setItem("cast",1);
+                 localStorage.setItem("rank",-1);
+                 localStorage.setItem("vest",1);
+                 document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+            },[]);
 
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -127,7 +137,12 @@ function FindPage(){
             };
 
             formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
-            formData.append('image',blob,selectedimages[0]);
+            const fileData = inputRef.current.file.files;
+            for(let i = 0; i < fileData.length; i++)
+            {
+                formData.append("file",fileData[i]);
+            }
+
 
 
              for(const entry of formData.entries()){
@@ -307,7 +322,11 @@ function FindPage(){
                 </table>
               </Form>
                 <hr />
+                <form>
+                  파일명 : <input type="file" name="myfile" />
+                </form>
                 <div className="image-title">
+
                <h4>사진 업로드</h4>
                <FileUpload onImageUpload = {handleImageUpload} />
                </div>
