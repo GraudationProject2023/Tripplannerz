@@ -5,6 +5,7 @@ import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
+import GraduationProject.TripPlannerZ.repository.TripImageRepository;
 import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
@@ -29,13 +30,14 @@ public class TripController {
     private final PartyService partyService;
     private final MemberPartyRepository memberPartyRepository;
     private final SigunguRepository sigunguRepository;
+    private final TripImageRepository tripImageRepository;
 
     @PostMapping("/trip/create")
     public void createTrip(@RequestParam("title") String title, @RequestParam("capacity") int capacity,
                            @RequestParam("closeRecruitDate") String closeRecruitDate,
                            @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
                            @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
-                           @RequestPart(value = "image0", required = false) MultipartFile uploadFile,
+                           @RequestPart(value = "image", required = false) MultipartFile uploadFile,
                            HttpServletRequest request) throws IOException {
 
         // 멤버 찾기
@@ -77,8 +79,12 @@ public class TripController {
 
         System.out.println("==========================2");
         TripImage tripImage = TripImage.builder().trip(trip).build();
+        tripImageRepository.save(tripImage);
         File newFile = new File(tripImage.getImg_uuid());
         uploadFile.transferTo(newFile);
+
+
+        System.out.println("uploadFile = " + uploadFile);
 //
 //
 //        for (MultipartFile file : uploadFile) {
