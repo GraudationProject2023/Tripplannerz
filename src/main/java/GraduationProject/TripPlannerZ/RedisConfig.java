@@ -16,6 +16,8 @@ public class RedisConfig {
     @Value("${spring.redis.host}")
     private String redisHost;
 
+
+    // test
     @Value("${spring.redis.port}")
     private int redisPort;
 
