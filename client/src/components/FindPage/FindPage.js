@@ -12,8 +12,17 @@ function FileUpload({onImageUpload}) {
   const [images, setImages] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
   const updatedImages = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...acceptedFiles, ...prevImages]);
-    onImageUpload(updatedImages);
+  acceptedFiles.forEach((file) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = function (event) {
+        const convertedImage = event.target.result;
+        setImages((prevImages) => [...prevImages, convertedImage]);
+        onImageUpload(convertedImage);
+    };
+
+      fileReader.readAsDataURL(file);
+    });
   }, [onImageUpload]);
 
   const onDelete = (index) => {
@@ -93,7 +102,7 @@ function FileUpload({onImageUpload}) {
 
 
 function FindPage(){
-        const inputRef = useRef();
+
         const [selectedimages, setSelectedImages] = useState([]);
         const [title,setTitle] = useState('');
         const [capacity, setCapacity] = useState(0);
@@ -137,10 +146,10 @@ function FindPage(){
             };
 
             formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
-            const fileData = inputRef.current.file.files;
-            for(let i = 0; i < fileData.length; i++)
+
+            for(let i = 0; i < selectedimages.length; i++)
             {
-                formData.append("file",fileData[i]);
+                formData.append("file",selectedimages[i]);
             }
 
 
@@ -322,9 +331,7 @@ function FindPage(){
                 </table>
               </Form>
                 <hr />
-                <form>
-                  파일명 : <input type="file" name="myfile" />
-                </form>
+
                 <div className="image-title">
 
                <h4>사진 업로드</h4>
