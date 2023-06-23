@@ -13,12 +13,15 @@ import GraduationProject.TripPlannerZ.service.TripService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -81,6 +84,7 @@ public class TripController {
         tripImageRepository.save(tripImage);
         File newFile = new File(tripImage.getImg_uuid());
         uploadFile.transferTo(newFile);
+
 
         // 이미지 파일로 변환
 //        byte[] fileData = uploadFile.getBytes();

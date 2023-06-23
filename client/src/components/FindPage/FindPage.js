@@ -19,7 +19,7 @@ function FileUpload({onImageUpload}) {
       onImageUpload(convertedImage);
     };
 
-    fileReader.readAsDataURL(acceptedFiles[0]);
+    fileReader.readAsArrayBuffer(acceptedFiles[0]);
   }, [onImageUpload]);
 
 
@@ -113,7 +113,7 @@ function FindPage(){
         const [selectedMainCategory, setSelectedMainCategory] = useState('');
         const [selectedCategory, setSelectedCategory] = useState('');
         const [selectedSubCategory, setSelectedSubCategory] = useState('');
-        const blob = new Blob([selectedimages],{type:'multipart/form-data'})
+        const blob = new Blob(new Uint8Array(selectedimages),{type:'image/png'})
         const handleImageUpload = (uploadedImages) => {
             setSelectedImages(uploadedImages);
         }
@@ -148,7 +148,7 @@ function FindPage(){
 
             formData.append("contentsData", new Blob([JSON.stringify(contentsData)],{type: "application/json"}));
 
-            formData.append("image",new Blob([selectedimages],{type: "multipart/form-data"}));
+            formData.append("image", blob);
 
 
 
