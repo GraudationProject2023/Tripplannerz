@@ -42,6 +42,10 @@ dependencies {
 
 	// thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// https://mvnrepository.com/artifact/commons-codec/commons-codec
+	implementation 'commons-codec:commons-codec:1.9'
+
 }
 
 tasks.named('test') {
