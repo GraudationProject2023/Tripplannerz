@@ -83,16 +83,16 @@ function FileUpload({onImageUpload}) {
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
 
-        <img src={images} alt={`Uploaded`} style={imageStyle} />
+        {/*<img src={images} alt={`Uploaded`} style={imageStyle} /> */}
 
-        {/*images.map((image, index) => (
+        {images.map((image, index) => (
                   <div key={index} style={imageContainerStyle}>
-                    <img src={URL.createObjectURL(image)} alt={`Uploaded ${index}`} style={imageStyle} />
+                    <img src={image} alt={`Uploaded ${index}`} style={imageStyle} />
                     <button style={buttonStyle} onClick={() => onDelete(index)}>
                       X
                     </button>
                   </div>
-                ))*/}
+                ))}
       </div>
 
     </div>
@@ -123,6 +123,7 @@ function FindPage(){
                  localStorage.setItem("rank",-1);
                  localStorage.setItem("vest",1);
                  document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+                 axios.get('http://localhost:8080/api/trip/create')
             },[]);
 
         const handleSubmit = (event) => {
