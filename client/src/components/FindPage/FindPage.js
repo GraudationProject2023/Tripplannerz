@@ -256,41 +256,29 @@ function FindPage(){
                           {mainCategories.map((category) => (
                             <div
                               key={category}
-                              style={{
-                                marginRight: '10px',
-                                marginTop:'1px',
-                                padding: '29px',
-                                border: '1px solid #ccc',
-                                cursor: 'pointer',
-                                textAlign:'center'
-                              }}
+                              className={selectedMainCategory === category ? 'selected-main-category' : 'main-category'}
                               onClick={() => handleMainCategoryChange(category)}
                             >
                               {category}
                             </div>
                           ))}
+
                         </div>
                       </td>
                       <td>
                         <div style={{ width: "100px",height:"370px" }}>
                           {selectedMainCategory && (
-                            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+                            <div className="sub-category-container">
                               {categories[selectedMainCategory].map((category) => (
                                 <div
                                   key={category}
-                                  style={{
-                                    width: '80px',
-                                    marginRight: '10px',
-                                    padding: '10px',
-                                    border: '1px solid #ccc',
-                                    backgroundColor: 'white',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`sub-category ${selectedCategory === category ? 'selected-sub-category' : ''}`}
                                   onClick={() => handleCategoryChange(category)}
                                 >
                                   {category}
                                 </div>
                               ))}
+
                             </div>
                           )}
                         </div>
@@ -298,25 +286,13 @@ function FindPage(){
                       <td>
                         <div style={{ width: "1200px",height:"370px" }}>
                           {selectedCategory && (
-                            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+                            <div className="sub-category-container">
                               {subCategories[selectedCategory].map((subCategory,index) => (
                                 <div
-                                  key={subCategory}
-                                  style={{
-                                    display:'flex',
-                                    flexWrap: 'wrap',
-                                    width: '100px',
-                                    marginTop: '1px',
-
-                                    marginRight: '10px',
-                                    padding: '5px',
-                                    border: '1px solid #ccc',
-                                    backgroundColor: 'white',
-                                    cursor: 'pointer',
-
-                                  }}
-                                  onClick={() => handleSubCategoryChange(subCategory)}
-                                >
+                                          key={subCategory}
+                                          className={`sub-category ${selectedSubCategory === subCategory ? 'selected-sub-category' : ''}`}
+                                          onClick={() => handleSubCategoryChange(subCategory)}
+                                        >
                                 {subCategory}
                                 </div>
                               ))}

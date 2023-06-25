@@ -28,6 +28,46 @@
     margin-top: -10.5%;
     margin-left: 55%;
 }
+  .main-category {
+    margin-right: 10px;
+    padding: 29px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+    background-color: white;
+  }
+
+  .sub-category {
+    width: 100px;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .sub-category-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .selected-sub-category {
+       width: 100px;
+       margin-right: 10px;
+       padding: 10px;
+       border: 1px solid #ccc;
+       background-color: skyblue;
+       cursor: pointer;
+  }
+   .selected-main-category {
+          margin-right: 10px;
+          padding: 29px;
+          border: 1px solid #ccc;
+          cursor: pointer;
+          text-align: center;
+          background-color: skyblue;
+    }
 
 .rc-slider {
   position: relative;
