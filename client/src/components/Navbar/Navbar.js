@@ -363,6 +363,10 @@ function movetomain()
       console.log('이메일 전송 완료');
     };
 
+    function movetoMy(){
+        window.location.href="/my";
+    }
+
     //메뉴바
     const [isOpen, setIsOpen] = useState(false);
     const [selectedList, setSelectedList] = useState("");
@@ -547,7 +551,7 @@ function movetomain()
                                    <ul className="mypage-content">
                                       <table>
                                       <br />
-                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>{localStorage.getItem("name")}님</Button></tr>
+                                      <tr><Button onClick={movetoMy} style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>{localStorage.getItem("name")}님</Button></tr>
                                       <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
                                       <tr>
                                         <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>

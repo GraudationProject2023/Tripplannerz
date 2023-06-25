@@ -284,7 +284,7 @@ function FindPage(){
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "1200px",height:"370px" }}>
+                        <div style={{ width: "1200px",height:"370px" ,marginLeft: "50px"  }}>
                           {selectedCategory && (
                             <div className="sub-category-container">
                               {subCategories[selectedCategory].map((subCategory,index) => (
