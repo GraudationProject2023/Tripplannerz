@@ -247,12 +247,12 @@ function FindPage(){
               <h5>현재 선택된 도시는 {selectedCategory} {selectedSubCategory} 입니다.</h5>
               </div>
                <br />
-              <Form style={{border:"1px solid black" }}>
+              <Form style={{border:"1px solid black", borderRadius : "10px", height: "400px" }}>
                 <table>
                   <tbody>
                     <tr>
                       <td>
-                        <div style={{ width: "100px",height:"370px" }}>
+                        <div style={{ width: "100px",height:"370px", marginTop: "20px" }}>
                           {mainCategories.map((category) => (
                             <div
                               key={category}
@@ -266,7 +266,7 @@ function FindPage(){
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "100px",height:"370px" }}>
+                        <div style={{ width: "100px",height:"370px", marginLeft: "50px" }}>
                           {selectedMainCategory && (
                             <div className="sub-category-container">
                               {categories[selectedMainCategory].map((category) => (
