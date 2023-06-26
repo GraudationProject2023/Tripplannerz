@@ -16,7 +16,7 @@ function FindPage(){
      const [selectedMainCategory, setSelectedMainCategory] = useState('');
      const [selectedCategory, setSelectedCategory] = useState('');
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
-     const [image, setImage] = useState([]);
+     const [image, setImage] = useState("");
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -81,7 +81,14 @@ function FindPage(){
        };
 
        const onChangeImageInput = (e) => {
-            setImage([e.target.files[0]]);
+           const file = e.target.files[0];
+           const reader = new FileReader();
+
+           reader.onload = () => {
+            setImage(reader.result);
+           }
+
+           reader.readAsDataURL(file);
        };
 
 
@@ -97,7 +104,7 @@ function FindPage(){
 //            image.forEach(images => {
 //                formData.append("image",images);
 //            })
-
+            formData.append("image", image[0]);
             const contentsData = {
                 title,
                 capacity,
@@ -106,15 +113,15 @@ function FindPage(){
                 comingDate,
                 area,
                 sigungu,
-                image
+
             };
 
-            formData.append("contentsData",JSON.stringify(contentsData));
+            formData.append("contentsData",new Blob([JSON.stringify(contentsData)], {type: 'application/json'}));
 
-             for(const entry of formData.entries()){
-                                        const [key,value] = entry;
-                                        console.log(`Key: ${key}, Value: ${value}`);
-                                    }
+//             for(const entry of formData.entries()){
+//                                        const [key,value] = entry;
+//                                        console.log(`Key: ${key}, Value: ${value}`);
+//                                    }
 
             axios.post('http://localhost:8080/api/trip/create',formData,{
                 headers: {'Content-Type':'multipart/form-data', charset : 'utf-8'},
@@ -202,12 +209,24 @@ function FindPage(){
                         </tbody>
                   </table>
           </Form>
+          <br />
+          <br />
+          <div className="subtitle">
+          <h3>정보</h3>
+          </div>
           <hr />
           <Form onSubmit={handleSubmit}>
           <div className = "image-title">
           <Form.Group controlId="form-Image">
           <Form.Label>사진 업로드</Form.Label>
-          <Form.Control type="file" onChange={onChangeImageInput} />
+          <table>
+          <td>
+          {image && <img src={image} />}
+          </td>
+          <td>
+          <Form.Control style={{width: "300px"}} type="file" onChange={onChangeImageInput} />
+          </td>
+          </table>
           </Form.Group>
           </div>
           <div className="form-Title">
