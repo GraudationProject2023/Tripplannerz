@@ -48,6 +48,7 @@ const MyPage = () => {
              <h2>마이 페이지</h2>
                 <img alt="프로필" />
                 <h5>이름 : {localStorage.getItem("name")}</h5>
+                <h5>이메일 : @@@</h5>
           </div>
       );
     }
@@ -56,6 +57,9 @@ const MyPage = () => {
     return(
         <div className = "profile-card">
            <h2>계정 설정 페이지</h2>
+           <img alt="프로필" />
+                           <h5>이름 : {localStorage.getItem("name")}</h5>
+                           <h5>이메일 : @@@</h5>
         </div>
     );
   }
@@ -64,6 +68,9 @@ const MyPage = () => {
       return(
           <div className = "profile-card">
              <h2>내 일정 페이지</h2>
+             <img alt="프로필" />
+                             <h5>이름 : {localStorage.getItem("name")}</h5>
+                             <h5>이메일 : @@@</h5>
           </div>
       );
     }
@@ -82,10 +89,15 @@ const MyPage = () => {
   return (
     <div>
      <Navbar />
-     <div className="content">
-        {currentPageComponent}
-        <img src = {image} />
-     </div>
+     <div className = "table_n">
+     <table>
+     <td>
+        <div className="content">
+              {currentPageComponent}
+              <img src = {image} />
+        </div>
+     </td>
+     <td>
      <div className = "container">
       <div className = "profile-card">
         <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
@@ -94,6 +106,9 @@ const MyPage = () => {
         <hr />
         <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>내 일정</button>
        </div>
+      </div>
+      </td>
+      </table>
       </div>
     </div>
   );
