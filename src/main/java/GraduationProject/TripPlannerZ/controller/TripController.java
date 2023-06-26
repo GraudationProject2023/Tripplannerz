@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -121,5 +122,11 @@ public class TripController {
     @PostMapping("/trip/select")
     public void selectSigungu() {
 
+    }
+
+    @GetMapping("/trip/send")
+    public void tripDetailed(Model model) {
+        String imgPath = "/Users/seongbochoi/trip_image/e276a5b3-af89-453f-bd6d-62f52ce33ff2";
+        model.addAttribute("imgPath", imgPath);
     }
 }
