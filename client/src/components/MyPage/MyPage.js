@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import Navbar from '../Navbar/Navbar';
 import './MyPage.css'
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+
 
 const MyPage = () => {
   const [name, setName] = useState('');
@@ -12,14 +11,12 @@ const MyPage = () => {
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [currentPage, setCurrentPage] = useState('profile');
-  const [image, setImage] = useState([]);
 
    useEffect(() => {
                       localStorage.setItem("cast",1);
                       localStorage.setItem("rank",-1);
                       localStorage.setItem("vest",1);
                       document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-                      setImage(axios.get("http://localhost:8080/api/trip/send"));
     },[]);
 
   const handleEditProfile = () => {
@@ -69,8 +66,8 @@ const MyPage = () => {
           <div className = "profile-card">
              <h2>내 일정 페이지</h2>
              <img alt="프로필" />
-                             <h5>이름 : {localStorage.getItem("name")}</h5>
-                             <h5>이메일 : @@@</h5>
+             <h5>이름 : {localStorage.getItem("name")}</h5>
+             <h5>이메일 : @@@</h5>
           </div>
       );
     }
@@ -94,7 +91,6 @@ const MyPage = () => {
      <td>
         <div className="content">
               {currentPageComponent}
-              <img src = {image} />
         </div>
      </td>
      <td>
