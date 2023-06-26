@@ -18,5 +18,5 @@ public class TripCreate {
     private String comingDate;
     private String area;
     private String sigungu;
-    private MultipartFile uploadFile;
+//    private MultipartFile uploadFile;
 }
