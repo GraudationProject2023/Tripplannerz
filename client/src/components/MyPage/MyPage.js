@@ -9,6 +9,7 @@ const MyPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
+  const [currentPage, setCurrentPage] = useState('profile');
    useEffect(() => {
                       localStorage.setItem("cast",1);
                       localStorage.setItem("rank",-1);
@@ -32,14 +33,66 @@ const MyPage = () => {
     setIsEditing(false);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
+
+   const renderProfilePage = () => {
+      return(
+          <div>
+             <h2>마이 페이지</h2>
+               <table>
+                   <td>
+                     <img alt="프로필" />
+                   </td>
+                   <td>
+                     <h5>이름 : {localStorage.getItem("name")}</h5>
+                   </td>
+               </table>
+          </div>
+      );
+    }
+
+  const renderAccountPage = () => {
+    return(
+        <div>
+           <h2>계정 설정 페이지</h2>
+        </div>
+    );
+  }
+
+  const renderSchedulePage = () => {
+      return(
+          <div>
+             <h2>내 일정 페이지</h2>
+          </div>
+      );
+    }
+
+  let currentPageComponent;
+  if(currentPage === 'profile'){
+    currentPageComponent = renderProfilePage();
+  }
+  else if(currentPage === 'account'){
+    currentPageComponent = renderAccountPage();
+  }
+  else if(currentPage === 'schedule'){
+    currentPageComponent = renderSchedulePage();
+  }
+
   return (
     <div>
      <Navbar />
+     <div className="content">
+        {currentPageComponent}
+     </div>
      <div className = "container">
-      <h1>My Page</h1>
       <div className = "profile-card">
-        <h2>Profile</h2>
-
+        <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
+        <hr />
+        <button className={`buttonstyle ${currentPage === 'account' ? 'active' : ''}`} onClick={() => handlePageChange('account')}>계정 설정</button>
+        <hr />
+        <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>내 일정</button>
        </div>
       </div>
     </div>

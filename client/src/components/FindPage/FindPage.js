@@ -243,9 +243,6 @@ function FindPage(){
               <div className="Title">
               <h2>동행자 모집하기</h2>
               </div>
-              <div>
-              <h5>현재 선택된 도시는 {selectedCategory} {selectedSubCategory} 입니다.</h5>
-              </div>
                <br />
               <Form style={{border:"1px solid black", borderRadius : "10px", height: "400px" }}>
                 <table>
