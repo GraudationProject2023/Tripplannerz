@@ -59,17 +59,6 @@ function NavBar(){
 
     }
 
-
-    useEffect(() => {
-         localStorage.setItem("cast",0);
-         localStorage.setItem("rank",-1);
-         localStorage.setItem("vest",0);
-         document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-    },[]);
-
-
-
-
     const Button1 = () => {
             const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
 
@@ -269,6 +258,7 @@ function movetomain()
          console.log(res);
          var rlt = res.data.result;
          var na = res.data.name;
+
          if(rlt === true)
          {
             localStorage.setItem("vest",1);
@@ -281,6 +271,7 @@ function movetomain()
 
          if(set === '1')
          {
+             localStorage.setItem("name",na);
              alert(`${na}님! 로그인이 되었습니다.`);
              setFirstShowModal(false);
              window.location.href="/main";
@@ -347,11 +338,13 @@ function movetomain()
           console.log(res);
           alert('정상적으로 로그아웃 되었습니다.');
           localStorage.setItem("vest",0);
+          localStorage.setItem("name",'');
           })
           .catch(error=>{
           console.log(error);
           alert('서버와의 연결이 끊어졌습니다.');
           localStorage.setItem("vest",0);
+          localStorage.setItem("name",'');
           })
 
           window.location.href="/";
@@ -361,12 +354,18 @@ function movetomain()
     var offset = localStorage.getItem("vest");
 
     function LogoutMain(){
+      localStorage.setItem("cast",0);
+      localStorage.setItem("vest",0);
       window.location.href="/main";
     }
 
     const onButtonClick = () => {
       console.log('이메일 전송 완료');
     };
+
+    function movetoMy(){
+        window.location.href="/my";
+    }
 
     //메뉴바
     const [isOpen, setIsOpen] = useState(false);
@@ -552,7 +551,7 @@ function movetomain()
                                    <ul className="mypage-content">
                                       <table>
                                       <br />
-                                      <tr><Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>${name}님</Button></tr>
+                                      <tr><Button onClick={movetoMy} style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop: "-30px",marginLeft: "-32px",width:"150px",height:"50px"}}>{localStorage.getItem("name")}님</Button></tr>
                                       <hr style={{marginLeft:"-32px",marginTop:"0px"}} />
                                       <tr>
                                         <Button style={{border:"1px solid white",backgroundColor:"#FFFFFF",color:"#000000",marginTop:"-15.6px",marginLeft: "-32px",width:"150px",height:"50px"}} onClick={logout}>로그아웃</Button>
