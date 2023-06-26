@@ -17,6 +17,7 @@ function FindPage(){
      const [selectedCategory, setSelectedCategory] = useState('');
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
      const [image, setImage] = useState([]);
+     const [preview, setPreview] = useState([]);
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -83,14 +84,14 @@ function FindPage(){
        const onChangeImageInput = (e) => {
             setImage([e.target.files[0]]);
 
-//           const file = e.target.files[0];
-//           const reader = new FileReader();
-//
-//           reader.onload = () => {
-//            setImage(reader.result);
-//           }
-//
-//           reader.readAsDataURL(file);
+           const file = e.target.files[0];
+           const reader = new FileReader();
+
+           reader.onload = () => {
+            setPreview(reader.result);
+           }
+
+           reader.readAsDataURL(file);
        };
 
 
@@ -223,7 +224,7 @@ function FindPage(){
           <Form.Label>사진 업로드</Form.Label>
           <table>
           <td>
-          {image && <img src={image} />}
+          {preview && <img src={preview} />}
           </td>
           <td>
           <Form.Control style={{width: "300px"}} type="file" onChange={onChangeImageInput} />
