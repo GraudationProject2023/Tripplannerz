@@ -219,25 +219,34 @@ function FindPage(){
           </div>
           <hr />
           <Form onSubmit={handleSubmit}>
+          <table>
+          <td>
           <div className = "image-title">
           <Form.Group controlId="form-Image">
           <Form.Label>사진 업로드</Form.Label>
           <table>
-          <td>
-          {preview && <img src={preview} />}
-          </td>
-          <td>
+          <tr>
           <Form.Control style={{width: "300px"}} type="file" onChange={onChangeImageInput} />
-          </td>
+          </tr>
+          <br />
+          <tr>
+          {preview ? (<img style={{width:"100px", height: "150px"}} src={preview} /> )
+            : (<img style={{width:"100px", height:"150px"}} alt="기본페이지" />)
+          }
+          </tr>
           </table>
           </Form.Group>
           </div>
+          </td>
+          <td>
           <div className="form-Title">
           <Form.Group controlId="formTitle">
           <Form.Label>제목</Form.Label>
           <Form.Control style={{width:"300px"}} type="text" onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           </div>
+          </td>
+          </table>
           <div className="form-Number">
           <Form.Group controlId="formCapacity">
           <Form.Label>모집인원</Form.Label>
@@ -247,6 +256,7 @@ function FindPage(){
           {Math.ceil(capacity / 10)}명
           </Form.Group>
           </div>
+
           <div className="form-Date">
           <Form.Group controlId="formDate">
           <Form.Label>마감날짜</Form.Label>
