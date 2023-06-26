@@ -13,6 +13,7 @@ import Chat from './components/Chat/Chat';
 import Search from './components/SearchPage/SearchPage';
 import SearchResult from './components/SearchPage/SearchResultPage';
 import Find from './components/FindPage/FindPage';
+import MyPage from './components/MyPage/MyPage';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path ="/search" element={<Search />} />
           <Route path ="/search/:postId" element={<SearchResult />} />
           <Route path ="/find" element={<Find />} />
+          <Route path ="/my" element = {<MyPage />} />
         </Routes>
       </Suspense>
     </Router>
