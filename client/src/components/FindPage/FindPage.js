@@ -16,7 +16,7 @@ function FindPage(){
      const [selectedMainCategory, setSelectedMainCategory] = useState('');
      const [selectedCategory, setSelectedCategory] = useState('');
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
-     const [image, setImage] = useState("");
+     const [image, setImage] = useState([]);
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -81,14 +81,16 @@ function FindPage(){
        };
 
        const onChangeImageInput = (e) => {
-           const file = e.target.files[0];
-           const reader = new FileReader();
+            setImage([e.target.files[0]]);
 
-           reader.onload = () => {
-            setImage(reader.result);
-           }
-
-           reader.readAsDataURL(file);
+//           const file = e.target.files[0];
+//           const reader = new FileReader();
+//
+//           reader.onload = () => {
+//            setImage(reader.result);
+//           }
+//
+//           reader.readAsDataURL(file);
        };
 
 
