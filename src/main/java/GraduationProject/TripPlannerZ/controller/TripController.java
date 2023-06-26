@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -82,7 +83,7 @@ public class TripController {
         // 이미지 넣기 추가
         TripImage tripImage = TripImage.builder().trip(trip).build();
         tripImageRepository.save(tripImage);
-        File newFile = new File(tripImage.getImg_uuid());
+        File newFile = new File(tripImage.getImg_uuid() + ".png");
         uploadFile.transferTo(newFile);
 
 
@@ -105,8 +106,8 @@ public class TripController {
 
 
         System.out.println("uploadFile = " + uploadFile);
-//
-//
+
+
 //        for (MultipartFile file : uploadFile) {
 //            if(!file.isEmpty()) {
 //                TripImage tripImage = TripImage.builder().trip(trip).build();
@@ -121,5 +122,11 @@ public class TripController {
     @PostMapping("/trip/select")
     public void selectSigungu() {
 
+    }
+
+    @GetMapping("/trip/send")
+    public void tripDetailed(Model model) {
+        String imgPath = "/Users/seongbochoi/trip_image/e276a5b3-af89-453f-bd6d-62f52ce33ff2";
+        model.addAttribute("imgPath", imgPath);
     }
 }
