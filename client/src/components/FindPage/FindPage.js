@@ -83,16 +83,16 @@ function FileUpload({onImageUpload}) {
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} />
 
-        <img src={images} alt={`Uploaded`} style={imageStyle} />
+        {/*<img src={images} alt={`Uploaded`} style={imageStyle} /> */}
 
-        {/*images.map((image, index) => (
+        {images.map((image, index) => (
                   <div key={index} style={imageContainerStyle}>
-                    <img src={URL.createObjectURL(image)} alt={`Uploaded ${index}`} style={imageStyle} />
+                    <img src={image} alt={`Uploaded ${index}`} style={imageStyle} />
                     <button style={buttonStyle} onClick={() => onDelete(index)}>
                       X
                     </button>
                   </div>
-                ))*/}
+                ))}
       </div>
 
     </div>
@@ -123,6 +123,7 @@ function FindPage(){
                  localStorage.setItem("rank",-1);
                  localStorage.setItem("vest",1);
                  document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+                 axios.get('http://localhost:8080/api/trip/create')
             },[]);
 
         const handleSubmit = (event) => {
@@ -246,76 +247,52 @@ function FindPage(){
               <h5>현재 선택된 도시는 {selectedCategory} {selectedSubCategory} 입니다.</h5>
               </div>
                <br />
-              <Form style={{border:"1px solid black" }}>
+              <Form style={{border:"1px solid black", borderRadius : "10px", height: "400px" }}>
                 <table>
                   <tbody>
                     <tr>
                       <td>
-                        <div style={{ width: "100px",height:"370px" }}>
+                        <div style={{ width: "100px",height:"370px", marginTop: "20px" }}>
                           {mainCategories.map((category) => (
                             <div
                               key={category}
-                              style={{
-                                marginRight: '10px',
-                                marginTop:'1px',
-                                padding: '29px',
-                                border: '1px solid #ccc',
-                                cursor: 'pointer',
-                                textAlign:'center'
-                              }}
+                              className={selectedMainCategory === category ? 'selected-main-category' : 'main-category'}
                               onClick={() => handleMainCategoryChange(category)}
                             >
                               {category}
                             </div>
                           ))}
+
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "100px",height:"370px" }}>
+                        <div style={{ width: "100px",height:"370px", marginLeft: "50px" }}>
                           {selectedMainCategory && (
-                            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+                            <div className="sub-category-container">
                               {categories[selectedMainCategory].map((category) => (
                                 <div
                                   key={category}
-                                  style={{
-                                    width: '80px',
-                                    marginRight: '10px',
-                                    padding: '10px',
-                                    border: '1px solid #ccc',
-                                    backgroundColor: 'white',
-                                    cursor: 'pointer'
-                                  }}
+                                  className={`sub-category ${selectedCategory === category ? 'selected-sub-category' : ''}`}
                                   onClick={() => handleCategoryChange(category)}
                                 >
                                   {category}
                                 </div>
                               ))}
+
                             </div>
                           )}
                         </div>
                       </td>
                       <td>
-                        <div style={{ width: "1200px",height:"370px" }}>
+                        <div style={{ width: "1200px",height:"370px" ,marginLeft: "50px"  }}>
                           {selectedCategory && (
-                            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap' }}>
+                            <div className="sub-category-container">
                               {subCategories[selectedCategory].map((subCategory,index) => (
                                 <div
-                                  key={subCategory}
-                                  style={{
-                                    display:'flex',
-                                    flexWrap: 'wrap',
-                                    width: '100px',
-                                    marginTop: '1px',
-
-                                    marginRight: '10px',
-                                    padding: '5px',
-                                    border: '1px solid #ccc',
-                                    backgroundColor: 'white',
-                                    cursor: 'pointer',
-
-                                  }}
-                                  onClick={() => handleSubCategoryChange(subCategory)}
-                                >
+                                          key={subCategory}
+                                          className={`sub-category ${selectedSubCategory === subCategory ? 'selected-sub-category' : ''}`}
+                                          onClick={() => handleSubCategoryChange(subCategory)}
+                                        >
                                 {subCategory}
                                 </div>
                               ))}
