@@ -1,6 +1,9 @@
 .Title{
     margin-left: 45%;
 }
+.subtitle{
+    margin-left: 50%;
+}
 .Find {
     margin-top: 7%;
 }
@@ -10,19 +13,18 @@
 }
 .image-title{
     margin-top: 1%;
-    margin-left: 10%;
+    margin-left: 30%;
 }
 .form-Title{
-    margin-top: -16%;
-    margin-left: 32%;
+    margin-left: 30%;
 }
 .form-Number{
     margin-top: 1%;
-    margin-left: 32%;
+    margin-left: 30%;
 }
 .form-Date{
     margin-top: 1%;
-    margin-left: 32%;
+    margin-left: 30%;
 }
 .form-Itinerary{
     margin-top: -10.5%;
