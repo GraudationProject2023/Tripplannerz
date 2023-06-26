@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Button} from 'react-bootstrap';
 import Navbar from '../Navbar/Navbar';
 import './MyPage.css'
-import axios from 'axios';
-axios.defaults.withCredentials = true;
+
 
 const MyPage = () => {
   const [name, setName] = useState('');
@@ -12,14 +11,12 @@ const MyPage = () => {
   const [newName, setNewName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [currentPage, setCurrentPage] = useState('profile');
-  const [image, setImage] = useState([]);
 
    useEffect(() => {
                       localStorage.setItem("cast",1);
                       localStorage.setItem("rank",-1);
                       localStorage.setItem("vest",1);
                       document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-                      setImage(axios.get("http://localhost:8080/api/trip/send"));
     },[]);
 
   const handleEditProfile = () => {
@@ -48,6 +45,7 @@ const MyPage = () => {
              <h2>마이 페이지</h2>
                 <img alt="프로필" />
                 <h5>이름 : {localStorage.getItem("name")}</h5>
+                <h5>이메일 : @@@</h5>
           </div>
       );
     }
@@ -56,6 +54,9 @@ const MyPage = () => {
     return(
         <div className = "profile-card">
            <h2>계정 설정 페이지</h2>
+           <img alt="프로필" />
+                           <h5>이름 : {localStorage.getItem("name")}</h5>
+                           <h5>이메일 : @@@</h5>
         </div>
     );
   }
@@ -64,6 +65,9 @@ const MyPage = () => {
       return(
           <div className = "profile-card">
              <h2>내 일정 페이지</h2>
+             <img alt="프로필" />
+             <h5>이름 : {localStorage.getItem("name")}</h5>
+             <h5>이메일 : @@@</h5>
           </div>
       );
     }
@@ -82,10 +86,14 @@ const MyPage = () => {
   return (
     <div>
      <Navbar />
-     <div className="content">
-        {currentPageComponent}
-        <img src = {image} />
-     </div>
+     <div className = "table_n">
+     <table>
+     <td>
+        <div className="content">
+              {currentPageComponent}
+        </div>
+     </td>
+     <td>
      <div className = "container">
       <div className = "profile-card">
         <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
@@ -94,6 +102,9 @@ const MyPage = () => {
         <hr />
         <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>내 일정</button>
        </div>
+      </div>
+      </td>
+      </table>
       </div>
     </div>
   );
