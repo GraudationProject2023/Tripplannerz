@@ -83,7 +83,7 @@ public class TripController {
         // 이미지 넣기 추가
         TripImage tripImage = TripImage.builder().trip(trip).build();
         tripImageRepository.save(tripImage);
-        File newFile = new File(tripImage.getImg_uuid());
+        File newFile = new File(tripImage.getImg_uuid() + ".png");
         uploadFile.transferTo(newFile);
 
 
@@ -106,8 +106,8 @@ public class TripController {
 
 
         System.out.println("uploadFile = " + uploadFile);
-//
-//
+
+
 //        for (MultipartFile file : uploadFile) {
 //            if(!file.isEmpty()) {
 //                TripImage tripImage = TripImage.builder().trip(trip).build();

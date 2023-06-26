@@ -97,7 +97,7 @@ function FindPage(){
 //            image.forEach(images => {
 //                formData.append("image",images);
 //            })
-
+            formData.append("image", image[0]);
             const contentsData = {
                 title,
                 capacity,
@@ -106,15 +106,15 @@ function FindPage(){
                 comingDate,
                 area,
                 sigungu,
-                image
+
             };
 
-            formData.append("contentsData",JSON.stringify(contentsData));
+            formData.append("contentsData",new Blob([JSON.stringify(contentsData)], {type: 'application/json'}));
 
-             for(const entry of formData.entries()){
-                                        const [key,value] = entry;
-                                        console.log(`Key: ${key}, Value: ${value}`);
-                                    }
+//             for(const entry of formData.entries()){
+//                                        const [key,value] = entry;
+//                                        console.log(`Key: ${key}, Value: ${value}`);
+//                                    }
 
             axios.post('http://localhost:8080/api/trip/create',formData,{
                 headers: {'Content-Type':'multipart/form-data', charset : 'utf-8'},
