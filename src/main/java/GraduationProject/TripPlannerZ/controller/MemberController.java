@@ -5,6 +5,8 @@ import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.domain.MemberPreference;
 import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.dto.MemberJoin;
+import GraduationProject.TripPlannerZ.dto.MemberLogin;
+import GraduationProject.TripPlannerZ.dto.MyPage;
 import GraduationProject.TripPlannerZ.repository.MemberPreferenceRepository;
 import GraduationProject.TripPlannerZ.service.LoginService;
 import GraduationProject.TripPlannerZ.service.MemberService;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 
 @RestController // JSON 형태로 데이터를 반환하는 것
@@ -61,7 +63,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public ResponseEntity<String> login(@RequestBody MemberLoginDTO loginMember, HttpServletRequest request) {
+    public ResponseEntity<String> login(@RequestBody MemberLogin loginMember, HttpServletRequest request) {
 
         Member member = loginService.Login(loginMember.getEmail(), loginMember.getPw());
 
@@ -130,11 +132,27 @@ public class MemberController {
 //        return new MemberTripTotalDTO(result, total);
 //    }
 
-    @GetMapping("/members/trip/result")
-    public MemberTripContentDTO searchTrip(@RequestParam("id") String id) {
+//    @GetMapping("/members/trip/result")
+//    public MemberTripContentDTO searchTrip(@RequestParam("id") String id) {
+//
+//        Trip trip = tripService.findByUUID(id).get();
+//        return new MemberTripContentDTO(trip);
+//
+//    }
 
-        Trip trip = tripService.findByUUID(id).get();
-        return new MemberTripContentDTO(trip);
+    @GetMapping("/members/tripInfo")
+    public MyPage getMemberTrip(HttpServletRequest request) {
+
+        String loginMember_email = (String) request.getSession().getAttribute("loginMember");
+
+        Optional<Member> loginMember = memberService.findByEmail(loginMember_email);
+
+        Member member = loginMember.get();
+
+        MyPage mp = new MyPage(member);
+
+        return mp;
+
 
     }
 }
