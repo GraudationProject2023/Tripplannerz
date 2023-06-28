@@ -23,6 +23,7 @@ function App() {
         <Routes>
           <Route path ="/" element={<StartPage />} />
           <Route path ="/main" element={<MainPage />} />
+          <Route path ="/main/:postId" element={<MyPage />} />
           <Route path ="/schedule" element={<InitPage />} />
           <Route path ="/logincallback" element={<LoginCallbackpage />} />
           <Route path ="/chat" element={<Chat />} />

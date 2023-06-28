@@ -11,40 +11,66 @@ import surfing from '../Image/서핑.png';
 import hotel from '../Image/호텔.png';
 import shopping from '../Image/쇼핑.png';
 import restaurant from '../Image/레스토랑.png';
+import axios from 'axios';
+axios.default.withCredentials=true;
 
 
 
 function MyPage(){
   const [name, setName] = useState('');
+  const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
+  const [rank, setRank] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [currentPage, setCurrentPage] = useState('profile');
+  const [currentPage, setCurrentPage] = useState('profile'); //메뉴 토글
   const [preview, setPreview] = useState([]);
+  const [create, setCreate] = useState(0); //생성한 일정 개수
+  const [password, setPassword] = useState('') // 수정할 패스워드
+  const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
+  const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+
+  const handlePassword = (e) => {
+     setPassword(e.target.value);
+  }
+  const handleConfirmPasswordChange = (event) =>
+      {
+        const CONFIRMPASSWORD = event.target.value;
+        if(confirmpassword !== password.slice(0,-1))
+        {
+          console.log("error")
+          setCorrect(false);
+        }
+        else{
+          console.log("success")
+          setCorrect(true);
+        }
+        setConfirmpassword(CONFIRMPASSWORD);
+      }
+
+  var ranklist = "";
 
    useEffect(() => {
                       localStorage.setItem("cast",1);
                       localStorage.setItem("rank",-1);
                       localStorage.setItem("vest",1);
                       document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+                      axios.get()
+                      .then((response) => {
+                        setName(response.data.name);
+                        setGender(response.data.gender);
+                        setEmail(response.data.email);
+                        setRank(response.data.rank);
+                      })
+
     },[]);
 
-  const handleEditProfile = () => {
-    setIsEditing(true);
-    setNewName(name);
-    setNewEmail(email);
-  };
+    for(let i = 0; i<rank.length-1; i++)
+    {
+        ranklist += rank[i];
+        ranklist += ", ";
+    }
+    ranklist += rank[rank.length-1];
 
-  const handleSaveProfile = () => {
-    setName(newName);
-    setEmail(newEmail);
-    setIsEditing(false);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -123,7 +149,7 @@ function MyPage(){
                       </div>
               )
   };
-
+  //모달들
   const [nestedModal, setNestedModal] = useState(false);
   const handleCloseNested = () => {
               var res = localStorage.getItem("rank");
@@ -143,16 +169,22 @@ function MyPage(){
 
   }
 
+  const[withdrawlModal, setWithdrawlModal] = useState(false);
+  const handleWithdrawlModal = () => {
+        setWithdrawlModal(true);
+  }
+  const handleCloseWithdrawl = () => {
+        setWithdrawlModal(false);
+  }
+
    const renderProfilePage = () => {
       return(
           <div className = "profile-card">
              <h2>마이 페이지</h2>
-                 {preview ? (<img style={{width:"100px", height: "150px"}} src={preview} /> )
-                                         : (<img style={{width:"100px", height:"150px"}} alt="기본페이지" />)
-                                       }
-                <h5>이름 : {localStorage.getItem("name")}</h5>
-                <h5>성별 : 남 </h5>
-                <h5>이메일 : @@@</h5>
+                <h5>이름 : {name}</h5>
+                <h5>성별 : {gender} </h5>
+                <h5>이메일 : {email}</h5>
+                <h5>선호태그 : {ranklist} </h5>
           </div>
       );
     }
@@ -169,7 +201,7 @@ function MyPage(){
            <Form.Label>비밀번호</Form.Label>
            </td>
            <td style={{padding:"20px"}}>
-           <Form.Control style={{width: "150px"}} type="text" />
+           <Form.Control style={{width: "150px"}} type="text" onChange={handlePassword} />
            </td>
            </table>
            </Form.Group>
@@ -179,14 +211,16 @@ function MyPage(){
            <Form.Label>비밀번호 확인</Form.Label>
            </td>
            <td style={{padding:"20px"}}>
-           <Form.Control style={{width: "150px"}} type="text" />
+           <Form.Control style={{width: "150px"}} type="text" onChange={handleConfirmPasswordChange}/>
            </td>
            </table>
            </Form.Group>
+           {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
            <Button style={{width: "200px"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
                                                  <Modal.Header closeButton>
                                                    <Modal.Title>태그</Modal.Title>
+                                                   <Modal.Body>변경 전 태그는 {ranklist} 입니다. </Modal.Body>
                                                  </Modal.Header>
                                                  <Modal.Body>
                                                    <Button1 />
@@ -206,12 +240,26 @@ function MyPage(){
     );
   }
 
-  const renderSchedulePage = () => {
+  const renderWithdrawlPage = () => {
       return(
           <div className = "profile-card">
-             <h2>내 일정 페이지</h2>
-             <h5>이름 : {localStorage.getItem("name")}</h5>
-             <h5>이메일 : @@@</h5>
+             <h2>회원 탈퇴</h2>
+             <h5>회원 탈퇴 시 개인정보 및 TripPlannerz에서 만들어진 모든 데이터들이 삭제됩니다.</h5>
+             <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
+             {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
+                   <Modal.Header closeButton>
+                      <Modal.Title>비밀번호 입력</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <input type="text" placeholder="비밀번호 입력" />
+                      </Modal.Body>
+                      <Modal.Footer>
+                      <Button variant="primary" type="submit" onClick={handleCloseWithdrawl}>
+                           탈퇴하기
+                      </Button>
+                     </Modal.Footer>
+                   </Modal>
+             )}
           </div>
       );
     }
@@ -223,8 +271,8 @@ function MyPage(){
   else if(currentPage === 'account'){
     currentPageComponent = renderAccountPage();
   }
-  else if(currentPage === 'schedule'){
-    currentPageComponent = renderSchedulePage();
+  else if(currentPage === 'withdrawl'){
+    currentPageComponent = renderWithdrawlPage();
   }
 
   return (
@@ -244,7 +292,7 @@ function MyPage(){
         <hr />
         <button className={`buttonstyle ${currentPage === 'account' ? 'active' : ''}`} onClick={() => handlePageChange('account')}>정보 수정</button>
         <hr />
-        <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>내 일정</button>
+        <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('withdrawl')}>회원 탈퇴</button>
        </div>
       </div>
       </td>
