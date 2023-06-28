@@ -66,12 +66,46 @@ function MyPage(){
 
     for(let i = 0; i<rank.length; i++)
     {
-        ranklist += rank[i].type;
+        var name = "";
+        switch(rank[i].type)
+        {
+            case 12:
+            name = "관광지";
+            break;
+
+            case 14:
+            name = "문화시설";
+            break;
+
+            case 15:
+            name = "축제/공연/행사";
+            break;
+
+            case 28:
+            name = "레포츠";
+            break;
+
+            case 32:
+            name = "숙박";
+            break;
+
+            case 38:
+            name = "쇼핑";
+            break;
+
+            case 39:
+            name = "맛집";
+            break;
+        }
+        ranklist += name;
+
         if (i != rank.length - 1) {
             ranklist += ", ";
         }
 
     }
+
+
 
 
   const handlePageChange = (page) => {
