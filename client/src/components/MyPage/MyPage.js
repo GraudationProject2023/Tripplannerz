@@ -64,12 +64,14 @@ function MyPage(){
 
     },[]);
 
-    for(let i = 0; i<rank.length-1; i++)
+    for(let i = 0; i<rank.length; i++)
     {
-        ranklist += rank[i];
-        ranklist += ", ";
+        ranklist += rank[i].type;
+        if (i != rank.length - 1) {
+            ranklist += ", ";
+        }
+
     }
-    ranklist += rank[rank.length-1];
 
 
   const handlePageChange = (page) => {
