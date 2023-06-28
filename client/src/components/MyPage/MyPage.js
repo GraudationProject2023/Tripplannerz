@@ -54,7 +54,7 @@ function MyPage(){
                       localStorage.setItem("rank",-1);
                       localStorage.setItem("vest",1);
                       document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-                      axios.get()
+                      axios.get('http://localhost:8080/api/members/tripInfo')
                       .then((response) => {
                         setName(response.data.name);
                         setGender(response.data.gender);
