@@ -17,6 +17,7 @@ function FindPage(){
      const [selectedCategory, setSelectedCategory] = useState('');
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
      const [image, setImage] = useState([]);
+     const [preview, setPreview] = useState([]);
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -83,14 +84,14 @@ function FindPage(){
        const onChangeImageInput = (e) => {
             setImage([e.target.files[0]]);
 
-//           const file = e.target.files[0];
-//           const reader = new FileReader();
-//
-//           reader.onload = () => {
-//            setImage(reader.result);
-//           }
-//
-//           reader.readAsDataURL(file);
+           const file = e.target.files[0];
+           const reader = new FileReader();
+
+           reader.onload = () => {
+            setPreview(reader.result);
+           }
+
+           reader.readAsDataURL(file);
        };
 
 
@@ -218,25 +219,34 @@ function FindPage(){
           </div>
           <hr />
           <Form onSubmit={handleSubmit}>
+          <table>
+          <td>
           <div className = "image-title">
           <Form.Group controlId="form-Image">
           <Form.Label>사진 업로드</Form.Label>
           <table>
-          <td>
-          {image && <img src={image} />}
-          </td>
-          <td>
+          <tr>
           <Form.Control style={{width: "300px"}} type="file" onChange={onChangeImageInput} />
-          </td>
+          </tr>
+          <br />
+          <tr>
+          {preview ? (<img style={{width:"100px", height: "150px"}} src={preview} /> )
+            : (<img style={{width:"100px", height:"150px"}} alt="기본페이지" />)
+          }
+          </tr>
           </table>
           </Form.Group>
           </div>
+          </td>
+          <td>
           <div className="form-Title">
           <Form.Group controlId="formTitle">
           <Form.Label>제목</Form.Label>
           <Form.Control style={{width:"300px"}} type="text" onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           </div>
+          </td>
+          </table>
           <div className="form-Number">
           <Form.Group controlId="formCapacity">
           <Form.Label>모집인원</Form.Label>
@@ -246,6 +256,7 @@ function FindPage(){
           {Math.ceil(capacity / 10)}명
           </Form.Group>
           </div>
+
           <div className="form-Date">
           <Form.Group controlId="formDate">
           <Form.Label>마감날짜</Form.Label>
