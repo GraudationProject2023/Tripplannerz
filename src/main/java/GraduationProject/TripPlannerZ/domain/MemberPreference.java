@@ -1,10 +1,12 @@
 package GraduationProject.TripPlannerZ.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Setter
+@Getter
 public class MemberPreference {
     @Id
     @GeneratedValue
