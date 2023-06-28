@@ -59,7 +59,7 @@ function MyPage(){
                         setName(response.data.name);
                         setGender(response.data.gender);
                         setEmail(response.data.email);
-                        setRank(response.data.rank);
+                        setRank(response.data.preferences);
                       })
 
     },[]);
