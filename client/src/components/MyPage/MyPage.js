@@ -205,9 +205,25 @@ function MyPage(){
 
   }
 
+  const[toggle, setToggle] = useState(false);
   const[withdrawlModal, setWithdrawlModal] = useState(false);
+
+  const handleToggle = () => {
+     if(toggle === false){
+        setToggle(true);
+     }
+     else if(toggle === true){
+        setToggle(false);
+     }
+  }
+
   const handleWithdrawlModal = () => {
+     if(toggle === true){
         setWithdrawlModal(true);
+     }
+     else {
+        alert('동의 버튼을 체크해주시기 바랍니다.');
+     }
   }
   const handleCloseWithdrawl = () => {
         setWithdrawlModal(false);
@@ -279,15 +295,35 @@ function MyPage(){
   const renderWithdrawlPage = () => {
       return(
           <div className = "profile-card">
-             <h2>회원 탈퇴</h2>
-             <h5>회원 탈퇴 시 개인정보 및 TripPlannerz에서 만들어진 모든 데이터들이 삭제됩니다.</h5>
+             <h2>회원 탈퇴 안내</h2>
+             <h6>회원탈퇴를 신청하기 전 안내 사항을 확인해주세요.</h6>
+             <br />
+             <h5>사용하고 계신 아이디({email})는 탈퇴할 경우 재사용을 하거나 복구가 불가능합니다.</h5>
+             <h6>탈퇴한 아이디는 본인 및 타인이 더 이상 사용할 수 없는 점을 감안하여 신중하게 선택하시길 바랍니다.</h6>
+             <br />
+             <h5>탈퇴 후 회원정보 및 서비스 이용기록은 모두 삭제됩니다.</h5>
+             <br />
+             <br />
+             <table>
+             <td>
+             <input type="checkbox" onClick={handleToggle}/>
+             </td>
+             <td>
+             <h6>안내사항을 숙지하였으며, 이에 동의합니다.</h6>
+             </td>
+             </table>
              <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
              {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
                    <Modal.Header closeButton>
                       <Modal.Title>비밀번호 입력</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <input type="text" placeholder="비밀번호 입력" />
+                        <h6>서비스 이용시 사용하였던 비밀번호를 입력해주세요.</h6>
+                      </Modal.Body>
+                      <Modal.Body>
+                        <Form>
+                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." />
+                        </Form>
                       </Modal.Body>
                       <Modal.Footer>
                       <Button variant="primary" type="submit" onClick={handleCloseWithdrawl}>
@@ -323,7 +359,7 @@ function MyPage(){
      </td>
      <td>
      <div className = "container">
-      <div className = "profile-card">
+      <div className = "menu-card">
         <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
         <hr />
         <button className={`buttonstyle ${currentPage === 'account' ? 'active' : ''}`} onClick={() => handlePageChange('account')}>정보 수정</button>
