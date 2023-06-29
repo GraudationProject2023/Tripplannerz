@@ -3,7 +3,7 @@ import { Modal, Form, Button, FormControl } from "react-bootstrap";
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import NavBar from '../Navbar/Navbar';
+import StartNavBar from '../Navbar/StartNavbar';
 import Footer from '../Footer/Footer';
 import Land1 from '../Image/랜딩페이지 1.png';
 import Land2 from '../Image/랜딩페이지 2.png';
@@ -22,7 +22,7 @@ function StartPage() {
 
     return (
       <div className="StartPage">
-         <NavBar />
+         <StartNavBar />
          <br />
          <img src={Land1} alt="설명페이지1" style={{width:"100%"}} />
          <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
