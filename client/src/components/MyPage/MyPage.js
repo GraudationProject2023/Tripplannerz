@@ -232,11 +232,14 @@ function MyPage(){
    const renderProfilePage = () => {
       return(
           <div className = "profile-card">
-             <h2>마이 페이지</h2>
+             <h2>내 정보</h2>
+             <hr />
                 <h5>이름 : {name}</h5>
                 <h5>성별 : {gender} </h5>
                 <h5>이메일 : {email}</h5>
                 <h5>선호태그 : {ranklist} </h5>
+             <hr />
+             <h4>내 일정</h4>
           </div>
       );
     }
@@ -246,14 +249,17 @@ function MyPage(){
     return(
         <div className = "profile-card">
            <h2>정보 수정</h2>
+           <hr />
+           <br />
+           <h4>비밀번호 변경</h4>
            <Form>
            <Form.Group controlId = "Password">
            <table>
            <td>
-           <Form.Label>비밀번호</Form.Label>
+           <Form.Label>새 비밀번호</Form.Label>
            </td>
            <td style={{padding:"20px"}}>
-           <Form.Control style={{width: "150px"}} type="text" onChange={handlePassword} />
+           <Form.Control style={{width: "400px"}} type="text" onChange={handlePassword} />
            </td>
            </table>
            </Form.Group>
@@ -263,12 +269,26 @@ function MyPage(){
            <Form.Label>비밀번호 확인</Form.Label>
            </td>
            <td style={{padding:"20px"}}>
-           <Form.Control style={{width: "150px"}} type="text" onChange={handleConfirmPasswordChange}/>
+           <Form.Control style={{width: "385px"}} type="text" onChange={handleConfirmPasswordChange}/>
            </td>
            </table>
            </Form.Group>
+           <div style={{marginLeft: "13%"}}>
            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
-           <Button style={{width: "200px"}} onClick={handleNestedModal}>태그 변경</Button>
+           </div>
+           <br />
+           <Button style={{width:"100px", marginLeft: "43%"}} variant="primary" type="submit">
+                      변경하기
+           </Button>
+           </Form>
+           <hr />
+           <br />
+           <table>
+           <td>
+           <h4>선호태그 변경</h4>
+           </td>
+           <td>
+           <Button style={{width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
                                                  <Modal.Header closeButton>
                                                    <Modal.Title>태그</Modal.Title>
@@ -284,10 +304,8 @@ function MyPage(){
                                                  </Modal.Footer>
                                                  </Modal>
            )}
-           <Button style={{width:"100px"}} variant="primary" type="submit">
-           변경하기
-           </Button>
-           </Form>
+           </td>
+           </table>
         </div>
     );
   }
@@ -296,6 +314,7 @@ function MyPage(){
       return(
           <div className = "profile-card">
              <h2>회원 탈퇴 안내</h2>
+             <hr />
              <h6>회원탈퇴를 신청하기 전 안내 사항을 확인해주세요.</h6>
              <br />
              <h5>사용하고 계신 아이디({email})는 탈퇴할 경우 재사용을 하거나 복구가 불가능합니다.</h5>
