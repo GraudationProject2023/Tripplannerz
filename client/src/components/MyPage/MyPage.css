@@ -1,7 +1,7 @@
 .container {
   max-width: 600px;
+  margin-left: 30%;
   margin-top : 20%;
-  margin-left: 100%;
   padding: 20px;
   position: sticky;
   top: 100px;
@@ -15,10 +15,17 @@
   }
 }
 .table_n{
-    margin-left: 35%;
+    margin-left: 5%;
 }
 
 .profile-card {
+  width: 1000px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.menu-card{
   width: 300px;
   border: 1px solid #ccc;
   border-radius: 5px;
