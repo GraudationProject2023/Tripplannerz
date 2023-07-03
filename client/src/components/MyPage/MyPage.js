@@ -208,7 +208,22 @@ function MyPage(){
          }
       }
       const handleCloseWithdrawl = () => {
-            setWithdrawlModal(false);
+            console.log(typeof(password));
+            const data = {
+                pw: password
+            };
+            console.log(data);
+
+            axios.post('http://localhost:8080/api/members/exit',data)
+            .then((response) => {
+                console.log(response.data);
+                alert('탈퇴가 완료되었습니다.');
+                setWithdrawlModal(false);
+            })
+            .catch((response) => {
+                alert('오류가 발생하였습니다. 비밀번호를 다시 입력해주세요');
+            })
+
       }
 
     for(let i = 0; i<rank.length; i++)
@@ -452,7 +467,7 @@ function MyPage(){
                       </Modal.Body>
                       <Modal.Body>
                         <Form>
-                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." />
+                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handlePassword} />
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
