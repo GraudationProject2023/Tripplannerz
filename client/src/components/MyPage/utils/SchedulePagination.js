@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 const SchedulePagination = ({postsPerPage, totalPosts, paginate, total}) => {
 
@@ -61,26 +60,6 @@ const PageSpan = styled.span`
     &:hover::after,
     &:focus::after{
         border-radius: 100%;
-        color: white;
-        background-color: #263a6c;
-    }
-`;
-
-const ArrowButton = styled.button`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 5px;
-    border-radius: 5px;
-    width: 25px;
-    &:hover{
-        cursor: pointer;
-        color: white;
-        background-color: #263a6c;
-    }
-    &:focus{
         color: white;
         background-color: #263a6c;
     }
