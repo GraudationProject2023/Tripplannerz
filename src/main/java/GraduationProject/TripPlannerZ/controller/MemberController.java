@@ -161,4 +161,18 @@ public class MemberController {
 
         return memberService.findTrip(email, pageRequest);
     }
+
+    @PostMapping("members/exit")
+    public ResponseEntity<String> exitMember(HttpServletRequest request, @RequestParam("pw") String pw) {
+        String email = (String) request.getSession().getAttribute("loginMember");
+        Optional<Member> loginMember = memberService.findByEmail(email);
+        Member member = loginMember.get();
+
+        if (member.getPw() == pw) {
+            memberService.exit(member);
+            return ResponseEntity.ok().body("{\"result\": true}");
+        } else
+            return ResponseEntity.ok().body("{\"result\": false}");
+
+    }
 }
