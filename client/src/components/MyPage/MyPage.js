@@ -217,12 +217,9 @@ function MyPage(){
             axios.post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`).then((response) => {
                 console.log(response.data);
                 if(response.data.result === true){
-                alert('탈퇴가 완료되었습니다.');
-                setWithdrawlModal(false);
-                window.location.href="/";
-                }
-                else{
-                alert('비밀번호를 잘못 입력하였습니다.');
+                   alert('탈퇴가 완료되었습니다.');
+                   setWithdrawlModal(false);
+                   window.location.href="/";
                 }
             })
             .catch((response) => {
@@ -275,6 +272,11 @@ function MyPage(){
 
     const handleClick = (postId) => {
             window.location.href = `/search/${postId}`;
+    }
+
+    const handleCloseButton = (e) => {
+          e.preventDefault();
+          setWithdrawlModal(false);
     }
 
     const Posts = ({ posts, loading, handleClick}) => {
@@ -465,7 +467,7 @@ function MyPage(){
              </table>
              <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
              {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
-                   <Modal.Header closeButton>
+                   <Modal.Header closeButton onClick={handleCloseButton}>
                       <Modal.Title>비밀번호 입력</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
@@ -477,7 +479,7 @@ function MyPage(){
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                      <Button variant="primary" type="submit" onClick={handleCloseWithdrawl}>
+                      <Button type="submit" onClick={handleCloseWithdrawl}>
                            탈퇴하기
                       </Button>
                      </Modal.Footer>
