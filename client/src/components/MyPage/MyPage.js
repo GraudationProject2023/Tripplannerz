@@ -18,11 +18,10 @@ axios.default.withCredentials=true;
 
 
 function MyPage(){
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState('');
-  const [email, setEmail] = useState('');
-  const [rank, setRank] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState(''); //프로필 이름
+  const [gender, setGender] = useState(''); //프로필 성별
+  const [email, setEmail] = useState(''); //프로필 이메일
+  const [rank, setRank] = useState([]); //프로필 선호 태그
   const [currentPage, setCurrentPage] = useState('profile'); //메뉴 토글
   const [preview, setPreview] = useState([]);
   const [create, setCreate] = useState(0); //생성한 일정 개수
@@ -144,7 +143,6 @@ function MyPage(){
 
                 useEffect(() => {
                     setRankingText();
-
                 },[select1]);
 
 
@@ -248,7 +246,7 @@ function MyPage(){
         }
         ranklist += typeName;
 
-        if (i != rank.length - 1) {
+        if (i !== rank.length - 1) {
             ranklist += ", ";
         }
 
@@ -257,22 +255,6 @@ function MyPage(){
     const handleClick = (postId) => {
             window.location.href = `/search/${postId}`;
     }
-
-
-     const fetchData = async(pageNum) => {
-                          try{
-                            const response = await axios.get('http://localhost:8080/api/members/trip?page=${currentpage}',
-                            {
-                              withCredentials: true
-                            }
-                            );
-                            const data = response.data;
-                            console.log(data);
-
-                          } catch(error){
-                            console.error(error);
-            }
-     }
 
     const Posts = ({ posts, loading, handleClick}) => {
          return (
