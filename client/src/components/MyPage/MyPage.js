@@ -40,6 +40,7 @@ function MyPage(){
 
 
   var ranklist = "";
+  var size = posts.length;
    const indexOfLast = currentPage * postsPerPage;
    const indexOfFirst = indexOfLast - postsPerPage;
    const currentPosts = (posts) => {
@@ -60,7 +61,6 @@ function MyPage(){
                 setEmail(response.data.email);
                 setRank(response.data.preferences);
            })
-
       },[]);
 
   useEffect(() => {
@@ -381,6 +381,18 @@ function MyPage(){
     );
   }
 
+  const NullSchedulePage = () => {
+        return(
+            <div>
+                <h5>{name}님의 여행 정보를 찾을 수 없습니다.</h5>
+                <h6>동행자를 모집하여 직접 여행 일정을 작성하거나, 다른 사람이 만든 여행 일정에 참여해보세요!</h6>
+                <br />
+                <br />
+                <button>일정 생성</button>
+            </div>
+        )
+  }
+
   const renderSchedulePage = () => {
         return(
             <div className="profile-card">
@@ -388,30 +400,21 @@ function MyPage(){
               <hr />
               <table className="table">
                 <thead className="table-head">
-                  <tr>
-                    <th>일정 제목</th>
-                    <th>인원 수</th>
-                    <th>일정 날짜</th>
-                  </tr>
+
+                { size === 0 ? '': <tr> <th>일정 제목</th> <th>인원 수</th> <th>일정 날짜</th> </tr>}
                 </thead>
                 <tbody>
-                   <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
+                { size === 0 ? <NullSchedulePage /> : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
                 </tbody>
               </table>
-              <Pagination
-               postsPerPage={postsPerPage}
-               totalPosts = {posts.length}
-               paginate={(pageNumber) => setCurrentNumber(pageNumber)}
-               total={total}
-              >
-              </Pagination>
+              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber)} total={total}></Pagination>}
             <div>
               <table>
                 <td>
-                  <input type="text" placeholder="검색어를 입력하세요."/>
+                  {size === 0 ? '' : <input type="text" placeholder="검색어를 입력하세요."/> }
                 </td>
                 <td>
-                  <Button>검색</Button>
+                  {size === 0 ? '' : <Button>검색</Button> }
                 </td>
               </table>
             </div>
