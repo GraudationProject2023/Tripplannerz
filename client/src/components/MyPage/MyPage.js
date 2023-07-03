@@ -68,7 +68,7 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                              `http://localhost:8080/api/members/trip?page=${currentNumber}`,
                               {
                                   withCredentials: true
                               }
