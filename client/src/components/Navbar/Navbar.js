@@ -132,12 +132,15 @@ function NavBar(){
 
                     </div>
             )
-          };
+    };
 
-function movetomain()
-{
+
+
+
+    function movetomain()
+    {
     window.location.href="/main";
-}
+    }
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);

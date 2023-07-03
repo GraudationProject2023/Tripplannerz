@@ -2,6 +2,9 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
+import DatePicker, {Calendar} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 import './FindPage.css';
 import axios from 'axios';
 import Slider, {Range} from 'rc-slider';
@@ -18,6 +21,20 @@ function FindPage(){
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
      const [image, setImage] = useState([]);
      const [preview, setPreview] = useState([]);
+
+     const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')))
+     const [nextMonth, setNextMonth] = useState(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+     const handleCurrentMonthChange = (date) => {
+          setCurrentMonth(date);
+     }
+
+     const handleNextMonthChange = (date) => {
+          setNextMonth(date);
+     }
+
+     const disableNextMonthDates = (date) => {
+        return date > new Date(currentMonth.getFullYear(), currentMonth.getMonth(), currentMonth.getDate() -1);
+     }
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -100,13 +117,14 @@ function FindPage(){
 
             const formData = new FormData();
             var closeRecruitDate = date.toString();
-            var goingDate = going.toString();
-            var comingDate = coming.toString();
+            var goingDate = currentMonth.toString().slice(0,10);
+            var comingDate = nextMonth.toString().slice(0,10);
             var area = selectedCategory;
             var sigungu = selectedSubCategory;
-//            image.forEach(images => {
-//                formData.append("image",images);
-//            })
+
+            console.log(goingDate);
+            console.log(comingDate);
+
             formData.append("image", image[0]);
             const contentsData = {
                 title,
@@ -146,12 +164,12 @@ function FindPage(){
 
 
     return(
-        <div className ="Structure">
+    <div className ="Structure">
         {console.log(image)}
           <Navbar />
-          <div className = "Find">
+        <div className = "Find">
           <div className = "Title">
-          <h2>동행자 모집하기</h2>
+             <h2>동행자 모집하기</h2>
           </div>
           <br />
           <Form style={{border:"1px solid black", borderRadius : "10px", height: "400px" }}>
@@ -265,20 +283,29 @@ function FindPage(){
           </div>
           <div className = "form-Itinerary">
           <Form.Group controlId="formItinerary">
-          <Form.Label>가는 날</Form.Label>
-          <Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />
-          <br />
-          <Form.Label>오는 날</Form.Label>
-          <Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />
-          </Form.Group>
+             <table>
+             <td>
+             <Form.Label>가는 날</Form.Label>
+               <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText='가는 날 선택' popperPlacement='bottom-start' className="goingDate" />
+               {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />*/}
+             </td>
+             <td>
+             <Form.Label>오는 날</Form.Label>
+               <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText='오는 날 선택' popperPlacement='bottom-start' className="comingDate" />
+               {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />*/}
+             </td>
+             </table>
+             </Form.Group>
           </div>
-          <hr />
-          <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
-           등록
-          </Button>
+             <div className="form-Footer">
+                <hr />
+                <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
+                   등록
+                </Button>
+             </div>
           </Form>
-         </div>
-      </div>
+        </div>
+    </div>
     )
 }
 
