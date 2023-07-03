@@ -10,7 +10,6 @@ axios.defaults.withCredentials = true;
 
 function SearchPage(){
 
-    const [data, setData] = useState([]);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
@@ -72,20 +71,7 @@ function SearchPage(){
           return currentPosts;
         };
 
-     const fetchData = async(pageNum) => {
-                          try{
-                            const response = await axios.get('http://localhost:8080/api/members/trip?page=${currentpage}',
-                            {
-                              withCredentials: true
-                            }
-                            );
-                            const data = response.data;
-                            console.log(data);
 
-                          } catch(error){
-                            console.error(error);
-            }
-         }
 
 
    const Posts = ({ posts, loading, handleClick}) => {
