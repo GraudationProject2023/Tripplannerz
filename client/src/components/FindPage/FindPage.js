@@ -2,6 +2,9 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
+import DatePicker, {Calendar} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 import './FindPage.css';
 import axios from 'axios';
 import Slider, {Range} from 'rc-slider';
@@ -18,6 +21,20 @@ function FindPage(){
      const [selectedSubCategory, setSelectedSubCategory] = useState('');
      const [image, setImage] = useState([]);
      const [preview, setPreview] = useState([]);
+
+     const [currentMonth, setCurrentMonth] = useState(new Date(moment().startOf('day')))
+     const [nextMonth, setNextMonth] = useState(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+     const handleCurrentMonthChange = (date) => {
+          setCurrentMonth(date);
+     }
+
+     const handleNextMonthChange = (date) => {
+          setNextMonth(date);
+     }
+
+     const disableNextMonthDates = (date) => {
+        return date > new Date(currentMonth.getFullYear(), currentMonth.getMonth(), currentMonth.getDate() -1);
+     }
 
       useEffect(() => {
           localStorage.setItem("cast",1);
@@ -266,10 +283,12 @@ function FindPage(){
           <div className = "form-Itinerary">
           <Form.Group controlId="formItinerary">
           <Form.Label>가는 날</Form.Label>
-          <Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />
+          <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText='가는 날 선택' popperPlacement='bottom-start' className="goingDate" />
+          {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />*/}
           <br />
           <Form.Label>오는 날</Form.Label>
-          <Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />
+          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText='오는 날 선택' popperPlacement='bottom-start' className="comingDate" />
+          {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />*/}
           </Form.Group>
           </div>
           <hr />

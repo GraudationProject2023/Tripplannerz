@@ -68,7 +68,7 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                              `http://localhost:8080/api/members/trip?page=${currentNumber}`,
                               {
                                   withCredentials: true
                               }
@@ -309,9 +309,7 @@ function MyPage(){
                 <h5>성별 : {gender} </h5>
                 <h5>이메일 : {email}</h5>
                 <h5>선호태그 : {ranklist} </h5>
-             <hr />
-             <h4>내 일정</h4>
-          </div>
+         </div>
       );
     }
 
@@ -361,20 +359,19 @@ function MyPage(){
            <td>
            <Button style={{width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
-                                                 <Modal.Header closeButton>
-                                                   <Modal.Title>태그</Modal.Title>
-                                                   <Modal.Body>변경 전 태그는 {ranklist} 입니다. </Modal.Body>
-                                                 </Modal.Header>
-                                                 <Modal.Body>
-                                                   <Button1 />
-                                                 </Modal.Body>
-                                                 <Modal.Footer>
-                                                  <Button variant="primary" type="submit" onClick={handleCloseNested}>
-                                                       확인
-                                                  </Button>
-                                                 </Modal.Footer>
-                                                 </Modal>
-           )}
+                                <Modal.Header closeButton>
+                                   <Modal.Title>태그</Modal.Title>
+                                     <Modal.Body>변경 전 태그는 {ranklist} 입니다. </Modal.Body>
+                                        </Modal.Header>
+                                           <Modal.Body>
+                                              <Button1 />
+                                           </Modal.Body>
+                                           <Modal.Footer>
+                                             <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                                확인
+                                             </Button>
+                                           </Modal.Footer>
+                                </Modal>)}
            </td>
            </table>
         </div>
