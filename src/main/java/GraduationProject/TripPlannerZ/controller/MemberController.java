@@ -168,7 +168,11 @@ public class MemberController {
         Optional<Member> loginMember = memberService.findByEmail(email);
         Member member = loginMember.get();
 
+        System.out.println("member.getPw() = " + member.getPw());
+        System.out.println("pw = " + pw);
+
         if (member.getPw().equals(pw)) {
+            System.out.println("pw = " + pw);
             memberService.exit(member);
             return ResponseEntity.ok().body("{\"result\": true}");
         } else
