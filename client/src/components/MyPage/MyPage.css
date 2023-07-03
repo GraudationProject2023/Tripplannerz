@@ -14,6 +14,20 @@
     margin-right: 0;
   }
 }
+
+.table{
+    width: 100%;
+}
+.table-head{
+    background-color: #333;
+    color: #fff;
+}
+
+.table th{
+    padding: 8px;
+    text-align: left;
+}
+
 .table_n{
     margin-left: 5%;
 }

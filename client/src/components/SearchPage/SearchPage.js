@@ -62,9 +62,9 @@ function SearchPage(){
                 </>
                 )
             }
-            }
+    }
 
-       const indexOfLast = currentPage * postsPerPage;
+        const indexOfLast = currentPage * postsPerPage;
         const indexOfFirst = indexOfLast - postsPerPage;
         const currentPosts = (posts) => {
           let currentPosts = 0;
