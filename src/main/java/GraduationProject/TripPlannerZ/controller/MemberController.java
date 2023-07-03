@@ -157,7 +157,7 @@ public class MemberController {
     @GetMapping("/members/tripList")
     public Page<MemberTrip> getMemberTripList(HttpServletRequest request, @RequestParam("page") int page) {
         String email = (String) request.getSession().getAttribute("loginMember");
-        PageRequest pageRequest = PageRequest.of(0, 10);
+        PageRequest pageRequest = PageRequest.of(page, 10);
 
         return memberService.findTrip(email, pageRequest);
     }
@@ -168,7 +168,7 @@ public class MemberController {
         Optional<Member> loginMember = memberService.findByEmail(email);
         Member member = loginMember.get();
 
-        if (member.getPw() == pw) {
+        if (member.getPw().equals(pw)) {
             memberService.exit(member);
             return ResponseEntity.ok().body("{\"result\": true}");
         } else
