@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import Navbar from '../Navbar/Navbar';
 import {Form, Button} from 'react-bootstrap';
 import DatePicker, {Calendar} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import './FindPage.css';
 import axios from 'axios';
