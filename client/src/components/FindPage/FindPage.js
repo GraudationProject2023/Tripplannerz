@@ -117,13 +117,14 @@ function FindPage(){
 
             const formData = new FormData();
             var closeRecruitDate = date.toString();
-            var goingDate = going.toString();
-            var comingDate = coming.toString();
+            var goingDate = currentMonth.toString().slice(0,10);
+            var comingDate = nextMonth.toString().slice(0,10);
             var area = selectedCategory;
             var sigungu = selectedSubCategory;
-//            image.forEach(images => {
-//                formData.append("image",images);
-//            })
+
+            console.log(goingDate);
+            console.log(comingDate);
+
             formData.append("image", image[0]);
             const contentsData = {
                 title,
@@ -163,12 +164,12 @@ function FindPage(){
 
 
     return(
-        <div className ="Structure">
+    <div className ="Structure">
         {console.log(image)}
           <Navbar />
-          <div className = "Find">
+        <div className = "Find">
           <div className = "Title">
-          <h2>동행자 모집하기</h2>
+             <h2>동행자 모집하기</h2>
           </div>
           <br />
           <Form style={{border:"1px solid black", borderRadius : "10px", height: "400px" }}>
@@ -282,22 +283,29 @@ function FindPage(){
           </div>
           <div className = "form-Itinerary">
           <Form.Group controlId="formItinerary">
-          <Form.Label>가는 날</Form.Label>
-          <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText='가는 날 선택' popperPlacement='bottom-start' className="goingDate" />
-          {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />*/}
-          <br />
-          <Form.Label>오는 날</Form.Label>
-          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText='오는 날 선택' popperPlacement='bottom-start' className="comingDate" />
-          {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />*/}
-          </Form.Group>
+             <table>
+             <td>
+             <Form.Label>가는 날</Form.Label>
+               <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText='가는 날 선택' popperPlacement='bottom-start' className="goingDate" />
+               {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />*/}
+             </td>
+             <td>
+             <Form.Label>오는 날</Form.Label>
+               <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText='오는 날 선택' popperPlacement='bottom-start' className="comingDate" />
+               {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />*/}
+             </td>
+             </table>
+             </Form.Group>
           </div>
-          <hr />
-          <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
-           등록
-          </Button>
+             <div className="form-Footer">
+                <hr />
+                <Button style={{width: "200px",marginLeft: "45%"}} variant="primary" type="submit">
+                   등록
+                </Button>
+             </div>
           </Form>
-         </div>
-      </div>
+        </div>
+    </div>
     )
 }
 
