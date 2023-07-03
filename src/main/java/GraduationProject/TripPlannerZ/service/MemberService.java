@@ -30,8 +30,14 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    //여행 일정 검색
-    public Page<MemberTrip> findTrip(String email, Pageable pageable){
+    // 여행 일정 검색
+    public Page<MemberTrip> findTrip(String email, Pageable pageable) {
         return memberRepository.tripList(email, pageable);
+    }
+
+    // 회원 탈퇴
+    public void exit(Member member) {
+        member.exit();
+        memberRepository.delete(member);
     }
 }
