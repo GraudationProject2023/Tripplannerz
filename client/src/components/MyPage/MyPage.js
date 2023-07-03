@@ -12,6 +12,7 @@ import hotel from '../Image/호텔.png';
 import shopping from '../Image/쇼핑.png';
 import restaurant from '../Image/레스토랑.png';
 import axios from 'axios';
+import Pagination from './utils/SchedulePagination';
 axios.default.withCredentials=true;
 
 
@@ -28,12 +29,63 @@ function MyPage(){
   const [password, setPassword] = useState('') // 수정할 패스워드
   const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+  const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
+  const [postsPerPage, setPostsPerPage] = useState(10); //페이지마다 띄울 게시판 목록 개수
+  const [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
+  const [total, setTotal] = useState(13); //전체 페이지 번호 개수
+  const [loading, setLoading] = useState(false);
+
+  const [nestedModal, setNestedModal] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const [withdrawlModal, setWithdrawlModal] = useState(false);
+
+
+  var ranklist = "";
+   const indexOfLast = currentPage * postsPerPage;
+   const indexOfFirst = indexOfLast - postsPerPage;
+   const currentPosts = (posts) => {
+            let currentPosts = 0;
+            currentPosts = posts.slice(indexOfFirst, indexOfLast);
+            return currentPosts;
+   };
+
+  useEffect(() => {
+      localStorage.setItem("cast",1);
+      localStorage.setItem("rank",-1);
+      localStorage.setItem("vest",1);
+      document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+      axios.get('http://localhost:8080/api/members/tripInfo')
+           .then((response) => {
+                setName(response.data.name);
+                setGender(response.data.gender);
+                setEmail(response.data.email);
+                setRank(response.data.preferences);
+           })
+
+      },[]);
+
+  useEffect(() => {
+          console.log(currentPage);
+           const fetchData = async() => {
+                          setLoading(true);
+                          const response = await axios.get(
+                              `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                              {
+                                  withCredentials: true
+                              }
+                          );
+                          console.log(response.data);
+                          setPosts(response.data.result);
+                          setTotal(response.data.total);
+                          setLoading(false);
+                      };
+          fetchData();
+  },[currentPage]);
 
   const handlePassword = (e) => {
      setPassword(e.target.value);
   }
-  const handleConfirmPasswordChange = (event) =>
-      {
+  const handleConfirmPasswordChange = (event) => {
         const CONFIRMPASSWORD = event.target.value;
         if(confirmpassword !== password.slice(0,-1))
         {
@@ -45,24 +97,121 @@ function MyPage(){
           setCorrect(true);
         }
         setConfirmpassword(CONFIRMPASSWORD);
+  }
+
+  const handlePageChange = (page) => {
+      setCurrentPage(page);
+  }
+
+  const Button1 = () => {
+                const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
+
+                const [pick1, setPick1] = useState(arr);
+                const [select1, setSelect1] = useState([]);
+                const [ranking, setRanking] = useState([]);
+                const [show, setShow] = useState([]);
+
+
+                const handleButtonClick = (itemId) => {
+                    if(select1.includes(itemId)){
+                      setSelect1(select1.filter((button) => button !== itemId));
+                    }
+                    else if(select1.length < 3){
+                        setSelect1((select1) => [...select1, itemId]);
+                    }
+                }
+
+                 const setRankingText = () => {
+                                const rankingText = [];
+                                const rankingShow = [];
+                                for(let i = 0; i < select1.length; i++)
+                                {
+                                    const button = pick1.find((item) => item.id === select1[i]);
+                                    rankingShow.push(`${i+1}순위`);
+                                    rankingText.push(`${button.code}`);
+
+                                }
+                                setShow(rankingShow);
+                                setRanking(rankingText);
+                                if(rankingText.length === 0)
+                                {
+                                    localStorage.setItem("rank",-1);
+                                }
+                                else{
+                                localStorage.setItem("rank",rankingText);
+                                }
+                            };
+
+                useEffect(() => {
+                    setRankingText();
+
+                },[select1]);
+
+
+                return (
+                <div>
+                     <div>
+                          {pick1.map((item) => (
+                            <div
+                              key={item.id}
+                              className={
+                                select1.includes(item.id)
+                                  ? "button_table_btn_ns"
+                                  : "button_table_btn_s"
+                              }
+                              onClick={() => handleButtonClick(item.id)}
+                            >
+                              <img style={{width:"50px",height:"50px",marginTop:"5px"}} src={item.image} alt={item.name} className="card_image" />
+                              <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
+                              {select1.includes(item.id) && (
+                                <div className="rank_text">
+                                  {show[select1.indexOf(item.id)]}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+
+                        </div>
+
+
+                        </div>
+                )
+    };
+
+    const handleCloseNested = () => {
+                  var res = localStorage.getItem("rank");
+                  if(res === "-1")
+                  {
+                      alert("태그를 최소 1개 이상 선택하셔야 합니다.");
+                  }
+                  else{
+                    setNestedModal(false);
+                  }
+    }
+    const handleNestedModal = () => {
+         setNestedModal(true);
+    }
+
+    const handleToggle = () => {
+         if(toggle === false){
+            setToggle(true);
+         }
+         else if(toggle === true){
+            setToggle(false);
+         }
       }
 
-  var ranklist = "";
-
-   useEffect(() => {
-                      localStorage.setItem("cast",1);
-                      localStorage.setItem("rank",-1);
-                      localStorage.setItem("vest",1);
-                      document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-                      axios.get('http://localhost:8080/api/members/tripInfo')
-                      .then((response) => {
-                        setName(response.data.name);
-                        setGender(response.data.gender);
-                        setEmail(response.data.email);
-                        setRank(response.data.preferences);
-                      })
-
-    },[]);
+      const handleWithdrawlModal = () => {
+         if(toggle === true){
+            setWithdrawlModal(true);
+         }
+         else {
+            alert('동의 버튼을 체크해주시기 바랍니다.');
+         }
+      }
+      const handleCloseWithdrawl = () => {
+            setWithdrawlModal(false);
+      }
 
     for(let i = 0; i<rank.length; i++)
     {
@@ -105,130 +254,70 @@ function MyPage(){
 
     }
 
+    const handleClick = (postId) => {
+            window.location.href = `/search/${postId}`;
+    }
 
 
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  }
-  const Button1 = () => {
-              const arr = [{id: 1, name: "관광지", code: "SIGHTSEEING",image: sight }, {id: 2, name: "문화시설", code:"CULTURE",image: culture}, { id: 3, name: "축제 • 공연",code:"FESTIVAL" ,image: festival },{id : 4, name: "레포츠",code:"LEISURE" ,image: surfing},{id : 5, name:"호캉스",code:"VACATION",image: hotel},{id: 6, name:"쇼핑",code:"SHOPPING",image: shopping},{id: 7,code:"RESTAURANT",name:"맛집탐방",image: restaurant}];
-
-              const [pick1, setPick1] = useState(arr);
-              const [select1, setSelect1] = useState([]);
-              const [ranking, setRanking] = useState([]);
-              const [show, setShow] = useState([]);
-
-
-              const handleButtonClick = (itemId) => {
-                  if(select1.includes(itemId)){
-                    setSelect1(select1.filter((button) => button !== itemId));
-                  }
-                  else if(select1.length < 3){
-                      setSelect1((select1) => [...select1, itemId]);
-                  }
-              }
-
-               const setRankingText = () => {
-                              const rankingText = [];
-                              const rankingShow = [];
-                              for(let i = 0; i < select1.length; i++)
-                              {
-                                  const button = pick1.find((item) => item.id === select1[i]);
-                                  rankingShow.push(`${i+1}순위`);
-                                  rankingText.push(`${button.code}`);
-
-                              }
-                              setShow(rankingShow);
-                              setRanking(rankingText);
-                              if(rankingText.length === 0)
-                              {
-                                  localStorage.setItem("rank",-1);
-                              }
-                              else{
-                              localStorage.setItem("rank",rankingText);
-                              }
-                          };
-
-              useEffect(() => {
-                  setRankingText();
-
-              },[select1]);
-
-
-              return (
-              <div>
-                   <div>
-                        {pick1.map((item) => (
-                          <div
-                            key={item.id}
-                            className={
-                              select1.includes(item.id)
-                                ? "button_table_btn_ns"
-                                : "button_table_btn_s"
+     const fetchData = async(pageNum) => {
+                          try{
+                            const response = await axios.get('http://localhost:8080/api/members/trip?page=${currentpage}',
+                            {
+                              withCredentials: true
                             }
-                            onClick={() => handleButtonClick(item.id)}
-                          >
-                            <img style={{width:"50px",height:"50px",marginTop:"5px"}} src={item.image} alt={item.name} className="card_image" />
-                            <div style={{marginTop:"5px",fontSize:"18px"}} className="card_text">{item.name}</div>
-                            {select1.includes(item.id) && (
-                              <div className="rank_text">
-                                {show[select1.indexOf(item.id)]}
+                            );
+                            const data = response.data;
+                            console.log(data);
+
+                          } catch(error){
+                            console.error(error);
+            }
+     }
+
+    const Posts = ({ posts, loading, handleClick}) => {
+         return (
+           <>
+           {loading ? '': <ShowData />}
+           <ul className="list">
+            {posts.map((post) => (
+              <div>
+              <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
+                <table>
+                <tr onClick={()=>handleClick(post.id)}>
+                <td><div>{post.title}</div></td>
+                 <td><div>{post.startingDate}</div></td>
+                </tr>
+                </table>
+              </li>
+
+              </div>
+            ))}
+           </ul>
+         </>
+       );
+     };
+
+    function ShowData(){
+                    if(currentPage !== 1){
+                    return(
+                    <>
+                    <ul className="list">
+                            {posts.map((post) => (
+                              <div>
+                              <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
+                                <table>
+                                <td><div>{post.title}</div></td>
+                                <td><div>{post.startingDate}</div></td>
+                                </table>
+                              </li>
+
                               </div>
-                            )}
-                          </div>
-                        ))}
-
-                      </div>
-
-
-                      </div>
-              )
-  };
-  //모달들
-  const [nestedModal, setNestedModal] = useState(false);
-  const handleCloseNested = () => {
-              var res = localStorage.getItem("rank");
-              if(res === "-1")
-              {
-                  alert("태그를 최소 1개 이상 선택하셔야 합니다.");
-              }
-              else{
-                setNestedModal(false);
-              }
-      }
-
-  const handleNestedModal = () => {
-
-
-                setNestedModal(true);
-
-  }
-
-  const[toggle, setToggle] = useState(false);
-  const[withdrawlModal, setWithdrawlModal] = useState(false);
-
-  const handleToggle = () => {
-     if(toggle === false){
-        setToggle(true);
-     }
-     else if(toggle === true){
-        setToggle(false);
-     }
-  }
-
-  const handleWithdrawlModal = () => {
-     if(toggle === true){
-        setWithdrawlModal(true);
-     }
-     else {
-        alert('동의 버튼을 체크해주시기 바랍니다.');
-     }
-  }
-  const handleCloseWithdrawl = () => {
-        setWithdrawlModal(false);
-  }
-
+                            ))}
+                           </ul>
+                    </>
+                    )
+                }
+    }
    const renderProfilePage = () => {
       return(
           <div className = "profile-card">
@@ -310,6 +399,46 @@ function MyPage(){
     );
   }
 
+  const renderSchedulePage = () => {
+        return(
+            <div className="profile-card">
+              <h2>내 일정 조회</h2>
+              <hr />
+              <table className="table">
+                <thead className="table-head">
+                  <tr>
+                    <th>일정 제목</th>
+                    <th>인원 수</th>
+                    <th>일정 날짜</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
+                </tbody>
+              </table>
+              <Pagination
+               postsPerPage={postsPerPage}
+               totalPosts = {posts.length}
+               paginate={(pageNumber) => setCurrentNumber(pageNumber)}
+               total={total}
+              >
+              </Pagination>
+            <div>
+              <table>
+                <td>
+                  <input type="text" placeholder="검색어를 입력하세요."/>
+                </td>
+                <td>
+                  <Button>검색</Button>
+                </td>
+              </table>
+            </div>
+            </div>
+        )
+
+  }
+
+
   const renderWithdrawlPage = () => {
       return(
           <div className = "profile-card">
@@ -365,6 +494,9 @@ function MyPage(){
   else if(currentPage === 'withdrawl'){
     currentPageComponent = renderWithdrawlPage();
   }
+  else if(currentPage === 'schedule'){
+    currentPageComponent = renderSchedulePage();
+  }
 
   return (
     <div>
@@ -382,6 +514,8 @@ function MyPage(){
         <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
         <hr />
         <button className={`buttonstyle ${currentPage === 'account' ? 'active' : ''}`} onClick={() => handlePageChange('account')}>정보 수정</button>
+        <hr />
+        <button className={`buttonstyle ${currentPage === 'schedule'? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>일정 조회</button>
         <hr />
         <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('withdrawl')}>회원 탈퇴</button>
        </div>
