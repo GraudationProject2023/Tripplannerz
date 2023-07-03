@@ -3,9 +3,9 @@ package GraduationProject.TripPlannerZ.controller;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.domain.MemberPreference;
-import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.dto.MemberJoin;
 import GraduationProject.TripPlannerZ.dto.MemberLogin;
+import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.MyPage;
 import GraduationProject.TripPlannerZ.repository.MemberPreferenceRepository;
 import GraduationProject.TripPlannerZ.service.LoginService;
@@ -15,6 +15,8 @@ import GraduationProject.TripPlannerZ.service.TripService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -143,16 +145,20 @@ public class MemberController {
     @GetMapping("/members/tripInfo")
     public MyPage getMemberTrip(HttpServletRequest request) {
 
-        String loginMember_email = (String) request.getSession().getAttribute("loginMember");
-
-        Optional<Member> loginMember = memberService.findByEmail(loginMember_email);
-
+        String email = (String) request.getSession().getAttribute("loginMember");
+        Optional<Member> loginMember = memberService.findByEmail(email);
         Member member = loginMember.get();
 
-        MyPage mp = new MyPage(member);
-
-        return mp;
+        return new MyPage(member);
 
 
+    }
+
+    @GetMapping("/members/tripList")
+    public Page<MemberTrip> getMemberTripList(HttpServletRequest request, @RequestParam("page") int page) {
+        String email = (String) request.getSession().getAttribute("loginMember");
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        return memberService.findTrip(email, pageRequest);
     }
 }

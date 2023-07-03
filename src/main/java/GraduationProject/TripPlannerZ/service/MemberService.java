@@ -1,8 +1,11 @@
 package GraduationProject.TripPlannerZ.service;
 
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +30,8 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    // 여행 일정 검색
-//    public Page<Trip> findTrip(String email, Pageable pageable){
-//        return memberRepository.findTripListByEmail(email, pageable);
-//    }
+    //여행 일정 검색
+    public Page<MemberTrip> findTrip(String email, Pageable pageable){
+        return memberRepository.tripList(email, pageable);
+    }
 }
