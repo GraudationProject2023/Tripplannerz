@@ -40,6 +40,7 @@ function MyPage(){
 
 
   var ranklist = "";
+  var size = posts.length;
    const indexOfLast = currentPage * postsPerPage;
    const indexOfFirst = indexOfLast - postsPerPage;
    const currentPosts = (posts) => {
@@ -60,7 +61,6 @@ function MyPage(){
                 setEmail(response.data.email);
                 setRank(response.data.preferences);
            })
-
       },[]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                              `http://localhost:8080/api/members/trip?page=${currentNumber}`,
                               {
                                   withCredentials: true
                               }
@@ -208,7 +208,22 @@ function MyPage(){
          }
       }
       const handleCloseWithdrawl = () => {
-            setWithdrawlModal(false);
+            console.log(typeof(password));
+            const data = {
+                pw: password
+            };
+            console.log(data);
+
+            axios.post('http://localhost:8080/api/members/exit',data)
+            .then((response) => {
+                console.log(response.data);
+                alert('탈퇴가 완료되었습니다.');
+                setWithdrawlModal(false);
+            })
+            .catch((response) => {
+                alert('오류가 발생하였습니다. 비밀번호를 다시 입력해주세요');
+            })
+
       }
 
     for(let i = 0; i<rank.length; i++)
@@ -309,9 +324,7 @@ function MyPage(){
                 <h5>성별 : {gender} </h5>
                 <h5>이메일 : {email}</h5>
                 <h5>선호태그 : {ranklist} </h5>
-             <hr />
-             <h4>내 일정</h4>
-          </div>
+         </div>
       );
     }
 
@@ -361,24 +374,35 @@ function MyPage(){
            <td>
            <Button style={{width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
-                                                 <Modal.Header closeButton>
-                                                   <Modal.Title>태그</Modal.Title>
-                                                   <Modal.Body>변경 전 태그는 {ranklist} 입니다. </Modal.Body>
-                                                 </Modal.Header>
-                                                 <Modal.Body>
-                                                   <Button1 />
-                                                 </Modal.Body>
-                                                 <Modal.Footer>
-                                                  <Button variant="primary" type="submit" onClick={handleCloseNested}>
-                                                       확인
-                                                  </Button>
-                                                 </Modal.Footer>
-                                                 </Modal>
-           )}
+                                <Modal.Header closeButton>
+                                   <Modal.Title>태그</Modal.Title>
+                                     <Modal.Body>변경 전 태그는 {ranklist} 입니다. </Modal.Body>
+                                        </Modal.Header>
+                                           <Modal.Body>
+                                              <Button1 />
+                                           </Modal.Body>
+                                           <Modal.Footer>
+                                             <Button variant="primary" type="submit" onClick={handleCloseNested}>
+                                                확인
+                                             </Button>
+                                           </Modal.Footer>
+                                </Modal>)}
            </td>
            </table>
         </div>
     );
+  }
+
+  const NullSchedulePage = () => {
+        return(
+            <div>
+                <h5>{name}님의 여행 정보를 찾을 수 없습니다.</h5>
+                <h6>동행자를 모집하여 직접 여행 일정을 작성하거나, 다른 사람이 만든 여행 일정에 참여해보세요!</h6>
+                <br />
+                <br />
+                <button>일정 생성</button>
+            </div>
+        )
   }
 
   const renderSchedulePage = () => {
@@ -388,30 +412,21 @@ function MyPage(){
               <hr />
               <table className="table">
                 <thead className="table-head">
-                  <tr>
-                    <th>일정 제목</th>
-                    <th>인원 수</th>
-                    <th>일정 날짜</th>
-                  </tr>
+
+                { size === 0 ? '': <tr> <th>일정 제목</th> <th>인원 수</th> <th>일정 날짜</th> </tr>}
                 </thead>
                 <tbody>
-                   <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
+                { size === 0 ? <NullSchedulePage /> : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
                 </tbody>
               </table>
-              <Pagination
-               postsPerPage={postsPerPage}
-               totalPosts = {posts.length}
-               paginate={(pageNumber) => setCurrentNumber(pageNumber)}
-               total={total}
-              >
-              </Pagination>
+              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber)} total={total}></Pagination>}
             <div>
               <table>
                 <td>
-                  <input type="text" placeholder="검색어를 입력하세요."/>
+                  {size === 0 ? '' : <input type="text" placeholder="검색어를 입력하세요."/> }
                 </td>
                 <td>
-                  <Button>검색</Button>
+                  {size === 0 ? '' : <Button>검색</Button> }
                 </td>
               </table>
             </div>
@@ -452,7 +467,7 @@ function MyPage(){
                       </Modal.Body>
                       <Modal.Body>
                         <Form>
-                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." />
+                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handlePassword} />
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
