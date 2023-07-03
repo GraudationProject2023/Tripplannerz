@@ -26,6 +26,7 @@ function MyPage(){
   const [preview, setPreview] = useState([]);
   const [create, setCreate] = useState(0); //생성한 일정 개수
   const [password, setPassword] = useState('') // 수정할 패스워드
+  const [withdrawPassword, setWithdrawPassword] = useState('');
   const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
@@ -84,6 +85,11 @@ function MyPage(){
   const handlePassword = (e) => {
      setPassword(e.target.value);
   }
+
+  const handleWithdrawPassword = (e) => {
+    setWithdrawPassword(e.target.value);
+  }
+
   const handleConfirmPasswordChange = (event) => {
         const CONFIRMPASSWORD = event.target.value;
         if(confirmpassword !== password.slice(0,-1))
@@ -208,20 +214,20 @@ function MyPage(){
          }
       }
       const handleCloseWithdrawl = () => {
-            console.log(typeof(password));
-            const data = {
-                pw: password
-            };
-            console.log(data);
-
-            axios.post('http://localhost:8080/api/members/exit',data)
-            .then((response) => {
+            axios.post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`).then((response) => {
                 console.log(response.data);
+                if(response.data.result === true){
                 alert('탈퇴가 완료되었습니다.');
                 setWithdrawlModal(false);
+                window.location.href="/";
+                }
+                else{
+                alert('비밀번호를 잘못 입력하였습니다.');
+                }
             })
             .catch((response) => {
-                alert('오류가 발생하였습니다. 비밀번호를 다시 입력해주세요');
+                alert('오류가 발생하였습니다.');
+                setWithdrawlModal(false);
             })
 
       }
@@ -467,7 +473,7 @@ function MyPage(){
                       </Modal.Body>
                       <Modal.Body>
                         <Form>
-                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handlePassword} />
+                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handleWithdrawPassword} />
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
