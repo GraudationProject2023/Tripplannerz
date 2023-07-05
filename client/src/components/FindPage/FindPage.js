@@ -139,11 +139,11 @@ function FindPage(){
 
             formData.append("contentsData",new Blob([JSON.stringify(contentsData)], {type: 'application/json'}));
 
-//             for(const entry of formData.entries()){
-//                                        const [key,value] = entry;
-//                                        console.log(`Key: ${key}, Value: ${value}`);
-//                                    }
-
+            if(!image || !title || !capacity || !closeRecruitDate || !goingDate || !comingDate || !area || !sigungu)
+            {
+                alert("모든 항목을 입력해주세요.");
+            }
+            else{
             axios.post('http://localhost:8080/api/trip/create',formData,{
                 headers: {'Content-Type':'multipart/form-data', charset : 'utf-8'},
                 withCredentials: true
@@ -159,6 +159,7 @@ function FindPage(){
                 console.log(response);
                 console.log(formData);
             })
+            }
        };
 
 
