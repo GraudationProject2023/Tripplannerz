@@ -69,13 +69,13 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/trip?page=${currentNumber}`,
+                              `http://localhost:8080/api/members/tripList?page=${currentNumber}`,
                               {
                                   withCredentials: true
                               }
                           );
-                          console.log(response.data);
-                          setPosts(response.data.result);
+                          console.log(response.data.content);
+                          setPosts(response.data.content);
                           setTotal(response.data.total);
                           setLoading(false);
                       };
