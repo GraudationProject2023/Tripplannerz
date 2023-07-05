@@ -158,11 +158,11 @@ public class MemberController {
     public Page<MemberTrip> getMemberTripList(HttpServletRequest request,
                                               @RequestParam("page") int page,
                                               @RequestParam("sortType") String sortType) {
-        //String email = (String) request.getSession().getAttribute("loginMember");
+        String email = (String) request.getSession().getAttribute("loginMember");
         PageRequest pageRequest = PageRequest.of(page, 10);
 
 
-        return memberService.findTrip("1@naver.com", sortType, pageRequest);
+        return memberService.findTrip(email, sortType, pageRequest);
     }
 
     @PostMapping("members/exit")
