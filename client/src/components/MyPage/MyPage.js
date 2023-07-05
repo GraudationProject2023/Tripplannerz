@@ -31,7 +31,7 @@ function MyPage(){
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
   const [postsPerPage, setPostsPerPage] = useState(10); //페이지마다 띄울 게시판 목록 개수
-  const [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
+  var [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
   const [total, setTotal] = useState(13); //전체 페이지 번호 개수
   const [loading, setLoading] = useState(false);
 
@@ -65,7 +65,7 @@ function MyPage(){
       },[]);
 
   useEffect(() => {
-          console.log(currentPage);
+          console.log(currentNumber);
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
@@ -74,13 +74,17 @@ function MyPage(){
                                   withCredentials: true
                               }
                           );
+                          console.log(response.data);
+                          console.log(response.data.totalPages);
+                          console.log(response.data.totalElements);
                           console.log(response.data.content);
                           setPosts(response.data.content);
-                          setTotal(response.data.total);
+                          setTotal(response.data.totalElements);
                           setLoading(false);
                       };
+
           fetchData();
-  },[currentPage]);
+  },[currentPage,currentNumber]);
 
   const handlePassword = (e) => {
      setPassword(e.target.value);
@@ -427,7 +431,7 @@ function MyPage(){
                 { size === 0 ? <NullSchedulePage /> : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
                 </tbody>
               </table>
-              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber)} total={total}></Pagination>}
+              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber-1)} total={total}></Pagination>}
             <div>
               <table>
                 <td>
