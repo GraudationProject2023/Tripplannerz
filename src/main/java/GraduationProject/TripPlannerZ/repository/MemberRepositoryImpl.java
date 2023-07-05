@@ -3,8 +3,6 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -19,6 +17,7 @@ import static GraduationProject.TripPlannerZ.domain.QMember.member;
 import static GraduationProject.TripPlannerZ.domain.QMemberParty.memberParty;
 import static GraduationProject.TripPlannerZ.domain.QParty.party;
 import static GraduationProject.TripPlannerZ.domain.QTrip.trip;
+import static GraduationProject.TripPlannerZ.domain.QTripImage.tripImage;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
@@ -30,24 +29,85 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
     @Override
-    public Page<MemberTrip> tripList(String email, Pageable pageable) {
+    public Page<MemberTrip> tripList(String email, String sortType, Pageable pageable) {
 
 
         //@Query("select trip from Trip trip join trip.team team join team.memberTeamList mtl join mtl.member m where m.email = :email")
-        List<MemberTrip> content = queryFactory
-                .select(new QMemberTrip(
-                        trip.UUID,
-                        trip.title,
-                        trip.startingDate,
-                        trip.comingDate))
-                .from(trip)
-                .join(trip.party, party)
-                .join(party.memberPartyList, memberParty)
-                .join(memberParty.member, member)
-                .where(member.email.eq(email), trip.startingDate.goe(LocalDate.now().toString()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+        List<MemberTrip> content;
+
+        switch (sortType) {
+            case "조회수":
+                content = queryFactory
+                        .select(new QMemberTrip(
+                                trip.UUID,
+                                trip.title,
+                                trip.startingDate,
+                                trip.comingDate,
+                                tripImage.img_uuid
+                        ))
+                        .from(trip, tripImage)
+                        .join(trip.party, party)
+                        .join(party.memberPartyList, memberParty)
+                        .join(memberParty.member, member)
+                        .where(
+                                member.email.eq(email),
+                                trip.startingDate.gt(LocalDate.now().toString()),
+                                trip.eq(tripImage.trip)
+                        )
+                        .orderBy(trip.hits.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+                break;
+
+            case "좋아요":
+                content = queryFactory
+                        .select(new QMemberTrip(
+                                trip.UUID,
+                                trip.title,
+                                trip.startingDate,
+                                trip.comingDate,
+                                tripImage.img_uuid
+                        ))
+                        .from(trip, tripImage)
+                        .join(trip.party, party)
+                        .join(party.memberPartyList, memberParty)
+                        .join(memberParty.member, member)
+                        .where(
+                                member.email.eq(email),
+                                trip.startingDate.gt(LocalDate.now().toString()),
+                                trip.eq(tripImage.trip)
+                        )
+                        .orderBy(trip.likes.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+                break;
+
+            default:
+                content = queryFactory
+                        .select(new QMemberTrip(
+                                trip.UUID,
+                                trip.title,
+                                trip.startingDate,
+                                trip.comingDate,
+                                tripImage.img_uuid
+                        ))
+                        .from(trip, tripImage)
+                        .join(trip.party, party)
+                        .join(party.memberPartyList, memberParty)
+                        .join(memberParty.member, member)
+                        .where(
+                                member.email.eq(email),
+                                trip.startingDate.gt(LocalDate.now().toString())
+                                //trip.eq(tripImage.trip)
+                        )
+                        .orderBy(trip.creationTime.desc())
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
+                break;
+        }
 
         JPAQuery<Trip> countQuery = queryFactory
                 .select(trip)
@@ -59,10 +119,5 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
-    }
-
-    private BooleanExpression dateCompare(StringPath start) {
-
-        return start.goe(LocalDate.now().toString());
     }
 }
