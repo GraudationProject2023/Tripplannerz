@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface MemberRepositoryCustom {
 
-    Page<MemberTrip> tripList(String username, Pageable pageable);
+    Page<MemberTrip> tripList(String username, String sortType, Pageable pageable);
 }
