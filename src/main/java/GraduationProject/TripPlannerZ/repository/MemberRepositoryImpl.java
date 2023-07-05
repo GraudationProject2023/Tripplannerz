@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -93,16 +94,22 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.comingDate,
                                 tripImage.img_uuid
                         ))
-                        .from(trip, tripImage)
-                        .join(trip.party, party)
-                        .join(party.memberPartyList, memberParty)
-                        .join(memberParty.member, member)
+                        .from(trip).where(trip.party.in(
+                                JPAExpressions
+                                        .select(memberParty.party)
+                                        .from(memberParty)
+                                        .where(memberParty.member.eq(
+                                                JPAExpressions
+                                                        .selectFrom(member)
+                                                        .where(member.email.eq(email))
+                                        ))
+                        ))
+                        .leftJoin(tripImage).on(trip.eq(tripImage.trip))
                         .where(
-                                member.email.eq(email),
                                 trip.startingDate.gt(LocalDate.now().toString())
                                 //trip.eq(tripImage.trip)
                         )
-                        .orderBy(trip.creationTime.desc())
+                        .orderBy(trip.creationTime.asc())
                         .offset(pageable.getOffset())
                         .limit(pageable.getPageSize())
                         .fetch();
