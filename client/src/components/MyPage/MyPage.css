@@ -15,17 +15,15 @@
   }
 }
 
+.select{
+    margin-left: 90%;
+}
+
 .table{
     width: 100%;
 }
-.table-head{
-    background-color: #333;
-    color: #fff;
-}
-
-.table th{
-    padding: 8px;
-    text-align: left;
+.table_board{
+    width: 100%;
 }
 
 .table_n{
@@ -64,4 +62,8 @@
     height: 50px;
     background-color: #ffffff;
     border: none;
+}
+
+ul li::marker{
+    content: none;
 }
