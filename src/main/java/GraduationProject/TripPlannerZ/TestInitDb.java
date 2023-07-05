@@ -63,14 +63,14 @@ public class TestInitDb {
             em.persist(memberParty);
 
             Trip trip = Trip.builder()
-                    .comingDate("2023.05.05")
-                    .startingDate("2023.05.01")
+                    .comingDate("2023-05-05")
+                    .startingDate("2023-05-01")
                     .title("서울여행")
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party)
-                    .closeRecruitDate("2023.04.11")
+                    .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip);
 

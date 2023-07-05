@@ -3,6 +3,8 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static GraduationProject.TripPlannerZ.domain.QMember.member;
@@ -41,7 +44,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .join(trip.party, party)
                 .join(party.memberPartyList, memberParty)
                 .join(memberParty.member, member)
-                .where(member.email.eq(email))
+                .where(member.email.eq(email), trip.startingDate.goe(LocalDate.now().toString()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -56,5 +59,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+    }
+
+    private BooleanExpression dateCompare(StringPath start) {
+
+        return start.goe(LocalDate.now().toString());
     }
 }

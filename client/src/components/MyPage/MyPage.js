@@ -287,21 +287,6 @@ function MyPage(){
          return (
            <>
            {loading ? '': <ShowData />}
-           <ul className="list">
-            {posts.map((post) => (
-              <div>
-              <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
-                <table>
-                <tr onClick={()=>handleClick(post.id)}>
-                <td><div>{post.title}</div></td>
-                 <td><div>{post.startingDate}</div></td>
-                </tr>
-                </table>
-              </li>
-
-              </div>
-            ))}
-           </ul>
          </>
        );
      };
@@ -310,19 +295,42 @@ function MyPage(){
                     if(currentPage !== 1){
                     return(
                     <>
-                    <ul className="list">
+                    <ul>
+                       <table className="table_board">
+                          <thead className="table-head">
+                             <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th> <th>일정 날짜</th>
+                          </thead>
+                          <tbody>
+                          <td>
                             {posts.map((post) => (
                               <div>
-                              <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
+                              <li key={post.id}  onClick={() => handleClick(post.id)} className="list-key">
                                 <table>
                                 <td><div>{post.title}</div></td>
-                                <td><div>{post.startingDate}</div></td>
                                 </table>
+                                <hr />
                               </li>
-
                               </div>
                             ))}
-                           </ul>
+                          </td>
+
+                          <td>
+                            {posts.map((post) => (
+                                 <div>
+                                    <li key={post.id}  onClick={() => handleClick(post.id)} className="list-key">
+                                         <table>
+                                            <td><div>{post.startingDate}</div></td>
+                                         </table>
+                                    <hr />
+                                    </li>
+
+                                 </div>
+                            ))}
+
+                          </td>
+                          </tbody>
+                         </table>
+                       </ul>
                     </>
                     )
                 }
@@ -423,10 +431,6 @@ function MyPage(){
               <h2>내 일정 조회</h2>
               <hr />
               <table className="table">
-                <thead className="table-head">
-
-                { size === 0 ? '': <tr> <th>일정 제목</th> <th>인원 수</th> <th>일정 날짜</th> </tr>}
-                </thead>
                 <tbody>
                 { size === 0 ? <NullSchedulePage /> : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
                 </tbody>
