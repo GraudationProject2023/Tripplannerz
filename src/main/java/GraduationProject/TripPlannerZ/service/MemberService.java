@@ -36,6 +36,7 @@ public class MemberService {
     }
 
     // 회원 탈퇴
+    @Transactional
     public void exit(Member member) {
         member.exit();
         memberRepository.delete(member);

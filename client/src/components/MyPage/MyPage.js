@@ -26,11 +26,12 @@ function MyPage(){
   const [preview, setPreview] = useState([]);
   const [create, setCreate] = useState(0); //생성한 일정 개수
   const [password, setPassword] = useState('') // 수정할 패스워드
+  const [withdrawPassword, setWithdrawPassword] = useState('');
   const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
   const [postsPerPage, setPostsPerPage] = useState(10); //페이지마다 띄울 게시판 목록 개수
-  const [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
+  var [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
   const [total, setTotal] = useState(13); //전체 페이지 번호 개수
   const [loading, setLoading] = useState(false);
 
@@ -64,26 +65,35 @@ function MyPage(){
       },[]);
 
   useEffect(() => {
-          console.log(currentPage);
+          console.log(currentNumber);
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/trip?page=${currentNumber}`,
+                              `http://localhost:8080/api/members/tripList?page=${currentNumber}`,
                               {
                                   withCredentials: true
                               }
                           );
                           console.log(response.data);
-                          setPosts(response.data.result);
-                          setTotal(response.data.total);
+                          console.log(response.data.totalPages);
+                          console.log(response.data.totalElements);
+                          console.log(response.data.content);
+                          setPosts(response.data.content);
+                          setTotal(response.data.totalElements);
                           setLoading(false);
                       };
+
           fetchData();
-  },[currentPage]);
+  },[currentPage,currentNumber]);
 
   const handlePassword = (e) => {
      setPassword(e.target.value);
   }
+
+  const handleWithdrawPassword = (e) => {
+    setWithdrawPassword(e.target.value);
+  }
+
   const handleConfirmPasswordChange = (event) => {
         const CONFIRMPASSWORD = event.target.value;
         if(confirmpassword !== password.slice(0,-1))
@@ -208,20 +218,17 @@ function MyPage(){
          }
       }
       const handleCloseWithdrawl = () => {
-            console.log(typeof(password));
-            const data = {
-                pw: password
-            };
-            console.log(data);
-
-            axios.post('http://localhost:8080/api/members/exit',data)
-            .then((response) => {
+            axios.post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`).then((response) => {
                 console.log(response.data);
-                alert('탈퇴가 완료되었습니다.');
-                setWithdrawlModal(false);
+                if(response.data.result === true){
+                   alert('탈퇴가 완료되었습니다.');
+                   setWithdrawlModal(false);
+                   window.location.href="/";
+                }
             })
             .catch((response) => {
-                alert('오류가 발생하였습니다. 비밀번호를 다시 입력해주세요');
+                alert('오류가 발생하였습니다.');
+                setWithdrawlModal(false);
             })
 
       }
@@ -269,6 +276,11 @@ function MyPage(){
 
     const handleClick = (postId) => {
             window.location.href = `/search/${postId}`;
+    }
+
+    const handleCloseButton = (e) => {
+          e.preventDefault();
+          setWithdrawlModal(false);
     }
 
     const Posts = ({ posts, loading, handleClick}) => {
@@ -419,7 +431,7 @@ function MyPage(){
                 { size === 0 ? <NullSchedulePage /> : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
                 </tbody>
               </table>
-              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber)} total={total}></Pagination>}
+              { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber-1)} total={total}></Pagination>}
             <div>
               <table>
                 <td>
@@ -459,7 +471,7 @@ function MyPage(){
              </table>
              <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
              {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
-                   <Modal.Header closeButton>
+                   <Modal.Header closeButton onClick={handleCloseButton}>
                       <Modal.Title>비밀번호 입력</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
@@ -467,11 +479,11 @@ function MyPage(){
                       </Modal.Body>
                       <Modal.Body>
                         <Form>
-                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handlePassword} />
+                        <Form.Control type="text" placeholder="비밀번호를 입력해주세요." onChange={handleWithdrawPassword} />
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                      <Button variant="primary" type="submit" onClick={handleCloseWithdrawl}>
+                      <Button type="submit" onClick={handleCloseWithdrawl}>
                            탈퇴하기
                       </Button>
                      </Modal.Footer>
