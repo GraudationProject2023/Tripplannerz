@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class Trip {
     @OneToOne(mappedBy = "trip", fetch = FetchType.LAZY)
     private Party party;
 
+    private LocalDateTime creationTime;
+    private Integer likes;
+    private Integer hits;
+
     //private Chat chat;
 
     @Builder
@@ -52,6 +57,11 @@ public class Trip {
         this.tripImages = tripImage;
         this.areaCode = areaCode;
         this.sigunguCode = sigunguCode;
+
+        likes = 0;
+        hits = 0;
+        creationTime = LocalDateTime.now();
+
         setParty(party);
     }
 

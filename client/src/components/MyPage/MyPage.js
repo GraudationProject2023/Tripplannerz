@@ -30,9 +30,12 @@ function MyPage(){
   const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
+  const [postNumber, setPostNumber] = useState([]);// 각 목록 번호
   const [postsPerPage, setPostsPerPage] = useState(10); //페이지마다 띄울 게시판 목록 개수
   var [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
-  const [total, setTotal] = useState(13); //전체 페이지 번호 개수
+  const [totalPage, setTotalPage] = useState(0); //전체 페이지 개수
+  const [total, setTotal] = useState(13); //전체 목록 개수
+  const [order, setOrder] = useState("기본"); //버튼 정렬 기준
   const [loading, setLoading] = useState(false);
 
   const [nestedModal, setNestedModal] = useState(false);
@@ -49,6 +52,8 @@ function MyPage(){
             currentPosts = posts.slice(indexOfFirst, indexOfLast);
             return currentPosts;
    };
+
+
 
   useEffect(() => {
       localStorage.setItem("cast",1);
@@ -69,7 +74,7 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/tripList?page=${currentNumber}`,
+                              `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
                               {
                                   withCredentials: true
                               }
@@ -78,13 +83,23 @@ function MyPage(){
                           console.log(response.data.totalPages);
                           console.log(response.data.totalElements);
                           console.log(response.data.content);
+                          for(let i = 0;i<response.data.content.length; i++)
+                          {
+                             setPostNumber(i);
+                          }
                           setPosts(response.data.content);
                           setTotal(response.data.totalElements);
+                          setTotalPage(response.data.totalPages);
                           setLoading(false);
                       };
 
           fetchData();
-  },[currentPage,currentNumber]);
+  },[currentPage,currentNumber,order]);
+
+  const handleSelectOrder = (e) => {
+    const value = e.target.value;
+    setOrder(value);
+  }
 
   const handlePassword = (e) => {
      setPassword(e.target.value);
@@ -297,27 +312,26 @@ function MyPage(){
                     <>
                     <ul>
                        <table className="table_board">
-                          <thead className="table-head">
+                          <tr className="table-head">
                              <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th> <th>일정 날짜</th>
-                          </thead>
-                          <tbody>
-                          <td>
-                            {posts.map((post) => (
+                          </tr>
+                        <td>
+                            {posts.map((post,index) => (
                               <div>
-                              <li key={post.id}  onClick={() => handleClick(post.id)} className="list-key">
+                              <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
                                 <table>
-                                <td><div>{post.title}</div></td>
+                                <td><div style={{marginLeft: "-12px"}}>{post.title}</div></td>
                                 </table>
                                 <hr />
                               </li>
                               </div>
                             ))}
-                          </td>
+                        </td>
 
                           <td>
-                            {posts.map((post) => (
+                            {posts.map((post,index) => (
                                  <div>
-                                    <li key={post.id}  onClick={() => handleClick(post.id)} className="list-key">
+                                    <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
                                          <table>
                                             <td><div>{post.startingDate}</div></td>
                                          </table>
@@ -328,7 +342,7 @@ function MyPage(){
                             ))}
 
                           </td>
-                          </tbody>
+
                          </table>
                        </ul>
                     </>
@@ -428,7 +442,13 @@ function MyPage(){
   const renderSchedulePage = () => {
         return(
             <div className="profile-card">
+              <br />
               <h2>내 일정 조회</h2>
+              <select className="select" value={order} onChange={handleSelectOrder}>
+                <option default hidden>정렬기준</option>
+                <option value="좋아요">좋아요 순</option>
+                <option value="조회수">조회 수</option>
+              </select>
               <hr />
               <table className="table">
                 <tbody>

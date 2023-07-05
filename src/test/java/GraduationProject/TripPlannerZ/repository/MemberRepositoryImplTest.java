@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,9 @@ class MemberRepositoryImplTest {
         String date = "2023-05-11";
         //System.out.println(lt.toString() > date);
 
+        LocalDateTime ad = LocalDateTime.now();
+
+        System.out.println("ad = " + ad);
     }
 
 }
