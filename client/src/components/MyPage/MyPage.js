@@ -35,6 +35,7 @@ function MyPage(){
   var [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
   const [totalPage, setTotalPage] = useState(0); //전체 페이지 개수
   const [total, setTotal] = useState(13); //전체 목록 개수
+  const [order, setOrder] = useState("기본"); //버튼 정렬 기준
   const [loading, setLoading] = useState(false);
 
   const [nestedModal, setNestedModal] = useState(false);
@@ -51,6 +52,8 @@ function MyPage(){
             currentPosts = posts.slice(indexOfFirst, indexOfLast);
             return currentPosts;
    };
+
+
 
   useEffect(() => {
       localStorage.setItem("cast",1);
@@ -71,7 +74,7 @@ function MyPage(){
            const fetchData = async() => {
                           setLoading(true);
                           const response = await axios.get(
-                              `http://localhost:8080/api/members/tripList?page=${currentNumber}`,
+                              `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
                               {
                                   withCredentials: true
                               }
@@ -91,7 +94,12 @@ function MyPage(){
                       };
 
           fetchData();
-  },[currentPage,currentNumber]);
+  },[currentPage,currentNumber,order]);
+
+  const handleSelectOrder = (e) => {
+    const value = e.target.value;
+    setOrder(value);
+  }
 
   const handlePassword = (e) => {
      setPassword(e.target.value);
@@ -434,7 +442,13 @@ function MyPage(){
   const renderSchedulePage = () => {
         return(
             <div className="profile-card">
+              <br />
               <h2>내 일정 조회</h2>
+              <select className="select" value={order} onChange={handleSelectOrder}>
+                <option default hidden>정렬기준</option>
+                <option value="좋아요">좋아요 순</option>
+                <option value="조회수">조회 수</option>
+              </select>
               <hr />
               <table className="table">
                 <tbody>
