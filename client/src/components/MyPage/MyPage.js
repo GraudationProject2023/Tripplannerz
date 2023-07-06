@@ -36,6 +36,7 @@ function MyPage(){
   const [totalPage, setTotalPage] = useState(0); //전체 페이지 개수
   const [total, setTotal] = useState(13); //전체 목록 개수
   const [order, setOrder] = useState("기본"); //버튼 정렬 기준
+  const [keyword, setKeyword] = useState(""); // 일정 검색어
   const [loading, setLoading] = useState(false);
 
   const [nestedModal, setNestedModal] = useState(false);
@@ -96,6 +97,25 @@ function MyPage(){
           fetchData();
   },[currentPage,currentNumber,order]);
 
+  useEffect (() => {
+
+     const fetchData = async() => {
+        const response = await axios.get(
+         `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
+         {
+           withCredentials: true
+         }
+       );
+
+       console.log(response.data);
+       setPosts(response.data.content);
+       setTotal(response.data.totalElements);
+       setTotalPage(response.data.totalPages);
+     };
+
+  },[keyword]);
+
+
   const handleSelectOrder = (e) => {
     const value = e.target.value;
     setOrder(value);
@@ -125,6 +145,10 @@ function MyPage(){
 
   const handlePageChange = (page) => {
       setCurrentPage(page);
+  }
+
+  const handleInputChange = (e) => {
+     setKeyword(e.target.value);
   }
 
   const Button1 = () => {
@@ -459,7 +483,7 @@ function MyPage(){
             <div>
               <table>
                 <td>
-                  {size === 0 ? '' : <input type="text" placeholder="검색어를 입력하세요."/> }
+                  {size === 0 ? '' : <input type="text" onClick={handleInputChange} placeholder="검색어를 입력하세요."/> }
                 </td>
                 <td>
                   {size === 0 ? '' : <Button>검색</Button> }
