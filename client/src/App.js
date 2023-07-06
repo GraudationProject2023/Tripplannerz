@@ -27,7 +27,7 @@ function App() {
           <Route path ="/logincallback" element={<LoginCallbackpage />} />
           <Route path ="/chat" element={<Chat />} />
           <Route path ="/search" element={<Search />} />
-          <Route path ="/search/:postId" element={<SearchResult />} />
+          <Route path ="/my/:postId" element={<SearchResult />} />
           <Route path ="/find" element={<Find />} />
           <Route path ="/my" element = {<MyPage />} />
           <Route path ="/review" element ={<Review />} />
