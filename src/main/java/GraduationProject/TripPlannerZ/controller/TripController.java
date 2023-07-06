@@ -4,6 +4,7 @@ import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
@@ -14,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -128,5 +131,14 @@ public class TripController {
     public void tripDetailed(Model model) {
         String imgPath = "/Users/seongbochoi/trip_image/e276a5b3-af89-453f-bd6d-62f52ce33ff2";
         model.addAttribute("imgPath", imgPath);
+    }
+
+    @GetMapping("/trip/search")
+    public Page<MemberTrip> tripSearch(@RequestParam("page") int page,
+                                       @RequestParam("sortType") String sortType,
+                                       @RequestParam("keyWord") String keyWord) {
+
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        return memberService.findTrip(null, sortType, pageRequest, keyWord);
     }
 }
