@@ -314,7 +314,7 @@ function MyPage(){
     }
 
     const handleClick = (postId) => {
-            window.location.href = `/search/${postId}`;
+            window.location.href = `/my/${postId}`;
     }
 
     const handleCloseButton = (e) => {
@@ -469,7 +469,7 @@ function MyPage(){
               <br />
               <h2>내 일정 조회</h2>
               <select className="select" value={order} onChange={handleSelectOrder}>
-                <option default hidden>정렬기준</option>
+                <option default>최신 순</option>
                 <option value="좋아요">좋아요 순</option>
                 <option value="조회수">조회 수</option>
               </select>

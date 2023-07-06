@@ -1,5 +1,6 @@
 import React ,{useState, useEffect, useRef} from 'react';
 import {Modal ,Navbar, Button , FormControl, Form, Container, Nav} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import image from '../Image/마이페이지.png';
 import styled from 'styled-components';
@@ -21,6 +22,9 @@ axios.defaults.withCredentials = true;
 
 function NavBar(){
 
+    const [searchTerm, setSearchTerm] = useState('');//검색창
+    const navigate = useNavigate();
+
     const [showModal, setShowModal] = useState(false);
     const [firstshowModal, setFirstShowModal] = useState(false);
     const [name, setName] = useState(""); //이름
@@ -38,6 +42,18 @@ function NavBar(){
     const [emailSuccess , setEmailSuccess] = useState(false);
     const [loginSuccess , setLoginSuccess] = useState(false);
     const [emailtimer, setEmailTimer] = useState(false);
+
+    //검색창
+    const handleSearch = (event) => {
+        if(event.key === 'Enter'){
+            event.preventDefault();
+            const url = `/search?keyword=${searchTerm}`;
+            navigate(url);
+        }
+    }
+    const handleChange = (event) => {
+      setSearchTerm(event.target.value);
+    }
 
     //다중 모달
     const [nestedModal, setNestedModal] = useState(false);
@@ -537,7 +553,7 @@ function NavBar(){
                            <img src={Menu} onClick={movetomain} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                         </Nav>
                         <Nav className = "inputbox">
-                          <input type="text" placeholder="동행을 찾아보세요" />
+                          <input type="text" placeholder="여행 일정을 검색하세요" value={searchTerm} onChange={handleChange} onKeyPress={handleSearch} />
                         </Nav>
                         <Nav className = "new">
                             <a href="/find" class="button">일정생성</a>
