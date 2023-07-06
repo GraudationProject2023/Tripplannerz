@@ -133,7 +133,7 @@ public class TripController {
         model.addAttribute("imgPath", imgPath);
     }
 
-    @GetMapping("/trip/search")
+    @GetMapping("/trip/tripList")
     public Page<MemberTrip> tripSearch(@RequestParam("page") int page,
                                        @RequestParam("sortType") String sortType,
                                        @RequestParam("keyWord") String keyWord) {
