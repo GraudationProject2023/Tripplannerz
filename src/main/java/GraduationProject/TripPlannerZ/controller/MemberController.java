@@ -159,10 +159,12 @@ public class MemberController {
                                               @RequestParam("page") int page,
                                               @RequestParam("sortType") String sortType) {
         String email = (String) request.getSession().getAttribute("loginMember");
+        Member member = memberService.findByEmail(email).get();
+
         PageRequest pageRequest = PageRequest.of(page, 10);
 
 
-        return memberService.findTrip(email, sortType, pageRequest, null);
+        return memberService.findTrip(member, sortType, pageRequest, null);
     }
 
     @PostMapping("members/exit")
