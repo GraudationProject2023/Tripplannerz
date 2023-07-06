@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 @NoArgsConstructor
 public class MemberTrip {
 
-    @Value("${spring.servlet.multipart.location}")
-    private String path;
+//    @Value("${spring.servlet.multipart.location}")
+//    private String path;
 
     private String UUID;
     private String title;
@@ -24,7 +24,7 @@ public class MemberTrip {
         this.title = title;
         this.startingDate = startingDate;
         this.comingDate = comingDate;
-        this.imagePath = path + "\\" + imageUUID + ".png";
+        this.imagePath = "/Users/seongbochoi/trip_image/" + imageUUID + ".png";
 
     }
 }
