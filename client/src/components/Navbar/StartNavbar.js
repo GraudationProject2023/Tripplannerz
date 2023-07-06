@@ -18,7 +18,7 @@ import shopping from '../Image/쇼핑.png';
 import restaurant from '../Image/레스토랑.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
-
+//fix
 function StartNavBar(){
 
     const [showModal, setShowModal] = useState(false);

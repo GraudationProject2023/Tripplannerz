@@ -162,7 +162,7 @@ public class MemberController {
         PageRequest pageRequest = PageRequest.of(page, 10);
 
 
-        return memberService.findTrip(email, sortType, pageRequest);
+        return memberService.findTrip(email, sortType, pageRequest, null);
     }
 
     @PostMapping("members/exit")

@@ -2,7 +2,7 @@ import React,{Suspense} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
-  Route 
+  Route
 } from 'react-router-dom';
 
 import StartPage from './components/StartPage/StartPage';
