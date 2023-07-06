@@ -17,6 +17,7 @@ public class Member {
     private Long id;
     private String name;
     private String pw;
+    @Column(unique = true)
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
