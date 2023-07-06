@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,7 +31,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
     @Override
-    public Page<MemberTrip> tripList(String email, String sortType, Pageable pageable) {
+    public Page<MemberTrip> tripList(String email, String sortType, Pageable pageable, String keyWord) {
 
 
         //@Query("select trip from Trip trip join trip.team team join team.memberTeamList mtl join mtl.member m where m.email = :email")
@@ -101,15 +102,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                         .where(memberParty.member.eq(
                                                 JPAExpressions
                                                         .selectFrom(member)
-                                                        .where(member.email.eq(email))
+                                                        .where(emailEq(email))
                                         ))
                         ))
                         .leftJoin(tripImage).on(trip.eq(tripImage.trip))
                         .where(
-                                trip.startingDate.gt(LocalDate.now().toString())
+                                trip.startingDate.gt(LocalDate.now().toString()),
+                                keywordContains(keyWord)
                                 //trip.eq(tripImage.trip)
                         )
-                        .orderBy(trip.creationTime.asc())
+                        .orderBy(trip.creationTime.desc())
                         .offset(pageable.getOffset())
                         .limit(pageable.getPageSize())
                         .fetch();
@@ -126,5 +128,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+    }
+
+    private BooleanExpression emailEq(String emailCond) {
+        return emailCond != null ? member.email.eq(emailCond) : null;
+    }
+
+    private BooleanExpression keywordContains(String keyWord) {
+        return keyWord != null ? trip.title.contains(keyWord) : null;
     }
 }

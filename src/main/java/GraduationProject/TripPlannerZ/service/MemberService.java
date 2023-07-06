@@ -31,8 +31,8 @@ public class MemberService {
     }
 
     // 여행 일정 검색
-    public Page<MemberTrip> findTrip(String email, String sortType, Pageable pageable) {
-        return memberRepository.tripList(email, sortType, pageable);
+    public Page<MemberTrip> findTrip(String email, String sortType, Pageable pageable, String keyWord) {
+        return memberRepository.tripList(email, sortType, pageable, keyWord);
     }
 
     // 회원 탈퇴
