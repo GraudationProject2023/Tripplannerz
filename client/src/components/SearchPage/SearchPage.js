@@ -45,11 +45,19 @@ function SearchPage(){
 
     useEffect(() => {
          console.log(key);
-         setKeyword(key);
+         let encodedKey;
+         if(/[\u0080-\uFFFF]/.test(key))
+         {
+           encodedKey = encodeURIComponent(key);
+         }
+         else{
+            encodedKey = key;
+         }
+         setKeyword(encodedKey);
          const fetchData = async() => {
                         setLoading(true);
                         const response = await axios.get(
-                            `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${key}`,
+                            `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
                             {
                                 withCredentials: true
                             }
@@ -69,10 +77,18 @@ function SearchPage(){
      useEffect(() => {
              console.log(typeof(order));
              console.log(typeof(localKeyword));
+              let encodedKey;
+              if(/[\u0080-\uFFFF]/.test(key))
+              {
+                 encodedKey = encodeURIComponent(localKeyword);
+              }
+              else{
+                 encodedKey = localKeyword;
+              }
              const fetchData = async() => {
                             setLoading(true);
                             const response = await axios.get(
-                                `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${localKeyword}`,
+                                `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
                                 {
                                     withCredentials: true
                                 }

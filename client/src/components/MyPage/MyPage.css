@@ -31,7 +31,8 @@
 }
 
 .profile-card {
-  width: 700px;
+  width: 750px;
+  height: 500px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
