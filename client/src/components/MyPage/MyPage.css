@@ -1,6 +1,6 @@
 .container {
   max-width: 600px;
-  margin-left: 30%;
+  margin-left: 100%;
   margin-top : 20%;
   padding: 20px;
   position: sticky;
@@ -16,7 +16,7 @@
 }
 
 .select{
-    margin-left: 90%;
+    margin-left: 85%;
 }
 
 .table{
@@ -31,10 +31,11 @@
 }
 
 .profile-card {
-  width: 1000px;
+  width: 700px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
+  margin-right: 10%;
 }
 
 .menu-card{

@@ -19,3 +19,8 @@ export const vestState = atom({
     key: 'vestState',
     default: '0',
 });
+
+export const currentPageState = atom({
+    key: 'currentPageState',
+    default: 0,
+});
