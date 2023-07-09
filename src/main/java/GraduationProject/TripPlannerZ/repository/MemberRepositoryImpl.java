@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,7 +31,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
     @Override
-    public Page<MemberTrip> tripList(String email, String sortType, Pageable pageable) {
+    public Page<MemberTrip> tripList(Member member, String sortType, Pageable pageable, String keyWord) {
 
 
         //@Query("select trip from Trip trip join trip.team team join team.memberTeamList mtl join mtl.member m where m.email = :email")
@@ -46,14 +47,19 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.comingDate,
                                 tripImage.img_uuid
                         ))
-                        .from(trip, tripImage)
-                        .join(trip.party, party)
-                        .join(party.memberPartyList, memberParty)
-                        .join(memberParty.member, member)
+                        .from(trip).where(trip.party.in(
+                                JPAExpressions
+                                        .select(memberParty.party)
+                                        .from(memberParty)
+                                        .where(
+                                                memberPartyIn(member)
+                                        )
+                        ))
+                        .leftJoin(tripImage).on(trip.eq(tripImage.trip))
                         .where(
-                                member.email.eq(email),
                                 trip.startingDate.gt(LocalDate.now().toString()),
-                                trip.eq(tripImage.trip)
+                                keywordContains(keyWord)
+                                //trip.eq(tripImage.trip)
                         )
                         .orderBy(trip.hits.desc())
                         .offset(pageable.getOffset())
@@ -70,14 +76,19 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.comingDate,
                                 tripImage.img_uuid
                         ))
-                        .from(trip, tripImage)
-                        .join(trip.party, party)
-                        .join(party.memberPartyList, memberParty)
-                        .join(memberParty.member, member)
+                        .from(trip).where(trip.party.in(
+                                JPAExpressions
+                                        .select(memberParty.party)
+                                        .from(memberParty)
+                                        .where(
+                                                memberPartyIn(member)
+                                        )
+                        ))
+                        .leftJoin(tripImage).on(trip.eq(tripImage.trip))
                         .where(
-                                member.email.eq(email),
                                 trip.startingDate.gt(LocalDate.now().toString()),
-                                trip.eq(tripImage.trip)
+                                keywordContains(keyWord)
+                                //trip.eq(tripImage.trip)
                         )
                         .orderBy(trip.likes.desc())
                         .offset(pageable.getOffset())
@@ -98,33 +109,55 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 JPAExpressions
                                         .select(memberParty.party)
                                         .from(memberParty)
-                                        .where(memberParty.member.eq(
-                                                JPAExpressions
-                                                        .selectFrom(member)
-                                                        .where(member.email.eq(email))
-                                        ))
+                                        .where(
+                                                memberPartyIn(member)
+                                        )
                         ))
                         .leftJoin(tripImage).on(trip.eq(tripImage.trip))
                         .where(
-                                trip.startingDate.gt(LocalDate.now().toString())
+                                trip.startingDate.gt(LocalDate.now().toString()),
+                                keywordContains(keyWord)
                                 //trip.eq(tripImage.trip)
                         )
-                        .orderBy(trip.creationTime.asc())
+                        .orderBy(trip.creationTime.desc())
                         .offset(pageable.getOffset())
                         .limit(pageable.getPageSize())
                         .fetch();
                 break;
         }
 
-        JPAQuery<Trip> countQuery = queryFactory
-                .select(trip)
-                .from(trip)
-                .join(trip.party, party)
-                .join(party.memberPartyList, memberParty)
-                .join(memberParty.member, member)
-                .where(member.email.eq(email));
+        JPAQuery<MemberTrip> countQuery = queryFactory
+                .select(new QMemberTrip(
+                        trip.UUID,
+                        trip.title,
+                        trip.startingDate,
+                        trip.comingDate,
+                        tripImage.img_uuid
+                ))
+                .from(trip).where(trip.party.in(
+                        JPAExpressions
+                                .select(memberParty.party)
+                                .from(memberParty)
+                                .where(
+                                        memberPartyIn(member)
+                                )
+                ))
+                .leftJoin(tripImage).on(trip.eq(tripImage.trip))
+                .where(
+                        trip.startingDate.gt(LocalDate.now().toString()),
+                        keywordContains(keyWord)
+                        //trip.eq(tripImage.trip)
+                );
 
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+    }
+
+    private BooleanExpression memberPartyIn(Member member) {
+        return member != null ? memberParty.member.eq(member) : null;
+    }
+
+    private BooleanExpression keywordContains(String keyWord) {
+        return keyWord != null ? trip.title.contains(keyWord) : null;
     }
 }
