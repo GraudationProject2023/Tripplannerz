@@ -1,20 +1,40 @@
-
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
 import {Button} from 'react-bootstrap';
 import './SearchPage.css';
 import Navbar from '../Navbar/Navbar';
+import {useLocation} from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 
 function SearchPage(){
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const key = searchParams.get('keyword');
 
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage, setPostsPerPage] = useState(10);
     const [total, setTotal] = useState(13);
+    const [keyword, setKeyword] = useState('');//Navbar 검색창
+    const [localKeyword, setLocalKeyword] = useState(''); //SearchPage 검색창
+    var [currentNumber, setCurrentNumber] = useState(0);
+    const [order, setOrder] = useState("new");
+    const [totalPage, setTotalPage] = useState(0);
+    const [postNumber,setPostNumber] = useState([]);
+
+    var size = posts.length;
+    const indexOfLast = currentPage * postsPerPage;
+    const indexOfFirst = indexOfLast - postsPerPage;
+    const currentPosts = (posts) => {
+              let currentPosts = 0;
+              currentPosts = posts.slice(indexOfFirst, indexOfLast);
+              return currentPosts;
+    };
+
 
      useEffect(() => {
                      localStorage.setItem("cast",1);
@@ -24,125 +44,170 @@ function SearchPage(){
                 },[]);
 
     useEffect(() => {
-        console.log(currentPage);
+         console.log(key);
+         let encodedKey;
+         if(/[\u0080-\uFFFF]/.test(key))
+         {
+           encodedKey = encodeURIComponent(key);
+         }
+         else{
+            encodedKey = key;
+         }
+         setKeyword(encodedKey);
          const fetchData = async() => {
                         setLoading(true);
                         const response = await axios.get(
-                            `http://localhost:8080/api/members/trip?page=${currentPage}`,
+                            `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
                             {
                                 withCredentials: true
                             }
                         );
                         console.log(response.data);
-                        setPosts(response.data.result);
-                        setTotal(response.data.total);
+                        setPosts(response.data.content);
+                        setTotal(response.data.totalElements);
+                        setTotalPage(response.data.totalPages);
+                        for(let i = 0; i <response.data.content.length; i++)
+                        {
+                            setPostNumber(i);
+                        }
                         setLoading(false);
                     };
         fetchData();
-    },[currentPage]);
+    },[currentPage,currentNumber, order, key]);
+     useEffect(() => {
+             console.log(typeof(order));
+             console.log(typeof(localKeyword));
+              let encodedKey;
+              if(/[\u0080-\uFFFF]/.test(key))
+              {
+                 encodedKey = encodeURIComponent(localKeyword);
+              }
+              else{
+                 encodedKey = localKeyword;
+              }
+             const fetchData = async() => {
+                            setLoading(true);
+                            const response = await axios.get(
+                                `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+                                {
+                                    withCredentials: true
+                                }
+                            );
+                            console.log(response.data);
+                            setPosts(response.data.content);
+                            setTotal(response.data.totalElements);
+                            setTotalPage(response.data.totalPages);
+                            for(let i = 0; i <response.data.content.length; i++)
+                            {
+                                setPostNumber(i);
+                            }
+                            setLoading(false);
+                        };
+            fetchData();
+     },[currentPage,currentNumber, order, localKeyword]);
+
+    const handleInputChange = (e) => {
+        setLocalKeyword(e.target.value);
+    };
+
+    const handleSelectOrder = (e) => {
+        const value = e.target.value;
+        setOrder(value);
+    }
+    const handleClick = (postId) => {
+        window.location.href = `/search/${postId}`;
+    }
 
     function ShowData(){
                 if(currentPage !== 1){
                 return(
                 <>
                 <ul className="list">
-                        {posts.map((post) => (
-                          <div>
-                          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
-                            <table>
-                            <td><div>{post.title}</div></td>
-                            <td><div>{post.startingDate}</div></td>
-                            </table>
-                          </li>
+                        <table className="table_board">
+                                                  <tr className="table-head">
+                                                     <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th> <th>일정 날짜</th>
+                                                  </tr>
+                                                <td>
+                                                    {posts.map((post,index) => (
+                                                      <div>
+                                                      <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
+                                                        <table>
+                                                        <td><div style={{marginLeft: "-12px"}}>{post.title}</div></td>
+                                                        </table>
+                                                        <hr />
+                                                      </li>
+                                                      </div>
+                                                    ))}
+                                                </td>
 
-                          </div>
-                        ))}
+                                                  <td>
+                                                    {posts.map((post,index) => (
+                                                         <div>
+                                                            <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
+                                                                 <table>
+                                                                    <td><div>{post.startingDate}</div></td>
+                                                                 </table>
+                                                            <hr />
+                                                            </li>
+
+                                                         </div>
+                                                    ))}
+
+                                                  </td>
+
+                                                 </table>
                        </ul>
                 </>
                 )
             }
     }
 
-        const indexOfLast = currentPage * postsPerPage;
-        const indexOfFirst = indexOfLast - postsPerPage;
-        const currentPosts = (posts) => {
-          let currentPosts = 0;
-          currentPosts = posts.slice(indexOfFirst, indexOfLast);
-          return currentPosts;
-        };
-
-
-
 
    const Posts = ({ posts, loading, handleClick}) => {
      return (
        <>
        {loading ? '': <ShowData />}
-       <ul className="list">
-        {posts.map((post) => (
-          <div>
-          <li key={post.id} style={{border:"1px solid black"}} onClick={() => handleClick(post.id)} className="listkey">
-            <table>
-            <tr onClick={()=>handleClick(post.id)}>
-            <td><div>{post.title}</div></td>
-             <td><div>{post.startingDate}</div></td>
-            </tr>
-            </table>
-          </li>
-
-          </div>
-        ))}
-       </ul>
      </>
    );
  };
-    const handleClick = (postId) => {
-        window.location.href = `/search/${postId}`;
-    }
 
     return(
     <div>
       <Navbar />
-      <div className = "start">
-            <h4>내 일정 보기</h4>
-            </div>
-
-    <div className="container">
-     <div className="table-container">
-      <table className="table">
-         <thead className="table-head">
-            <tr>
-              <th>일정 제목</th>
-              <th>인원 수 &nbsp;</th>
-              <th>일정 날짜 &nbsp;</th>
-            </tr>
-         </thead>
+      <div className = "profile-card">
+        <br />
+         <h4>전체 일정 조회</h4>
+         <select className = "select" value={order} onChange={handleSelectOrder}>
+            <option default value="new">최신 순</option>
+            <option value="good">좋아요 순</option>
+            <option value="count">조회 수</option>
+            </select>
+          <hr />
+        <table className="table">
          <tbody>
-          <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>
+         {size === 0 ? '' : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
           </tbody>
        </table>
+       {size === 0 ? '' :
           <Pagination
             postsPerPage={postsPerPage}
             totalPosts={posts.length}
-            paginate={(pageNumber) => setCurrentPage(pageNumber)}
+            paginate={(pageNumber) => setCurrentPage(pageNumber-1)}
             total={total}
-          ></Pagination>
-       </div>
-
-
-        {console.log(total)}
-
+          ></Pagination>}
     </div>
-      <div className="searchText">
-                  <table>
-                  <td>
-                     <input type="text" placeholder="검색어를 입력하세요"/>
-                  </td>
-                  <td>
-                     <Button>검색</Button>
-                  </td>
-                  </table>
-                </div>
+    <div>
+    { size === 0 ? '' : <div className="searchText">
+                           <table>
+                              <td>
+                                <input type="text" onClick={handleInputChange} placeholder="검색어를 입력하세요"/>
+                              </td>
+                              <td>
+                                <Button>검색</Button>
+                              </td>
+                           </table>
+                     </div>}
+    </div>
     </div>
     )
 }

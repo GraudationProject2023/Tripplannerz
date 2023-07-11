@@ -314,7 +314,7 @@ function MyPage(){
     }
 
     const handleClick = (postId) => {
-            window.location.href = `/search/${postId}`;
+            window.location.href = `/my/${postId}`;
     }
 
     const handleCloseButton = (e) => {
@@ -382,6 +382,8 @@ function MyPage(){
                 <h5>성별 : {gender} </h5>
                 <h5>이메일 : {email}</h5>
                 <h5>선호태그 : {ranklist} </h5>
+             <hr />
+             <h4>평점 : NaN점</h4>
          </div>
       );
     }
@@ -418,8 +420,7 @@ function MyPage(){
            <div style={{marginLeft: "13%"}}>
            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
            </div>
-           <br />
-           <Button style={{width:"100px", marginLeft: "43%"}} variant="primary" type="submit">
+           <Button style={{border: "none",backgroundColor: "skyblue",width:"100px", marginLeft: "80%", marginTop: "-14.5%"}} variant="primary" type="submit">
                       변경하기
            </Button>
            </Form>
@@ -430,7 +431,7 @@ function MyPage(){
            <h4>선호태그 변경</h4>
            </td>
            <td>
-           <Button style={{width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
+           <Button style={{border: "none",backgroundColor: "skyblue", width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
                                 <Modal.Header closeButton>
                                    <Modal.Title>태그</Modal.Title>
@@ -466,10 +467,9 @@ function MyPage(){
   const renderSchedulePage = () => {
         return(
             <div className="profile-card">
-              <br />
               <h2>내 일정 조회</h2>
               <select className="select" value={order} onChange={handleSelectOrder}>
-                <option default hidden>정렬기준</option>
+                <option default>최신 순</option>
                 <option value="좋아요">좋아요 순</option>
                 <option value="조회수">조회 수</option>
               </select>
@@ -517,7 +517,7 @@ function MyPage(){
              <h6>안내사항을 숙지하였으며, 이에 동의합니다.</h6>
              </td>
              </table>
-             <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
+             <Button style={{backgroundColor: "skyblue", border: "none"}} onClick={handleWithdrawlModal}>탈퇴하기</Button>
              {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
                    <Modal.Header closeButton onClick={handleCloseButton}>
                       <Modal.Title>비밀번호 입력</Modal.Title>
