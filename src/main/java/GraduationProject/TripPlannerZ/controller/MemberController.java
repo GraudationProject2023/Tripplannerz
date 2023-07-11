@@ -3,10 +3,7 @@ package GraduationProject.TripPlannerZ.controller;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.domain.MemberPreference;
-import GraduationProject.TripPlannerZ.dto.MemberJoin;
-import GraduationProject.TripPlannerZ.dto.MemberLogin;
-import GraduationProject.TripPlannerZ.dto.MemberTrip;
-import GraduationProject.TripPlannerZ.dto.MyPage;
+import GraduationProject.TripPlannerZ.dto.*;
 import GraduationProject.TripPlannerZ.repository.MemberPreferenceRepository;
 import GraduationProject.TripPlannerZ.service.LoginService;
 import GraduationProject.TripPlannerZ.service.MemberService;
@@ -183,5 +180,13 @@ public class MemberController {
         } else
             return ResponseEntity.ok().body("{\"result\": false}");
 
+    }
+
+    @PostMapping("members/modify")
+    public void modifyMemberInfo(HttpServletRequest request, @RequestBody ModifyMemberInfo memberInfo) {
+
+        String email = (String) request.getSession().getAttribute("loginMember");
+
+        memberService.modify(email, memberInfo.getPw(), memberInfo.getTypes());
     }
 }
