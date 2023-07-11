@@ -95,7 +95,7 @@ function MyPage(){
                       };
 
           fetchData();
-  },[currentPage,currentNumber,order]);
+  },[currentNumber,order]);
 
   useEffect (() => {
 
@@ -232,6 +232,15 @@ function MyPage(){
                       alert("태그를 최소 1개 이상 선택하셔야 합니다.");
                   }
                   else{
+
+                    var ranks = localStorage.getItem("rank");
+                    console.log(ranks);
+                    axios.post("http://localhost:8080/api/members/change/types",{
+                        types: ranks
+                    }).then(res => console.log(res),
+                      alert("태그가 변경되었습니다.")
+                    )
+
                     setNestedModal(false);
                   }
     }
@@ -323,7 +332,7 @@ function MyPage(){
     }
 
     const handlePasswordButton = (e) => {
-        axios.post("http://localhost:8080/api/members/modify",{
+        axios.post("http://localhost:8080/api/members/change/pw",{
             pw: password
         })
         .then(res => console.log(res),
