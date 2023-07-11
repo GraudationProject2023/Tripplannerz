@@ -22,7 +22,7 @@ function SearchPage(){
     const [keyword, setKeyword] = useState('');//Navbar 검색창
     const [localKeyword, setLocalKeyword] = useState(''); //SearchPage 검색창
     var [currentNumber, setCurrentNumber] = useState(0);
-    const [order, setOrder] = useState("기본");
+    const [order, setOrder] = useState("new");
     const [totalPage, setTotalPage] = useState(0);
     const [postNumber,setPostNumber] = useState([]);
 
@@ -44,11 +44,20 @@ function SearchPage(){
                 },[]);
 
     useEffect(() => {
-         setKeyword(key);
+         console.log(key);
+         let encodedKey;
+         if(/[\u0080-\uFFFF]/.test(key))
+         {
+           encodedKey = encodeURIComponent(key);
+         }
+         else{
+            encodedKey = key;
+         }
+         setKeyword(encodedKey);
          const fetchData = async() => {
                         setLoading(true);
                         const response = await axios.get(
-                            `http://localhost:8080/api/members/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
+                            `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
                             {
                                 withCredentials: true
                             }
@@ -66,10 +75,20 @@ function SearchPage(){
         fetchData();
     },[currentPage,currentNumber, order, key]);
      useEffect(() => {
+             console.log(typeof(order));
+             console.log(typeof(localKeyword));
+              let encodedKey;
+              if(/[\u0080-\uFFFF]/.test(key))
+              {
+                 encodedKey = encodeURIComponent(localKeyword);
+              }
+              else{
+                 encodedKey = localKeyword;
+              }
              const fetchData = async() => {
                             setLoading(true);
                             const response = await axios.get(
-                                `http://localhost:8080/api/members/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${localKeyword}`,
+                                `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
                                 {
                                     withCredentials: true
                                 }
@@ -158,9 +177,10 @@ function SearchPage(){
       <div className = "profile-card">
         <br />
          <h4>전체 일정 조회</h4>
-         <select className = "select" value={order} onChange={handleSelectOrder}>            <option default>최신 순</option>
-            <option value="좋아요">좋아요 순</option>
-            <option value="조회수">조회 수</option>
+         <select className = "select" value={order} onChange={handleSelectOrder}>
+            <option default value="new">최신 순</option>
+            <option value="good">좋아요 순</option>
+            <option value="count">조회 수</option>
             </select>
           <hr />
         <table className="table">

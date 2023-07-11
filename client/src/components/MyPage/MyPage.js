@@ -95,7 +95,7 @@ function MyPage(){
                       };
 
           fetchData();
-  },[currentPage,currentNumber,order]);
+  },[currentNumber,order]);
 
   useEffect (() => {
 
@@ -232,6 +232,15 @@ function MyPage(){
                       alert("태그를 최소 1개 이상 선택하셔야 합니다.");
                   }
                   else{
+
+                    var ranks = localStorage.getItem("rank");
+                    console.log(ranks);
+                    axios.post("http://localhost:8080/api/members/change/types",{
+                        types: ranks
+                    }).then(res => console.log(res),
+                      alert("태그가 변경되었습니다.")
+                    )
+
                     setNestedModal(false);
                   }
     }
@@ -322,6 +331,15 @@ function MyPage(){
           setWithdrawlModal(false);
     }
 
+    const handlePasswordButton = (e) => {
+        axios.post("http://localhost:8080/api/members/change/pw",{
+            pw: password
+        })
+        .then(res => console.log(res),
+          alert("비밀번호가 변경되었습니다.")
+        )
+    }
+
     const Posts = ({ posts, loading, handleClick}) => {
          return (
            <>
@@ -382,6 +400,8 @@ function MyPage(){
                 <h5>성별 : {gender} </h5>
                 <h5>이메일 : {email}</h5>
                 <h5>선호태그 : {ranklist} </h5>
+             <hr />
+             <h4>평점 : NaN점</h4>
          </div>
       );
     }
@@ -418,8 +438,7 @@ function MyPage(){
            <div style={{marginLeft: "13%"}}>
            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
            </div>
-           <br />
-           <Button style={{width:"100px", marginLeft: "43%"}} variant="primary" type="submit">
+           <Button style={{border: "none",backgroundColor: "skyblue",width:"100px", marginLeft: "80%", marginTop: "-14.5%"}} variant="primary" type="submit" onClick={handlePasswordButton}>
                       변경하기
            </Button>
            </Form>
@@ -430,7 +449,7 @@ function MyPage(){
            <h4>선호태그 변경</h4>
            </td>
            <td>
-           <Button style={{width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
+           <Button style={{border: "none",backgroundColor: "skyblue", width: "200px",height: "35px",marginLeft: "50%"}} onClick={handleNestedModal}>태그 변경</Button>
            {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
                                 <Modal.Header closeButton>
                                    <Modal.Title>태그</Modal.Title>
@@ -466,7 +485,6 @@ function MyPage(){
   const renderSchedulePage = () => {
         return(
             <div className="profile-card">
-              <br />
               <h2>내 일정 조회</h2>
               <select className="select" value={order} onChange={handleSelectOrder}>
                 <option default>최신 순</option>
@@ -517,7 +535,7 @@ function MyPage(){
              <h6>안내사항을 숙지하였으며, 이에 동의합니다.</h6>
              </td>
              </table>
-             <Button onClick={handleWithdrawlModal}>탈퇴하기</Button>
+             <Button style={{backgroundColor: "skyblue", border: "none"}} onClick={handleWithdrawlModal}>탈퇴하기</Button>
              {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
                    <Modal.Header closeButton onClick={handleCloseButton}>
                       <Modal.Title>비밀번호 입력</Modal.Title>

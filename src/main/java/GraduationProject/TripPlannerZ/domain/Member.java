@@ -50,4 +50,16 @@ public class Member {
             memberParty.getParty().getMemberPartyList().remove(memberParty);
         }
     }
+
+    // == 비밀 번호 변경 == //
+    public void changePw(String pw) {
+        if (pw != null)
+            this.pw = pw;
+    }
+
+    // == 선호테그 변경 == //
+    public void changePreference(List<MemberPreference> types) {
+        if (types != null)
+            this.types = types;
+    }
 }

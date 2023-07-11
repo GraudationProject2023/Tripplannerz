@@ -64,7 +64,7 @@ public class TestInitDb {
 
             Trip trip = Trip.builder()
                     .comingDate("2023-05-05")
-                    .startingDate("2023-05-01")
+                    .startingDate("2027-05-01")
                     .title("서울여행")
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
