@@ -322,6 +322,15 @@ function MyPage(){
           setWithdrawlModal(false);
     }
 
+    const handlePasswordButton = (e) => {
+        axios.post("http://localhost:8080/api/members/modify",{
+            pw: password
+        })
+        .then(res => console.log(res),
+          alert("비밀번호가 변경되었습니다.")
+        )
+    }
+
     const Posts = ({ posts, loading, handleClick}) => {
          return (
            <>
@@ -420,7 +429,7 @@ function MyPage(){
            <div style={{marginLeft: "13%"}}>
            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
            </div>
-           <Button style={{border: "none",backgroundColor: "skyblue",width:"100px", marginLeft: "80%", marginTop: "-14.5%"}} variant="primary" type="submit">
+           <Button style={{border: "none",backgroundColor: "skyblue",width:"100px", marginLeft: "80%", marginTop: "-14.5%"}} variant="primary" type="submit" onClick={handlePasswordButton}>
                       변경하기
            </Button>
            </Form>
