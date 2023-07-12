@@ -149,6 +149,6 @@ public class TripController {
 
     @GetMapping("/trip/locationList")
     public List<Location> getLocationList() {
-        return locationService.locationListByArea(1, 1);
+        return locationService.locationListByArea("1", "1");
     }
 }
