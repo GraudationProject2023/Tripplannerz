@@ -25,6 +25,7 @@ function MyPage(){
   const [currentPage, setCurrentPage] = useState('profile'); //메뉴 토글
   const [preview, setPreview] = useState([]);
   const [create, setCreate] = useState(0); //생성한 일정 개수
+  const [pw, setPw] = useState('')//현재 패스워드
   const [password, setPassword] = useState('') // 수정할 패스워드
   const [withdrawPassword, setWithdrawPassword] = useState('');
   const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
@@ -331,6 +332,24 @@ function MyPage(){
           setWithdrawlModal(false);
     }
 
+    const handleCurrentPasswordButton = (e) => {
+        axios.post("http://localhost:8080/api/members/verify/pw",{
+            pw : pw
+        })
+        .then((res) => {console.log(res.data.result);
+            if(res.data.result === true)
+            {
+                alert("인증 성공했습니다.");
+                setModifyPasswordPage(1);
+            }
+            else if(res.data.result === false)
+            {
+                alert("비밀번호를 다시 입력해주세요.");
+            }
+        })
+    }
+
+
     const handlePasswordButton = (e) => {
         axios.post("http://localhost:8080/api/members/change/pw",{
             pw: password
@@ -405,6 +424,24 @@ function MyPage(){
          </div>
       );
     }
+
+  const renderBeforeAccountPage = () => {
+    return(
+        <div className = "profile-card">
+         <h4>정보 수정을 위해 본인을 인증해주세요.</h4>
+           <Form>
+             <Form.Group controlId = "Password">
+             <Form.Label>현재 비밀번호</Form.Label>
+             <Form.Control style={{width: "400px"}} type="text" onChange={(e) => setPw(e.target.value)} />
+             </Form.Group>
+           </Form>
+           <Button style={{border: "none", backgroundColor: "skyblue", width: "100px"}} variant = "primary" type="text" onClick={handleCurrentPasswordButton}>
+             인증하기
+           </Button>
+        </div>
+    )
+
+  }
 
   const renderAccountPage = () => {
 
@@ -559,11 +596,16 @@ function MyPage(){
       );
     }
 
+  const [modifyPasswordPage, setModifyPasswordPage] = useState(0);
+
   let currentPageComponent;
   if(currentPage === 'profile'){
     currentPageComponent = renderProfilePage();
   }
-  else if(currentPage === 'account'){
+  else if(currentPage === 'account' && modifyPasswordPage === 0){
+    currentPageComponent = renderBeforeAccountPage();
+  }
+  else if(currentPage === 'account' && modifyPasswordPage === 1){
     currentPageComponent = renderAccountPage();
   }
   else if(currentPage === 'withdrawl'){
