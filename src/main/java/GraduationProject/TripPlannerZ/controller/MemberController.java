@@ -42,7 +42,7 @@ public class MemberController {
                 .build();
 
         memberService.join(joinMember);
-        memberPreferenceService.setTypes(joinMember,memberJoin.getTypes());
+        memberPreferenceService.setTypes(joinMember, memberJoin.getTypes());
 
         /*
             프론트에서 데이터를 넘길 때에
@@ -161,6 +161,17 @@ public class MemberController {
 
     }
 
+    @PostMapping("members/verify/pw")
+    public ResponseEntity<String> verifyPw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
+
+        String email = (String) request.getSession().getAttribute("loginMember");
+        String pw = memberInfo.getPw();
+
+        if (memberService.findPw(email, pw)) // 비번 일치
+            return ResponseEntity.ok().body("{\"result\": true}");
+        return ResponseEntity.ok().body("{\"result\": false}");
+    }
+
     @PostMapping("members/change/pw")
     public void changePw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
 
@@ -171,7 +182,7 @@ public class MemberController {
     }
 
     @PostMapping("members/change/types")
-    public void changeTypes(HttpServletRequest request,@RequestBody ChangeMemberInfo memberInfo){
+    public void changeTypes(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
 
         String email = (String) request.getSession().getAttribute("loginMember");
         Member member = memberService.findByEmail(email).get();
@@ -179,4 +190,5 @@ public class MemberController {
         memberPreferenceService.deleteTypes(member);
         memberPreferenceService.setTypes(member, memberInfo.getTypes());
     }
+
 }
