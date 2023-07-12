@@ -30,7 +30,6 @@ public class LocationService {
                         .queryParam("areaCode", areaCode)
                         .queryParam("sigunguCode", sigunguCode)
                         .build())
-                .header("accept", "application/json")
                 .retrieve()
                 .bodyToFlux(Location.class)
                 .collectList()
