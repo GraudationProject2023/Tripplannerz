@@ -4,10 +4,12 @@ import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.Location;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
+import GraduationProject.TripPlannerZ.service.LocationService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -39,6 +43,7 @@ public class TripController {
     private final MemberPartyRepository memberPartyRepository;
     private final SigunguRepository sigunguRepository;
     private final TripImageRepository tripImageRepository;
+    private final LocationService locationService;
 
     @PostMapping("/trip/create")
     public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile,
@@ -140,5 +145,10 @@ public class TripController {
 
         PageRequest pageRequest = PageRequest.of(page, 10);
         return memberService.findTrip(null, sortType, pageRequest, keyWord);
+    }
+
+    @GetMapping("/trip/locationList")
+    public List<Location> getLocationList() {
+        return locationService.locationListByArea(1, 1);
     }
 }
