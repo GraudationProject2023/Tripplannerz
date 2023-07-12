@@ -64,7 +64,7 @@ dependencies {
 	//webclient 추가
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	implementation 'io.netty:netty-resolver-dns-native-macos'
+//	implementation 'io.netty:netty-resolver-dns-native-macos'
 
 }
 
