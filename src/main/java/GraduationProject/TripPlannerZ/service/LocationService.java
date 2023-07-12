@@ -36,6 +36,5 @@ public class LocationService {
                 .block();
 
         return locationList;
-
     }
 }

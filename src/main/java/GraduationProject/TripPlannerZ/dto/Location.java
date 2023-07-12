@@ -6,13 +6,12 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@ToString
 public class Location {
 
-    String title;
-    String addr1;
-    Integer contenttypeid;
+    private String title;
+    private String addr1;
+    private Integer contenttypeid;
 
 
 
