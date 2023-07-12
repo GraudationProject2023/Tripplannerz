@@ -428,6 +428,13 @@ function MyPage(){
   const renderBeforeAccountPage = () => {
     return(
         <div className = "profile-card">
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+           <br />
+          <div className="before-account">
          <h4>정보 수정을 위해 본인을 인증해주세요.</h4>
            <Form>
              <Form.Group controlId = "Password">
@@ -438,6 +445,7 @@ function MyPage(){
            <Button style={{border: "none", backgroundColor: "skyblue", width: "100px"}} variant = "primary" type="text" onClick={handleCurrentPasswordButton}>
              인증하기
            </Button>
+          </div>
         </div>
     )
 
@@ -536,12 +544,13 @@ function MyPage(){
               </table>
               { size === 0 ? '' : <Pagination postsPerPage={postsPerPage} totalPosts = {posts.length} paginate={(pageNumber) => setCurrentNumber(pageNumber-1)} total={total}></Pagination>}
             <div>
+            <br />
               <table>
                 <td>
-                  {size === 0 ? '' : <input type="text" onClick={handleInputChange} placeholder="검색어를 입력하세요."/> }
+                  {size === 0 ? '' : <Form.Control type="text" style={{marginLeft: "10%",width: "400px"}} onClick={handleInputChange} placeholder="검색어를 입력하세요."/> }
                 </td>
                 <td>
-                  {size === 0 ? '' : <Button>검색</Button> }
+                  {size === 0 ? '' : <Button style={{marginTop:"-5px"}}>검색</Button> }
                 </td>
               </table>
             </div>
