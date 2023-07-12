@@ -47,4 +47,10 @@ public class MemberService {
     public void changePw(Member member, String pw) {
         member.changePw(pw);
     }
+
+    // 비밀 번호 찾기
+    public boolean findPw(String email, String pw) {
+        Member member = memberRepository.findByEmail(email).get();
+        return member.getPw().equals(pw);
+    }
 }
