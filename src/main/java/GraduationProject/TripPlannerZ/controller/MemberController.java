@@ -161,7 +161,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("members/verify/pw")
+    @RequestMapping("members/verify/pw") // get post 둘다 가능
     public ResponseEntity<String> verifyPw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
 
         String email = (String) request.getSession().getAttribute("loginMember");
