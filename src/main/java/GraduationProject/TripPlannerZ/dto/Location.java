@@ -1,17 +1,18 @@
 package GraduationProject.TripPlannerZ.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Location {
 
-    String title;
-    String addr1;
-    int contenttypeid;
+    private String title;
+    private String addr1;
+    private Integer contenttypeid;
+
 
 
 }
