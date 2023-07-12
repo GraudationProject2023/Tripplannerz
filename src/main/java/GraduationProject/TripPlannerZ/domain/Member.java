@@ -53,8 +53,7 @@ public class Member {
 
     // == 비밀 번호 변경 == //
     public void changePw(String pw) {
-        if (pw != null)
-            this.pw = pw;
+        this.pw = pw;
     }
 
     // == 선호테그 변경 == //

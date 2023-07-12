@@ -1,11 +1,9 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.domain.MemberParty;
-import GraduationProject.TripPlannerZ.domain.MemberPreference;
 import GraduationProject.TripPlannerZ.dto.*;
-import GraduationProject.TripPlannerZ.repository.MemberPreferenceRepository;
 import GraduationProject.TripPlannerZ.service.LoginService;
+import GraduationProject.TripPlannerZ.service.MemberPreferenceService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 
 import GraduationProject.TripPlannerZ.service.TripService;
@@ -18,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -31,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
     private final LoginService loginService;
     private final TripService tripService;
-    private final MemberPreferenceRepository memberPreferenceRepository;
+    private final MemberPreferenceService memberPreferenceService;
 
     @PostMapping("/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일
@@ -45,14 +42,7 @@ public class MemberController {
                 .build();
 
         memberService.join(joinMember);
-
-        String[] preferenceList = memberJoin.getTypes().split(",");
-
-        for (int i = 0; i < preferenceList.length; i++) {
-            MemberPreference memberPreference = MemberPreference.setTypes(preferenceList[i], joinMember, i);
-            memberPreferenceRepository.save(memberPreference);
-        }
-
+        memberPreferenceService.setTypes(joinMember,memberJoin.getTypes());
 
         /*
             프론트에서 데이터를 넘길 때에
@@ -65,14 +55,6 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestBody MemberLogin loginMember, HttpServletRequest request) {
 
         Member member = loginService.Login(loginMember.getEmail(), loginMember.getPw());
-
-        System.out.println("=======================");
-        List<MemberParty> memberPartyList = member.getMemberPartyList();
-        System.out.println("memberPartyList.size() = " + memberPartyList.size());
-        for (MemberParty memberParty : memberPartyList) {
-            System.out.println("memberParty = " + memberParty);
-        }
-        System.out.println("=======================");
 
         if (member == null) // 이메일이 존재하지 않거나, 비밀번호가 일치하지 않음
             return ResponseEntity.ok().body("{\"result\": false}");
@@ -166,15 +148,12 @@ public class MemberController {
 
     @PostMapping("members/exit")
     public ResponseEntity<String> exitMember(HttpServletRequest request, @RequestParam("pw") String pw) {
+
         String email = (String) request.getSession().getAttribute("loginMember");
         Optional<Member> loginMember = memberService.findByEmail(email);
         Member member = loginMember.get();
 
-        System.out.println("member.getPw() = " + member.getPw());
-        System.out.println("pw = " + pw);
-
         if (member.getPw().equals(pw)) {
-            System.out.println("pw = " + pw);
             memberService.exit(member);
             return ResponseEntity.ok().body("{\"result\": true}");
         } else
@@ -182,11 +161,22 @@ public class MemberController {
 
     }
 
-    @PostMapping("members/modify")
-    public void modifyMemberInfo(HttpServletRequest request, @RequestBody ModifyMemberInfo memberInfo) {
+    @PostMapping("members/change/pw")
+    public void changePw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
 
         String email = (String) request.getSession().getAttribute("loginMember");
+        Member member = memberService.findByEmail(email).get();
 
-        memberService.modify(email, memberInfo.getPw(), memberInfo.getTypes());
+        memberService.changePw(member, memberInfo.getPw());
+    }
+
+    @PostMapping("members/change/types")
+    public void changeTypes(HttpServletRequest request,@RequestBody ChangeMemberInfo memberInfo){
+
+        String email = (String) request.getSession().getAttribute("loginMember");
+        Member member = memberService.findByEmail(email).get();
+
+        memberPreferenceService.deleteTypes(member);
+        memberPreferenceService.setTypes(member, memberInfo.getTypes());
     }
 }

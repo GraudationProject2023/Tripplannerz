@@ -1,7 +1,6 @@
 package GraduationProject.TripPlannerZ.service;
 
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.domain.MemberPreference;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,12 +42,9 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    // 회원 정보 수정
+    // 비밀 번호 변경
     @Transactional
-    public void modify(String email, String pw, List<MemberPreference> types) {
-        Member member = memberRepository.findByEmail(email).get();
-
+    public void changePw(Member member, String pw) {
         member.changePw(pw);
-        member.changePreference(types);
     }
 }
