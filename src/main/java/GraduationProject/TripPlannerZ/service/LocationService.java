@@ -14,16 +14,16 @@ import java.util.List;
 public class LocationService {
 
     private final WebClient webClient;
-    private final String serviceKey = "PAk9KmJ3JcFmrYQmS10OsslzJLFqq%2BGA8AmmTUlinPvUNEkQ9Elvo0IbTmgMrJzlOf5TgZvcK8InREeJ3%2BW9Mg%3D%3D";
+    private final String serviceKey = "5Lz73gDroM5Kmib%2Bptu35PIQCl%2BRjgpLKfesBUQEdFYYoNawvaUw5Q9Y71%2FzSZUIbjAE0PMv4gP3tTrPjWyMwg%3D%3D";
 
-    public List<Location> locationListByArea(int areaCode, int sigunguCode) {
+    public List<Location> locationListByArea(String areaCode, String sigunguCode) {
 
         List<Location> locationList = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(String.format("/areaBasedList1"))
                         .queryParam("serviceKey", serviceKey)
-                        .queryParam("numOfRows", 10)
-                        .queryParam("pageNo", 1)
+//                        .queryParam("numOfRows", 10)
+//                        .queryParam("pageNo", 1)
                         .queryParam("MobileOS", "ETC")
                         .queryParam("MobileApp", "TripPlannerZ")
                         .queryParam("_type", "json")
