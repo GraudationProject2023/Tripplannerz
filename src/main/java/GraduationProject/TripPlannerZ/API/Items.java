@@ -1,14 +1,15 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.API;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChangeMemberInfo {
+public class Items {
 
-    private String pw;
-    private String types;
+    private List<Item> item;
 }
