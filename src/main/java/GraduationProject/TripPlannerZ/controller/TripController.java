@@ -1,10 +1,10 @@
 package GraduationProject.TripPlannerZ.controller;
 
+import GraduationProject.TripPlannerZ.API.Item;
 import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
-import GraduationProject.TripPlannerZ.dto.Location;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
@@ -16,17 +16,14 @@ import GraduationProject.TripPlannerZ.service.TripService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +145,7 @@ public class TripController {
     }
 
     @GetMapping("/trip/locationList")
-    public List<Location> getLocationList() {
-        return locationService.locationListByArea(1, 1);
+    public List<Item> getLocationList() {
+        return locationService.locationListByArea("1", "1");
     }
 }

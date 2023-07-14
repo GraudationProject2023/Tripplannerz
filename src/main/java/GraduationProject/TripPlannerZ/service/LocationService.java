@@ -1,9 +1,8 @@
 package GraduationProject.TripPlannerZ.service;
 
-import GraduationProject.TripPlannerZ.dto.Location;
+import GraduationProject.TripPlannerZ.API.ApiResponse;
+import GraduationProject.TripPlannerZ.API.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,14 +12,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationService {
 
-    private final WebClient webClient;
-    private final String serviceKey = "PAk9KmJ3JcFmrYQmS10OsslzJLFqq%2BGA8AmmTUlinPvUNEkQ9Elvo0IbTmgMrJzlOf5TgZvcK8InREeJ3%2BW9Mg%3D%3D";
+    private final WebClient webClient = WebClient.create("https://apis.data.go.kr/B551011/KorService1");
+    private final String serviceKey = "4B0yGfBS//YHcP9p7Xwt0DFfKDm2NIT2kq9Qnt/tCsEQ01PFyIxoyCFMUNx99M0IY38tKItC8on5gEETaNEJ8A==";
 
-    public List<Location> locationListByArea(int areaCode, int sigunguCode) {
+    public List<Item> locationListByArea(String areaCode, String sigunguCode) {
 
-        List<Location> locationList = webClient.get()
+        ApiResponse apiResponse = webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(String.format("/areaBasedList1"))
+                        .path("/areaBasedList1")
                         .queryParam("serviceKey", serviceKey)
                         .queryParam("numOfRows", 10)
                         .queryParam("pageNo", 1)
@@ -31,10 +30,13 @@ public class LocationService {
                         .queryParam("sigunguCode", sigunguCode)
                         .build())
                 .retrieve()
-                .bodyToFlux(Location.class)
-                .collectList()
+                .bodyToMono(ApiResponse.class)
                 .block();
 
-        return locationList;
+        // .getResponse()가 null일 경우 예외처리 추가해 줘야됨
+        List<Item> items = apiResponse.getResponse().getBody().getItems().getItem();
+
+
+        return items;
     }
 }
