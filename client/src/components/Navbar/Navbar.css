@@ -37,6 +37,15 @@
    left: 27%;
    transform: translate(-50%, -50%);
 }
+
+.find
+{   position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
 .notice
 {
    position: absolute;
@@ -110,3 +119,12 @@
 }
 .modal-header { height: 100px; }
 .modal-footer { height: 100px; }
+
+.menu-button
+{
+    background-color: whitesmoke;
+    color: #000000;
+    width: 100px;
+    height: 37px;
+    border: none;
+}
