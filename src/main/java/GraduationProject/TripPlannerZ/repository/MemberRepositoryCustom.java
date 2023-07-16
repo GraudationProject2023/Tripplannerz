@@ -12,4 +12,6 @@ public interface MemberRepositoryCustom {
     Page<MemberTrip> tripList(Member member, String sortType, Pageable pageable, String keyWord);
 
     List<Member> tripMemberList(Long id);
+
+
 }

@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.service;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
+import GraduationProject.TripPlannerZ.repository.PartyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PartyRepository partyRepository;
 
     // 회원 가입
     @Transactional
@@ -41,6 +43,11 @@ public class MemberService {
     public void exit(Member member) {
         member.exit();
         memberRepository.delete(member);
+        List<Long> list = partyRepository.noMemberParty();
+
+        for (Long id : list) {
+            partyRepository.deleteById(id);
+        }
     }
 
     // 비밀 번호 변경
