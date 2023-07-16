@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +53,9 @@ public class MemberService {
     public boolean findPw(String email, String pw) {
         Member member = memberRepository.findByEmail(email).get();
         return member.getPw().equals(pw);
+    }
+
+    public List<Member> memberList(Long id) {
+        return memberRepository.tripMemberList(id);
     }
 }
