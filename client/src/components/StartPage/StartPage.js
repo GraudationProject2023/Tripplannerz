@@ -48,9 +48,13 @@ function StartPage() {
          <br />
          <div style={{position: 'relative'}}>
          <video className="video" ref = {videoRef} src="https://drive.google.com/uc?export=download&id=1lDhpyyyWknwmeMIGsVypMNdrU_4g_w56" autoPlay muted loop />
-          <div style={{position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+          <div style={{backgroundColor: "white",position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}>
             <h1>TripPlannerz</h1>
-            <h3>여행 종합 서비스</h3>
+            <h5>여행 일정을 공유하고,</h5>
+            <h5>같이 동행할 일행들을 찾고, 방문할 여행지들을 추천해주는</h5>
+            <h5>종합 여행 웹사이트 입니다.</h5>
+            <h5>기존의 여행 웹사이트보다 쉽고, 효율적으로 </h5>
+            <h5>여행 일정에 대한 전반적인 내용을 관리하세요!</h5>
           </div>
          </div>
          <img src={Land2} alt="설명페이지2" style={{width:"100%"}} />
