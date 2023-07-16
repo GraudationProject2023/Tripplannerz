@@ -160,19 +160,18 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Override
     public List<Member> tripMemberList(Long id) {
 
-
         List<Member> memberList = queryFactory
                 .select(member)
                 .from(member).where(member.in(
                         JPAExpressions
-                                .select(memberParty)
+                                .select(memberParty.member)
                                 .from(memberParty)
-                                .join(party).on(party.id.eq(id))
-                                .where(memberParty)
+                                .join(memberParty.party, party)
+                                .where(party.id.eq(id))
                 ))
+                .fetch();
 
-
-        return null;
+        return memberList;
     }
 
     private BooleanExpression memberPartyIn(Member member) {
