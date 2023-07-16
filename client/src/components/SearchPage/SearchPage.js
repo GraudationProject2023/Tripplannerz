@@ -44,7 +44,6 @@ function SearchPage(){
                 },[]);
 
     useEffect(() => {
-         console.log(key);
          let encodedKey;
          if(/[\u0080-\uFFFF]/.test(key))
          {
@@ -63,20 +62,17 @@ function SearchPage(){
                             }
                         );
                         console.log(response.data);
+                        console.log(response.data.content);
                         setPosts(response.data.content);
                         setTotal(response.data.totalElements);
                         setTotalPage(response.data.totalPages);
-                        for(let i = 0; i <response.data.content.length; i++)
-                        {
-                            setPostNumber(i);
-                        }
+                        const postNumberArray = response.data.content.map((post) => post.id);
+                        setPostNumber(postNumberArray);
                         setLoading(false);
                     };
         fetchData();
     },[currentPage,currentNumber, order, key]);
      useEffect(() => {
-             console.log(typeof(order));
-             console.log(typeof(localKeyword));
               let encodedKey;
               if(/[\u0080-\uFFFF]/.test(key))
               {
@@ -97,10 +93,8 @@ function SearchPage(){
                             setPosts(response.data.content);
                             setTotal(response.data.totalElements);
                             setTotalPage(response.data.totalPages);
-                            for(let i = 0; i <response.data.content.length; i++)
-                            {
-                                setPostNumber(i);
-                            }
+                            const postNumberArray = response.data.content.map((post) => post.id);
+                            setPostNumber(postNumberArray);
                             setLoading(false);
                         };
             fetchData();
@@ -130,7 +124,7 @@ function SearchPage(){
                                                 <td>
                                                     {posts.map((post,index) => (
                                                       <div>
-                                                      <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
+                                                      <li key={postNumber[index]}  onClick={() => handleClick(postNumber[index])} className="list-key">
                                                         <table>
                                                         <td><div style={{marginLeft: "-12px"}}>{post.title}</div></td>
                                                         </table>
