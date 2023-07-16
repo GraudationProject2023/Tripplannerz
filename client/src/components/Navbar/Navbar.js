@@ -10,6 +10,7 @@ import Loginpage from '../StartPage/Kakao/Loginpage';
 import CountdownTimer from '../../util/CountdownTimer';
 import Menu from '../Image/Menu.png';
 import notice from '../Image/notice.png';
+import find from '../Image/돋보기.png';
 import sight from '../Image/관광지.png';
 import culture from '../Image/문화시설.png';
 import festival from '../Image/축제.png';
@@ -51,9 +52,18 @@ function NavBar(){
             navigate(url);
         }
     }
+
+    const handleSearchClick = (event) => {
+        event.preventDefault();
+        const url = `/search?keyword=${searchTerm}`;
+        navigate(url);
+    }
+
     const handleChange = (event) => {
       setSearchTerm(event.target.value);
     }
+
+
 
     //다중 모달
     const [nestedModal, setNestedModal] = useState(false);
@@ -423,128 +433,16 @@ function NavBar(){
         toggleMypage();
     }
 
-    if(offset === '0'){
-    return(
-        <div className ="navbar">
-        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"#EEEEEE",height:"15%"}} >
-            <Nav className="me-auto">
-                <Nav style={{marginTop:"1%"}}>
-                   <img src={Menu} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
-                </Nav>
-                <Nav style={{marginLeft:"650%", marginTop:"1%"}}>
-                <Button variant="primary" onClick={handleFirstShow}style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
-                  로그인
-                </Button>
-                <Modal show={firstshowModal} onHide={handleFirstClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Control type="email" onEnterPress={handleLogin} placeholder ="이메일을 입력해주세요" onChange={handleEmailChange}/>
-                  <Form.Control type="password" onEnterPress={handleLogin} placeholder ="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
-                    <Button variant="secondary" onClick={handleFirstClose}>
-                                 닫기
-                    </Button>
-                   <Button variant="primary" type="submit" onClick={handleLogin}>
-                                 접속하기
-                   </Button>
-                </Form>
-
-                <Form onSubmit={handleSubmit}>
-
-                </Form>
-
-
-                <hr />
-                <h5>소셜 로그인</h5>
-                <Loginpage />
-            </Modal.Body>
-            <Modal.Footer>
-          </Modal.Footer>
-        </Modal>
-        <Button variant="primary" onClick={handleShow} style={{backgroundColor:"#FFFFFF",color:"#000000",width:"100px",height:"37px"}}>
-          회원가입
-        </Button>
-
-        <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Sign Up</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Control type="text" id="name" placeholder="이름을 입력해주세요" onChange={handleNameChange} />
-            </Form>
-            <Form onSubmit={handleSubmit}>
-            <Form.Select
-              id="Gender"
-              name="Gender"
-              onChange={handleGenderChange}
-            >
-              <option defaultValue="(male/female)" hidden>
-                (남/여)
-              </option>
-              <option value="MALE">남</option>
-              <option value="FEMALE">여</option>
-            </Form.Select>
-            </Form>
-            <Form onSubmit={handleSubmit}>
-              <Form.Control type="text" id="Email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
-            </Form>
-            {successEmail !== '1' ? <div>
-            <Button onClick={EmailSend}>전송</Button>
-            {emailtimer ? <CountdownTimer onButtonClick={onButtonClick}/> : ""}
-            <Form onSubmit={handleSubmit}>
-            <Form.Control type="text" id="EmailCode" placeholder="이메일 인증 코드를 입력해주세요" onChange={handleEmailCodeChange} />
-            </Form>
-            <Button onClick={EmailCheck}>확인</Button>
-            </div> : ""}
-            <Form onSubmit={handleSubmit}>
-            <Form.Control type="password" id="Password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
-            </Form>
-            <Form onSubmit={handleSubmit}>
-            <Form.Control type="password" id="Confirmpassword" placeholder="비밀번호를 확인하세요" onChange={handleConfirmPasswordChange} />
-            </Form>
-            {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
-            <br />
-            <br />
-            <Button style={{marginLeft: "40%"}} variant="secondary" onClick={handleNestedModal}>
-                          태그선택
-                        </Button>
-
-                        {nestedModal && (<Modal show={handleNestedModal} onHide={handleCloseNested}>
-                                      <Modal.Header closeButton>
-                                        <Modal.Title>태그</Modal.Title>
-                                      </Modal.Header>
-                                      <Modal.Body>
-                                        <Button1 />
-                                      </Modal.Body>
-                                      <Modal.Footer>
-                                       <Button variant="primary" type="submit" onClick={handleCloseNested}>
-                                            확인
-                                       </Button>
-                                      </Modal.Footer>
-                                      </Modal>
-                        )}
-          </Modal.Body>
-          <Modal.Footer>
-
-
-            <Button variant="primary" type="submit" onClick={handleSubmit}>
-              저장하기
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-             </Nav>
-          </Nav>
-        </Navbar>
-        </div>
-    )
+    const moveToFind = (e) => {
+        window.location.href = "/find";
     }
-    else if(offset === '1')
-    {
 
+    const moveToSearch = (e) => {
+        window.location.href = "/search";
+    }
+
+    if(offset === '1')
+    {
       return(
       <div className ="navbar">
        <Navbar expand="md" className="justify-content-center navbar-top" fixed="top" style={{border:"1px solid #FFFFFF",backgroundColor:"whitesmoke",height:"15%"}} >
@@ -552,14 +450,17 @@ function NavBar(){
                         <Nav>
                            <img src={Menu} onClick={movetomain} alt="메뉴" className="navbar-toggle" style={{width:"200px",height:"50px", marginTop:"0%"}} />
                         </Nav>
+                        <Nav className = "find">
+                           <img src={find} onClick={handleSearchClick}/>
+                        </Nav>
                         <Nav className = "inputbox">
                           <input type="text" placeholder="여행 일정을 검색하세요" value={searchTerm} onChange={handleChange} onKeyPress={handleSearch} />
                         </Nav>
                         <Nav className = "new">
-                            <a href="/find" class="button">일정생성</a>
+                            <Button className="menu-button" onClick={moveToFind}>일정생성</Button>
                         </Nav>
                         <Nav className = "search">
-                            <a href="/search" class="button">일정조회</a>
+                            <Button className="menu-button" onClick={moveToSearch}>일정조회</Button>
                         </Nav>
                         <Nav className = "notice">
                           <img src={notice}/>
