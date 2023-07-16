@@ -12,6 +12,7 @@ public class MemberTrip {
 //    @Value("${spring.servlet.multipart.location}")
 //    private String path;
 
+    private Long id;
     private String UUID;
     private String title;
     private String startingDate;
@@ -19,7 +20,8 @@ public class MemberTrip {
     private String imagePath;
 
     @QueryProjection
-    public MemberTrip(String UUID, String title, String startingDate, String comingDate, String imageUUID) {
+    public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID) {
+        this.id = id;
         this.UUID = UUID;
         this.title = title;
         this.startingDate = startingDate;
