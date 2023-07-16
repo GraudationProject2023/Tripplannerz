@@ -157,6 +157,24 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
 
+    @Override
+    public List<Member> tripMemberList(Long id) {
+
+
+        List<Member> memberList = queryFactory
+                .select(member)
+                .from(member).where(member.in(
+                        JPAExpressions
+                                .select(memberParty)
+                                .from(memberParty)
+                                .join(party).on(party.id.eq(id))
+                                .where(memberParty)
+                ))
+
+
+        return null;
+    }
+
     private BooleanExpression memberPartyIn(Member member) {
         return member != null ? memberParty.member.eq(member) : null;
     }

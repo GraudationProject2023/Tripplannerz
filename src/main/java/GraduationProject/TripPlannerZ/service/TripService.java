@@ -23,4 +23,5 @@ public class TripService {
     public Optional<Trip> findByUUID(String id){
         return tripRepository.findByUUID(id);
     }
+    public Optional<Trip> findById(Long id) { return tripRepository.findById(id); }
 }
