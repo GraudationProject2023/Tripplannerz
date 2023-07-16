@@ -152,13 +152,15 @@ public class TripController {
     }
 
     @GetMapping("/trip/detail/{id}")
-    public TripDetail getTripDeteail(@PathVariable("id") Long id) {
-        Optional<Trip> trip = tripService.findById(id);
+    public TripDetail getTripDetail(@PathVariable("id") Long id) {
 
+        List<Member> memberList = memberService.memberList(id);
+        Trip trip = tripService.findById(id).get();
 
+        TripDetail tripDetail = new TripDetail(trip.getId(), trip.getUUID(), trip.getTitle(),
+                trip.getStartingDate(), trip.getComingDate(), trip.getContent(),
+                memberList.size(), memberList);
 
-
-
-        return null;
+        return tripDetail;
     }
 }
