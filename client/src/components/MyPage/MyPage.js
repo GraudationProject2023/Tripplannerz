@@ -28,7 +28,7 @@ function MyPage(){
   const [pw, setPw] = useState('')//현재 패스워드
   const [password, setPassword] = useState('') // 수정할 패스워드
   const [withdrawPassword, setWithdrawPassword] = useState('');
-  const [confirmpassword, setConfirmpassword] = useState(""); //수정할 패스워드 확인
+  const [confirmPassword, setConfirmPassword] = useState(""); //수정할 패스워드 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [posts,setPosts] = useState([]); //페이지마다 띄울 게시판 목록
   const [postNumber, setPostNumber] = useState([]);// 각 목록 번호
@@ -85,10 +85,8 @@ function MyPage(){
                           console.log(response.data.totalPages);
                           console.log(response.data.totalElements);
                           console.log(response.data.content);
-                          for(let i = 0;i<response.data.content.length; i++)
-                          {
-                             setPostNumber(i);
-                          }
+                          const postNumberArray = response.data.content.map((post) => post.id);
+                          setPostNumber(postNumberArray);
                           setPosts(response.data.content);
                           setTotal(response.data.totalElements);
                           setTotalPage(response.data.totalPages);
@@ -132,7 +130,7 @@ function MyPage(){
 
   const handleConfirmPasswordChange = (event) => {
         const CONFIRMPASSWORD = event.target.value;
-        if(confirmpassword !== password.slice(0,-1))
+        if(confirmPassword !== password.slice(0,-1))
         {
           console.log("error")
           setCorrect(false);
@@ -141,7 +139,7 @@ function MyPage(){
           console.log("success")
           setCorrect(true);
         }
-        setConfirmpassword(CONFIRMPASSWORD);
+        setConfirmPassword(CONFIRMPASSWORD);
   }
 
   const handlePageChange = (page) => {
@@ -379,7 +377,7 @@ function MyPage(){
                         <td>
                             {posts.map((post,index) => (
                               <div>
-                              <li key={currentNumber * 10 + index}  onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
+                              <li key={postNumber[index]}  onClick={() => handleClick(postNumber[index])} className="list-key">
                                 <table>
                                 <td><div style={{marginLeft: "-12px"}}>{post.title}</div></td>
                                 </table>
@@ -481,7 +479,7 @@ function MyPage(){
            </table>
            </Form.Group>
            <div style={{marginLeft: "13%"}}>
-           {(confirmpassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
+           {(confirmPassword === "") ? "" :  (correct === true ? '비밀번호 일치' : '비밀번호 불일치')}
            </div>
            <Button style={{border: "none",backgroundColor: "skyblue",width:"100px", marginLeft: "80%", marginTop: "-14.5%"}} variant="primary" type="submit" onClick={handlePasswordButton}>
                       변경하기

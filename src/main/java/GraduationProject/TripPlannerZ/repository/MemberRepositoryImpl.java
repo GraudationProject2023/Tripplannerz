@@ -41,6 +41,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             case "조회수":
                 content = queryFactory
                         .select(new QMemberTrip(
+                                trip.id,
                                 trip.UUID,
                                 trip.title,
                                 trip.startingDate,
@@ -70,6 +71,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             case "좋아요":
                 content = queryFactory
                         .select(new QMemberTrip(
+                                trip.id,
                                 trip.UUID,
                                 trip.title,
                                 trip.startingDate,
@@ -99,6 +101,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
             default:
                 content = queryFactory
                         .select(new QMemberTrip(
+                                trip.id,
                                 trip.UUID,
                                 trip.title,
                                 trip.startingDate,
@@ -128,6 +131,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         JPAQuery<MemberTrip> countQuery = queryFactory
                 .select(new QMemberTrip(
+                        trip.id,
                         trip.UUID,
                         trip.title,
                         trip.startingDate,
