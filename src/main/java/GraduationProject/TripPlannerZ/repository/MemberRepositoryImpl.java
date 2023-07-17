@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.repository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static GraduationProject.TripPlannerZ.domain.QMember.member;
@@ -156,6 +158,25 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
     }
+
+    @Override
+    public List<Member> tripMemberList(Long id) {
+
+        List<Member> memberList = queryFactory
+                .select(member)
+                .from(member).where(member.in(
+                        JPAExpressions
+                                .select(memberParty.member)
+                                .from(memberParty)
+                                .join(memberParty.party, party)
+                                .where(party.id.eq(id))
+                ))
+                .fetch();
+
+        return memberList;
+    }
+
+
 
     private BooleanExpression memberPartyIn(Member member) {
         return member != null ? memberParty.member.eq(member) : null;

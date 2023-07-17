@@ -53,6 +53,15 @@ public class TestInitDb {
                     .build();
             em.persist(member);
 
+            Member member2 = Member.builder()
+                    .name("2")
+                    .email("2@naver.com")
+                    .pw("2")
+                    .types(new ArrayList<>())
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(member2);
+
             // party 생성
             Party party = Party.builder()
                     .memberPartyList(new ArrayList<>())
@@ -60,7 +69,9 @@ public class TestInitDb {
             em.persist(party);
 
             MemberParty memberParty = MemberParty.addPartyMember(member, party);
+            MemberParty memberParty1 = MemberParty.addPartyMember(member2, party);
             em.persist(memberParty);
+            em.persist(memberParty1);
 
             Trip trip = Trip.builder()
                     .comingDate("2023-05-05")
@@ -73,6 +84,7 @@ public class TestInitDb {
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip);
+
 
         }
 

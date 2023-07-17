@@ -7,6 +7,7 @@ import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.TripCreate;
+import GraduationProject.TripPlannerZ.dto.TripDetail;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
 import GraduationProject.TripPlannerZ.service.LocationService;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -147,5 +149,18 @@ public class TripController {
     @GetMapping("/trip/locationList")
     public List<Item> getLocationList() {
         return locationService.locationListByArea("1", "1");
+    }
+
+    @GetMapping("/trip/detail/{id}")
+    public TripDetail getTripDetail(@PathVariable("id") Long id) {
+
+        List<Member> memberList = memberService.memberList(id);
+        Trip trip = tripService.findById(id).get();
+
+        TripDetail tripDetail = new TripDetail(trip.getId(), trip.getUUID(), trip.getTitle(),
+                trip.getStartingDate(), trip.getComingDate(), trip.getContent(),
+                memberList.size(), memberList);
+
+        return tripDetail;
     }
 }
