@@ -1,6 +1,7 @@
 package GraduationProject.TripPlannerZ.service;
 
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.dto.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import GraduationProject.TripPlannerZ.repository.PartyRepository;
@@ -62,7 +63,7 @@ public class MemberService {
         return member.getPw().equals(pw);
     }
 
-    public List<Member> memberList(Long id) {
+    public List<MemberInfo> memberList(Long id) {
         return memberRepository.tripMemberList(id);
     }
 }
