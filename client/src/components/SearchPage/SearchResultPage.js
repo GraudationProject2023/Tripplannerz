@@ -1,76 +1,72 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
-import {Button, Form} from 'react-bootstrap';
-axios.default.withCredentials = true;
+import { useLocation } from 'react-router-dom';
+import { Button, Form, Card, Container, Row, Col } from 'react-bootstrap';
+import StarRating from './util/StarRating';
+axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
-  const {postId} = useParams();
-  const [post, setPost] = useState([]);
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState(''); //제목
+  const [startingDate, setStartingDate] = useState(''); //시작 날짜
+  const [comingDate, setComingDate] = useState(''); //종료 날짜
+  const [content, setContent] = useState(''); //내용
+  const [memberNum, setMemberNum] = useState(0); //멤버 수
+  const [memberList,setMemberList] = useState([]); //멤버 인원
 
-   useEffect(() => {
-                   localStorage.setItem("cast",1);
-                   localStorage.setItem("rank",-1);
-                   localStorage.setItem("vest",1);
-                   document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
-              },[]);
+  const arr = location.pathname.split("/");
+
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const handleRatingChange = (rating) => {
+    setRating(rating);
+  };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/members/trip/result?id=${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const postData = response.data;
-        setPost(postData);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`)
+    .then((res) => console.log(res));
 
-    fetchPost();
-  }, [postId]);
 
-    //댓글 평점
-    const [Review, setReview] = useState("")
-    const [Grade, setGrade] = useState([false,false,false,false,false])
-
-    const reviewChangeHandler = (event) => {
-        setReview(event.currentTarget.value)
-    }
-
-    const gradeChangeHandler = (event) => {
-        let gradeStates = [...Grade];
-
-        for(let i =0; i < 5; i++)
-        {
-            //gradeStates[i] = i <= index ? true : false;
-        }
-
-        setGrade(gradeStates);
-    }
-
-    const setStar = () => {
-        let star = Grade.filter(Boolean).length;
-    }
+  },[])
 
   return (
-  <div>
-    <div>
-      <h5>시작날짜: {post.startingDate}</h5>
-      <h5>기간: {post.period}</h5>
-      <h5>내용: {post.content}</h5>
-    </div>
-    <div>
-      <h5>댓글</h5>
-        <input type="text" onChange = {reviewChangeHandler} />
-    </div>
-   </div>
+
+        <div>
+          <Row>
+            <Col>
+              <h2>Trip Details</h2>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Starting Date: {startingDate}</Card.Title>
+                  <Card.Text>Duration: {startingDate}</Card.Text>
+                  <Card.Text>Content: {content}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h2>Reviews</h2>
+              <Form.Group>
+                <Form.Label>Add a Review</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={review}
+                  onChange={handleReviewChange}
+                />
+              </Form.Group>
+              <StarRating rating={rating} onRatingChange={handleRatingChange} />
+              <Button variant="primary">Submit Review</Button>
+            </Col>
+          </Row>
+        </div>
+
   );
 }
 
