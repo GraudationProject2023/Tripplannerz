@@ -1,9 +1,10 @@
 package GraduationProject.TripPlannerZ.repository;
 
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.QMemberInfo;
 import GraduationProject.TripPlannerZ.dto.QMemberTrip;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static GraduationProject.TripPlannerZ.domain.QMember.member;
@@ -160,10 +160,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public List<Member> tripMemberList(Long id) {
+    public List<MemberInfo> tripMemberList(Long id) {
 
-        List<Member> memberList = queryFactory
-                .select(member)
+        List<MemberInfo> memberInfoList = queryFactory
+                .select(new QMemberInfo(
+                        member.email,
+                        member.name,
+                        member.gender
+                ))
                 .from(member).where(member.in(
                         JPAExpressions
                                 .select(memberParty.member)
@@ -173,7 +177,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 ))
                 .fetch();
 
-        return memberList;
+
+        return memberInfoList;
     }
 
 
