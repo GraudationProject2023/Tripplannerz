@@ -30,7 +30,14 @@ function SearchResultPage(props) {
 
   useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`)
-    .then((res) => console.log(res));
+    .then(res => {
+       setTitle(res.data.title);
+       setStartingDate(res.data.startingDate);
+       setComingDate(res.data.comingDate);
+       setContent(res.data.content);
+       setMemberNum(res.data.memberNum);
+       setMemberList(res.data.memberList);
+  });
 
 
   },[])
