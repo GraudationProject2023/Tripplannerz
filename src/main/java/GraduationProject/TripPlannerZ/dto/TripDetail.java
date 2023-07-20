@@ -19,9 +19,9 @@ public class TripDetail {
 
     private String content;
     private int memberNum;
-    private List<Member> memberList = new ArrayList<>();
+    private List<MemberInfo> memberList = new ArrayList<>();
 
-    public TripDetail(Long id, String UUID, String title, String startingDate, String comingDate, String content, int memberNum, List<Member> memberList) {
+    public TripDetail(Long id, String UUID, String title, String startingDate, String comingDate, String content, int memberNum, List<MemberInfo> memberList) {
         this.id = id;
         this.UUID = UUID;
         this.title = title;

@@ -5,6 +5,7 @@ import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.TripCreate;
 import GraduationProject.TripPlannerZ.dto.TripDetail;
@@ -154,7 +155,7 @@ public class TripController {
     @GetMapping("/trip/detail/{id}")
     public TripDetail getTripDetail(@PathVariable("id") Long id) {
 
-        List<Member> memberList = memberService.memberList(id);
+        List<MemberInfo> memberList = memberService.memberList(id);
         Trip trip = tripService.findById(id).get();
 
         TripDetail tripDetail = new TripDetail(trip.getId(), trip.getUUID(), trip.getTitle(),
