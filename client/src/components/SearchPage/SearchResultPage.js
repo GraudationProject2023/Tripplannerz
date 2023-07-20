@@ -1,37 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Button, Form, Card, Container, Row, Col } from 'react-bootstrap';
 import StarRating from './util/StarRating';
-
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
-  const { postId } = useParams();
-  const [post, setPost] = useState({});
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState(''); //제목
+  const [startingDate, setStartingDate] = useState(''); //시작 날짜
+  const [comingDate, setComingDate] = useState(''); //종료 날짜
+  const [content, setContent] = useState(''); //내용
+  const [memberNum, setMemberNum] = useState(0); //멤버 수
+  const [memberList,setMemberList] = useState([]); //멤버 인원
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/members/trip/result?id=${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const postData = response.data;
-        setPost(postData);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchPost();
-  }, [postId]);
+  const arr = location.pathname.split("/");
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -41,20 +27,24 @@ function SearchResultPage(props) {
     setRating(rating);
   };
 
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`)
+    .then((res) => console.log(res));
+
+
+  },[])
+
   return (
-    <Container>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
+
+        <div>
           <Row>
             <Col>
               <h2>Trip Details</h2>
               <Card>
                 <Card.Body>
-                  <Card.Title>Starting Date: {post.startingDate}</Card.Title>
-                  <Card.Text>Duration: {post.period}</Card.Text>
-                  <Card.Text>Content: {post.content}</Card.Text>
+                  <Card.Title>Starting Date: {startingDate}</Card.Title>
+                  <Card.Text>Duration: {startingDate}</Card.Text>
+                  <Card.Text>Content: {content}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -75,9 +65,8 @@ function SearchResultPage(props) {
               <Button variant="primary">Submit Review</Button>
             </Col>
           </Row>
-        </>
-      )}
-    </Container>
+        </div>
+
   );
 }
 
