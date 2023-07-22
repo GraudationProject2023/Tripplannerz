@@ -33,17 +33,12 @@ border-collapse: collapse;
 width: 100%;
 }
 
-.table_n {
-margin-left: 5%;
-}
-
 .profile-card {
 width: 750px;
 height: 500px;
 border: 1px solid #ccc;
 border-radius: 5px;
 padding: 20px;
-margin-right: 10%;
 background-color: #f9f9f9;
 }
 
@@ -52,6 +47,7 @@ width: 300px;
 border: 1px solid #ccc;
 border-radius: 5px;
 padding: 20px;
+margin-left: 10%;
 background-color: #f9f9f9;
 }
 

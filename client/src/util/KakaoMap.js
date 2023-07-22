@@ -15,10 +15,10 @@ function KakaoMap(){
 
     return (
         <div id="map" style={{
-              marginTop: '5%',
-              marginLeft: '1%',
-              width: '573px',
-              height: '573px',
+              marginTop: '10%',
+              marginLeft: '20%',
+              width: '400px',
+              height: '400px',
               borderRadius: '10px',
               border: '2px solid skyblue'
         }}></div>
