@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Button, Form, Card, Container, Row, Col } from 'react-bootstrap';
 import StarRating from './util/StarRating';
 import Navbar from '../Navbar/Navbar';
+import Kakao from '../../util/KakaoMap';
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
@@ -45,27 +46,36 @@ function SearchResultPage(props) {
   return (
         <div>
           <Navbar />
-           <Card style={{marginTop:"10%",marginLeft: "30%",width: "40%", height:"10%"}}>
-             <Card.Body>
-               <Card.Title>{title}</Card.Title>
-               <Card.Subtitle>{startingDate} ~ {comingDate}</Card.Subtitle>
-               <br />
-               <Card.Text>내용: {content}</Card.Text>
+           <Kakao />
+           <div className="card">
+            <Card style={{width: '78.57%',height: '255px'}}>
+              <Card.Body>
+              <Card.Title>{title}</Card.Title>
+              <Card.Subtitle>{startingDate} ~ {comingDate}</Card.Subtitle>
+              <br />
+              <Card.Text>내용: {content}</Card.Text>
               </Card.Body>
+            </Card>
+           </div>
+           <div className="review">
+           <Card style={{height: '317px'}}>
+           <Card.Body>
+           <Card.Title>리뷰</Card.Title>
+           <StarRating rating={rating} onRatingChange={handleRatingChange} />
+           <Form.Group>
+           <Form.Label>Add a Review</Form.Label>
+           <Form.Control
+             as="textarea"
+             rows={3}
+             value={review}
+             onChange={handleReviewChange}
+             style={{width: '40%'}}
+           />
+           </Form.Group>
+           <Button variant="primary">Submit Review</Button>
+           </Card.Body>
            </Card>
-
-              <h2>Reviews</h2>
-              <Form.Group>
-                <Form.Label>Add a Review</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={review}
-                  onChange={handleReviewChange}
-                />
-              </Form.Group>
-              <StarRating rating={rating} onRatingChange={handleRatingChange} />
-              <Button variant="primary">Submit Review</Button>
+           </div>
         </div>
 
   );
