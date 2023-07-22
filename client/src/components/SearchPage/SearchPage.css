@@ -9,6 +9,16 @@
     text-align: center;
 }
 
+.card {
+    margin-top: -20.9%;
+    margin-left: 21.4%;
+}
+
+.review{
+    margin-top: 16.4%;
+    margin-left: 21.4%;
+}
+
 .searchText{
     margin: 0 auto;
     width: 48%;
