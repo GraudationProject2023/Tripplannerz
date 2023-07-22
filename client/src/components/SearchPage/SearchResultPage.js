@@ -47,34 +47,43 @@ function SearchResultPage(props) {
         <div>
           <Navbar />
            <Kakao />
-           <div className="card">
-            <Card style={{width: '78.57%',height: '255px'}}>
-              <Card.Body>
-              <Card.Title>{title}</Card.Title>
-              <Card.Subtitle>{startingDate} ~ {comingDate}</Card.Subtitle>
-              <br />
-              <Card.Text>내용: {content}</Card.Text>
-              </Card.Body>
-            </Card>
+           <div className="content">
+             <Card style={{width: '400px',height: '400px'}}>
+                            <Card.Body>
+                               <Card.Title>{title}</Card.Title>
+                               <Card.Subtitle>{startingDate} ~ {comingDate}</Card.Subtitle>
+                               <br />
+                               <Card.Text>내용: {content}</Card.Text>
+                            </Card.Body>
+             </Card>
+           </div>
+           <div className="profile">
+             <Card style={{width: '300px',height: '200px'}}>
+                                         <Card.Body>
+                                            <Card.Title>{title}</Card.Title>
+                                            <Card.Subtitle>{startingDate} ~ {comingDate}</Card.Subtitle>
+                                            <br />
+                                            <Card.Text>내용: {content}</Card.Text>
+                                         </Card.Body>
+             </Card>
            </div>
            <div className="review">
-           <Card style={{height: '317px'}}>
-           <Card.Body>
-           <Card.Title>리뷰</Card.Title>
-           <StarRating rating={rating} onRatingChange={handleRatingChange} />
-           <Form.Group>
-           <Form.Label>Add a Review</Form.Label>
-           <Form.Control
-             as="textarea"
-             rows={3}
-             value={review}
-             onChange={handleReviewChange}
-             style={{width: '40%'}}
-           />
-           </Form.Group>
-           <Button variant="primary">Submit Review</Button>
-           </Card.Body>
-           </Card>
+            <Card style={{width: '800px', height: '200px'}}>
+             <Card.Body>
+               <Card.Title>댓글</Card.Title>
+               <StarRating rating={rating} onRatingChange={handleRatingChange} />
+               <Form.Group>
+                     <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={review}
+                        onChange={handleReviewChange}
+                        style={{width: '700px'}}
+                     />
+              </Form.Group>
+
+             </Card.Body>
+            </Card>
            </div>
         </div>
 
