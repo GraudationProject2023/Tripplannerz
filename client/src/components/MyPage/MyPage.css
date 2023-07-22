@@ -1,8 +1,8 @@
 
-.container {
+.contain {
 max-width: 600px;
 margin-top: 20%;
-margin-left : 100%;
+margin-left : 130%;
 padding: 20px;
 position: sticky;
 top: 100px;
@@ -41,7 +41,9 @@ border-radius: 5px;
 padding: 20px;
 background-color: #f9f9f9;
 }
-
+.content{
+    margin-right: 100%;
+}
 .menu-card {
 width: 300px;
 border: 1px solid #ccc;

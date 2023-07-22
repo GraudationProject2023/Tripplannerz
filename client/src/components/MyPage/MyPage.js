@@ -633,7 +633,7 @@ function MyPage(){
         </div>
      </td>
      <td>
-     <div className = "container">
+     <div className = "contain">
       <div className = "menu-card">
         <button className={`buttonstyle ${currentPage === 'profile' ? 'active' : ''}`} onClick={() => handlePageChange('profile')}>프로필</button>
         <hr />
