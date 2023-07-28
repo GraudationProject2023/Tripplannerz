@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -60,31 +60,30 @@ const ArrowButton = styled.button`
     }
 `;
 
-const Pagination = ({postsPerPage, totalPosts, paginate, total}) => {
+const Pagination = ({ postsPerPage, totalPosts, paginate, total }) => {
 
     const pageNumbers = [];
     var t = total;
-    for(let i = 1; i <= t/4 + 1; i++)
-    {
+    for (let i = 1; i <= t / 4 + 1; i++) {
         pageNumbers.push(i);
     }
 
     return (
-     <div style={{marginLeft:"30%"}}>
-       <nav>
-         {/*<ArrowButton>&#8249;</ArrowButton>*/}
-         <PageUl className="pagination">
-         {pageNumbers.map((number) => (
-            <PageLi key={number} className="page-item">
-               <PageSpan onClick={() => paginate(number)} className="page-link">
-                    {number}
-               </PageSpan>
-            </PageLi>
-         ))}
-         </PageUl>
-         {/*<ArrowButton>&#8250;</ArrowButton>*/}
-       </nav>
-     </div>
+        <div style={{ marginLeft: "30%" }}>
+            <nav>
+                {/*<ArrowButton>&#8249;</ArrowButton>*/}
+                <PageUl className="pagination">
+                    {pageNumbers.map((number) => (
+                        <PageLi key={number} className="page-item">
+                            <PageSpan onClick={() => paginate(number)} className="page-link">
+                                {number}
+                            </PageSpan>
+                        </PageLi>
+                    ))}
+                </PageUl>
+                {/*<ArrowButton>&#8250;</ArrowButton>*/}
+            </nav>
+        </div>
     );
 }
 
