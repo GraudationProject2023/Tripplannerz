@@ -1,29 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SchedulePagination = ({postsPerPage, totalPosts, paginate, total}) => {
+const SchedulePagination = ({ postsPerPage, totalPosts, paginate, total }) => {
 
     const pageNumbers = [];
     var t = total;
-    for(let i = 1; i <= t/10 + 1; i++)
-    {
+    for (let i = 1; i <= t / 10 + 1; i++) {
         pageNumbers.push(i);
     }
 
     return (
-     <div style={{marginLeft:"30%"}}>
-       <nav>
-         <PageUl className="pagination">
-         {pageNumbers.map((number) => (
-            <PageLi key={number} className="page-item">
-               <PageSpan onClick={() => paginate(number)} className="page-link">
-                    {number}
-               </PageSpan>
-            </PageLi>
-         ))}
-         </PageUl>
-       </nav>
-     </div>
+        <div style={{ marginLeft: "30%" }}>
+            <nav>
+                <PageUl className="pagination">
+                    {pageNumbers.map((number) => (
+                        <PageLi key={number} className="page-item">
+                            <PageSpan onClick={() => paginate(number)} className="page-link">
+                                {number}
+                            </PageSpan>
+                        </PageLi>
+                    ))}
+                </PageUl>
+            </nav>
+        </div>
     );
 }
 
