@@ -1,6 +1,4 @@
-
-
-.start{
+.start {
     margin: 0 auto;
     margin-top: 10%;
     width: 48%;
@@ -9,17 +7,34 @@
     text-align: center;
 }
 
-.searchText{
+.content {
+    margin-top: -26.2%;
+    margin-left: 46.4%;
+}
+
+.review {
+    margin-top: 15%;
+    margin-left: 20%;
+}
+
+.profile {
+    margin-top: -26%;
+    margin-left: 78%;
+}
+
+.searchText {
     margin: 0 auto;
     width: 48%;
     height: 10px;
     margin-top: 5%;
 }
-.searchText input{
+
+.searchText input {
     width: 600px;
     height: 35px;
 }
-.searchText Button{
+
+.searchText Button {
     margin-top: -5px;
     width: 140px;
 }
@@ -30,12 +45,12 @@
     margin-top: 5%;
 }
 
-.table-container{
+.table-container {
     border: 1px solid black;
 }
 
-.table{
-   width: 100%;
+.table {
+    width: 100%;
 }
 
 .table-head {
@@ -43,27 +58,28 @@
     color: #fff;
 }
 
-.table th{
+.table th {
     padding: 8px;
     text-align: left;
 }
-.table td{
+
+.table td {
     padding: 10px;
     text-align: left;
 }
 
 
-.listkey::before{
-    content:"";
+.listkey::before {
+    content: "";
     width: 0;
     height: 0;
 }
 
 .profile-card {
-      margin-top: 10%;
-      margin-left: 17%;
-      width: 1000px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 20px;
+    margin-top: 10%;
+    margin-left: 17%;
+    width: 1000px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
 }
