@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
-import {Button} from 'react-bootstrap';
 import './SearchPage.css';
+import find from '../Image/돋보기.png';
 import Navbar from '../Navbar/Navbar';
 import {useLocation} from 'react-router-dom';
 axios.defaults.withCredentials = true;
@@ -194,10 +194,10 @@ function SearchPage(){
     { size === 0 ? '' : <div className="searchText">
                            <table>
                               <td>
-                                <input type="text" onClick={handleInputChange} placeholder="검색어를 입력하세요"/>
+                                <input type="text" onChange={handleInputChange} placeholder="검색어를 입력하세요"/>
                               </td>
                               <td>
-                                <Button>검색</Button>
+                                <img src={find} />
                               </td>
                            </table>
                      </div>}
