@@ -140,8 +140,7 @@ function MainPage() {
        <br />
        <br />
        <hr />
-        <h6>Image by <a href="https://www.freepik.com/free-photo/planning-traveling-trip-notes-wanderkust_20128849.htm#query=TripPlannerz&position=36&from_view=search&track=ais">rawpixel.com</a>&nbsp; on Freepik</h6>
-        <h6>Image by <a href="https://www.freepik.com/free-photo/flat-lay-yellow-luggage-with-copy-space_11512869.htm#page=2&query=Trip&position=9&from_view=search&track=sph">Freepik</a></h6>
+        <Footer />
       </div>
    )
 }
