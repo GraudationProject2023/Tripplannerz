@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Form, Button, FormControl } from "react-bootstrap";
+import { Modal, Form, Button} from "react-bootstrap";
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Loginpage from './Kakao/Loginpage';
 import './StartPage.css';
 import CountdownTimer from '../../util/CountdownTimer';
-import Menu from '../Image/Menu.png';
-import notice from '../Image/notice.png';
 import sight from '../Image/관광지.png';
 import culture from '../Image/문화시설.png';
 import festival from '../Image/축제.png';
@@ -97,9 +95,6 @@ const Button1 = () => {
     </div>
   )
 };
-function moveToMain() {
-  window.location.href = "/main";
-}
 
 function StartPage() {
   const videoRef = useRef(null);
@@ -113,7 +108,6 @@ function StartPage() {
   const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
   const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
-  const [completeNumber, setCompleteNumber] = useState(""); //하이픈이 없는 최종 핸드폰 번호 -> axios
   const [checkEmail, setCheckEmail] = useState(false); //이메일 @기호 포함여부
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);

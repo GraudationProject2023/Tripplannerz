@@ -4,7 +4,8 @@ import Footer from '../Footer/Footer';
 import axios from 'axios';
 import './MainPage.css';
 import img from '../Image/카카오톡.png';
-import main1 from '../Image/MP_1.png';
+import main1 from '../Image/main.jpg';
+import main2 from '../Image/main2.jpg';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -27,7 +28,7 @@ function MainPage() {
          slideToShow: 1,
          slideToScroll: 1,
          autoplay: true,
-         autoplaySpeed: 1000,
+         autoplaySpeed: 6000,
          dots: false
 
       };
@@ -35,10 +36,10 @@ function MainPage() {
          <div className="image-slider">
             <Slider {...settings}>
                <div>
-                  <img alt="img1" src={main1} />
+                  <img alt="img1" className ="main-slider-img" src={main1} />
                </div>
                <div>
-                  <img alt="img2" src={main1} />
+                  <img alt="img2" className="main-slider-img" src={main2} />
                </div>
             </Slider>
          </div>
@@ -75,7 +76,7 @@ function MainPage() {
    }
 
    function movetoSubPage() {
-      window.location.href = `/main/${num}`;
+      window.location.href = `/search/${num}`;
    }
 
    const items = [];
@@ -85,7 +86,7 @@ function MainPage() {
             <div className="container-fluid">
                <div class="row">
                   <div class="col-12 mt-3">
-                     <div class="card-horizontal" onClick={movetoSubPage}>
+                     <div class="card" onClick={movetoSubPage}>
                         <table>
                            <td><div className="img-square-wrapper">
                               <img src={img} alt="사진" />
@@ -113,13 +114,13 @@ function MainPage() {
          <NavBar />
 
          <MainSlider />
-
          <br />
          <br />
-         <div className="Title">
-            <h2>여행에 동참하세요!</h2>
+         <div className="mainPageTitle">
+                  <h2>여행 일정을 확인하고 동행해보세요!</h2>
          </div>
          <br />
+         <hr />
          <div className="ShowList">
             <table>
                <td>
@@ -136,7 +137,11 @@ function MainPage() {
                </td>
             </table>
          </div>
-
+       <br />
+       <br />
+       <hr />
+        <h6>Image by <a href="https://www.freepik.com/free-photo/planning-traveling-trip-notes-wanderkust_20128849.htm#query=TripPlannerz&position=36&from_view=search&track=ais">rawpixel.com</a>&nbsp; on Freepik</h6>
+        <h6>Image by <a href="https://www.freepik.com/free-photo/flat-lay-yellow-luggage-with-copy-space_11512869.htm#page=2&query=Trip&position=9&from_view=search&track=sph">Freepik</a></h6>
       </div>
    )
 }

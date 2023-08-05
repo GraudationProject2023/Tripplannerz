@@ -27,15 +27,19 @@
     margin: 0 auto;
     width: 48%;
     height: 10px;
-    margin-top: 5%;
+    margin-left: 18.5%;
+    margin-top: -27%;
 }
 .searchText input{
-    width: 600px;
-    height: 35px;
+    width: 500px;
+    height: 40px;
+    border-radius: 10px;
+    text-align: center;
 }
-.searchText Button{
-    margin-top: -5px;
-    width: 140px;
+
+.searchText img{
+    margin-left: -40px;
+    margin-top: -8px;
 }
 
 .container {
