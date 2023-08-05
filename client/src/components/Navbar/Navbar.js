@@ -21,8 +21,21 @@ import restaurant from '../Image/레스토랑.png';
 import './Navbar.css';
 axios.defaults.withCredentials = true;
 
-function NavBar(){
+const NotificationBadge = ({ count }) => {
+  const renderNotificationBadge = () => {
+    return (
+      <div className="notification-badge">
+        <img src={notice}/>
+        {count > 0 && <div className="badge">{count}</div>}
+      </div>
+    );
+  };
 
+  return renderNotificationBadge();
+};
+
+function NavBar(){
+    const notificationCount = 10;
     const [searchTerm, setSearchTerm] = useState('');//검색창
     const navigate = useNavigate();
 
@@ -463,7 +476,7 @@ function NavBar(){
                             <Button className="menu-button" onClick={moveToSearch}>일정조회</Button>
                         </Nav>
                         <Nav className = "notice">
-                          <img src={notice}/>
+                          <NotificationBadge count={notificationCount} />
                         </Nav>
                         <Nav className ="user">
                             <img src={image} onClick={toggleMypage} />
