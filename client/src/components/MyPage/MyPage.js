@@ -42,7 +42,7 @@ function MyPage() {
 
   const [nestedModal, setNestedModal] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [withdrawlModal, setWithdrawlModal] = useState(false);
+  const [withdrawModal, setWithdrawModal] = useState(false);
 
 
   var ranklist = "";
@@ -252,26 +252,26 @@ function MyPage() {
     }
   }
 
-  const handleWithdrawlModal = () => {
+  const handleWithdrawModal = () => {
     if (toggle === true) {
-      setWithdrawlModal(true);
+      setWithdrawModal(true);
     }
     else {
       alert('동의 버튼을 체크해주시기 바랍니다.');
     }
   }
-  const handleCloseWithdrawl = () => {
+  const handleCloseWithdraw = () => {
     axios.post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`).then((response) => {
       console.log(response.data);
       if (response.data.result === true) {
         alert('탈퇴가 완료되었습니다.');
-        setWithdrawlModal(false);
+        setWithdrawModal(false);
         window.location.href = "/";
       }
     })
       .catch((response) => {
         alert('오류가 발생하였습니다.');
-        setWithdrawlModal(false);
+        setWithdrawModal(false);
       })
 
   }
@@ -321,7 +321,7 @@ function MyPage() {
 
   const handleCloseButton = (e) => {
     e.preventDefault();
-    setWithdrawlModal(false);
+    setWithdrawModal(false);
   }
 
   const handleCurrentPasswordButton = (e) => {
@@ -551,7 +551,7 @@ function MyPage() {
   }
 
 
-  const renderWithdrawlPage = () => {
+  const renderWithdrawPage = () => {
     return (
       <div className="profile-card">
         <h2>회원 탈퇴 안내</h2>
@@ -572,8 +572,8 @@ function MyPage() {
             <h6>안내사항을 숙지하였으며, 이에 동의합니다.</h6>
           </td>
         </table>
-        <Button style={{ backgroundColor: "skyblue", border: "none" }} onClick={handleWithdrawlModal}>탈퇴하기</Button>
-        {withdrawlModal && (<Modal show={handleWithdrawlModal} onHide={handleCloseWithdrawl}>
+        <Button style={{ backgroundColor: "skyblue", border: "none" }} onClick={handleWithdrawModal}>탈퇴하기</Button>
+        {withdrawModal && (<Modal show={handleWithdrawModal} onHide={handleCloseWithdraw}>
           <Modal.Header closeButton onClick={handleCloseButton}>
             <Modal.Title>비밀번호 입력</Modal.Title>
           </Modal.Header>
@@ -586,7 +586,7 @@ function MyPage() {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="submit" onClick={handleCloseWithdrawl}>
+            <Button type="submit" onClick={handleCloseWithdraw}>
               탈퇴하기
             </Button>
           </Modal.Footer>
@@ -608,8 +608,8 @@ function MyPage() {
   else if (currentPage === 'account' && modifyPasswordPage === 1) {
     currentPageComponent = renderAccountPage();
   }
-  else if (currentPage === 'withdrawl') {
-    currentPageComponent = renderWithdrawlPage();
+  else if (currentPage === 'withdraw') {
+    currentPageComponent = renderWithdrawPage();
   }
   else if (currentPage === 'schedule') {
     currentPageComponent = renderSchedulePage();
@@ -634,7 +634,7 @@ function MyPage() {
                 <hr />
                 <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('schedule')}>일정 조회</button>
                 <hr />
-                <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('withdrawl')}>회원 탈퇴</button>
+                <button className={`buttonstyle ${currentPage === 'schedule' ? 'active' : ''}`} onClick={() => handlePageChange('withdraw')}>회원 탈퇴</button>
               </div>
             </div>
           </td>

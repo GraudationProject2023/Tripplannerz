@@ -1,4 +1,5 @@
-.start {
+
+.start{
     margin: 0 auto;
     margin-top: 10%;
     width: 48%;
@@ -17,26 +18,28 @@
     margin-left: 20%;
 }
 
-.profile {
+.profile{
     margin-top: -26%;
     margin-left: 78%;
 }
 
-.searchText {
+.searchText{
     margin: 0 auto;
     width: 48%;
     height: 10px;
-    margin-top: 5%;
+    margin-left: 18.5%;
+    margin-top: -27%;
+}
+.searchText input{
+    width: 500px;
+    height: 40px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.searchText input {
-    width: 600px;
-    height: 35px;
-}
-
-.searchText Button {
-    margin-top: -5px;
-    width: 140px;
+.searchText img{
+    margin-left: -40px;
+    margin-top: -8px;
 }
 
 .container {
@@ -45,12 +48,12 @@
     margin-top: 5%;
 }
 
-.table-container {
+.table-container{
     border: 1px solid black;
 }
 
-.table {
-    width: 100%;
+.table{
+   width: 100%;
 }
 
 .table-head {
@@ -58,28 +61,27 @@
     color: #fff;
 }
 
-.table th {
+.table th{
     padding: 8px;
     text-align: left;
 }
-
-.table td {
+.table td{
     padding: 10px;
     text-align: left;
 }
 
 
-.listkey::before {
-    content: "";
+.listkey::before{
+    content:"";
     width: 0;
     height: 0;
 }
 
 .profile-card {
-    margin-top: 10%;
-    margin-left: 17%;
-    width: 1000px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
+      margin-top: 10%;
+      margin-left: 17%;
+      width: 1000px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
 }
