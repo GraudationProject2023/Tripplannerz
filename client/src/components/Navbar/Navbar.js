@@ -34,6 +34,7 @@ const NotificationBadge = ({ count }) => {
   return renderNotificationBadge();
 };
 
+
 function NavBar(){
     const notificationCount = 10;
     const [searchTerm, setSearchTerm] = useState('');//검색창
