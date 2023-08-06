@@ -1,0 +1,22 @@
+/* IconWithTooltip.css */
+.icon-container {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.icon-container:hover .tooltip {
+  opacity: 1;
+}

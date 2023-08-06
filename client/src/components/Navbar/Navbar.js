@@ -19,13 +19,14 @@ import hotel from '../Image/호텔.png';
 import shopping from '../Image/쇼핑.png';
 import restaurant from '../Image/레스토랑.png';
 import './Navbar.css';
+import IconWithTooltip from '../../util/IconWithTooltip';
 axios.defaults.withCredentials = true;
 
 const NotificationBadge = ({ count }) => {
   const renderNotificationBadge = () => {
     return (
       <div className="notification-badge">
-        <img src={notice}/>
+        <IconWithTooltip iconSrc={notice} />
         {count > 0 && <div className="badge">{count}</div>}
       </div>
     );
