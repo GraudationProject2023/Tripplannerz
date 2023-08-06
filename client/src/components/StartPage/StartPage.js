@@ -3,6 +3,7 @@ import { Modal, Form, Button} from "react-bootstrap";
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
+import Footer from "../Footer/Footer";
 import Loginpage from './Kakao/Loginpage';
 import './StartPage.css';
 import CountdownTimer from '../../util/CountdownTimer';
@@ -424,10 +425,7 @@ function StartPage() {
           </Modal.Footer>
         </Modal>
       </div>
-      <div className="copyright">
-        <h6>비디오 제작 : Veed.io</h6>
-        <a href="https://www.flaticon.com/kr/free-icons/-" title="지도 및 위치 아이콘">지도 및 위치 아이콘  제작자: Freepik - Flaticon</a>
-      </div>
+      <Footer />
     </div>
   );
 }
