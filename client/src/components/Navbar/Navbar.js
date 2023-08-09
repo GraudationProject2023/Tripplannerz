@@ -185,6 +185,9 @@ function NavBar() {
   function movetomain() {
     window.location.href = "/main";
   }
+  function moveToNotice() {
+    window.location.href = "/notice";
+  }
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -505,7 +508,10 @@ function NavBar() {
               </Button>
             </Nav>
             <Nav className="notice">
-              <NotificationBadge count={notificationCount} />
+              <NotificationBadge
+                count={notificationCount}
+                onClick={moveToNotice}
+              />
             </Nav>
             <Nav className="user">
               <img src={image} onClick={toggleMypage} />
