@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const StarRating = ({ rating, onRatingChange }) => {
   const stars = [1, 2, 3, 4, 5];
@@ -20,7 +20,7 @@ const StarRating = ({ rating, onRatingChange }) => {
 const Star = ({ filled, onClick }) => {
   return (
     <span
-      style={{ cursor: 'pointer', color: filled ? 'gold' : 'gray' }}
+      style={{ cursor: "pointer", color: filled ? "gold" : "gray" }}
       onClick={onClick}
     >
       ★
