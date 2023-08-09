@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Button, Form, Card, Container, Row, Col } from 'react-bootstrap';
-import StarRating from './utils/StarRating';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
+import StarRating from "./utils/StarRating";
 
 axios.defaults.withCredentials = true;
 
@@ -10,7 +10,7 @@ function SearchResultPage(props) {
   const { postId } = useParams();
   const [post, setPost] = useState({});
   const [loading, setLoading] = useState(true);
-  const [review, setReview] = useState('');
+  const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
