@@ -304,6 +304,9 @@ function MyPage() {
       case 39:
         typeName = "맛집";
         break;
+
+      default:
+        break;
     }
     ranklist += typeName;
 

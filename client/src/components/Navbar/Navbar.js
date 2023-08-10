@@ -507,10 +507,9 @@ function NavBar() {
                 일정조회
               </Button>
             </Nav>
-            <Nav className="notice">
+            <Nav className="notice" onClick={moveToNotice}>
               <NotificationBadge
                 count={notificationCount}
-                onClick={moveToNotice}
               />
             </Nav>
             <Nav className="user">
