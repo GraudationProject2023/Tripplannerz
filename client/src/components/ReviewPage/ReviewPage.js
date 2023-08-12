@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, ListGroup, Card, Form, Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Form,
+  Button,
+} from "react-bootstrap";
 
 function ReviewPage() {
   const [travelDestinations, setTravelDestinations] = useState([
-    { id: 1, name: 'Destination 1', rating: 4.5 },
-    { id: 2, name: 'Destination 2', rating: 3.8 },
-    { id: 3, name: 'Destination 3', rating: 5.0 },
+    { id: 1, name: "Destination 1", rating: 4.5 },
+    { id: 2, name: "Destination 2", rating: 3.8 },
+    { id: 3, name: "Destination 3", rating: 5.0 },
   ]);
 
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -43,7 +51,9 @@ function ReviewPage() {
             <Card>
               <Card.Body>
                 <Card.Title>{selectedDestination.name}</Card.Title>
-                <Card.Text>Average Rating: {selectedDestination.rating}</Card.Text>
+                <Card.Text>
+                  Average Rating: {selectedDestination.rating}
+                </Card.Text>
 
                 <Card.Title>Reviews</Card.Title>
                 {reviews.map((review, index) => (
@@ -64,15 +74,15 @@ function ReviewPage() {
 }
 
 function ReviewForm({ onSubmit }) {
-  const [comment, setComment] = useState('');
-  const [user, setUser] = useState('');
+  const [comment, setComment] = useState("");
+  const [user, setUser] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const review = { comment, user };
     onSubmit(review);
-    setComment('');
-    setUser('');
+    setComment("");
+    setUser("");
   };
 
   return (

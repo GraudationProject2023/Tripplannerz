@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Pagination from './Pagination';
-import { Button } from 'react-bootstrap';
-import './SearchPage.css';
-import Navbar from '../Navbar/Navbar';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Pagination from "./Pagination";
+import "./SearchPage.css";
+import find from "../Image/돋보기.png";
+import Navbar from "../Navbar/Navbar";
+import { useLocation } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
-
 function SearchPage() {
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const key = searchParams.get('keyword');
+  const key = searchParams.get("keyword");
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [total, setTotal] = useState(13);
-  const [keyword, setKeyword] = useState('');//Navbar 검색창
-  const [localKeyword, setLocalKeyword] = useState(''); //SearchPage 검색창
+  const [keyword, setKeyword] = useState(""); //Navbar 검색창
+  const [localKeyword, setLocalKeyword] = useState(""); //SearchPage 검색창
   var [currentNumber, setCurrentNumber] = useState(0);
   const [order, setOrder] = useState("new");
   const [totalPage, setTotalPage] = useState(0);
@@ -35,20 +33,19 @@ function SearchPage() {
     return currentPosts;
   };
 
-
   useEffect(() => {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    document.cookie = 'cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;'
+    document.cookie =
+      "cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;";
   }, []);
 
   useEffect(() => {
     let encodedKey;
     if (/[\u0080-\uFFFF]/.test(key)) {
       encodedKey = encodeURIComponent(key);
-    }
-    else {
+    } else {
       encodedKey = key;
     }
     setKeyword(encodedKey);
@@ -57,7 +54,7 @@ function SearchPage() {
       const response = await axios.get(
         `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
         {
-          withCredentials: true
+          withCredentials: true,
         }
       );
       console.log(response.data);
@@ -75,8 +72,7 @@ function SearchPage() {
     let encodedKey;
     if (/[\u0080-\uFFFF]/.test(key)) {
       encodedKey = encodeURIComponent(localKeyword);
-    }
-    else {
+    } else {
       encodedKey = localKeyword;
     }
     const fetchData = async () => {
@@ -84,7 +80,7 @@ function SearchPage() {
       const response = await axios.get(
         `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
         {
-          withCredentials: true
+          withCredentials: true,
         }
       );
       console.log(response.data);
@@ -105,10 +101,10 @@ function SearchPage() {
   const handleSelectOrder = (e) => {
     const value = e.target.value;
     setOrder(value);
-  }
+  };
   const handleClick = (postId) => {
     window.location.href = `/search/${postId}`;
-  }
+  };
 
   function ShowData() {
     if (currentPage !== 1) {
@@ -117,14 +113,23 @@ function SearchPage() {
           <ul className="list">
             <table className="table_board">
               <tr className="table-head">
-                <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th> <th>일정 날짜</th>
+                <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th>{" "}
+                <th>일정 날짜</th>
               </tr>
               <td>
                 {posts.map((post, index) => (
                   <div>
-                    <li key={postNumber[index]} onClick={() => handleClick(postNumber[index])} className="list-key">
+                    <li
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
+                      className="list-key"
+                    >
                       <table>
-                        <td><div style={{ marginLeft: "-12px" }}>{post.title}</div></td>
+                        <td>
+                          <div style={{ marginLeft: "-12px" }}>
+                            {post.title}
+                          </div>
+                        </td>
                       </table>
                       <hr />
                     </li>
@@ -135,32 +140,30 @@ function SearchPage() {
               <td>
                 {posts.map((post, index) => (
                   <div>
-                    <li key={currentNumber * 10 + index} onClick={() => handleClick(currentNumber * 10 + index)} className="list-key">
+                    <li
+                      key={currentNumber * 10 + index}
+                      onClick={() => handleClick(currentNumber * 10 + index)}
+                      className="list-key"
+                    >
                       <table>
-                        <td><div>{post.startingDate}</div></td>
+                        <td>
+                          <div>{post.startingDate}</div>
+                        </td>
                       </table>
                       <hr />
                     </li>
-
                   </div>
                 ))}
-
               </td>
-
             </table>
           </ul>
         </>
-      )
+      );
     }
   }
 
-
   const Posts = ({ posts, loading, handleClick }) => {
-    return (
-      <>
-        {loading ? '' : <ShowData />}
-      </>
-    );
+    return <>{loading ? "" : <ShowData />}</>;
   };
 
   return (
@@ -170,38 +173,59 @@ function SearchPage() {
         <br />
         <h4>전체 일정 조회</h4>
         <select className="select" value={order} onChange={handleSelectOrder}>
-          <option default value="new">최신 순</option>
+          <option default value="new">
+            최신 순
+          </option>
           <option value="good">좋아요 순</option>
           <option value="count">조회 수</option>
         </select>
         <hr />
         <table className="table">
           <tbody>
-            {size === 0 ? '' : <Posts posts={currentPosts(posts)} loading={loading} handleClick={handleClick}></Posts>}
+            {size === 0 ? (
+              ""
+            ) : (
+              <Posts
+                posts={currentPosts(posts)}
+                loading={loading}
+                handleClick={handleClick}
+              ></Posts>
+            )}
           </tbody>
         </table>
-        {size === 0 ? '' :
+        {size === 0 ? (
+          ""
+        ) : (
           <Pagination
             postsPerPage={postsPerPage}
             totalPosts={posts.length}
             paginate={(pageNumber) => setCurrentPage(pageNumber - 1)}
             total={total}
-          ></Pagination>}
+          ></Pagination>
+        )}
       </div>
       <div>
-        {size === 0 ? '' : <div className="searchText">
-          <table>
-            <td>
-              <input type="text" onClick={handleInputChange} placeholder="검색어를 입력하세요" />
-            </td>
-            <td>
-              <Button>검색</Button>
-            </td>
-          </table>
-        </div>}
+        {size === 0 ? (
+          ""
+        ) : (
+          <div className="searchText">
+            <table>
+              <td>
+                <input
+                  type="text"
+                  onChange={handleInputChange}
+                  placeholder="검색어를 입력하세요"
+                />
+              </td>
+              <td>
+                <img src={find} />
+              </td>
+            </table>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
 export default SearchPage;
