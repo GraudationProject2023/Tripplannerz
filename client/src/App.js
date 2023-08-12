@@ -11,7 +11,7 @@ import Find from "./components/FindPage/FindPage";
 import MyPage from "./components/MyPage/MyPage";
 import Review from "./components/ReviewPage/ReviewPage";
 import MyResult from "./components/MyPage/MyResultPage";
-import Notice from "./components/NoticePage/Notice";
+
 
 function App() {
   return (
@@ -29,7 +29,6 @@ function App() {
           <Route path="/find" element={<Find />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/review" element={<Review />} />
-          <Route path="/notice" element={<Notice />} />
         </Routes>
       </Suspense>
     </Router>
