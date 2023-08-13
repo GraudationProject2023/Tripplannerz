@@ -1,0 +1,10 @@
+.input_text{
+    margin-top: -10.9%;
+    margin-left: 36%;
+}
+
+.input_text input{
+    width: 250px;
+    height: 25px;
+    border-radius: 10px;
+}

@@ -60,6 +60,8 @@ function Footer() {
           지도 및 위치 아이콘 제작자: Freepik - Flaticon
           <br />
           이미지 출처: rawpixel.com - Freepik에서 가져옴
+          <br />
+          <a href="https://www.freepik.com/icon/chat_4161013#fromView=keyword&term=Chat&page=1&position=66">Icon by SumberRejeki</a>
         </span>
       </div>
     </div>

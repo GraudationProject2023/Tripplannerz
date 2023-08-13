@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
+import chat from "../Image/chat.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Menu from "../Image/Menu.png";
@@ -133,7 +134,7 @@ function NavBar() {
           fixed="top"
           style={{
             border: "1px solid #FFFFFF",
-            backgroundColor: "#0D99FF",
+            backgroundColor: "#EEEEEE",
             height: "15%",
           }}
         >
@@ -214,6 +215,9 @@ function NavBar() {
                   </table>
                 </ul>
               )}
+            </Nav>
+            <Nav className = "chat">
+              <img src={chat} alt="채팅" />
             </Nav>
           </Nav>
         </Navbar>

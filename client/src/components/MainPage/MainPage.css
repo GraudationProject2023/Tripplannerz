@@ -61,13 +61,13 @@
   height: 200px;
 }
 
-.List {
-  margin-left: -40%;
-  margin-top: 1%;
+.ShowList {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.ShowList {
-  margin-left: 15%;
+.ShowList::-webkit-scrollbar {
+  display: none;
 }
 
 .mainPageTitle {
