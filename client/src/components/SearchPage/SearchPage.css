@@ -83,3 +83,13 @@
   border-radius: 5px;
   padding: 20px;
 }
+
+.comments{
+  margin-top: 1%;
+  margin-left: 20%;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.comments::-webkit-scrollbar{
+  display: none;
+}
