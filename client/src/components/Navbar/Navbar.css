@@ -1,142 +1,174 @@
 .navbar-toggle {
-   position: absolute;
-   top: 50%;
-   left: 100px;
-   transform: translate(-50%, -50%);
-   font-size: 1.8rem;
-   background-color: transparent;
-   border: none;
-   cursor: pointer;
-   outline: none;
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .inputbox {
-   position: absolute;
-   top: 50%;
-   left: 58.7%;
-   transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 58.7%;
+  transform: translate(-50%, -50%);
 }
 
 .inputbox input {
-   width: 400px;
-   border-radius: 10px;
-   border: 1px solid white;
-   padding: 10px;
-   text-align: center;
+  width: 400px;
+  border-radius: 10px;
+  border: 1px solid white;
+  padding: 10px;
+  text-align: center;
 }
 
 .new {
-   position: absolute;
-   top: 50%;
-   left: 20%;
-   transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
 }
 
 .search {
-   position: absolute;
-   top: 50%;
-   left: 27%;
-   transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 27%;
+  transform: translate(-50%, -50%);
 }
 
 .find {
-   position: absolute;
-   top: 50%;
-   left: 70%;
-   transform: translate(-50%, -50%);
-   z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
 }
 
 .notice {
-   position: absolute;
-   top: 50%;
-   right: 15%;
-   transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translate(0, -50%);
 }
 
 .notice img {
-   width: 22px;
-   height: 29px;
+  width: 22px;
+  height: 29px;
 }
 
 .user {
-   position: absolute;
-   top: 50%;
-   right: 10%;
-   transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translate(0, -50%);
+}
+
+.chat{
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translate(0, -50%);
+}
+
+.chat img{
+  width: 30px;
+  height: 30px;
 }
 
 .mypage-content {
-   position: absolute;
-   top: calc(65% + 15px);
-   right: 21%;
-   width: 150px;
-   height: 100px;
-   background-color: white;
-   z-index: 999;
+  position: absolute;
+  top: calc(65% + 15px);
+  right: 21%;
+  width: 150px;
+  height: 100px;
+  background-color: white;
+  z-index: 999;
 }
 
 .button {
-   color: #000;
-   border: none;
-   outline: none;
-   text-decoration: none;
+  color: #000;
+  border: none;
+  outline: none;
+  text-decoration: none;
 }
 
 .nested {
-   margin-left: -20px;
+  margin-left: -20px;
 }
 
 .button_table_btn_s {
-   margin-right: 10px;
-   font-family: 'Roboto';
-   font-weight: 400;
-   font-size: 13px;
-   line-height: 15px;
-   float: left;
-   align-items: center;
-   text-align: center;
-   width: 200px;
-   height: 100px;
-   padding: 7px 14px;
-   color: #000000;
-   background-color: #FFFFFF;
-   border: 2px solid #000000;
-   border-radius: 5px;
-   gap: 10px;
+  margin-right: 10px;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  float: left;
+  align-items: center;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+  padding: 7px 14px;
+  color: #000000;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  gap: 10px;
 }
 
 .button_table_btn_ns {
-   margin-right: 10px;
-   font-family: 'Roboto';
-   font-weight: 700;
-   font-size: 13px;
-   line-height: 15px;
-   float: left;
-   align-items: center;
-   text-align: center;
-   width: 200px;
-   height: 100px;
-   padding: 7px 14px;
-   color: #FFFFFF;
-   background-color: skyblue;
-   border: none;
-   border-radius: 5px;
-   gap: 10px;
+  margin-right: 10px;
+  font-family: "Roboto";
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  float: left;
+  align-items: center;
+  text-align: center;
+  width: 200px;
+  height: 100px;
+  padding: 7px 14px;
+  color: #ffffff;
+  background-color: skyblue;
+  border: none;
+  border-radius: 5px;
+  gap: 10px;
 }
 
 .modal-header {
-   height: 100px;
+  height: 100px;
 }
 
 .modal-footer {
-   height: 100px;
+  height: 100px;
 }
 
 .menu-button {
-   background-color: whitesmoke;
-   color: #000000;
-   width: 100px;
-   height: 37px;
-   border: none;
+  background-color: whitesmoke;
+  color: #000000;
+  width: 100px;
+  height: 37px;
+  border: none;
+}
+
+.notification-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-badge img {
+  width: 30px;
+  height: 30px;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
 }

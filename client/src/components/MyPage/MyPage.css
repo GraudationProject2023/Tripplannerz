@@ -1,89 +1,89 @@
 .contain {
-    max-width: 600px;
-    margin-top: 20%;
-    margin-left: 130%;
-    padding: 20px;
-    position: sticky;
-    top: 100px;
-    background-color: #ffffff;
+  max-width: 600px;
+  margin-top: 20%;
+  margin-left: 130%;
+  padding: 20px;
+  position: sticky;
+  top: 100px;
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 600px) {
-    .container {
-        position: static;
-        margin-left: 0;
-        margin-right: 0;
-    }
+  .container {
+    position: static;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .select {
-    margin-left: 85%;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 5px;
+  margin-left: 85%;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .table_board {
-    width: 100%;
+  width: 100%;
 }
 
 .profile-card {
-    width: 750px;
-    height: 500px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    background-color: #f9f9f9;
+  width: 750px;
+  height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
 .content {
-    margin-right: 100%;
+  margin-right: 100%;
 }
 
 .menu-card {
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    margin-left: 10%;
-    background-color: #f9f9f9;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-left: 10%;
+  background-color: #f9f9f9;
 }
 
 .profile-card h2 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .button-group {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .button-group button {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 .buttonstyle {
-    width: 260px;
-    height: 50px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 260px;
+  height: 50px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 ul li::marker {
-    content: none;
+  content: none;
 }
 
 .before-account {
-    margin-left: 20%;
+  margin-left: 20%;
 }
