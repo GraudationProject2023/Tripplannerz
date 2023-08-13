@@ -79,36 +79,47 @@ function MainPage() {
   }
 
   const items = [];
+
   for (let i = 0; i < 2; i++) {
-    items.push(
-      <div className="List">
-        <div className="container-fluid">
-          <div class="row">
-            <div class="col-12 mt-3">
-              <div class="card" onClick={movetoSubPage}>
-                <table>
-                  <td>
-                    <div className="img-square-wrapper">
-                      <img src={img} alt="사진" />
-                    </div>
-                  </td>
-                  <td>
-                    <div class="card-body">
-                      <h2 class="card-title">여행</h2>
-                      <p class="card-text">
-                        <h4>부산</h4>
-                        <br />
-                        <h5>#해운대 #광안리</h5>
-                      </p>
-                    </div>
-                  </td>
-                </table>
+    const rowId = `card-${i}`;
+    const cards = [];
+
+    for (let j = 0; j < 4; j++) {
+      const cardId = `card-${rowId}-${j}`;
+      cards.push(
+        <td key={cardId}>
+          <div className="List">
+            <div className="container-fluid">
+              <div class="row">
+                <div class="col-12 mt-3">
+                  <div class="card" onClick={movetoSubPage}>
+                    <table>
+                      <td>
+                        <div className="img-square-wrapper">
+                          <img src={img} alt="사진" />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="card-body">
+                          <h2 class="card-title">여행</h2>
+                          <p class="card-text">
+                            <h4>부산</h4>
+                            <br />
+                            <h5>#해운대 #광안리</h5>
+                          </p>
+                        </div>
+                      </td>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    );
+        </td>
+      );
+    }
+
+    items.push(<td key={rowId}>{cards}</td>);
   }
 
   return (
@@ -125,10 +136,7 @@ function MainPage() {
       <hr />
       <div className="ShowList">
         <table>
-          <td>{items}</td>
-          <td>{items}</td>
-          <td>{items}</td>
-          <td>{items}</td>
+          <tr>{items}</tr>
         </table>
       </div>
       <br />
