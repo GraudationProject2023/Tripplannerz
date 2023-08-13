@@ -316,7 +316,7 @@ function MyPage() {
   }
 
   const handleClick = (postId) => {
-    window.location.href = `/my/${postId}`;
+    window.location.href = `/search/${postId}`;
   };
 
   const handleCloseButton = (e) => {
@@ -387,8 +387,8 @@ function MyPage() {
                 {posts.map((post, index) => (
                   <div>
                     <li
-                      key={currentNumber * 10 + index}
-                      onClick={() => handleClick(currentNumber * 10 + index)}
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
                       className="list-key"
                     >
                       <table>
