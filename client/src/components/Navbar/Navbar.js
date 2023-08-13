@@ -125,6 +125,10 @@ function NavBar() {
     window.location.href = "/search";
   };
 
+  const moveToNotice = (e) => {
+    window.location.href="/notice";
+  }
+
   if (offset === "1") {
     return (
       <div className="navbar">
@@ -170,7 +174,7 @@ function NavBar() {
                 일정조회
               </Button>
             </Nav>
-            <Nav className="notice">
+            <Nav className="notice" onClick={moveToNotice}>
               <NotificationBadge count={notificationCount} />
             </Nav>
             <Nav className="user">
