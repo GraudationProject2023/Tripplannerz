@@ -10,7 +10,7 @@
 }
 
 .show {
-  background-color: white;
+  background-color: transparent;
   height: 400px;
   position: absolute;
   top: 48%;
