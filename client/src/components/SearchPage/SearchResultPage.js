@@ -19,6 +19,30 @@ function SearchResultPage(props) {
   const [memberNum, setMemberNum] = useState(0); //멤버 수
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
+  const [comments, setComments] = useState([]);
+
+  const handleAddComment = () => {
+    if (review && rating > 0) {
+      const newComment = {
+        review,
+        rating,
+      };
+
+      setComments((prevComments) => [...prevComments, newComment]);
+
+      setReview("");
+      setRating(0);
+    }
+  };
+  
+  function keyDown(event){
+    if(event.key === "Enter"){
+      event.preventDefault();
+      handleAddComment();
+      setReview("");
+    }
+  }
+
   const arr = location.pathname.split("/");
 
   const handleReviewChange = (event) => {
@@ -80,10 +104,24 @@ function SearchResultPage(props) {
                 value={review}
                 onChange={handleReviewChange}
                 style={{ width: "700px" }}
+                onKeyDown={keyDown}
               />
             </Form.Group>
+            <Button style={{marginLeft: "80%", marginTop: "-10%"}} variant="primary" onClick={handleAddComment}>
+              댓글 추가
+            </Button>
           </Card.Body>
         </Card>
+      </div>
+      <div className="comments">
+        {comments.length === 0
+          ? ""
+          : comments.map((comment, index) => (
+              <Card style={{width: "800px"}} key={index}>
+                <p>별점: {comment.rating}</p>
+                <p>댓글: {comment.review}</p>
+              </Card>
+            ))}
       </div>
     </div>
   );

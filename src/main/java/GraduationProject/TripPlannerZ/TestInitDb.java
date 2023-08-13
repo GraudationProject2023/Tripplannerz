@@ -60,7 +60,7 @@ public class TestInitDb {
                     .types(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();
-            em.persist(member2);
+            //em.persist(member2);
 
             // party 생성
             Party party = Party.builder()
@@ -71,7 +71,7 @@ public class TestInitDb {
             MemberParty memberParty = MemberParty.addPartyMember(member, party);
             MemberParty memberParty1 = MemberParty.addPartyMember(member2, party);
             em.persist(memberParty);
-            em.persist(memberParty1);
+            //em.persist(memberParty1);
 
             Trip trip = Trip.builder()
                     .comingDate("2023-05-05")
