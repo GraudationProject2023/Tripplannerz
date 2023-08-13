@@ -10,7 +10,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 function MainPage() {
-  const [num, setNum] = useState(0);
 
   useEffect(() => {
     localStorage.setItem("cast", 1);
@@ -66,16 +65,8 @@ function MainPage() {
     localStorage.setItem("vest", 1);
   }, []);
 
-  function movetoSchedule() {
-    window.location.href = "/schedule";
-  }
-
-  function movetoMySchedule() {
-    window.location.href = "/search";
-  }
-
-  function movetoSubPage() {
-    window.location.href = `/search/${num}`;
+  function movetoSubPage(point) {
+    window.location.href = `/search/${point}`;
   }
 
   const items = [];
@@ -92,7 +83,7 @@ function MainPage() {
             <div className="container-fluid">
               <div class="row">
                 <div class="col-12 mt-3">
-                  <div class="card" onClick={movetoSubPage}>
+                  <div class="card" onClick={(e) => movetoSubPage(cardId)}>
                     <table>
                       <td>
                         <div className="img-square-wrapper">
