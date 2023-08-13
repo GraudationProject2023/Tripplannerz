@@ -338,17 +338,11 @@ function StartPage() {
       <div className="show">
         <SearchBox>
           <h1>TripPlannerz</h1>
-          <h5>여행 일정을 공유하고,</h5>
-          <h5>같이 동행할 일행들을 찾고, 방문할 여행지들을 추천해주는</h5>
-          <h5>종합 여행 웹사이트 입니다.</h5>
-          <h5>기존의 여행 웹사이트보다 쉽고, 효율적으로 </h5>
-          <h5>여행 일정에 대한 전반적인 내용을 관리하세요!</h5>
         </SearchBox>
         <Button
           variant="primary"
           onClick={handleFirstShow}
           style={{
-            marginLeft: "120px",
             marginTop: "40px",
             backgroundColor: "#FFFFFF",
             color: "#000000",
