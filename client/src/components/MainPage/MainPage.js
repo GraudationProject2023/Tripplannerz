@@ -72,11 +72,11 @@ function MainPage() {
   const items = [];
 
   for (let i = 0; i < 2; i++) {
-    const rowId = `card-${i}`;
+    const rowId = `${i}`;
     const cards = [];
 
     for (let j = 0; j < 4; j++) {
-      const cardId = `card-${rowId}-${j}`;
+      const cardId = `${i + j}`;
       cards.push(
         <td key={cardId}>
           <div className="List">
