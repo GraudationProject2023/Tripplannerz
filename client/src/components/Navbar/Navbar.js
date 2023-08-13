@@ -134,7 +134,7 @@ function NavBar() {
           fixed="top"
           style={{
             border: "1px solid #FFFFFF",
-            backgroundColor: "#0D99FF",
+            backgroundColor: "#EEEEEE",
             height: "15%",
           }}
         >
