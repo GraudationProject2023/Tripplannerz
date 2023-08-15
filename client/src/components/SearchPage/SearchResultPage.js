@@ -21,6 +21,15 @@ function SearchResultPage(props) {
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
   const [comments, setComments] = useState([]);
+  
+  async function fetchComment() {
+    try {
+      const response = await axios.get("");
+      setComments(response.data);
+    } catch (error) {
+      console.log("Error Occured: ", error);
+    }
+  }
 
   useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`).then((res) => {
@@ -33,6 +42,10 @@ function SearchResultPage(props) {
     });
   }, []);
 
+  useEffect(() => {
+    fetchComment();
+  },[])
+
   const data = {
     uuid: arr[2],
     comment: comments.review,
@@ -41,7 +54,7 @@ function SearchResultPage(props) {
 
   const sendAddComment = () => {
     if (!data) {
-       axios.post("",data).then((res) => console.log(res))
+      axios.post("", data).then((res) => console.log(res));
     }
   };
 
@@ -68,8 +81,6 @@ function SearchResultPage(props) {
     }
   }
 
- 
-
   const handleReviewChange = (event) => {
     setReview(event.target.value);
   };
@@ -77,8 +88,6 @@ function SearchResultPage(props) {
   const handleRatingChange = (rating) => {
     setRating(rating);
   };
-
-  
 
   return (
     <div>
