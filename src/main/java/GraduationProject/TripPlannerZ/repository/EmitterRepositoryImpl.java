@@ -2,18 +2,26 @@ package GraduationProject.TripPlannerZ.repository;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class EmitterRepositoryImpl implements EmitterRepository {
-    private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final Map<String, List<SseEmitter>> emitters = new ConcurrentHashMap<>();
     private final Map<String, Object> eventCache = new ConcurrentHashMap<>();
 
 
     @Override
     public SseEmitter save(String emitterId, SseEmitter sseEmitter) {
-        emitters.put(emitterId, sseEmitter);
+        if (emitters.containsKey(emitterId)) {
+            emitters.get(emitterId).add(sseEmitter);
+        } else {
+            List<SseEmitter> emitterList = new ArrayList<>();
+            emitterList.add(sseEmitter);
+            emitters.put(emitterId, emitterList);
+        }
         return sseEmitter;
     }
 
