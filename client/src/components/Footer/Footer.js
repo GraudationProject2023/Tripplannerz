@@ -62,6 +62,8 @@ function Footer() {
           이미지 출처: rawpixel.com - Freepik에서 가져옴
           <br />
           <a href="https://www.freepik.com/icon/chat_4161013#fromView=keyword&term=Chat&page=1&position=66">Icon by SumberRejeki</a>
+          <br />
+          <a href="https://www.flaticon.com/free-icons/error" title="error icons">Error icons created by Vectors Market - Flaticon</a>
         </span>
       </div>
     </div>
