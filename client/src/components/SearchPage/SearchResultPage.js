@@ -9,49 +9,18 @@ axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
   const location = useLocation();
+  const arr = location.pathname.split("/");
   const [loading, setLoading] = useState(true);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
-  const [title, setTitle] = useState("부산여행"); //제목
-  const [startingDate, setStartingDate] = useState("2023-07-20"); //시작 날짜
-  const [comingDate, setComingDate] = useState("2023-07-27"); //종료 날짜
-  const [content, setContent] = useState("부산부산부산부산"); //내용
+  const [title, setTitle] = useState(""); //제목
+  const [startingDate, setStartingDate] = useState(""); //시작 날짜
+  const [comingDate, setComingDate] = useState(""); //종료 날짜
+  const [content, setContent] = useState(""); //내용
   const [memberNum, setMemberNum] = useState(0); //멤버 수
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
   const [comments, setComments] = useState([]);
-
-  const handleAddComment = () => {
-    if (review && rating > 0) {
-      const newComment = {
-        review,
-        rating,
-      };
-
-      setComments((prevComments) => [...prevComments, newComment]);
-
-      setReview("");
-      setRating(0);
-    }
-  };
-  
-  function keyDown(event){
-    if(event.key === "Enter"){
-      event.preventDefault();
-      handleAddComment();
-      setReview("");
-    }
-  }
-
-  const arr = location.pathname.split("/");
-
-  const handleReviewChange = (event) => {
-    setReview(event.target.value);
-  };
-
-  const handleRatingChange = (rating) => {
-    setRating(rating);
-  };
 
   useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`).then((res) => {
@@ -63,6 +32,53 @@ function SearchResultPage(props) {
       setMemberList(res.data.memberList);
     });
   }, []);
+
+  const data = {
+    uuid: arr[2],
+    comment: comments.review,
+    rating: comments.rating,
+  };
+
+  const sendAddComment = () => {
+    if (!data) {
+       axios.post("",data).then((res) => console.log(res))
+    }
+  };
+
+  const handleAddComment = () => {
+    if (review && rating > 0) {
+      const newComment = {
+        review,
+        rating,
+      };
+
+      setComments((prevComments) => [...prevComments, newComment]);
+      sendAddComment();
+
+      setReview("");
+      setRating(0);
+    }
+  };
+
+  function keyDown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleAddComment();
+      setReview("");
+    }
+  }
+
+ 
+
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const handleRatingChange = (rating) => {
+    setRating(rating);
+  };
+
+  
 
   return (
     <div>
@@ -107,7 +123,11 @@ function SearchResultPage(props) {
                 onKeyDown={keyDown}
               />
             </Form.Group>
-            <Button style={{marginLeft: "80%", marginTop: "-10%"}} variant="primary" onClick={handleAddComment}>
+            <Button
+              style={{ marginLeft: "80%", marginTop: "-10%" }}
+              variant="primary"
+              onClick={handleAddComment}
+            >
               댓글 추가
             </Button>
           </Card.Body>
@@ -117,7 +137,7 @@ function SearchResultPage(props) {
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
-              <Card style={{width: "800px"}} key={index}>
+              <Card style={{ width: "800px" }} key={index}>
                 <p>별점: {comment.rating}</p>
                 <p>댓글: {comment.review}</p>
               </Card>
