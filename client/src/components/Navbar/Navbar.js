@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRecoilValue } from "recoil";
+import { notificationsCountState } from "../../util/recoilState";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
@@ -26,7 +28,7 @@ const NotificationBadge = ({ count }) => {
 };
 
 function NavBar() {
-  const notificationCount = 10;
+  const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
 
@@ -126,8 +128,8 @@ function NavBar() {
   };
 
   const moveToNotice = (e) => {
-    window.location.href="/notice";
-  }
+    window.location.href = "/notice";
+  };
 
   if (offset === "1") {
     return (
@@ -220,7 +222,7 @@ function NavBar() {
                 </ul>
               )}
             </Nav>
-            <Nav className = "chat">
+            <Nav className="chat">
               <img src={chat} alt="채팅" />
             </Nav>
           </Nav>
