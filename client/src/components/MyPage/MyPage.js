@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import Navbar from "../Navbar/Navbar";
 import "./MyPage.css";
+import find from "../Image/돋보기.png";
 import Menu from "../Image/Menu.png";
 import notice from "../Image/notice.png";
 import sight from "../Image/관광지.png";
@@ -355,7 +356,7 @@ function MyPage() {
   function ShowData() {
     if (currentPage !== 1) {
       return (
-        <>
+        <div className="showData">
           <ul>
             <table className="table_board">
               <tr className="table-head">
@@ -401,15 +402,51 @@ function MyPage() {
                   </div>
                 ))}
               </td>
+              <td>
+                {posts.map((post, index) => (
+                  <div>
+                    <li
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
+                      className="list-key"
+                    >
+                      <table>
+                        <td>
+                          <div>{post.startingDate}</div>
+                        </td>
+                      </table>
+                      <hr />
+                    </li>
+                  </div>
+                ))}
+              </td>
+              <td>
+                {posts.map((post, index) => (
+                  <div>
+                    <li
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
+                      className="list-key"
+                    >
+                      <table>
+                        <td>
+                          <div>{post.comingDate}</div>
+                        </td>
+                      </table>
+                      <hr />
+                    </li>
+                  </div>
+                ))}
+              </td>
             </table>
           </ul>
-        </>
+        </div>
       );
     }
   }
   const renderProfilePage = () => {
     return (
-      <div className="profile-card">
+      <div className="profilecard">
         <h2>내 정보</h2>
         <hr />
         <h5>이름 : {name}</h5>
@@ -424,7 +461,7 @@ function MyPage() {
 
   const renderBeforeAccountPage = () => {
     return (
-      <div className="profile-card">
+      <div className="profilecard">
         <br />
         <br />
         <br />
@@ -462,7 +499,7 @@ function MyPage() {
 
   const renderAccountPage = () => {
     return (
-      <div className="profile-card">
+      <div className="profilecard">
         <h2>정보 수정</h2>
         <hr />
         <br />
@@ -580,12 +617,12 @@ function MyPage() {
 
   const renderSchedulePage = () => {
     return (
-      <div className="profile-card">
+      <div className="profilecard">
         <h2>내 일정 조회</h2>
         <select className="select" value={order} onChange={handleSelectOrder}>
-          <option default>최신 순</option>
-          <option value="좋아요">좋아요 순</option>
-          <option value="조회수">조회 수</option>
+          <option default value="new">최신 순</option>
+          <option value="good">좋아요 순</option>
+          <option value="count">조회 수</option>
         </select>
         <hr />
         <table className="table">
@@ -601,6 +638,27 @@ function MyPage() {
             )}
           </tbody>
         </table>
+        <div>
+        {size === 0 ? (
+          ""
+        ) : (
+          <div className="searchText">
+            <table>
+              <td>
+                <input
+                  type="text"
+                  onChange={handleInputChange}
+                  placeholder="검색어를 입력하세요"
+                />
+              </td>
+              <td>
+                <img src={find} />
+              </td>
+            </table>
+          </div>
+        )}
+        </div>
+        <br />
         {size === 0 ? (
           ""
         ) : (
@@ -611,37 +669,13 @@ function MyPage() {
             total={total}
           ></Pagination>
         )}
-        <div>
-          <br />
-          <table>
-            <td>
-              {size === 0 ? (
-                ""
-              ) : (
-                <Form.Control
-                  type="text"
-                  style={{ marginLeft: "10%", width: "400px" }}
-                  onClick={handleInputChange}
-                  placeholder="검색어를 입력하세요."
-                />
-              )}
-            </td>
-            <td>
-              {size === 0 ? (
-                ""
-              ) : (
-                <Button style={{ marginTop: "-5px" }}>검색</Button>
-              )}
-            </td>
-          </table>
-        </div>
       </div>
     );
   };
 
   const renderWithdrawPage = () => {
     return (
-      <div className="profile-card">
+      <div className="profilecard">
         <h2>회원 탈퇴 안내</h2>
         <hr />
         <h6>회원탈퇴를 신청하기 전 안내 사항을 확인해주세요.</h6>
