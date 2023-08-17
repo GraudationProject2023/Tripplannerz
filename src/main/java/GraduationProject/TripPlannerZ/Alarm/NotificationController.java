@@ -1,8 +1,7 @@
-package GraduationProject.TripPlannerZ.controller;
+package GraduationProject.TripPlannerZ.Alarm;
 
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.service.MemberService;
-import GraduationProject.TripPlannerZ.service.NotificationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
