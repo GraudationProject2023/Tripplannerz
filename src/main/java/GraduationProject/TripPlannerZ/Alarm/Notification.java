@@ -1,5 +1,6 @@
-package GraduationProject.TripPlannerZ.domain;
+package GraduationProject.TripPlannerZ.Alarm;
 
+import GraduationProject.TripPlannerZ.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

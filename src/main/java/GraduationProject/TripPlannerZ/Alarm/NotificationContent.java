@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.domain;
+package GraduationProject.TripPlannerZ.Alarm;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

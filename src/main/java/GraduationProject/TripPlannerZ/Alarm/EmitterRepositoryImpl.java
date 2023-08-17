@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.repository;
+package GraduationProject.TripPlannerZ.Alarm;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
