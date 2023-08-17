@@ -109,7 +109,7 @@ function SearchPage() {
   function ShowData() {
     if (currentPage !== 1) {
       return (
-        <>
+        <div className="showData">
           <ul className="list">
             <table className="table_board">
               <tr className="table-head">
@@ -126,9 +126,7 @@ function SearchPage() {
                     >
                       <table>
                         <td>
-                          <div style={{ marginLeft: "-12px" }}>
-                            {post.title}
-                          </div>
+                          <div>{post.title}</div>
                         </td>
                       </table>
                       <hr />
@@ -155,9 +153,45 @@ function SearchPage() {
                   </div>
                 ))}
               </td>
+              <td>
+                {posts.map((post, index) => (
+                  <div>
+                    <li
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
+                      className="list-key"
+                    >
+                      <table>
+                        <td>
+                          <div>{post.startingDate}</div>
+                        </td>
+                      </table>
+                      <hr />
+                    </li>
+                  </div>
+                ))}
+              </td>
+              <td>
+                {posts.map((post, index) => (
+                  <div>
+                    <li
+                      key={postNumber[index]}
+                      onClick={() => handleClick(postNumber[index])}
+                      className="list-key"
+                    >
+                      <table>
+                        <td>
+                          <div>{post.comingDate}</div>
+                        </td>
+                      </table>
+                      <hr />
+                    </li>
+                  </div>
+                ))}
+              </td>
             </table>
           </ul>
-        </>
+        </div>
       );
     }
   }
@@ -193,18 +227,7 @@ function SearchPage() {
             )}
           </tbody>
         </table>
-        {size === 0 ? (
-          ""
-        ) : (
-          <Pagination
-            postsPerPage={postsPerPage}
-            totalPosts={posts.length}
-            paginate={(pageNumber) => setCurrentPage(pageNumber - 1)}
-            total={total}
-          ></Pagination>
-        )}
-      </div>
-      <div>
+        <div>
         {size === 0 ? (
           ""
         ) : (
@@ -224,6 +247,20 @@ function SearchPage() {
           </div>
         )}
       </div>
+        {size === 0 ? (
+          ""
+        ) : (
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={posts.length}
+            paginate={(pageNumber) => setCurrentPage(pageNumber - 1)}
+            total={total}
+          ></Pagination>
+        )}
+      </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 }
