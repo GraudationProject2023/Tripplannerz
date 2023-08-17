@@ -85,6 +85,65 @@ public class TestInitDb {
                     .build();
             em.persist(trip);
 
+            Trip trip1 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("제주")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip1);
+
+            Trip trip2 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("부산")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip2);
+
+            Trip trip3 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("대구")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip3);
+
+            Trip trip4 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("대전")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip4);
+
+            Trip trip5 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("울산")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .party(party)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip5);
 
         }
 
