@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.service;
+package GraduationProject.TripPlannerZ.Alarm;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
