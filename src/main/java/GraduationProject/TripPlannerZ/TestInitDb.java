@@ -68,9 +68,51 @@ public class TestInitDb {
                     .build();
             em.persist(party);
 
+            Party party1 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party1);
+
+            Party party2 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party2);
+
+            Party party3 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party3);
+
+            Party party4 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party4);
+
+            Party party5 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party5);
+
+            Party party6 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party6);
+
             MemberParty memberParty = MemberParty.addPartyMember(member, party);
-            MemberParty memberParty1 = MemberParty.addPartyMember(member2, party);
+            MemberParty memberParty1 = MemberParty.addPartyMember(member, party1);
+            MemberParty memberParty2 = MemberParty.addPartyMember(member, party2);
+            MemberParty memberParty3 = MemberParty.addPartyMember(member, party3);
+            MemberParty memberParty4 = MemberParty.addPartyMember(member, party4);
+            MemberParty memberParty5 = MemberParty.addPartyMember(member, party5);
+            MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
             em.persist(memberParty);
+            em.persist(memberParty1);
+            em.persist(memberParty2);
+            em.persist(memberParty3);
+            em.persist(memberParty4);
+            em.persist(memberParty5);
+            em.persist(memberParty6);
+
             //em.persist(memberParty1);
 
             Trip trip = Trip.builder()
@@ -92,7 +134,7 @@ public class TestInitDb {
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
-                    .party(party)
+                    .party(party1)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip1);
@@ -104,7 +146,7 @@ public class TestInitDb {
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
-                    .party(party)
+                    .party(party2)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip2);
@@ -116,7 +158,7 @@ public class TestInitDb {
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
-                    .party(party)
+                    .party(party3)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip3);
@@ -128,7 +170,7 @@ public class TestInitDb {
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
-                    .party(party)
+                    .party(party4)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip4);
@@ -140,7 +182,7 @@ public class TestInitDb {
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
-                    .party(party)
+                    .party(party5)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip5);
