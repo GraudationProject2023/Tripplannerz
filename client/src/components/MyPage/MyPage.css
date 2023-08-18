@@ -32,9 +32,9 @@
   width: 100%;
 }
 
-.profile-card {
+.profilecard {
   width: 750px;
-  height: 500px;
+  height: 600px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
@@ -52,10 +52,6 @@
   padding: 20px;
   margin-left: 10%;
   background-color: #f9f9f9;
-}
-
-.profile-card h2 {
-  margin-bottom: 10px;
 }
 
 .button-group {
@@ -86,4 +82,14 @@ ul li::marker {
 
 .before-account {
   margin-left: 20%;
+}
+
+.showData{
+  margin-top: -1%;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.showData::-webkit-scrollbar{
+  display: none;
 }

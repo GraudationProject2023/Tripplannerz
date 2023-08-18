@@ -345,8 +345,8 @@ function FindPage() {
 
     const formData = new FormData();
     var closeRecruitDate = date.toString();
-    var goingDate = currentMonth.toString().slice(0, 10);
-    var comingDate = nextMonth.toString().slice(0, 10);
+    var goingDate = currentMonth.toISOString().slice(0, 10);
+    var comingDate = nextMonth.toISOString().slice(0, 10);
     var area = selectedCategory;
     var sigungu = selectedSubCategory;
 

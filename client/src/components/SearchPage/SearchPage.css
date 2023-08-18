@@ -22,13 +22,6 @@
   margin-left: 78%;
 }
 
-.searchText {
-  margin: 0 auto;
-  width: 48%;
-  height: 10px;
-  margin-left: 18.5%;
-  margin-top: -27%;
-}
 .searchText input {
   width: 500px;
   height: 40px;
@@ -65,7 +58,7 @@
   text-align: left;
 }
 .table td {
-  padding: 10px;
+  padding: 7px;
   text-align: left;
 }
 
@@ -75,8 +68,8 @@
   height: 0;
 }
 
-.profile-card {
-  margin-top: 10%;
+.profile-Card {
+  margin-top: 15%;
   margin-left: 17%;
   width: 1000px;
   border: 1px solid #ccc;
@@ -91,5 +84,14 @@
   overflow-y: auto;
 }
 .comments::-webkit-scrollbar{
+  display: none;
+}
+
+.showData{
+  margin-top: -1%;
+  max-height: 330px;
+  overflow-y: auto;
+}
+.showData::-webkit-scrollbar{
   display: none;
 }
