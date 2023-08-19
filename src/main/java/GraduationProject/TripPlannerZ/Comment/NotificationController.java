@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 public class NotificationController {
     // 사용자 구독정보를 저장하는 Map
     public static Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
@@ -33,7 +34,6 @@ public class NotificationController {
     private final MemberPartyRepository memberPartyRepository;
     private final NotificationService notificationService;
 
-    @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
     @RequestMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(HttpServletRequest request) {
 
