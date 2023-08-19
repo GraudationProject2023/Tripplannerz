@@ -18,4 +18,8 @@ public class PartyService {
         partyRepository.save(party);
         return party.getId();
     }
+
+    public Long findByTripId(Long tripId) {
+        return partyRepository.findByTripId(tripId);
+    }
 }
