@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
+import { eventSource } from "../../util/recoilState";
 import { notificationsCountState } from "../../util/recoilState";
 import NavBar from "../Navbar/Navbar";
 import "./NoticePage.css";
@@ -38,14 +39,12 @@ function NoticePage() {
   const [data, setData] = useState([]);
   const [value, setValue] = useState(null);
   const [listening, setListening] = useState(false);
-  const [notificationsCount, setNotificationsCount] = useRecoilState(notificationsCountState);
-  
-  let eventSource = undefined;
+  const [notificationsCount, setNotificationsCount] = useRecoilState(
+    notificationsCountState
+  );
 
   useEffect(() => {
     if (!listening) {
-      eventSource = new EventSource("http://localhost:8080/sse"); //구독
-
       eventSource.onopen = (event) => {
         console.log("connection opened");
       };
