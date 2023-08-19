@@ -269,12 +269,6 @@ function StartPage() {
     const emailValue = email;
     const passwordValue = password;
 
-    tempEventSource = new EventSource("http://localhost:8080/api/sub");
-
-    setEventSourceCreate(tempEventSource);
-
-    console.log(eventSourceCreate);
-
     axios
       .post("http://localhost:8080/api/members/login", {
         email: email,
@@ -294,6 +288,12 @@ function StartPage() {
         var set = localStorage.getItem("vest");
 
         if (set === "1") {
+          tempEventSource = new EventSource("http://localhost:8080/api/sub");
+
+          setEventSourceCreate(tempEventSource);
+
+          console.log(eventSourceCreate);
+          
           localStorage.setItem("name", na);
           alert(`${na}님! 로그인이 되었습니다.`);
           setFirstShowModal(false);
