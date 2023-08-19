@@ -60,7 +60,7 @@ public class TestInitDb {
                     .types(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();
-            //em.persist(member2);
+            em.persist(member2);
 
             // party 생성
             Party party = Party.builder()
@@ -105,6 +105,7 @@ public class TestInitDb {
             MemberParty memberParty4 = MemberParty.addPartyMember(member, party4);
             MemberParty memberParty5 = MemberParty.addPartyMember(member, party5);
             MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
+            MemberParty memberParty7 = MemberParty.addPartyMember(member2, party);
             em.persist(memberParty);
             em.persist(memberParty1);
             em.persist(memberParty2);
@@ -112,6 +113,7 @@ public class TestInitDb {
             em.persist(memberParty4);
             em.persist(memberParty5);
             em.persist(memberParty6);
+            em.persist(memberParty7);
 
             //em.persist(memberParty1);
 

@@ -4,6 +4,7 @@ import GraduationProject.TripPlannerZ.API.Item;
 import GraduationProject.TripPlannerZ.CityNum.Area;
 import GraduationProject.TripPlannerZ.CityNum.Sigungu;
 import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
+import GraduationProject.TripPlannerZ.Comment.CommentService;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.MemberTrip;
@@ -28,7 +29,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -44,6 +44,7 @@ public class TripController {
     private final SigunguRepository sigunguRepository;
     private final TripImageRepository tripImageRepository;
     private final LocationService locationService;
+    private final CommentService commentService;
 
     @PostMapping("/trip/create")
     public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile,

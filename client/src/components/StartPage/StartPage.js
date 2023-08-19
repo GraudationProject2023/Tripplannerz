@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRecoilState } from "recoil";
+import { eventSource } from "../../util/recoilState";
 import { Modal, Form, Button } from "react-bootstrap";
 import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -119,14 +121,17 @@ function StartPage() {
   const [password, setPassword] = useState(""); // 비밀번호
   const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
-  const [hyphen, setHyphen] = useState(false); //하이픈 여부 상태변수
   const [checkEmail, setCheckEmail] = useState(false); //이메일 @기호 포함여부
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [emailTimer, setEmailTimer] = useState(false);
   const [nestedModal, setNestedModal] = useState(false);
+
+  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
+
   let successEmail = localStorage.getItem("cast");
   let requestWord = "";
+  let tempEventSource = undefined;
 
   useEffect(() => {
     localStorage.setItem("cast", 0);
@@ -283,6 +288,12 @@ function StartPage() {
         var set = localStorage.getItem("vest");
 
         if (set === "1") {
+          tempEventSource = new EventSource("http://localhost:8080/api/sub");
+
+          setEventSourceCreate(tempEventSource);
+
+          console.log(eventSourceCreate);
+          
           localStorage.setItem("name", na);
           alert(`${na}님! 로그인이 되었습니다.`);
           setFirstShowModal(false);
