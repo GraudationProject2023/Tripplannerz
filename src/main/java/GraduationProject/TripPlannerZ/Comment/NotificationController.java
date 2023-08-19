@@ -2,6 +2,7 @@ package GraduationProject.TripPlannerZ.Comment;
 
 
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.service.MemberService;
@@ -21,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
 @RequestMapping("/api")
 public class NotificationController {
     // 사용자 구독정보를 저장하는 Map
@@ -33,7 +33,7 @@ public class NotificationController {
     private final MemberPartyRepository memberPartyRepository;
     private final NotificationService notificationService;
 
-
+    @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
     @RequestMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(HttpServletRequest request) {
 
@@ -43,49 +43,57 @@ public class NotificationController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String memberEmail = (String) request.getSession().getAttribute("loginMember");
-        Long memberId = memberService.findByEmail(memberEmail).get().getId();
-        emitters.put(memberId, sseEmitter);
+//        String memberEmail = (String) request.getSession().getAttribute("loginMember");
+//        Long memberId = memberService.findByEmail(memberEmail).get().getId();
+//        System.out.println("memberId = " + memberId);
+        emitters.put(1L, sseEmitter);
 
-        sseEmitter.onCompletion(() -> emitters.remove(memberId));
-        sseEmitter.onTimeout(() -> emitters.remove(memberId));
-        sseEmitter.onError((e) -> emitters.remove(memberId));
+
+
+        sseEmitter.onCompletion(() -> emitters.remove(1L));
+        sseEmitter.onTimeout(() -> emitters.remove(1L));
+        sseEmitter.onError((e) -> emitters.remove(1L));
 
         return sseEmitter;
     }
 
     @PostMapping("/sendComment")
-    public void commentAndNotify(HttpServletRequest request, @RequestParam("content") String content, @RequestParam("tripUUID") String tripUUID) {
+    public void commentAndNotify(HttpServletRequest request, @RequestBody CommentDTO commentDTO) {
 
-        // 댓글 디비 저장
-        Comment comment = Comment.builder()
-                .content(content)
-                .build();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         String loginMemberEmail = (String) request.getSession().getAttribute("loginMember");
         Member sender = memberService.findByEmail(loginMemberEmail).get();
 
-        comment.setSender(sender);
+        Trip trip = tripService.findByUUID(commentDTO.getTripUUID()).get();
+        Long partyId = partyService.findByTripId(trip.getId());
 
-        Trip trip = tripService.findByUUID(tripUUID).get();
-
-        comment.setTrip(trip);
-
+        // 댓글 디비 저장
+        Comment comment = Comment.builder()
+                .content(commentDTO.getComment())
+                .sender(sender)
+                .trip(trip)
+                .build();
         commentService.saveComment(comment);
 
-        // 알림 저장 및 알림 전송
-        Notification notification = new Notification(sender.getName(), trip.getTitle(), "comment", tripUUID);
+        List<MemberParty> receiver = memberPartyRepository.findAllByPartyId(partyId);
 
-        Long partyId = partyService.findByTripId(trip.getId());
-        List<Member> subscribedMembers = memberPartyRepository.findByPartyId(partyId);
-        ObjectMapper objectMapper = new ObjectMapper();
+        for (MemberParty receivedMember : receiver) {
+            Member m = receivedMember.getMember();
 
-        for (Member subscribedMember : subscribedMembers) {
-            Long id = subscribedMember.getId();
+            // 알림 저장 및 알림 전송
+            Notification notification = Notification.builder()
+                    .comment(comment)
+                    .member(m)
+                    .build();
+
+            notificationService.saveNotification(notification);
+            Long id = m.getId();
+
             if (emitters.containsKey(id)) {
                 try {
                     String nJson = objectMapper.writeValueAsString(notification);
-                    emitters.get(id).send(SseEmitter.event().name(notification.getType()).data(notification));
+                    emitters.get(id).send(SseEmitter.event().id(notification.getId().toString()).name("comment").data(nJson));
                 } catch (IOException e) {
                     emitters.remove(id);
                     throw new RuntimeException(e);
@@ -93,10 +101,6 @@ public class NotificationController {
             }
         }
 
-        notificationService.saveNotification(notification);
-
-
     }
-
 
 }

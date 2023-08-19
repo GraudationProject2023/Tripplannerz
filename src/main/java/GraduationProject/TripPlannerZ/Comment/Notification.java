@@ -1,5 +1,6 @@
 package GraduationProject.TripPlannerZ.Comment;
 
+import GraduationProject.TripPlannerZ.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,18 +15,23 @@ public class Notification {
     Long id;
 
     private String senderName;
-    private String type;
     private String tripUUID;
     private String tripTitle;
 
-    public Notification(String senderName, String tripTitle, String type, String tripUUID) {
-        this.senderName = senderName;
-        this.tripTitle = tripTitle;
-        this.type = type;
-        this.tripUUID = tripUUID;
-        this.isRead = false;
-    }
+    private Long senderId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member receivedMember;
     @Column(nullable = false)
     private Boolean isRead;
+
+    @Builder
+    public Notification(Comment comment, Member member) {
+        this.senderName = comment.getSender().getName();
+        this.tripTitle = comment.getTrip().getTitle();
+        this.tripUUID = comment.getTrip().getUUID();
+        this.receivedMember = member;
+        this.isRead = false;
+    }
 }
