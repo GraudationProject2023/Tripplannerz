@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.Alarm;
+package GraduationProject.TripPlannerZ.Comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
