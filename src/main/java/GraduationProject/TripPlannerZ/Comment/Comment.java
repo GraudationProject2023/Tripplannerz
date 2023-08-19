@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -31,9 +29,10 @@ public class Comment {
     private String content;
 
     @Builder
-    public Comment(String content) {
+    public Comment(Member sender, Trip trip, String content) {
         this.content = content;
-
+        setSender(sender);
+        setTrip(trip);
     }
 
     public void setTrip(Trip trip) {
