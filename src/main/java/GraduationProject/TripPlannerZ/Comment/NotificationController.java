@@ -9,7 +9,6 @@ import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -34,17 +33,16 @@ public class NotificationController {
 
     @RequestMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(HttpServletRequest request) {
+        // 세션문제 해결하면 주석 제거
+//        String memberEmail = (String) request.getSession().getAttribute("loginMember");
+//        Long memberId = memberService.findByEmail(memberEmail).get().getId();
 
-        String memberEmail = (String) request.getSession().getAttribute("loginMember");
-        Long memberId = memberService.findByEmail(memberEmail).get().getId();
-        return sseEmitterService.subscribe(memberId);
+        return sseEmitterService.subscribe(1L);
 
     }
 
     @PostMapping("/sendComment")
     public void commentAndNotify(HttpServletRequest request, @RequestBody CommentDTO commentDTO) {
-
-        ObjectMapper objectMapper = new ObjectMapper();
 
         String loginMemberEmail = (String) request.getSession().getAttribute("loginMember");
         Member sender = memberService.findByEmail(loginMemberEmail).get();

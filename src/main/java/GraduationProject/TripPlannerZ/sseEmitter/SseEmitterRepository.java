@@ -19,6 +19,7 @@ public class SseEmitterRepository {
 
     public SseEmitter addEmitter(Long memberId, SseEmitter sseEmitter) {
         emitters.put(memberId, sseEmitter);
+        System.out.println(emitters.get(memberId));
         return sseEmitter;
     }
 

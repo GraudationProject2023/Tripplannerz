@@ -44,7 +44,7 @@ public class SseEmitterService {
 
         String lastEventId = sseEmitterRepository.findLastEventIdByMemberId(memberId);
 
-        if (!lastEventId.isEmpty()) {
+        if (lastEventId != null) {
             Map<String, Object> events = sseEmitterRepository.findAllEventCacheStartWithByMemberId(memberId);
             events.entrySet().stream()
                     .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
