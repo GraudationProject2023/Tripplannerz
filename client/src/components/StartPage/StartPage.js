@@ -131,7 +131,7 @@ function StartPage() {
 
   let successEmail = localStorage.getItem("cast");
   let requestWord = "";
-  let tempEventSource = undefined;
+  let tempEventSource = null;
 
   useEffect(() => {
     localStorage.setItem("cast", 0);
@@ -288,12 +288,19 @@ function StartPage() {
         var set = localStorage.getItem("vest");
 
         if (set === "1") {
-          tempEventSource = new EventSource("http://localhost:8080/api/sub");
+          tempEventSource = new EventSource(`http://localhost:8080/api/sub`, {
+            withCredentials: true,
+          });
 
           setEventSourceCreate(tempEventSource);
 
           console.log(eventSourceCreate);
-          
+
+          tempEventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+          };
+          console.log(eventSourceCreate);
           localStorage.setItem("name", na);
           alert(`${na}님! 로그인이 되었습니다.`);
           setFirstShowModal(false);
