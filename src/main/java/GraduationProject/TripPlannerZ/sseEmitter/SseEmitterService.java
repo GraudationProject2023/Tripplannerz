@@ -42,7 +42,11 @@ public class SseEmitterService {
 
         sendEvent(sseEmitter, memberId, "EventStream Created. [userId=" + memberId + "]");
 
+        System.out.println("sseEmitter = " + sseEmitter);
+
         String lastEventId = sseEmitterRepository.findLastEventIdByMemberId(memberId);
+
+        System.out.println("lastEventId = " + lastEventId);
 
         if (lastEventId != null) {
             Map<String, Object> events = sseEmitterRepository.findAllEventCacheStartWithByMemberId(memberId);

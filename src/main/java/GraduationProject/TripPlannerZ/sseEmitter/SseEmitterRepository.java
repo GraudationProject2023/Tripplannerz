@@ -49,7 +49,9 @@ public class SseEmitterRepository {
     public void saveLastEventId(Long memberId) {
         Map<String, Object> eventCacheList = findAllEventCacheStartWithByMemberId(memberId);
         String lastEventId = Collections.max(eventCacheList.keySet());
-        lastEventIdCache.put(memberId, lastEventId);
+        if (lastEventId != null) {
+            lastEventIdCache.put(memberId, lastEventId);
+        }
     }
 
     public String findLastEventIdByMemberId(Long memberId) {
