@@ -261,9 +261,6 @@ function StartPage() {
   const handleLogin = (event) => {
     event.preventDefault();
 
-    const emailValue = email;
-    const passwordValue = password;
-
     axios
       .post("http://localhost:8080/api/members/login", {
         email: email,
