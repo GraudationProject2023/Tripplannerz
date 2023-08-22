@@ -258,64 +258,64 @@ function StartPage() {
       });
   };
 
-  const handleJWTLogin = async (event) => {
+  const handleJWTLogin =  (event) => {
     event.preventDefault();
-
-    const credentialDto = {
-      email: email,
-      password: password,
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/members/loginJWT",
-        credentialDto
-      );
-      const responseData = response.data;
-      if (responseData.result) {
-        const token = responseData.token;
-
-        localStorage.setItem("token", token);
-      }
-    } catch (error) {
-      alert.error("로그인 실패", error);
-    }
-  };
-
-  const handleLogin = (event) => {
-    event.preventDefault();
-
-    axios
-      .post("http://localhost:8080/api/members/login", {
-        email: email,
-        pw: password,
-      })
-      .then((res) => {
+    axios.post(
+        "http://localhost:8080/api/members/loginJWT",{
+          email: email,
+          password: password,
+      },{
+          withCredentials: true,
+        }
+      ).then((res) => {
         console.log(res);
-        var rlt = res.data.result;
-        var na = res.data.name;
+        // const responseData = response.data;
+        // console.log(responseData);
+      
+        // const token = responseData.token;
 
-        if (rlt === true) {
-          localStorage.setItem("vest", 1);
-        } else {
-          localStorage.setItem("vest", 0);
-        }
-
-        var set = localStorage.getItem("vest");
-
-        if (set === "1") {
-          localStorage.setItem("name", na);
-          alert(`${na}님! 로그인이 되었습니다.`);
-          setFirstShowModal(false);
-          window.location.href = "/main";
-        } else if (set === "0") {
-          alert("로그인이 실패하였습니다. 다시 입력해주세요");
-        }
+        // localStorage.setItem("token", token);
+        
+        //   alert(`로그인이 되었습니다.`);
+        //   setFirstShowModal(false);
+        //   window.location.href = "/main";
       })
-      .catch((error) => {
-        console.error(error.response);
-      });
   };
+
+  // const handleLogin = (event) => {
+  //   event.preventDefault();
+
+  //   axios
+  //     .post("http://localhost:8080/api/members/login", {
+  //       email: email,
+  //       pw: password,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       var rlt = res.data.result;
+  //       var na = res.data.name;
+
+  //       if (rlt === true) {
+  //         localStorage.setItem("vest", 1);
+  //       } else {
+  //         localStorage.setItem("vest", 0);
+  //       }
+
+  //       var set = localStorage.getItem("vest");
+
+  //       if (set === "1") {
+  //         localStorage.setItem("name", na);
+  //         alert(`${na}님! 로그인이 되었습니다.`);
+  //         setFirstShowModal(false);
+  //         window.location.href = "/main";
+  //       } else if (set === "0") {
+  //         alert("로그인이 실패하였습니다. 다시 입력해주세요");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(error.response);
+  //     });
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -385,20 +385,20 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
               <Form.Control
                 type="email"
-                onEnterPress={handleLogin}
+                onEnterPress={handleJWTLogin}
                 placeholder="이메일을 입력해주세요"
                 onChange={handleEmailChange}
               />
               <Form.Control
                 type="password"
-                onEnterPress={handleLogin}
+                onEnterPress={handleJWTLogin}
                 placeholder="비밀번호를 입력해주세요"
                 onChange={handlePasswordChange}
               />
               <Button variant="secondary" onClick={handleFirstClose}>
                 닫기
               </Button>
-              <Button variant="primary" type="submit" onClick={handleLogin}>
+              <Button variant="primary" type="submit" onClick={handleJWTLogin}>
                 접속하기
               </Button>
             </Form>
