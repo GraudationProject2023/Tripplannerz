@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useRecoilState } from "recoil";
-import { eventSource } from "../../util/recoilState";
 import { Modal, Form, Button } from "react-bootstrap";
 import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -127,11 +125,8 @@ function StartPage() {
   const [emailTimer, setEmailTimer] = useState(false);
   const [nestedModal, setNestedModal] = useState(false);
 
-  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-
   let successEmail = localStorage.getItem("cast");
   let requestWord = "";
-  let tempEventSource = null;
 
   useEffect(() => {
     localStorage.setItem("cast", 0);
@@ -266,9 +261,6 @@ function StartPage() {
   const handleLogin = (event) => {
     event.preventDefault();
 
-    const emailValue = email;
-    const passwordValue = password;
-
     axios
       .post("http://localhost:8080/api/members/login", {
         email: email,
@@ -288,19 +280,6 @@ function StartPage() {
         var set = localStorage.getItem("vest");
 
         if (set === "1") {
-          tempEventSource = new EventSource(`http://localhost:8080/api/sub`, {
-            withCredentials: true,
-          });
-
-          setEventSourceCreate(tempEventSource);
-
-          console.log(eventSourceCreate);
-
-          tempEventSource.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data);
-          };
-          console.log(eventSourceCreate);
           localStorage.setItem("name", na);
           alert(`${na}님! 로그인이 되었습니다.`);
           setFirstShowModal(false);

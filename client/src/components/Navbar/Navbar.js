@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
+import { eventSource } from "../../util/recoilState";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
@@ -28,9 +29,15 @@ const NotificationBadge = ({ count }) => {
 };
 
 function NavBar() {
+  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let tempEvent = new EventSource("http://localhost:8080/api/sub");
+    console.log(tempEvent);
+  }, []);
 
   //검색창
   const handleSearch = (event) => {
