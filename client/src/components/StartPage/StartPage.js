@@ -385,20 +385,20 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
               <Form.Control
                 type="email"
-                onEnterPress={handleLogin}
+                onEnterPress={handleJWTLogin}
                 placeholder="이메일을 입력해주세요"
                 onChange={handleEmailChange}
               />
               <Form.Control
                 type="password"
-                onEnterPress={handleLogin}
+                onEnterPress={handleJWTLogin}
                 placeholder="비밀번호를 입력해주세요"
                 onChange={handlePasswordChange}
               />
               <Button variant="secondary" onClick={handleFirstClose}>
                 닫기
               </Button>
-              <Button variant="primary" type="submit" onClick={handleLogin}>
+              <Button variant="primary" type="submit" onClick={handleJWTLogin}>
                 접속하기
               </Button>
             </Form>
