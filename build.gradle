@@ -28,6 +28,12 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -47,7 +53,13 @@ dependencies {
 	implementation 'io.lettuce:lettuce-core:6.2.1.RELEASE'
 
 	// Spring Security
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
+
+	// https://mvnrepository.com/artifact/com.auth0/java-jwt
+	implementation 'com.auth0:java-jwt:4.3.0'
+
 
 	// thymeleaf
 //	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
