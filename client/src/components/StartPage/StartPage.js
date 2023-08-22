@@ -258,6 +258,30 @@ function StartPage() {
       });
   };
 
+  const handleJWTLogin = async (event) => {
+    event.preventDefault();
+
+    const credentialDto = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/members/loginJWT",
+        credentialDto
+      );
+      const responseData = response.data;
+      if (responseData.result) {
+        const token = responseData.token;
+
+        localStorage.setItem("token", token);
+      }
+    } catch (error) {
+      alert.error("로그인 실패", error);
+    }
+  };
+
   const handleLogin = (event) => {
     event.preventDefault();
 
