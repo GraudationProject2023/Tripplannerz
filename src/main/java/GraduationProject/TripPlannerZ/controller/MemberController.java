@@ -1,5 +1,9 @@
 package GraduationProject.TripPlannerZ.controller;
 
+import GraduationProject.TripPlannerZ.config.UserAuthProvider;
+import GraduationProject.TripPlannerZ.config.dto.CredentialDto;
+import GraduationProject.TripPlannerZ.config.dto.MemberDto;
+import GraduationProject.TripPlannerZ.config.dto.SignUpDto;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.dto.*;
 import GraduationProject.TripPlannerZ.service.LoginService;
@@ -29,6 +33,23 @@ public class MemberController {
     private final LoginService loginService;
     private final TripService tripService;
     private final MemberPreferenceService memberPreferenceService;
+    private final UserAuthProvider userAuthProvider;
+
+
+    @PostMapping("/members/register")
+    public ResponseEntity<MemberDto> register(@RequestBody SignUpDto signUpDto) {
+        MemberDto member = memberService.register(signUpDto);
+        member.setToken(userAuthProvider.createToken(member.getEmail()));
+        return ResponseEntity.ok(member);
+    }
+
+    @PostMapping("/members/loginJWT")
+    public ResponseEntity<MemberDto> loginJWT(@RequestBody CredentialDto credentialDto) {
+        MemberDto member = memberService.login(credentialDto);
+
+        member.setToken(userAuthProvider.createToken(member.getEmail()));
+        return ResponseEntity.ok(member);
+    }
 
     @PostMapping("/members/join")
     // @PostMapping은 @RequestMapping(value = "/members", method= {RequestMethod.POST}) 와 동일

@@ -21,6 +21,7 @@ public class SseEmitterService {
 
     private final SseEmitterRepository sseEmitterRepository;
     private final MemberService memberService;
+    private static ObjectMapper om = new ObjectMapper();
 
 
     public SseEmitter subscribe(Long memberId) {
@@ -64,7 +65,6 @@ public class SseEmitterService {
      */
     public void sendNotification(Long memberId, Object data) {
 
-        ObjectMapper om = new ObjectMapper();
         String eventId = memberId + "_" + System.currentTimeMillis();
 
         SseEmitter emitterByMemberId = sseEmitterRepository.findEmitterByMemberId(memberId);
@@ -78,7 +78,6 @@ public class SseEmitterService {
      */
     public void sendEvent(SseEmitter sseEmitter, Long memberId, Object data) {
 
-        ObjectMapper om = new ObjectMapper();
         String eventId = memberId + "_" + System.currentTimeMillis();
 
         try {
