@@ -61,4 +61,7 @@ public class Member {
         if (types != null)
             this.types = types;
     }
+
+    public void setPw(String pw) { this.pw = pw; };
+
 }

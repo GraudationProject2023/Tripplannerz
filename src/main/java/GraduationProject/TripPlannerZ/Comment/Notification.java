@@ -12,7 +12,7 @@ public class Notification {
     @Id
     @GeneratedValue
     @Column(name = "notification_id")
-    Long id;
+    private Long id;
 
     private String senderName;
     private String tripUUID;

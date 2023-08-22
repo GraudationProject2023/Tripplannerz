@@ -10,7 +10,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 function MainPage() {
-
   useEffect(() => {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
