@@ -16,3 +16,14 @@ export const eventSource = atom({
   default: undefined,
   effects_UNSTABLE: [persistAtom],
 });
+
+const { persistTokenAtom } = recoilPersist({
+  key: "token-received",
+  storage: localStorage,
+});
+
+export const token = atom({
+  key: "token",
+  default: undefined,
+  effects_UNSTABLE: [persistTokenAtom],
+});
