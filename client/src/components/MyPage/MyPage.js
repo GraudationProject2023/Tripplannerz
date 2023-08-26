@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 import "./MyPage.css";
 import find from "../Image/돋보기.png";
 import Menu from "../Image/Menu.png";
@@ -800,6 +801,7 @@ function MyPage() {
           </td>
         </table>
       </div>
+      <Footer />
     </div>
   );
 }
