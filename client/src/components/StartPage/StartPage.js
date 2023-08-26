@@ -271,7 +271,7 @@ function StartPage() {
         credentialDto
       );
       const responseData = response.data;
-      if (responseData.result) {
+      if (responseData.token) {
         const token = responseData.token;
 
         localStorage.setItem("token", token);
