@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
+import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +31,7 @@ const NotificationBadge = ({ count }) => {
 
 function NavBar() {
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
+  // const [tokenReceived, setTokenReceived] = useRecoilState(token);
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
@@ -37,6 +39,12 @@ function NavBar() {
   useEffect(() => {
     let tempEvent = new EventSource("http://localhost:8080/api/sub");
     console.log(tempEvent);
+
+    // setEventSourceCreate(tempEvent);
+
+    // let token = localStorage.getItem("token");
+    // setTokenReceived(token);
+    // localStorage.removeItem("token");
   }, []);
 
   //검색창
