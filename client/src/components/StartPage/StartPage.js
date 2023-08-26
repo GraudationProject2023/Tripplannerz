@@ -263,7 +263,7 @@ function StartPage() {
 
     const credentialDto = {
       email: email,
-      password: password,
+      pw: password,
     };
 
     try {
@@ -327,7 +327,7 @@ function StartPage() {
     } else {
       if (cas === "1") {
         axios
-          .post("http://localhost:8080/api/members/join", {
+          .post("http://localhost:8080/api/members/register", {
             name: name,
             gender: gender,
             pw: password,
@@ -398,7 +398,7 @@ function StartPage() {
               <Button variant="secondary" onClick={handleFirstClose}>
                 닫기
               </Button>
-              <Button variant="primary" type="submit" onClick={handleLogin}>
+              <Button variant="primary" type="submit" onClick={handleJWTLogin}>
                 접속하기
               </Button>
             </Form>
