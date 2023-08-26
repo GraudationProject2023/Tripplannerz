@@ -259,28 +259,27 @@ function StartPage() {
       });
   };
 
-  const handleJWTLogin = async (event) => {
+  const handleJWTLogin = (event) => {
     event.preventDefault();
     const credentialDto = {
       email: email,
       pw: password,
     };
-    try {
-      const response = await axios.post(
+    axios.post(
         "http://localhost:8080/api/members/loginJWT",
         credentialDto
-      );
-      const responseData = response.data;
-      if (responseData.token) {
-        const token = responseData.token;
-
+      ).then((res) => 
+      {
+        console.log(res.data.token)
+        const token = res.data.token
+        if(token !== null){
         localStorage.setItem("token", token);
         alert("반갑습니다! 로그인이 되었습니다.");
-        window.location.herf = "/main";
-      }
-    } catch (error) {
-      alert.error("로그인에 실패하였습니다.", error);
-    }
+        window.location.href = "/main";
+        } else{
+          alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
+        }
+      });
   };
 
 
