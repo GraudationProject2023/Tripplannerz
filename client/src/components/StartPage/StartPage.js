@@ -14,6 +14,7 @@ import surfing from "../Image/서핑.png";
 import hotel from "../Image/호텔.png";
 import shopping from "../Image/쇼핑.png";
 import restaurant from "../Image/레스토랑.png";
+import { string } from "prop-types";
 axios.defaults.withCredentials = true;
 
 const onButtonClick = () => {
@@ -258,114 +259,30 @@ function StartPage() {
       });
   };
 
-  const handleJWTLogin =  (event) => {
+  const handleJWTLogin = async (event) => {
     event.preventDefault();
-    axios.post(
-        "http://localhost:8080/api/members/loginJWT",{
-          email: email,
-          password: password,
-      },{
-          withCredentials: true,
-
     const credentialDto = {
       email: email,
       pw: password,
     };
-
     try {
       const response = await axios.post(
         "http://localhost:8080/api/members/loginJWT",
         credentialDto
       );
       const responseData = response.data;
-      if (responseData.result) {
+      if (responseData.token) {
         const token = responseData.token;
 
         localStorage.setItem("token", token);
+        alert("반갑습니다! 로그인이 되었습니다.");
+        window.location.herf = "/main";
       }
     } catch (error) {
-      alert.error("로그인 실패", error);
+      alert.error("로그인에 실패하였습니다.", error);
     }
   };
 
-  const handleLogin = (event) => {
-    event.preventDefault();
-
-    axios
-      .post("http://localhost:8080/api/members/login", {
-        email: email,
-        pw: password,
-      })
-      .then((res) => {
-        console.log(res);
-        var rlt = res.data.result;
-        var na = res.data.name;
-
-        if (rlt === true) {
-          localStorage.setItem("vest", 1);
-        } else {
-          localStorage.setItem("vest", 0);
-        }
-
-        var set = localStorage.getItem("vest");
-
-        if (set === "1") {
-          localStorage.setItem("name", na);
-          alert(`${na}님! 로그인이 되었습니다.`);
-          setFirstShowModal(false);
-          window.location.href = "/main";
-        } else if (set === "0") {
-          alert("로그인이 실패하였습니다. 다시 입력해주세요");
-        }
-      ).then((res) => {
-        console.log(res);
-        // const responseData = response.data;
-        // console.log(responseData);
-      
-        // const token = responseData.token;
-
-        // localStorage.setItem("token", token);
-        
-        //   alert(`로그인이 되었습니다.`);
-        //   setFirstShowModal(false);
-        //   window.location.href = "/main";
-      })
-  };
-
-  // const handleLogin = (event) => {
-  //   event.preventDefault();
-
-  //   axios
-  //     .post("http://localhost:8080/api/members/login", {
-  //       email: email,
-  //       pw: password,
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       var rlt = res.data.result;
-  //       var na = res.data.name;
-
-  //       if (rlt === true) {
-  //         localStorage.setItem("vest", 1);
-  //       } else {
-  //         localStorage.setItem("vest", 0);
-  //       }
-
-  //       var set = localStorage.getItem("vest");
-
-  //       if (set === "1") {
-  //         localStorage.setItem("name", na);
-  //         alert(`${na}님! 로그인이 되었습니다.`);
-  //         setFirstShowModal(false);
-  //         window.location.href = "/main";
-  //       } else if (set === "0") {
-  //         alert("로그인이 실패하였습니다. 다시 입력해주세요");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error(error.response);
-  //     });
-  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
