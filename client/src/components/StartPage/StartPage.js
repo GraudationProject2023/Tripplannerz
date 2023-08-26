@@ -266,6 +266,56 @@ function StartPage() {
           password: password,
       },{
           withCredentials: true,
+
+    const credentialDto = {
+      email: email,
+      pw: password,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/members/loginJWT",
+        credentialDto
+      );
+      const responseData = response.data;
+      if (responseData.result) {
+        const token = responseData.token;
+
+        localStorage.setItem("token", token);
+      }
+    } catch (error) {
+      alert.error("로그인 실패", error);
+    }
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    axios
+      .post("http://localhost:8080/api/members/login", {
+        email: email,
+        pw: password,
+      })
+      .then((res) => {
+        console.log(res);
+        var rlt = res.data.result;
+        var na = res.data.name;
+
+        if (rlt === true) {
+          localStorage.setItem("vest", 1);
+        } else {
+          localStorage.setItem("vest", 0);
+        }
+
+        var set = localStorage.getItem("vest");
+
+        if (set === "1") {
+          localStorage.setItem("name", na);
+          alert(`${na}님! 로그인이 되었습니다.`);
+          setFirstShowModal(false);
+          window.location.href = "/main";
+        } else if (set === "0") {
+          alert("로그인이 실패하였습니다. 다시 입력해주세요");
         }
       ).then((res) => {
         console.log(res);
@@ -327,7 +377,7 @@ function StartPage() {
     } else {
       if (cas === "1") {
         axios
-          .post("http://localhost:8080/api/members/join", {
+          .post("http://localhost:8080/api/members/register", {
             name: name,
             gender: gender,
             pw: password,

@@ -26,7 +26,7 @@ import java.util.Optional;
 @RestController // JSON 형태로 데이터를 반환하는 것
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, exposedHeaders = "Authorization")
 public class MemberController {
 
     private final MemberService memberService;
@@ -38,6 +38,7 @@ public class MemberController {
 
     @PostMapping("/members/register")
     public ResponseEntity<MemberDto> register(@RequestBody SignUpDto signUpDto) {
+        System.out.println("signUpDto.getEmail() + \", \" + signUpDto.getPw() = " + signUpDto.getEmail() + ", " + signUpDto.getPw());
         MemberDto member = memberService.register(signUpDto);
         member.setToken(userAuthProvider.createToken(member.getEmail()));
         return ResponseEntity.ok(member);
@@ -46,7 +47,6 @@ public class MemberController {
     @PostMapping("/members/loginJWT")
     public ResponseEntity<MemberDto> loginJWT(@RequestBody CredentialDto credentialDto) {
         MemberDto member = memberService.login(credentialDto);
-
         member.setToken(userAuthProvider.createToken(member.getEmail()));
         return ResponseEntity.ok(member);
     }

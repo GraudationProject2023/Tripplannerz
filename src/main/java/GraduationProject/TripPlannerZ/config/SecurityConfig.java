@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/members/loginJWT", "/api/members/register", "/api/members/login").permitAll()   // 인증 없이 허용되는 엔드포인트
+                        .requestMatchers(HttpMethod.POST, "/api/members/loginJWT", "/api/members/register", "api/members/emailConfirm", "/api/members/emailConfirmCode").permitAll()   // 인증 없이 허용되는 엔드포인트
                         .anyRequest().authenticated());
         return http.build();
     }
