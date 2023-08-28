@@ -1,6 +1,6 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.dto.trip;
 
-import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

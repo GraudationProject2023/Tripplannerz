@@ -1,7 +1,8 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.dto.member;
 
 import GraduationProject.TripPlannerZ.domain.Gender;
 import GraduationProject.TripPlannerZ.domain.Member;
+import GraduationProject.TripPlannerZ.dto.Preference;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;

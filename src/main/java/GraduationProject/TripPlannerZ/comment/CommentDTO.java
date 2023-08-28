@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.Comment;
+package GraduationProject.TripPlannerZ.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

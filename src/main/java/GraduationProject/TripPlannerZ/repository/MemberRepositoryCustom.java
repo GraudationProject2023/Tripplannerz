@@ -1,8 +1,8 @@
 package GraduationProject.TripPlannerZ.repository;
 
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.dto.MemberInfo;
-import GraduationProject.TripPlannerZ.dto.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
+import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

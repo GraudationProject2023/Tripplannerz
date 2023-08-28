@@ -1,8 +1,8 @@
 package GraduationProject.TripPlannerZ;
 
-import GraduationProject.TripPlannerZ.CityNum.Area;
-import GraduationProject.TripPlannerZ.CityNum.AreaRepository;
-import GraduationProject.TripPlannerZ.CityNum.Sigungu;
+import GraduationProject.TripPlannerZ.cityNum.Area;
+import GraduationProject.TripPlannerZ.cityNum.AreaRepository;
+import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.domain.Party;

@@ -1,6 +1,6 @@
 package GraduationProject.TripPlannerZ.config;
 
-import GraduationProject.TripPlannerZ.config.dto.ErrorDto;
+import GraduationProject.TripPlannerZ.exceptions.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +25,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        om.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path"));
+        om.writeValue(response.getOutputStream(), new Error("Unauthorized path"));
     }
 }
