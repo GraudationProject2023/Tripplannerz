@@ -49,11 +49,11 @@ public class MemberController {
     }
 
     @PostMapping("/members/loginJWT")
-    public ResponseEntity<String> loginJWT(@RequestBody Credential credential) {
+    public ResponseEntity<MemberDto> loginJWT(@RequestBody Credential credential) {
         MemberDto member = memberService.login(credential);
         member.setToken(userAuthProvider.createToken(member.getEmail()));
 
-        return ResponseEntity.ok().body("{\"result\": true}");
+        return ResponseEntity.ok().body(member);
     }
 
     @GetMapping("/members/logout")
