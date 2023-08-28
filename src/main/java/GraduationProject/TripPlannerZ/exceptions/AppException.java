@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.config.exceptions;
+package GraduationProject.TripPlannerZ.exceptions;
 
 import org.springframework.http.HttpStatus;
 

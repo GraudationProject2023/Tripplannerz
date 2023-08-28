@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.Comment;
+package GraduationProject.TripPlannerZ.comment;
 
 
 import GraduationProject.TripPlannerZ.domain.Member;

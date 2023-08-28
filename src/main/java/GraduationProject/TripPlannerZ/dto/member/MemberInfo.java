@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.dto.member;
 
 import GraduationProject.TripPlannerZ.domain.Gender;
 import com.querydsl.core.annotations.QueryProjection;

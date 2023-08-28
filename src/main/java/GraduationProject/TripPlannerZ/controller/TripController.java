@@ -1,15 +1,15 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.API.Item;
-import GraduationProject.TripPlannerZ.CityNum.Area;
-import GraduationProject.TripPlannerZ.CityNum.Sigungu;
-import GraduationProject.TripPlannerZ.CityNum.SigunguRepository;
-import GraduationProject.TripPlannerZ.Comment.CommentService;
+import GraduationProject.TripPlannerZ.cityNum.Area;
+import GraduationProject.TripPlannerZ.cityNum.Sigungu;
+import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
+import GraduationProject.TripPlannerZ.comment.CommentService;
 import GraduationProject.TripPlannerZ.domain.*;
-import GraduationProject.TripPlannerZ.dto.MemberInfo;
-import GraduationProject.TripPlannerZ.dto.MemberTrip;
-import GraduationProject.TripPlannerZ.dto.TripCreate;
-import GraduationProject.TripPlannerZ.dto.TripDetail;
+import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
+import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
+import GraduationProject.TripPlannerZ.dto.trip.TripDetail;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
 import GraduationProject.TripPlannerZ.service.LocationService;

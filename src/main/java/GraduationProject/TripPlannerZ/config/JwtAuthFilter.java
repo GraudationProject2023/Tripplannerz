@@ -27,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (header != null) {
             String[] elements = header.split(" ");
 
+            // key가 Bearer이고 value가 멤버의 토큰값
             if (elements.length == 2 && "Bearer".equals(elements[0])) {
                 try {
                     SecurityContextHolder.getContext().setAuthentication(

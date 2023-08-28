@@ -64,4 +64,8 @@ public class Member {
 
     public void setPw(String pw) { this.pw = pw; };
 
+    public void setTypes(){
+        this.types = new ArrayList<>();
+    }
+
 }

@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

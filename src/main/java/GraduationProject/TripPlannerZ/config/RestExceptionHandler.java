@@ -1,7 +1,7 @@
 package GraduationProject.TripPlannerZ.config;
 
-import GraduationProject.TripPlannerZ.config.dto.ErrorDto;
-import GraduationProject.TripPlannerZ.config.exceptions.AppException;
+import GraduationProject.TripPlannerZ.exceptions.Error;
+import GraduationProject.TripPlannerZ.exceptions.AppException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,8 +15,8 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler(value = {AppException.class})
     @ResponseBody
-    public ResponseEntity<ErrorDto> handeException(AppException ex) {
+    public ResponseEntity<Error> handeException(AppException ex) {
         return ResponseEntity.status(ex.getCode())
-                .body(ErrorDto.builder().message(ex.getMessage()).build());
+                .body(Error.builder().message(ex.getMessage()).build());
     }
 }
