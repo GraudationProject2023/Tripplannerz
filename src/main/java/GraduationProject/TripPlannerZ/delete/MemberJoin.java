@@ -1,23 +1,23 @@
-package GraduationProject.TripPlannerZ.config.dto;
+package GraduationProject.TripPlannerZ.delete;
 
 import GraduationProject.TripPlannerZ.domain.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 @Data
-public class SignUpDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberJoin {
 
     private String name;
-    private char[] pw;
+    private String pw;
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String type;
+
+    private String types;
 }

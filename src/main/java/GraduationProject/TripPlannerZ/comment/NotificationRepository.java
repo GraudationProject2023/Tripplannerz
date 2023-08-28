@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.Comment;
+package GraduationProject.TripPlannerZ.comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

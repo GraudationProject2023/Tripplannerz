@@ -33,12 +33,12 @@ public class UserAuthProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String login) {
+    public String createToken(String email) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + 3_600_000); // 한시간 동안 유효
 
         return JWT.create()
-                .withIssuer(login)
+                .withIssuer(email)
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .sign(Algorithm.HMAC256(secretKey));

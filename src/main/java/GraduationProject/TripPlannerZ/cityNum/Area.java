@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.CityNum;
+package GraduationProject.TripPlannerZ.cityNum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
