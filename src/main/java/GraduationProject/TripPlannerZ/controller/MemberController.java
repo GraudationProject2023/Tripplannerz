@@ -44,6 +44,7 @@ public class MemberController {
 
         // 로그인 시에만 토큰 부여
         //member.setToken(userAuthProvider.createToken(member.getEmail()));
+        //
 
         return ResponseEntity.ok().body("{\"result\": true}");
     }
