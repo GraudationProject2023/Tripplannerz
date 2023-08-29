@@ -30,6 +30,7 @@ const NotificationBadge = ({ count }) => {
 };
 
 function NavBar() {
+  let token = localStorage.getItem("token");
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   // const [tokenReceived, setTokenReceived] = useRecoilState(token);
   const notificationCount = useRecoilValue(notificationsCountState);

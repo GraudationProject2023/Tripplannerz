@@ -34,6 +34,7 @@ function useUpdateEffect(callback, deps) {
 }
 
 function NoticePage() {
+  let token = localStorage.getItem("token");
   const url = "";
 
   const [data, setData] = useState([]);

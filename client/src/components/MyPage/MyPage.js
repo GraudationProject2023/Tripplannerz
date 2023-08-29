@@ -18,6 +18,7 @@ import Pagination from "./utils/SchedulePagination";
 axios.default.withCredentials = true;
 
 function MyPage() {
+  let token = localStorage.getItem("token");
   const [name, setName] = useState(""); //프로필 이름
   const [gender, setGender] = useState(""); //프로필 성별
   const [email, setEmail] = useState(""); //프로필 이메일
