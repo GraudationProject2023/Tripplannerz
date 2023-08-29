@@ -384,8 +384,7 @@ function FindPage() {
     } else {
       axios
         .post("http://localhost:8080/api/trip/create", formData, {
-          headers: { "Content-Type": "multipart/form-data", charset: "utf-8" },
-          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}`},
         })
         .then((response) => {
           alert("여행이 생성되었습니다!");
