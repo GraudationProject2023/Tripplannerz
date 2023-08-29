@@ -259,7 +259,6 @@ function StartPage() {
         credentialDto
       ).then((res) => 
       {
-        console.log(res.data.token)
         const token = res.data.token
         if(token !== null){
         localStorage.setItem("token", token);
