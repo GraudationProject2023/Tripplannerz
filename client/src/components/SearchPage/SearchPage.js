@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 function SearchPage() {
+  let token = localStorage.getItem("token");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const key = searchParams.get("keyword");

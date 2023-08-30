@@ -8,6 +8,7 @@ import Kakao from "../../util/KakaoMap";
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
+  let token = localStorage.getItem("token");
   const location = useLocation();
   const arr = location.pathname.split("/");
   const [loading, setLoading] = useState(true);

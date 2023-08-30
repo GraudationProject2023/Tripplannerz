@@ -11,6 +11,7 @@ import Slider, { Range } from "rc-slider";
 axios.withCredentials = true;
 
 function FindPage() {
+  let token = localStorage.getItem("token");
   const [title, setTitle] = useState("");
   const [capacity, setCapacity] = useState(0);
   const [date, setDate] = useState("");
