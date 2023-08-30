@@ -61,7 +61,8 @@ function MyPage() {
     localStorage.setItem("vest", 1);
     axios.get("http://localhost:8080/api/members/tripInfo", 
      {
-      headers:{'Authorization': `Bearer ${token}` }
+      headers:{'Authorization': `Bearer ${token}` },
+      withCredentials: true
      }).then((response) => {
       setName(response.data.name);
       setGender(response.data.gender);
