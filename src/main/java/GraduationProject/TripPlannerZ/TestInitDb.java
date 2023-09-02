@@ -10,6 +10,7 @@ import GraduationProject.TripPlannerZ.domain.Trip;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,13 +42,14 @@ public class TestInitDb {
 
         private final EntityManager em;
         private final AreaRepository areaRepository;
+        private final PasswordEncoder passwordEncoder;
 
         public void dbInit() {
             // Member 생성
             Member member = Member.builder()
                     .name("1")
                     .email("1@naver.com")
-                    .pw("1")
+                    .pw(passwordEncoder.encode("1"))
                     .types(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();
