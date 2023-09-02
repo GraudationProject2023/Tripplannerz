@@ -5,6 +5,7 @@ import GraduationProject.TripPlannerZ.cityNum.Area;
 import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.comment.CommentService;
+import GraduationProject.TripPlannerZ.config.UserAuthProvider;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
@@ -21,6 +22,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,9 +49,9 @@ public class TripController {
     private final LocationService locationService;
     private final CommentService commentService;
 
+
     @PostMapping("/trip/create")
-    public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile,
-                           HttpServletRequest request) throws IOException {
+    public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile) throws IOException {
 //            @RequestParam("title") String title, @RequestParam("capacity") int capacity,
 //                           @RequestParam("closeRecruitDate") String closeRecruitDate,
 //                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
@@ -57,9 +60,15 @@ public class TripController {
 //                           HttpServletRequesrt request) throws IOException {
 
         // 멤버 찾기
-        HttpSession session = request.getSession(false);
-        String email = (String) session.getAttribute("loginMember");
-        Member member = memberService.findByEmail(email).get();
+//        HttpSession session = request.getSession(false);
+//        String email = (String) session.getAttribute("loginMember");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member principal = (Member) authentication.getPrincipal();
+
+        Member member = memberService.findByEmail(principal.getEmail()).get();
+
+        System.out.println("member.getName() = " + member.getName());
+
 
         // 해당 멤버가 group 생성
         Party party = Party.builder()

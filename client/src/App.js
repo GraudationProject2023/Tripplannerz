@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import StartAnimation from './components/StartPage/StartAnimationPage'
 import StartPage from "./components/StartPage/StartPage";
 import MainPage from "./components/MainPage/MainPage";
 import LoginCallbackpage from "./components/StartPage/Kakao/LoginCallbackpage";
@@ -18,7 +19,8 @@ function App() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<StartPage />} />
+          <Route path="/" element={<StartAnimation />} />
+          <Route path="/start" element={<StartPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/main/:postId" element={<MyPage />} />
           <Route path="/logincallback" element={<MainPage />} />

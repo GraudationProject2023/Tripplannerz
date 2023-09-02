@@ -40,7 +40,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         List<MemberTrip> content;
 
         switch (sortType) {
-            case "조회수":
+            case "new":
                 content = queryFactory
                         .select(new QMemberTrip(
                                 trip.id,
@@ -70,7 +70,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         .fetch();
                 break;
 
-            case "좋아요":
+            case "like":
                 content = queryFactory
                         .select(new QMemberTrip(
                                 trip.id,

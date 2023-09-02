@@ -1,0 +1,14 @@
+body{
+    background-color: black;
+}
+body::-webkit-scrollbar{
+    display:none;
+}
+
+.StartAnimation{
+    max-height: 800px;
+    overflow-y: auto;
+}
+.StartAnimation::-webkit-scrollbar{
+    display:none;
+}
