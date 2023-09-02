@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.dto.member;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;

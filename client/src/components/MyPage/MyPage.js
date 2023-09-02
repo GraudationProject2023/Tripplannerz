@@ -18,6 +18,7 @@ import Pagination from "./utils/SchedulePagination";
 axios.default.withCredentials = true;
 
 function MyPage() {
+  let token = localStorage.getItem("token");
   const [name, setName] = useState(""); //프로필 이름
   const [gender, setGender] = useState(""); //프로필 성별
   const [email, setEmail] = useState(""); //프로필 이메일
@@ -58,9 +59,11 @@ function MyPage() {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    document.cookie =
-      "cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;";
-    axios.get("http://localhost:8080/api/members/tripInfo").then((response) => {
+    axios.get("http://localhost:8080/api/members/tripInfo", 
+     {
+      headers:{'Authorization': `Bearer ${token}` },
+      withCredentials: true
+     }).then((response) => {
       setName(response.data.name);
       setGender(response.data.gender);
       setEmail(response.data.email);
@@ -75,6 +78,7 @@ function MyPage() {
       const response = await axios.get(
         `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
         {
+          headers: {'Authorization': `Bearer ${token}`},
           withCredentials: true,
         }
       );
@@ -98,6 +102,7 @@ function MyPage() {
       const response = await axios.get(
         `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
         {
+          headers: {'Authorization': `Bearer ${token}`},
           withCredentials: true,
         }
       );
@@ -233,6 +238,7 @@ function MyPage() {
       console.log(ranks);
       axios
         .post("http://localhost:8080/api/members/change/types", {
+          headers: {'Authorization': `Bearer ${token}`},
           types: ranks,
         })
         .then((res) => console.log(res), alert("태그가 변경되었습니다."));
@@ -261,7 +267,9 @@ function MyPage() {
   };
   const handleCloseWithdraw = () => {
     axios
-      .post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`)
+      .post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`,{
+        headers: {'Authorization': `Bearer ${token}`}
+      })
       .then((response) => {
         console.log(response.data);
         if (response.data.result === true) {
@@ -329,6 +337,7 @@ function MyPage() {
   const handleCurrentPasswordButton = (e) => {
     axios
       .post("http://localhost:8080/api/members/verify/pw", {
+        headers: {'Authorization': `Bearer ${token}`},
         pw: pw,
       })
       .then((res) => {
@@ -346,7 +355,7 @@ function MyPage() {
     axios
       .post("http://localhost:8080/api/members/change/pw", {
         pw: password,
-      })
+      },{ headers: {'Authorization': `Bearer ${token}`}})
       .then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
   };
 

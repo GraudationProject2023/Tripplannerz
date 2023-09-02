@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.CityNum;
+package GraduationProject.TripPlannerZ.cityNum;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

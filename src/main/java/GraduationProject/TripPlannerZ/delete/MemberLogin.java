@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.dto;
+package GraduationProject.TripPlannerZ.delete;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

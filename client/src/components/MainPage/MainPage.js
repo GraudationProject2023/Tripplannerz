@@ -9,13 +9,13 @@ import main2 from "../Image/main2.jpg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 function MainPage() {
+  let token = localStorage.getItem("token");
   useEffect(() => {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    document.cookie =
-      "cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;";
   }, []);
 
   function MainSlider() {
@@ -43,22 +43,6 @@ function MainPage() {
     );
   }
 
-  function logout() {
-    axios
-      .get("http://localhost:8080/api/members/logout")
-      .then((res) => {
-        console.log(res);
-        alert("정상적으로 로그아웃 되었습니다.");
-        localStorage.setItem("vest", 0);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("서버와의 연결이 끊어졌습니다.");
-        localStorage.setItem("vest", 0);
-      });
-
-    window.location.href = "/";
-  }
 
   useEffect(() => {
     localStorage.setItem("vest", 1);

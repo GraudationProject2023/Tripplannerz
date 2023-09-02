@@ -1,10 +1,10 @@
 package GraduationProject.TripPlannerZ.repository;
 
 import GraduationProject.TripPlannerZ.domain.*;
-import GraduationProject.TripPlannerZ.dto.MemberInfo;
-import GraduationProject.TripPlannerZ.dto.MemberTrip;
-import GraduationProject.TripPlannerZ.dto.QMemberInfo;
-import GraduationProject.TripPlannerZ.dto.QMemberTrip;
+import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
+import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.member.QMemberInfo;
+import GraduationProject.TripPlannerZ.dto.member.QMemberTrip;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;

@@ -7,6 +7,7 @@ import StarRating from "./utils/StarRating";
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
+  let token = localStorage.getItem("token");
   const { postId } = useParams();
   const [post, setPost] = useState({});
   const [loading, setLoading] = useState(true);

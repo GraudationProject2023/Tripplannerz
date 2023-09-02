@@ -1,13 +1,13 @@
 package GraduationProject.TripPlannerZ.service;
 
-import GraduationProject.TripPlannerZ.config.dto.CredentialDto;
-import GraduationProject.TripPlannerZ.config.dto.MemberDto;
-import GraduationProject.TripPlannerZ.config.dto.SignUpDto;
-import GraduationProject.TripPlannerZ.config.exceptions.AppException;
+import GraduationProject.TripPlannerZ.dto.member.Credential;
+import GraduationProject.TripPlannerZ.dto.member.MemberDto;
+import GraduationProject.TripPlannerZ.dto.member.MemberRegister;
+import GraduationProject.TripPlannerZ.exceptions.AppException;
 import GraduationProject.TripPlannerZ.config.mappers.MemberMapper;
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.dto.MemberInfo;
-import GraduationProject.TripPlannerZ.dto.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
+import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import GraduationProject.TripPlannerZ.repository.PartyRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.CharBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,20 +44,20 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDto register(SignUpDto signUpDto) {
-        Optional<Member> optionalMember = memberRepository.findByEmail(signUpDto.getEmail());
+    public MemberDto register(MemberRegister memberRegister) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(memberRegister.getEmail());
 
         if (optionalMember.isPresent()) {
             throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
         }
 
-        Member member = memberMapper.signUptoMember(signUpDto);
+        Member member = memberMapper.signUptoMember(memberRegister);
+        member.setPw(passwordEncoder.encode(CharBuffer.wrap(memberRegister.getPw())));
 
-        member.setPw(passwordEncoder.encode(CharBuffer.wrap(signUpDto.getPw())));
+        member.setTypes();
+        memberPreferenceService.setTypes(member, memberRegister.getTypes());
 
-//        Member savedMember = memberRepository.save(member);
         memberRepository.save(member);
-//        memberPreferenceService.setTypes(savedMember, signUpDto.getType());
 
         return memberMapper.toMemberDto(member);
 
@@ -106,11 +107,11 @@ public class MemberService {
         return memberMapper.toMemberDto(member);
     }
 
-    public MemberDto login(CredentialDto credentialDto) {
-        Member member = memberRepository.findByEmail(credentialDto.getEmail())
+    public MemberDto login(Credential credential) {
+        Member member = memberRepository.findByEmail(credential.getEmail())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
-        if (passwordEncoder.matches(CharBuffer.wrap(credentialDto.getPw()), member.getPw())) {
+        if (passwordEncoder.matches(CharBuffer.wrap(credential.getPw()), member.getPw())) {
             return memberMapper.toMemberDto(member);
         }
 

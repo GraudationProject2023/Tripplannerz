@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 function SearchPage() {
+  let token = localStorage.getItem("token");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const key = searchParams.get("keyword");
@@ -37,8 +38,6 @@ function SearchPage() {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    document.cookie =
-      "cookieName=JSESSIONID; expires=THU, 01 Jan 1970 00:00:00 UTC; path=/;";
   }, []);
 
   useEffect(() => {
@@ -54,6 +53,7 @@ function SearchPage() {
       const response = await axios.get(
         `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
         {
+          headers: {'Authorization': `Bearer ${token}`},
           withCredentials: true,
         }
       );
@@ -80,6 +80,7 @@ function SearchPage() {
       const response = await axios.get(
         `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
         {
+          headers: {'Authorization': `Bearer ${token}`},
           withCredentials: true,
         }
       );

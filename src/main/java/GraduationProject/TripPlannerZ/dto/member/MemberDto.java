@@ -1,4 +1,4 @@
-package GraduationProject.TripPlannerZ.config.dto;
+package GraduationProject.TripPlannerZ.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class CredentialDto {
+public class MemberDto {
 
+    private String name;
     private String email;
-    private char[] pw;
+    private String token;
+
+
+
 }

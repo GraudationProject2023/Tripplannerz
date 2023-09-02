@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
@@ -30,6 +31,8 @@ const NotificationBadge = ({ count }) => {
 };
 
 function NavBar() {
+  let token = localStorage.getItem("token");
+  const EventSource = EventSourcePolyfill || NativeEventSource;
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   // const [tokenReceived, setTokenReceived] = useRecoilState(token);
   const notificationCount = useRecoilValue(notificationsCountState);
@@ -37,14 +40,16 @@ function NavBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let tempEvent = new EventSource("http://localhost:8080/api/sub");
+    
+    if(token){
+    let tempEvent = new EventSource("http://localhost:8080/api/sub", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+     withCredentials: true
+    });
     console.log(tempEvent);
-
-    // setEventSourceCreate(tempEvent);
-
-    // let token = localStorage.getItem("token");
-    // setTokenReceived(token);
-    // localStorage.removeItem("token");
+  }
   }, []);
 
   //검색창
@@ -72,7 +77,11 @@ function NavBar() {
 
   function logout() {
     axios
-      .get("http://localhost:8080/api/members/logout")
+      .get("http://localhost:8080/api/members/logout",{
+        headers:{
+                      'Authorization': `Bearer ${token}`
+                  }
+      })
       .then((res) => {
         console.log(res);
         alert("정상적으로 로그아웃 되었습니다.");

@@ -8,6 +8,7 @@ import Kakao from "../../util/KakaoMap";
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
+  let token = localStorage.getItem("token");
   const location = useLocation();
   const arr = location.pathname.split("/");
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,10 @@ function SearchResultPage(props) {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`).then((res) => {
+    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
+      headers: {'Authorization': `Bearer ${token}`},
+      withCredentials: true,
+    }).then((res) => {
       setTitle(res.data.title);
       setStartingDate(res.data.startingDate);
       setComingDate(res.data.comingDate);

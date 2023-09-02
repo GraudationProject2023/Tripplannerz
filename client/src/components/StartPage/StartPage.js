@@ -198,17 +198,6 @@ function StartPage() {
     setConfirmPassword(CONFIRMPASSWORD);
   };
 
-  const characterCheck = (event) => {
-    var regExp =
-      /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]/gi;
-    if (event.target.value !== undefined && regExp.test(event.target.value)) {
-      event.target.value = event.target.value.substring(
-        0,
-        event.target.value.length - 1
-      );
-    }
-  };
-
   const EmailSend = (event) => {
     event.preventDefault();
     if (checkEmail === true) {
@@ -270,7 +259,6 @@ function StartPage() {
         credentialDto
       ).then((res) => 
       {
-        console.log(res.data.token)
         const token = res.data.token
         if(token !== null){
         localStorage.setItem("token", token);

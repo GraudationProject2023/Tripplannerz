@@ -1,8 +1,8 @@
 package GraduationProject.TripPlannerZ.sseEmitter;
 
 
-import GraduationProject.TripPlannerZ.Comment.Comment;
-import GraduationProject.TripPlannerZ.Comment.Notification;
+import GraduationProject.TripPlannerZ.comment.Comment;
+import GraduationProject.TripPlannerZ.comment.Notification;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.service.MemberService;
