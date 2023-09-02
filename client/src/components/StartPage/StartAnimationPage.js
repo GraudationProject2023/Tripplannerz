@@ -4,7 +4,7 @@ import Trip from '../Image/관광지.png';
 import './StartAnimationPage.css'
 
 function movetoStart(){
-  window.location.href="/"
+  window.location.href="/start"
 }
 
 
@@ -92,7 +92,8 @@ const AboutContent = styled.h1`
 
 const AboutButton = styled.button`
   background-color: black; 
-  color: white; 
+  color: white;
+  border-radius : 10px;
   transition: background-color 0.3s, color 0.3s;
 
   &.animation {
