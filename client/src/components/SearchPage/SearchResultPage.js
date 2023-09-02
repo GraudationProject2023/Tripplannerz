@@ -22,6 +22,7 @@ function SearchResultPage(props) {
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
   const [comments, setComments] = useState([]);
+
   
   async function fetchComment() {
     try {
