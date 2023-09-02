@@ -19,8 +19,8 @@ function App() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<StartPage />} />
-          <Route path="/start" element={<StartAnimation />} />
+          <Route path="/" element={<StartAnimation />} />
+          <Route path="/start" element={<StartPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/main/:postId" element={<MyPage />} />
           <Route path="/logincallback" element={<MainPage />} />
