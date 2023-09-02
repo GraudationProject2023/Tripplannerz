@@ -58,7 +58,7 @@ public class TestInitDb {
             Member member2 = Member.builder()
                     .name("2")
                     .email("2@naver.com")
-                    .pw("2")
+                    .pw(passwordEncoder.encode("2"))
                     .types(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();

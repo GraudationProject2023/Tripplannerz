@@ -1,6 +1,7 @@
 package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.config.UserAuthProvider;
+import GraduationProject.TripPlannerZ.domain.MemberPreference;
 import GraduationProject.TripPlannerZ.dto.member.Credential;
 import GraduationProject.TripPlannerZ.dto.member.MemberDto;
 import GraduationProject.TripPlannerZ.dto.member.MemberRegister;
@@ -20,8 +21,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -66,23 +70,25 @@ public class MemberController {
     }
 
     @GetMapping("/members/tripInfo")
-    public MyPage getMemberTrip(HttpServletRequest request) {
+    public MyPage getMemberTrip() {
 
-        String email = (String) request.getSession().getAttribute("loginMember");
-        Optional<Member> loginMember = memberService.findByEmail(email);
-        Member member = loginMember.get();
+//        String email = (String) request.getSession().getAttribute("loginMember");
+//        Optional<Member> loginMember = memberService.findByEmail(email);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member loginMember = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(loginMember.getEmail()).get();
 
         return new MyPage(member);
-
-
     }
 
     @GetMapping("/members/tripList")
-    public Page<MemberTrip> getMemberTripList(HttpServletRequest request,
-                                              @RequestParam("page") int page,
+    public Page<MemberTrip> getMemberTripList(@RequestParam("page") int page,
                                               @RequestParam("sortType") String sortType) {
-        String email = (String) request.getSession().getAttribute("loginMember");
-        Member member = memberService.findByEmail(email).get();
+//        String email = (String) request.getSession().getAttribute("loginMember");
+//        Member member = memberService.findByEmail(email).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member loginMember = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(loginMember.getEmail()).get();
 
         PageRequest pageRequest = PageRequest.of(page, 10);
 
