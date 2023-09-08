@@ -95,10 +95,10 @@ public class TestInitDb {
                     .build();
             em.persist(party5);
 
-            Party party6 = Party.builder()
-                    .memberPartyList(new ArrayList<>())
-                    .build();
-            em.persist(party6);
+//            Party party6 = Party.builder()
+//                    .memberPartyList(new ArrayList<>())
+//                    .build();
+//            em.persist(party6);
 
             MemberParty memberParty = MemberParty.addPartyMember(member, party);
             MemberParty memberParty1 = MemberParty.addPartyMember(member, party1);
@@ -106,7 +106,7 @@ public class TestInitDb {
             MemberParty memberParty3 = MemberParty.addPartyMember(member, party3);
             MemberParty memberParty4 = MemberParty.addPartyMember(member, party4);
             MemberParty memberParty5 = MemberParty.addPartyMember(member, party5);
-            MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
+//            MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
             MemberParty memberParty7 = MemberParty.addPartyMember(member2, party);
             em.persist(memberParty);
             em.persist(memberParty1);
@@ -114,7 +114,7 @@ public class TestInitDb {
             em.persist(memberParty3);
             em.persist(memberParty4);
             em.persist(memberParty5);
-            em.persist(memberParty6);
+//            em.persist(memberParty6);
             em.persist(memberParty7);
 
             //em.persist(memberParty1);

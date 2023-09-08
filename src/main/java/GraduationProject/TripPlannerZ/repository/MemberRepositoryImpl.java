@@ -40,7 +40,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         List<MemberTrip> content;
 
         switch (sortType) {
-            case "new":
+            case "new2":
                 content = queryFactory
                         .select(new QMemberTrip(
                                 trip.id,
