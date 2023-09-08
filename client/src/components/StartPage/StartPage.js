@@ -304,7 +304,7 @@ function StartPage() {
         <video
           className="video"
           ref={videoRef}
-          src="https://drive.google.com/uc?export=download&id=1lDhpyyyWknwmeMIGsVypMNdrU_4g_w56"
+          src="https://drive.google.com/uc?export=download&id=1ifnERKh7Q7OzSY_pL9Kvx36LAFTg8Wtv"
           autoPlay
           muted
           loop
