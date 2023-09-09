@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CommentPost {
 
-    private String content;
+    private String review;
     private String tripUUID;
 
 }

@@ -27,13 +27,13 @@ public class Comment {
     private Trip trip;
 
     @Column(columnDefinition = "TEXT")
-    private String content;
+    private String review;
 
     private String postDate;
 
     @Builder
-    public Comment(Member sender, Trip trip, String content, String postDate) {
-        this.content = content;
+    public Comment(Member sender, Trip trip, String review, String postDate) {
+        this.review = review;
         this.postDate = postDate;
         setSender(sender);
         setTrip(trip);
