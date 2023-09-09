@@ -59,9 +59,9 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
   
-    axios.post(`http://localhost:8080/api/trip/postComment`,{
+    axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
-    },postToServer)
+    })
     .then((res) => console.log(res))
   },[comments])
 
