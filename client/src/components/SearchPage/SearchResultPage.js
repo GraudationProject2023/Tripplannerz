@@ -59,10 +59,15 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
   
-    axios.post(`http://localhost:8080/api/trip/postComment`,{
+    axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
-    },postToServer)
+    })
     .then((res) => console.log(res))
+    .then((res) => {
+      console.log(res)
+      window.location.href=`/search/${arr[2]}`
+      console.log("새로고침 되었습니다.")
+    })
   },[comments])
 
  
