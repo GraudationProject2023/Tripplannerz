@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TripComment {
 
-    private Long senderId;
-    private String content;
+    private String senderName;
+    private String review;
     private String postDate;
 
     @QueryProjection
-    public TripComment(Long senderId, String content, String postDate) {
-        this.senderId = senderId;
-        this.content = content;
+    public TripComment(String senderName, String review, String postDate) {
+        this.senderName = senderName;
+        this.review = review;
         this.postDate = postDate;
     }
 }

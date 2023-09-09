@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,11 +31,13 @@ public class CommentController {
         Member sender = memberService.findByEmail(loginMember.getEmail()).get();
         Trip trip = tripService.findByUUID(commentPost.getTripUUID()).get();
 
+        String curDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+
         Comment comment = Comment.builder()
-                .content(commentPost.getContent())
+                .review(commentPost.getReview())
                 .sender(sender)
                 .trip(trip)
-                .postDate(LocalDate.now().toString())
+                .postDate(curDateTime)
                 .build();
 
         commentService.saveComment(comment);
