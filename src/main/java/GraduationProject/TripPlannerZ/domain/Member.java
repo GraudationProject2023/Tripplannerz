@@ -1,5 +1,6 @@
 package GraduationProject.TripPlannerZ.domain;
 
+import GraduationProject.TripPlannerZ.comment.Comment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,14 +29,18 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberParty> memberPartyList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
     @Builder
-    public Member(String pw, String email, String name, Gender gender, List<MemberPreference> types, List<MemberParty> memberPartyList) {
+    public Member(String pw, String email, String name, Gender gender, List<MemberPreference> types, List<MemberParty> memberPartyList, List<Comment> comments) {
         this.pw = pw;
         this.email = email;
         this.name = name;
         this.gender = gender;
         this.types = types;
         this.memberPartyList = memberPartyList;
+        this.comments = comments;
     }
 
     // == 회원 탈퇴 == //

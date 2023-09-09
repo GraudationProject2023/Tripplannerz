@@ -1,5 +1,6 @@
 package GraduationProject.TripPlannerZ.domain;
 
+import GraduationProject.TripPlannerZ.comment.Comment;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class Trip {
     private int areaCode;
     private int sigunguCode;
 
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
     @OneToOne(mappedBy = "trip", fetch = FetchType.LAZY)
     private Party party;
 
@@ -45,7 +49,7 @@ public class Trip {
     @Builder
     public Trip(String title, List<TripImage> tripImage, int recruitNum,
                 String closeRecruitDate, String content,
-                String startingDate, String comingDate, Party party, int areaCode, int sigunguCode) {
+                String startingDate, String comingDate, Party party, int areaCode, int sigunguCode, List<Comment> comments) {
 
         this.UUID = java.util.UUID.randomUUID().toString();
         this.title = title;
@@ -57,6 +61,7 @@ public class Trip {
         this.tripImages = tripImage;
         this.areaCode = areaCode;
         this.sigunguCode = sigunguCode;
+        this.comments = comments;
 
         likes = 0;
         hits = 0;
