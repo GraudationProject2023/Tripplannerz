@@ -145,7 +145,7 @@ function SearchResultPage(props) {
               <Card style={{ width: "800px" }} key={index}>
                 <p>날짜: {comment.postDate}</p>
                 <p>글쓴이: {comment.senderName}</p>
-                <p>댓글: {comment.content}</p>
+                <p>댓글: {comment.review}</p>
               </Card>
             ))}
       </div>
