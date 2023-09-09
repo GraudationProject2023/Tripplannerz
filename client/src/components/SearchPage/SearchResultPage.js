@@ -62,7 +62,6 @@ function SearchResultPage(props) {
     axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
     })
-    .then((res) => console.log(res))
     .then((res) => {
       console.log(res)
       window.location.href=`/search/${arr[2]}`
