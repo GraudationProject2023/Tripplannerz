@@ -38,23 +38,23 @@ function NavBar() {
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
 
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   if(token){
-  //   let tempEvent = new EventSource("http://localhost:8080/api/sub", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //    withCredentials: false
-  //   });
+    if(token){
+    let tempEvent = new EventSource("http://localhost:8080/api/sub", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+     withCredentials: false
+    });
 
-  //   console.log(tempEvent);
-  // }
-  // }, []);
+    console.log(tempEvent);
+  }
+  }, []);
 
   //검색창
   const handleSearch = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && searchTerm !== "") {
       event.preventDefault();
       const url = `/search?keyword=${searchTerm}`;
       navigate(url);
@@ -148,7 +148,8 @@ function NavBar() {
   };
 
   const moveToSearch = (e) => {
-    window.location.href = "/search";
+    setSearchTerm("");
+    window.location.href = `/search?keyword=${searchTerm}`;
   };
 
   const moveToNotice = (e) => {
