@@ -54,7 +54,7 @@ function NavBar() {
 
   //검색창
   const handleSearch = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && searchTerm !== "") {
       event.preventDefault();
       const url = `/search?keyword=${searchTerm}`;
       navigate(url);
@@ -148,7 +148,8 @@ function NavBar() {
   };
 
   const moveToSearch = (e) => {
-    window.location.href = "/search";
+    setSearchTerm("");
+    window.location.href = `/search?keyword=${searchTerm}`;
   };
 
   const moveToNotice = (e) => {

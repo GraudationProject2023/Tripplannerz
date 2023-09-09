@@ -18,7 +18,7 @@ function SearchPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [total, setTotal] = useState(13);
-  const [keyword, setKeyword] = useState(""); //Navbar 검색창
+  const [keyword, setKeyword] = useState(null); //Navbar 검색창
   const [localKeyword, setLocalKeyword] = useState(""); //SearchPage 검색창
   var [currentNumber, setCurrentNumber] = useState(0);
   const [order, setOrder] = useState("new");
@@ -48,6 +48,7 @@ function SearchPage() {
       encodedKey = key;
     }
     setKeyword(encodedKey);
+    
     const fetchData = async () => {
       setLoading(true);
       const response = await axios.get(
@@ -68,32 +69,7 @@ function SearchPage() {
     };
     fetchData();
   }, [currentPage, currentNumber, order, key]);
-  useEffect(() => {
-    let encodedKey;
-    if (/[\u0080-\uFFFF]/.test(key)) {
-      encodedKey = encodeURIComponent(localKeyword);
-    } else {
-      encodedKey = localKeyword;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
-        {
-          headers: {'Authorization': `Bearer ${token}`},
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-      setPosts(response.data.content);
-      setTotal(response.data.totalElements);
-      setTotalPage(response.data.totalPages);
-      const postNumberArray = response.data.content.map((post) => post.id);
-      setPostNumber(postNumberArray);
-      setLoading(false);
-    };
-    fetchData();
-  }, [currentPage, currentNumber, order, localKeyword]);
+  
 
   const handleInputChange = (e) => {
     setLocalKeyword(e.target.value);
@@ -229,24 +205,6 @@ function SearchPage() {
           </tbody>
         </table>
         <div>
-        {size === 0 ? (
-          ""
-        ) : (
-          <div className="searchText">
-            <table>
-              <td>
-                <input
-                  type="text"
-                  onChange={handleInputChange}
-                  placeholder="검색어를 입력하세요"
-                />
-              </td>
-              <td>
-                <img src={find} />
-              </td>
-            </table>
-          </div>
-        )}
       </div>
         {size === 0 ? (
           ""
