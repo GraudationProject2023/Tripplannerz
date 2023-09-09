@@ -8,36 +8,41 @@ import Kakao from "../../util/KakaoMap";
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
+  
   let token = localStorage.getItem("token");
+  
   const location = useLocation();
+  
   const arr = location.pathname.split("/");
+  
   const [loading, setLoading] = useState(true);
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
+  
   const [title, setTitle] = useState(""); //제목
+  
   const [startingDate, setStartingDate] = useState(""); //시작 날짜
+  
   const [comingDate, setComingDate] = useState(""); //종료 날짜
+  
   const [content, setContent] = useState(""); //내용
+  
   const [memberNum, setMemberNum] = useState(0); //멤버 수
+  
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
-  const [comments, setComments] = useState([]);
-
+  const [review, setReview] = useState("");//댓글의 실제 내용
   
-  async function fetchComment() {
-    try {
-      const response = await axios.get("");
-      setComments(response.data);
-    } catch (error) {
-      console.log("Error Occured: ", error);
-    }
-  }
+  const [rating, setRating] = useState(0);//댓글의 평점
+
+  const [comments, setComments] = useState([{rating: 5, review: '샘플'}]);
+
+  const [tripUuid, setTripUuid] = useState("");
 
   useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
     }).then((res) => {
+      setTripUuid(res.data.uuid);
       setTitle(res.data.title);
       setStartingDate(res.data.startingDate);
       setComingDate(res.data.comingDate);
@@ -48,9 +53,19 @@ function SearchResultPage(props) {
   }, []);
 
   useEffect(() => {
-    fetchComment();
-  },[])
 
+    const postToServer = {
+      content: comments[comments.length-1].review,
+      tripUUID: tripUuid
+    }
+  
+    axios.post(`http://localhost:8080/api/trip/postComment`,{
+      headers: {'Authorization': `Bearer ${token}`}
+    },postToServer)
+    .then((res) => console.log(res))
+  },[comments])
+
+ 
   const data = {
     uuid: arr[2],
     comment: comments.review,

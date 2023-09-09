@@ -45,10 +45,10 @@ function NavBar() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-     withCredentials: true
+     withCredentials: false
     });
-    setEventSourceCreate(tempEvent);
-    console.log(eventSourceCreate);
+
+    console.log(tempEvent);
   }
   }, []);
 
