@@ -204,7 +204,7 @@ function SearchPage() {
   return (
     <div>
       <Navbar />
-      <div className="profile-card">
+      <div className="profile-Card">
         <br />
         <h4>전체 일정 조회</h4>
         <select className="select" value={order} onChange={handleSelectOrder}>
