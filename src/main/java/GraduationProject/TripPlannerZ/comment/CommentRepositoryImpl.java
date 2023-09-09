@@ -24,8 +24,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public List<TripComment> tripCommentsList(String tripUUID) {
 
         List<TripComment> commentList = queryFactory.select(new QTripComment(
-                        comment.sender.id,
-                        comment.content,
+                        comment.sender.name,
+                        comment.review,
                         comment.postDate
 
                 ))
