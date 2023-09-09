@@ -15,15 +15,18 @@ import GraduationProject.TripPlannerZ.service.MemberPreferenceService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 
 import GraduationProject.TripPlannerZ.service.TripService;
+import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +43,7 @@ public class MemberController {
     private final TripService tripService;
     private final MemberPreferenceService memberPreferenceService;
     private final UserAuthProvider userAuthProvider;
+    private final SseEmitterService sseEmitterService;
 
 
     @PostMapping("/members/register")
@@ -59,6 +63,19 @@ public class MemberController {
         member.setToken(userAuthProvider.createToken(member.getEmail()));
 
         return ResponseEntity.ok().body(member);
+    }
+
+    @RequestMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe() {
+        // 세션문제 해결하면 주석 제거
+//        String memberEmail = (String) request.getSession().getAttribute("loginMember");
+//        Long memberId = memberService.findByEmail(memberEmail).get().getId();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member loginMember = (Member) authentication.getPrincipal();
+
+        return sseEmitterService.subscribe(loginMember.getId());
+
     }
 
     @GetMapping("/members/logout")
