@@ -34,6 +34,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                                 .selectFrom(trip)
                                 .where(trip.UUID.eq(tripUUID))
                 ))
+                .orderBy(comment.postDate.desc())
                 .fetch();
 
         return commentList;
