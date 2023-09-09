@@ -33,7 +33,7 @@ function SearchResultPage(props) {
   
   const [rating, setRating] = useState(0);//댓글의 평점
 
-  const [comments, setComments] = useState([{rating: 5, review: '샘플'}]);
+  const [comments, setComments] = useState([]);
 
   const [tripUuid, setTripUuid] = useState("");
 
@@ -49,51 +49,23 @@ function SearchResultPage(props) {
       setContent(res.data.content);
       setMemberNum(res.data.memberNum);
       setMemberList(res.data.memberList);
+      setComments(res.data.commentList);
     });
   }, []);
 
-  useEffect(() => {
-
-    const postToServer = {
-      content: comments[comments.length-1].review,
-      tripUUID: tripUuid
-    }
-  
-    axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
-      headers: {'Authorization': `Bearer ${token}`}
-    })
-    .then((res) => {
-      console.log(res)
-      window.location.href=`/search/${arr[2]}`
-      console.log("새로고침 되었습니다.")
-    })
-  },[comments])
-
- 
-  const data = {
-    uuid: arr[2],
-    comment: comments.review,
-    rating: comments.rating,
-  };
-
-  const sendAddComment = () => {
-    if (!data) {
-      axios.post("", data).then((res) => console.log(res));
-    }
-  };
-
   const handleAddComment = () => {
-    if (review && rating > 0) {
-      const newComment = {
-        review,
-        rating,
-      };
+    if(review){
+      const postToServer = {
+        review: review,
+        tripUUID: tripUuid,
+      }
 
-      setComments((prevComments) => [...prevComments, newComment]);
-      sendAddComment();
-
-      setReview("");
-      setRating(0);
+      axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
+       headers: {'Authorization': `Bearer ${token}`}
+     }).then((res) => {
+      alert("댓글이 등록되었습니다.")
+      window.location.href=`/search/${arr[2]}`
+     }).catch((res) => alert('댓글 등록에 오류가 발생하였습니다.'))
     }
   };
 
@@ -171,8 +143,9 @@ function SearchResultPage(props) {
           ? ""
           : comments.map((comment, index) => (
               <Card style={{ width: "800px" }} key={index}>
-                <p>별점: {comment.rating}</p>
-                <p>댓글: {comment.review}</p>
+                <p>날짜: {comment.postDate}</p>
+                <p>글쓴이: {comment.senderName}</p>
+                <p>댓글: {comment.content}</p>
               </Card>
             ))}
       </div>
