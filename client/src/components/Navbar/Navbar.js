@@ -34,7 +34,6 @@ function NavBar() {
   let token = localStorage.getItem("token");
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-  // const [tokenReceived, setTokenReceived] = useRecoilState(token);
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
@@ -48,7 +47,8 @@ function NavBar() {
       },
      withCredentials: true
     });
-    console.log(tempEvent);
+    setEventSourceCreate(tempEvent);
+    console.log(eventSourceCreate);
   }
   }, []);
 
