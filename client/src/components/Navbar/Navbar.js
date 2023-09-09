@@ -38,19 +38,19 @@ function NavBar() {
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    if(token){
-    let tempEvent = new EventSource("http://localhost:8080/api/sub", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-     withCredentials: false
-    });
+  //   if(token){
+  //   let tempEvent = new EventSource("http://localhost:8080/api/sub", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //    withCredentials: false
+  //   });
 
-    console.log(tempEvent);
-  }
-  }, []);
+  //   console.log(tempEvent);
+  // }
+  // }, []);
 
   //검색창
   const handleSearch = (event) => {
