@@ -355,18 +355,9 @@ function StartAnimation() {
         </AboutContent>
         <br />
         <br />
-        <table>
-        <td>
         <AboutButton onClick={movetoStart}>
-          로그인
+          서비스 시작하기
         </AboutButton>
-        </td>
-        <td>
-        <AboutButton onCLick={movetoStart}>
-          회원가입
-        </AboutButton>
-        </td>
-        </table>
         </StyledAboutContainer>
       )}
     </div>
