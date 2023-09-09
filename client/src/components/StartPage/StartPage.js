@@ -14,7 +14,6 @@ import surfing from "../Image/서핑.png";
 import hotel from "../Image/호텔.png";
 import shopping from "../Image/쇼핑.png";
 import restaurant from "../Image/레스토랑.png";
-import { string } from "prop-types";
 axios.defaults.withCredentials = true;
 
 const onButtonClick = () => {
@@ -339,13 +338,11 @@ function StartPage() {
             <Form onSubmit={handleSubmit}>
               <Form.Control
                 type="email"
-                onEnterPress={handleJWTLogin}
                 placeholder="이메일을 입력해주세요"
                 onChange={handleEmailChange}
               />
               <Form.Control
                 type="password"
-                onEnterPress={handleJWTLogin}
                 placeholder="비밀번호를 입력해주세요"
                 onChange={handlePasswordChange}
               />
