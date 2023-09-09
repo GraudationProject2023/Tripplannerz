@@ -5,6 +5,7 @@ import GraduationProject.TripPlannerZ.cityNum.Area;
 import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.comment.CommentService;
+import GraduationProject.TripPlannerZ.comment.TripComment;
 import GraduationProject.TripPlannerZ.config.UserAuthProvider;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
@@ -168,9 +169,11 @@ public class TripController {
         List<MemberInfo> memberList = memberService.memberList(id);
         Trip trip = tripService.findById(id).get();
 
+        List<TripComment> commentList = commentService.getCommentList(trip.getUUID());
+
         TripDetail tripDetail = new TripDetail(trip.getId(), trip.getUUID(), trip.getTitle(),
                 trip.getStartingDate(), trip.getComingDate(), trip.getContent(),
-                memberList.size(), memberList);
+                memberList.size(), memberList, commentList);
 
         return tripDetail;
     }
