@@ -26,20 +26,28 @@ public class Comment {
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    private String content;
+    @Column(columnDefinition = "TEXT")
+    private String review;
+
+    private String postDate;
 
     @Builder
-    public Comment(Member sender, Trip trip, String content) {
-        this.content = content;
+    public Comment(Member sender, Trip trip, String review, String postDate) {
+        this.review = review;
+        this.postDate = postDate;
         setSender(sender);
         setTrip(trip);
     }
 
+
+    // == 연관 관계 편의 메소드 == //
     public void setTrip(Trip trip) {
         this.trip = trip;
+        trip.getComments().add(this);
     }
 
     public void setSender(Member sender) {
         this.sender = sender;
+        sender.getComments().add(this);
     }
 }

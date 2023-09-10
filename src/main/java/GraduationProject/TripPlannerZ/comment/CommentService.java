@@ -3,6 +3,8 @@ package GraduationProject.TripPlannerZ.comment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -12,6 +14,12 @@ public class CommentService {
     public Long saveComment(Comment comment) {
 
         return commentRepository.save(comment).getId();
+
+    }
+
+    public List<TripComment> getCommentList(String tripUUID) {
+
+        return commentRepository.tripCommentsList(tripUUID);
 
     }
 
