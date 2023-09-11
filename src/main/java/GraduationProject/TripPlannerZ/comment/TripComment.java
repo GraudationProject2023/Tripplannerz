@@ -2,6 +2,7 @@ package GraduationProject.TripPlannerZ.comment;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,5 +19,12 @@ public class TripComment {
         this.senderName = senderName;
         this.review = review;
         this.postDate = postDate;
+    }
+
+    @Builder
+    public TripComment(Comment comment) {
+        this.senderName = comment.getSender().getName();
+        this.postDate = comment.getPostDate();
+        this.review = comment.getReview();
     }
 }
