@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.sseEmitter;
 
 import GraduationProject.TripPlannerZ.comment.Comment;
 import GraduationProject.TripPlannerZ.comment.Notification;
+import GraduationProject.TripPlannerZ.comment.TripComment;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.domain.MemberParty;
 import GraduationProject.TripPlannerZ.service.MemberService;
@@ -106,8 +107,12 @@ public class SseEmitterService {
 //            notificationService.saveNotification(notification);
             Long id = m.getId();
 
+            TripComment tripComment = TripComment.builder()
+                    .comment(comment)
+                    .build();
+
             if (sseEmitterRepository.containsEmittersByMemberId(id)) {
-                sendNotification(id, notification);
+                sendNotification(id, tripComment);
             }
         }
 

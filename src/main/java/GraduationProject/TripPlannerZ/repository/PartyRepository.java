@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PartyRepository extends JpaRepository<Party, Long>, PartyRepositoryCustom {
 
     public void deleteById(Long userId);
-    public Long findByTripId(Long id);
+    public Long findByTrip(Long id);
 }
