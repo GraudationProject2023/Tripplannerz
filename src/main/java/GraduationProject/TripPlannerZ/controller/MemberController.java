@@ -10,11 +10,8 @@ import GraduationProject.TripPlannerZ.dto.member.ChangeMemberInfo;
 import GraduationProject.TripPlannerZ.delete.MemberLogin;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.member.MyPage;
-import GraduationProject.TripPlannerZ.service.LoginService;
-import GraduationProject.TripPlannerZ.service.MemberPreferenceService;
-import GraduationProject.TripPlannerZ.service.MemberService;
+import GraduationProject.TripPlannerZ.service.*;
 
-import GraduationProject.TripPlannerZ.service.TripService;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -44,6 +41,7 @@ public class MemberController {
     private final MemberPreferenceService memberPreferenceService;
     private final UserAuthProvider userAuthProvider;
     private final SseEmitterService sseEmitterService;
+    private final PartyService partyService;
 
 
     @PostMapping("/members/register")
@@ -61,6 +59,8 @@ public class MemberController {
     public ResponseEntity<MemberDto> loginJWT(@RequestBody Credential credential) {
         MemberDto member = memberService.login(credential);
         member.setToken(userAuthProvider.createToken(member.getEmail()));
+
+
 
         return ResponseEntity.ok().body(member);
     }
