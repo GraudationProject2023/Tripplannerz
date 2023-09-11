@@ -1,13 +1,100 @@
 import React, { useRef, useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import CountdownTimer from "../../util/CountdownTimer";
 import axios from 'axios';
-import Trip from '../Image/관광지.png';
+import sight from '../Image/관광지.png';
+import culture from "../Image/문화시설.png";
+import festival from "../Image/축제.png";
+import surfing from "../Image/서핑.png";
+import hotel from "../Image/호텔.png";
+import shopping from "../Image/쇼핑.png";
+import restaurant from "../Image/레스토랑.png";
 import './StartAnimationPage.css'
+import {Modal, Form, Button} from 'react-bootstrap'
+axios.defaults.withCredentials = true;
 
-function movetoStart(){
-  window.location.href="/start"
-}
+const onButtonClick = () => {
+  console.log("이메일 전송 완료");
+};
 
+const Button1 = () => {
+  const arr = [
+    { id: 1, name: "관광지", code: "SIGHTSEEING", image: sight },
+    { id: 2, name: "문화시설", code: "CULTURE", image: culture },
+    { id: 3, name: "축제 • 공연", code: "FESTIVAL", image: festival },
+    { id: 4, name: "레포츠", code: "LEISURE", image: surfing },
+    { id: 5, name: "호캉스", code: "VACATION", image: hotel },
+    { id: 6, name: "쇼핑", code: "SHOPPING", image: shopping },
+    { id: 7, code: "RESTAURANT", name: "맛집탐방", image: restaurant },
+  ];
+  const [pick1, setPick1] = useState(arr);
+  const [select1, setSelect1] = useState([]);
+  const [ranking, setRanking] = useState([]);
+  const [show, setShow] = useState([]);
+
+  const handleButtonClick = (itemId) => {
+    if (select1.includes(itemId)) {
+      setSelect1(select1.filter((button) => button !== itemId));
+    } else if (select1.length < 3) {
+      setSelect1((select1) => [...select1, itemId]);
+    }
+  };
+
+  const setRankingText = () => {
+    const rankingText = [];
+    const rankingShow = [];
+    for (let i = 0; i < select1.length; i++) {
+      const button = pick1.find((item) => item.id === select1[i]);
+      rankingShow.push(`${i + 1}순위`);
+      rankingText.push(`${button.code}`);
+    }
+    setShow(rankingShow);
+    setRanking(rankingText);
+    if (rankingText.length === 0) {
+      localStorage.setItem("rank", -1);
+    } else {
+      localStorage.setItem("rank", rankingText);
+    }
+  };
+
+  useEffect(() => {
+    setRankingText();
+  }, [select1]);
+
+  return (
+    <div>
+      <div>
+        {pick1.map((item) => (
+          <div
+            key={item.id}
+            className={
+              select1.includes(item.id)
+                ? "button_table_btn_ns"
+                : "button_table_btn_s"
+            }
+            onClick={() => handleButtonClick(item.id)}
+          >
+            <img
+              style={{ width: "50px", height: "50px", marginTop: "5px" }}
+              src={item.image}
+              alt={item.name}
+              className="card_image"
+            />
+            <div
+              style={{ marginTop: "5px", fontSize: "18px" }}
+              className="card_text"
+            >
+              {item.name}
+            </div>
+            {select1.includes(item.id) && (
+              <div className="rank_text">{show[select1.indexOf(item.id)]}</div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const StyledAboutContainer = styled.div`
   display: flex;
@@ -177,6 +264,27 @@ function StartAnimation() {
   let successEmail = localStorage.getItem("cast");
   let requestWord = "";
 
+  const handleFirstShow = () => setFirstShowModal(true);
+
+  const handleFirstClose = () => setFirstShowModal(false);
+
+  const handleShow = () => setShowModal(true);
+
+  const handleClose = () => setShowModal(false);
+
+  const handleNestedModal = () => {
+    setNestedModal(true);
+  };
+
+  const handleCloseNested = () => {
+    var res = localStorage.getItem("rank");
+    if (res === "-1") {
+      alert("태그를 최소 1개 이상 선택하셔야 합니다.");
+    } else {
+      setNestedModal(false);
+    }
+  };
+
   const handleNameChange = (event) => setName(event.target.value);
   
   const handleGenderChange = (event) => setGender(event.target.value);
@@ -336,7 +444,7 @@ function StartAnimation() {
   return (
     <div className="StartAnimation">
       <StyledAboutContainer ref={element} className={inViewPort ? 'animation' : ''}>
-        <StyledAboutImage src={Trip} alt="시작 이미지" />
+        <StyledAboutImage src={sight} alt="시작 이미지" />
         <br />
         <br />
         <AboutTitle className={inViewPort ? 'animation' : ''}>
@@ -355,9 +463,173 @@ function StartAnimation() {
         </AboutContent>
         <br />
         <br />
-        <AboutButton onClick={movetoStart}>
-          서비스 시작하기
-        </AboutButton>
+        <table>
+          <td>
+          <AboutButton 
+            variant="primary" 
+            onClick={handleFirstShow}
+          >
+             로그인
+          </AboutButton>
+          <Modal
+            show={firstShowModal}
+            onHide={handleFirstClose}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form onSubmit = {handleSubmit}>
+              <Form.Control
+                type="email"
+                placeholder="이메일을 입력해주세요"
+                onChange={handleEmailChange}
+              />
+              <Form.Control
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                onChange={handlePasswordChange}
+              />
+              <Button variant="secondary" onClick={handleFirstClose}>
+                닫기
+              </Button>
+              <Button variant="primary" type="submit" onClick={handleJWTLogin}>
+                접속하기
+              </Button>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+          </td>
+          <td>
+          <AboutButton 
+            variant="primary" 
+            onClick={handleShow}
+          >
+            회원가입
+          </AboutButton>
+          <Modal
+          style={{ width: "600px", height: "700px" }}
+          show={showModal}
+          onHide={handleClose}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Sign Up</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Control
+                type="text"
+                id="name"
+                placeholder="이름을 입력해주세요"
+                onChange={handleNameChange}
+              />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+              <Form.Select
+                id="Gender"
+                name="Gender"
+                onChange={handleGenderChange}
+              >
+                <option defaultValue="(male/female)" hidden>
+                  (남/여)
+                </option>
+                <option value="MALE">남</option>
+                <option value="FEMALE">여</option>
+              </Form.Select>
+            </Form>
+            <Form onSubmit={handleSubmit}>
+              <Form.Control
+                type="text"
+                id="Email"
+                placeholder="이메일을 입력해주세요"
+                onChange={handleEmailChange}
+              />
+            </Form>
+            {successEmail !== "1" ? (
+              <div>
+                <Button onClick={EmailSend}>전송</Button>
+                {emailTimer ? (
+                  <CountdownTimer onButtonClick={onButtonClick} />
+                ) : (
+                  ""
+                )}
+                <Form onSubmit={handleSubmit}>
+                  <Form.Control
+                    type="text"
+                    id="EmailCode"
+                    placeholder="이메일 인증 코드를 입력해주세요"
+                    onChange={handleEmailCodeChange}
+                  />
+                </Form>
+                <Button onClick={EmailCheck}>확인</Button>
+              </div>
+            ) : (
+              ""
+            )}
+            <Form onSubmit={handleSubmit}>
+              <Form.Control
+                type="password"
+                id="Password"
+                placeholder="비밀번호를 입력해주세요"
+                onChange={handlePasswordChange}
+              />
+            </Form>
+            <Form onSubmit={handleSubmit}>
+              <Form.Control
+                type="password"
+                id="Confirmpassword"
+                placeholder="비밀번호를 확인하세요"
+                onChange={handleConfirmPasswordChange}
+              />
+            </Form>
+            {confirmPassword === ""
+              ? ""
+              : correct === true
+              ? "비밀번호 일치"
+              : "비밀번호 불일치"}
+            <br />
+            <br />
+            <Button
+              style={{ marginLeft: "40%" }}
+              variant="secondary"
+              onClick={handleNestedModal}
+            >
+              태그선택
+            </Button>
+
+            {nestedModal && (
+              <Modal
+                style={{ width: "600px", height: "700px" }}
+                show={handleNestedModal}
+                onHide={handleCloseNested}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>태그</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Button1 />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    onClick={handleCloseNested}
+                  >
+                    확인
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" type="submit" onClick={handleSubmit}>
+              저장하기
+            </Button>
+          </Modal.Footer>
+        </Modal>
+          </td>
+        </table>
         </StyledAboutContainer>
       )}
     </div>
