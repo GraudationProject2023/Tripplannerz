@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CountdownTimer from "../../util/CountdownTimer";
+import { eventSource } from "../../util/recoilState";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { useRecoilState, useRecoilValue } from "recoil";
 import axios from 'axios';
 import sight from '../Image/관광지.png';
 import culture from "../Image/문화시설.png";
@@ -228,6 +231,9 @@ const StyledAboutImage = styled.img`
 
 function StartAnimation() {
   const element = useRef(null);
+
+  const EventSource = EventSourcePolyfill || NativeEventSource;
+  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   
   const [inViewPort, setInViewPort] = useState(false);
   
@@ -381,6 +387,15 @@ function StartAnimation() {
         const token = res.data.token
         if(token !== null){
         localStorage.setItem("token", token);
+        let tempEvent = new EventSource("http://localhost:8080/api/sub", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: false
+        });
+
+        console.log(tempEvent);
+        setEventSourceCreate(tempEvent)
         alert("반갑습니다! 로그인이 되었습니다.");
         window.location.href = "/main";
         } else{
