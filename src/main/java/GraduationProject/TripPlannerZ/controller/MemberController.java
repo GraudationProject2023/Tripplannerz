@@ -12,6 +12,8 @@ import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.member.MyPage;
 import GraduationProject.TripPlannerZ.service.*;
 
+
+import GraduationProject.TripPlannerZ.service.TripService;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -42,6 +44,7 @@ public class MemberController {
     private final UserAuthProvider userAuthProvider;
     private final SseEmitterService sseEmitterService;
     private final PartyService partyService;
+
 
 
     @PostMapping("/members/register")

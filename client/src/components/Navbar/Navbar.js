@@ -39,17 +39,19 @@ function NavBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    if(token){
-    let tempEvent = new EventSource("http://localhost:8080/api/sub", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-     withCredentials: false
-    });
-
-    console.log(tempEvent);
-  }
+    console.log(eventSourceCreate)
+    if(eventSourceCreate !== null)
+    {
+      if(token){
+        const tempEvent = new EventSource("http://localhost:8080/api/sub",{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: false
+        });
+        setEventSourceCreate(tempEvent)
+      }
+    }
   }, []);
 
   //검색창
