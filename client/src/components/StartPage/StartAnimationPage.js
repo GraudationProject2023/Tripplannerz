@@ -407,7 +407,7 @@ function StartAnimation() {
 
         localStorage.setItem("name",name);
         alert("반갑습니다! 로그인이 되었습니다.");
-        // window.location.href = "/main";
+        window.location.href = "/main";
         } else{
           alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
         }
