@@ -243,7 +243,7 @@ function StartAnimation() {
   
   const [firstShowModal, setFirstShowModal] = useState(false);
   
-  const [name, setName] = useState(""); //이름
+  const [name, setName] = useState("1"); //이름
   
   const [gender, setGender] = useState(""); //성별
   
@@ -396,6 +396,7 @@ function StartAnimation() {
 
         console.log(tempEvent);
         setEventSourceCreate(tempEvent)
+        localStorage.setItem("name",name);
         alert("반갑습니다! 로그인이 되었습니다.");
         window.location.href = "/main";
         } else{
@@ -487,6 +488,7 @@ function StartAnimation() {
              로그인
           </AboutButton>
           <Modal
+            className="LoginModal"
             show={firstShowModal}
             onHide={handleFirstClose}
           >
