@@ -20,6 +20,10 @@ public class PartyService {
     }
 
     public Long findByTripId(Long tripId) {
-        return partyRepository.findByTripId(tripId);
+        return partyRepository.findByTrip(tripId);
+    }
+
+    public Long findPartyByTrip(Long tripId) {
+        return partyRepository.findPartyIdByTripId(tripId);
     }
 }

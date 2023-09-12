@@ -39,17 +39,32 @@ function NavBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    if(token){
-    let tempEvent = new EventSource("http://localhost:8080/api/sub", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-     withCredentials: false
-    });
+    let tempEvent = new EventSource('http://localhost:8080/api/sub',{
+      headers: {'Authorization': `Bearer ${token}`},
+      withCredentials: false,
+    })
 
-    console.log(tempEvent);
-  }
+    tempEvent.onopen =() => {
+      console.log('알림 연결')
+    }
+
+    tempEvent.onmessage = async(e) => {
+      const res = await e.data;
+      const parsedData = JSON.parse(res);
+    }
+
+    tempEvent.onerror = (e) => {
+      tempEvent.close();
+
+      if(e.error){
+
+      }
+
+      if(e.target.readyState === EventSource.CLOSED){
+        
+      }
+    }
+
   }, []);
 
   //검색창

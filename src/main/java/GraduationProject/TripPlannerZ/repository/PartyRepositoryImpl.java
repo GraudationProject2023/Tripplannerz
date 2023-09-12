@@ -40,4 +40,16 @@ public class PartyRepositoryImpl implements PartyRepositoryCustom {
         }
         return noMemberPartyList;
     }
+
+    @Override
+    public Long findPartyIdByTripId(Long tripId) {
+
+        Long partyId = queryFactory.select(party.id)
+                .from(party)
+                .where(party.trip.id.eq(tripId))
+                .fetchFirst();
+
+        return partyId;
+
+    }
 }
