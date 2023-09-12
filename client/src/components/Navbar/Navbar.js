@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
@@ -32,18 +32,21 @@ const NotificationBadge = ({ count }) => {
 
 function NavBar() {
   let token = localStorage.getItem("token");
-  const EventSource = EventSourcePolyfill;
+  const EventSource = EventSourcePolyfill || NativeEventSource;
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
 
-  let tempEvent = new EventSource('http://localhost:8080/api/sub',{
+  let tempEvent = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: false,
     })
 
   useEffect(() => {
+
+    console.log(eventSourceCreate)
+
     tempEvent.onopen =() => {
       console.log('알림 연결')
     }

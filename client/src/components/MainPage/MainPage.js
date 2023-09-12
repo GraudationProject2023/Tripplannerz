@@ -37,11 +37,12 @@ function MainSlider() {
 
 function MainPage() {
   let token = localStorage.getItem("token");
+  
   useEffect(() => {
-    localStorage.setItem("cast", 1);
-    localStorage.setItem("rank", -1);
-    localStorage.setItem("vest", 1);
-  }, []);
+      localStorage.setItem("cast", 1);
+      localStorage.setItem("rank", -1);
+      localStorage.setItem("vest", 1);
+  },[]);
 
   function movetoSubPage(point) {
     window.location.href = `/search/${point}`;
@@ -93,9 +94,8 @@ function MainPage() {
 
   return (
     <div>
-      {token &&<NavBar />}
-
-      {token && 
+      <NavBar />
+      {token && <NavBar /> &&
         <div>
           <MainSlider />
       <br />

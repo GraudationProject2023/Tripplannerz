@@ -231,8 +231,7 @@ const StyledAboutImage = styled.img`
 
 function StartAnimation() {
   const element = useRef(null);
-
-  const EventSource = EventSourcePolyfill || NativeEventSource;
+  
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   
   const [inViewPort, setInViewPort] = useState(false);
@@ -387,18 +386,28 @@ function StartAnimation() {
         const token = res.data.token
         if(token !== null){
         localStorage.setItem("token", token);
-        let tempEvent = new EventSource("http://localhost:8080/api/sub", {
+
+        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: false
-        });
+        withCredentials: true
+        })
 
-        console.log(tempEvent);
-        setEventSourceCreate(tempEvent)
+        console.log(tempEvent)
+
+        tempEvent.onopen = (e) =>{
+          console.log('알림성공')
+        } 
+
+        tempEvent.onmessage = function(e) {
+          const data = e.data;
+          console.log(data)
+        }
+
         localStorage.setItem("name",name);
         alert("반갑습니다! 로그인이 되었습니다.");
-        window.location.href = "/main";
+        // window.location.href = "/main";
         } else{
           alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
         }

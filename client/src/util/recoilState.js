@@ -11,12 +11,6 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const eventSource = atom({
-  key: "eventSource",
-  default: undefined,
-  effects_UNSTABLE: [persistAtom],
-});
-
 const { persistTokenAtom } = recoilPersist({
   key: "token-received",
   storage: localStorage,
@@ -27,3 +21,11 @@ export const token = atom({
   default: undefined,
   effects_UNSTABLE: [persistTokenAtom],
 });
+
+
+export const eventSource = atom({
+  key: "eventSource",
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+});
+
