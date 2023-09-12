@@ -32,7 +32,7 @@ const NotificationBadge = ({ count }) => {
 
 function NavBar() {
   let token = localStorage.getItem("token");
-  const EventSource = EventSourcePolyfill || NativeEventSource;
+  const EventSource = EventSourcePolyfill;
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
@@ -50,6 +50,7 @@ function NavBar() {
 
     tempEvent.onmessage = async(e) => {
       const res = await e.data;
+      console.log(res)
       const parsedData = JSON.parse(res);
     }
 

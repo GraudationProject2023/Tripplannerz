@@ -34,12 +34,12 @@
 }
 
 .form-Itinerary {
-  margin-top: -16.2%;
+  margin-top: -2.5%;
   margin-left: 50%;
 }
 
 .form-Footer {
-  margin-top: 19%;
+  margin-top: 2%;
 }
 
 .main-category {
@@ -405,4 +405,19 @@
   margin-left: -4px;
   border-width: 4px 4px 0;
   border-top-color: #6c6c6c;
+}
+
+.SelectModal
+{
+  margin-top: 28.3%;
+}
+
+.GoingModal
+{
+  margin-top: 28.3%;
+}
+
+.ComingModal
+{
+  margin-top: 28.3%;
 }
