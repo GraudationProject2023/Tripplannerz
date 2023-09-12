@@ -38,12 +38,12 @@ function NavBar() {
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let tempEvent = new EventSource('http://localhost:8080/api/sub',{
+  let tempEvent = new EventSource('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: false,
     })
 
+  useEffect(() => {
     tempEvent.onopen =() => {
       console.log('알림 연결')
     }
@@ -66,7 +66,7 @@ function NavBar() {
       }
     }
 
-  }, []);
+  }, [tempEvent.onmessage]);
 
   //검색창
   const handleSearch = (event) => {
