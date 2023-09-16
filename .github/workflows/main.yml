@@ -37,6 +37,10 @@ jobs:
 
     - name: Execute React App
       run: npm start
+      working-directory: ./client &
+
+    - name: Wait for React App to Fininsh
+      run: sleep 60
       working-directory: ./client
 
     - name: Stop React App
