@@ -38,3 +38,8 @@ jobs:
     - name: Execute React App
       run: npm start
       working-directory: ./client
+
+    - name: Stop React App
+      run: |
+        pkill -f "react-scripts start"
+      working-directory: ./client
