@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
@@ -30,14 +32,16 @@ function SearchResultPage(props) {
   const [memberList, setMemberList] = useState([]); //멤버 인원
 
   const [review, setReview] = useState("");//댓글의 실제 내용
-  
-  const [rating, setRating] = useState(0);//댓글의 평점
 
   const [comments, setComments] = useState([]);
 
   const [tripUuid, setTripUuid] = useState("");
 
+  const [recoilComment, setRecoilComment] = useRecoilState(comment);
+
   useEffect(() => {
+    console.log(recoilComment);
+
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
@@ -53,8 +57,16 @@ function SearchResultPage(props) {
     });
   }, []);
 
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  }
+
   const handleAddComment = () => {
     if(review){
+
+      setRecoilComment(review);
+      console.log(recoilComment);
+
       const postToServer = {
         review: review,
         tripUUID: tripUuid,
@@ -77,14 +89,7 @@ function SearchResultPage(props) {
     }
   }
 
-  const handleReviewChange = (event) => {
-    setReview(event.target.value);
-  };
-
-  const handleRatingChange = (rating) => {
-    setRating(rating);
-  };
-
+ 
   return (
     <div>
       <Navbar />
@@ -117,7 +122,6 @@ function SearchResultPage(props) {
         <Card style={{ width: "800px", height: "200px" }}>
           <Card.Body>
             <Card.Title>댓글</Card.Title>
-            <StarRating rating={rating} onRatingChange={handleRatingChange} />
             <Form.Group>
               <Form.Control
                 as="textarea"

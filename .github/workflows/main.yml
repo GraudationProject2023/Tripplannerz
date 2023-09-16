@@ -1,0 +1,38 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout source code
+      uses: actions/checkout@v2
+
+    - name: node.js version check
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18
+
+    - name: npm install
+      run: npm install
+      working-directory: ./client
+
+    - name: add KakaoData.js 
+      run: |
+       touch KakaoData.js                
+       REST_API_KEY="${{ secrets.REST_API_KEY }}"
+       REDIRECT_URI="${{ secrets.REDIRECT_URI }}"
+       KAKAO_AUTH_URL="${{ secrets.KAKAO_AUTH_URL }}"
+       SECRET="${{ secrets.SECRET}}"
+       echo "export const REST_API_KEY = '${REST_API_KEY}';" > KakaoData.js
+       echo "export const REDIRECT_URI = '${REDIRECT_URI}';" >> KakaoData.js
+       echo "export const KAKAO_AUTH_URL = '${KAKAO_AUTH_URL}';" >> KakaoData.js
+       echo "export const SECRET = '${SECRET}';" >> KakaoData.js
+      working-directory: ./client/src/components/StartPage/Kakao
+
+  
