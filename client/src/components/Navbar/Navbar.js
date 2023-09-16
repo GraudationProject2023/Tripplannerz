@@ -39,19 +39,21 @@ function NavBar() {
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
+  let newMessage;
 
   useEffect(() => {
+
+  
 
     const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
-      heartbeatTimeout: 3000,
     })
 
     eventSource.addEventListener('SSE',event => {
       console.log("event",event);
 
-      const newMessage = event.data;
+       newMessage = event.data;
 
       console.log('newMessage : ', event.data);
       setMessages(prevMessages => [...prevMessages, newMessage]);
@@ -85,7 +87,7 @@ function NavBar() {
       console.log("SSE connection closed");
     }
 
-  }, []);
+  }, [newMessage]);
 
   //검색창
   const handleSearch = (event) => {
