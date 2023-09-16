@@ -48,7 +48,7 @@ function NavBar() {
       heartbeatTimeout: 3000,
     })
 
-    eventSource.addEventListener('sse',event => {
+    eventSource.addEventListener('SSE',event => {
       console.log("event",event);
 
       const newMessage = event.data;
