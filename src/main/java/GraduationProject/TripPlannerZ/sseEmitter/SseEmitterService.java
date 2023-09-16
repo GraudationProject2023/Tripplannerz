@@ -43,7 +43,15 @@ public class SseEmitterService {
             sseEmitterRepository.deleteById(memberId);
         });
 
-        sendEvent(sseEmitter, memberId, "EventStream Created. [userId=" + memberId + "]");
+        try {
+            sseEmitter.send(SseEmitter.event()
+                    .name("SSE")
+                    .data("EventStream Created. [userId=" + memberId + "]"));
+        } catch (IOException e) {
+            sseEmitterRepository.deleteById(memberId);
+            throw new RuntimeException(e);
+        }
+
 
         System.out.println("sseEmitter = " + sseEmitter);
 
@@ -86,7 +94,7 @@ public class SseEmitterService {
             sseEmitter.send(SseEmitter.event()
                     .id(String.valueOf(eventId))
                     .name("SSE")
-                    .data(om.writeValueAsString(data)));
+                    .data(data));
         } catch (IOException e) {
             sseEmitterRepository.deleteById(memberId);
             throw new RuntimeException(e);
