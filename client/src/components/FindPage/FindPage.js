@@ -1,13 +1,13 @@
 import React, { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Navbar from "../Navbar/Navbar";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import DatePicker, { Calendar } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import "./FindPage.css";
 import axios from "axios";
-import Slider, { Range } from "rc-slider";
+import Slider from "rc-slider";
 axios.withCredentials = true;
 
 function FindPage() {
@@ -22,6 +22,24 @@ function FindPage() {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [image, setImage] = useState([]);
   const [preview, setPreview] = useState([]);
+
+  const [deadlineModal,setDeadlineModal] = useState(false);
+  
+  const [goingDateModal, setGoingDateModal] = useState(false);
+
+  const [comingDateModal, setComingDateModal] = useState(false);
+
+  const handleDeadlineShow = () => setDeadlineModal(true);
+
+  const handleDeadlineClose = () => setDeadlineModal(false);
+
+  const handleGoingDateShow = () => setGoingDateModal(true);
+
+  const handleGoingDateClose = () => setGoingDateModal(false);
+
+  const handleComingDateShow = () => setComingDateModal(true);
+
+  const handleComingDateClose = () => setComingDateModal(false);
 
   const [currentMonth, setCurrentMonth] = useState(
     new Date(moment().startOf("day"))
@@ -565,31 +583,60 @@ function FindPage() {
 
           <div className="form-Date">
             <Form.Group controlId="formDate">
-              <Form.Label>마감날짜</Form.Label>
+              <Button
+                variant="primary"
+                onClick={handleDeadlineShow}
+              >마감날짜 선택하기</Button>
+              <Modal className="SelectModal" show={deadlineModal} onHide={handleDeadlineClose}>
+              <Modal.Header closeButton>
+              <Modal.Body>
               <Form.Control
                 style={{ width: "300px" }}
                 type="date"
                 onChange={(e) => setDate(e.target.value)}
               />
+              </Modal.Body>
+              </Modal.Header>
+              </Modal>
+              
             </Form.Group>
           </div>
           <div className="form-Itinerary">
             <Form.Group controlId="formItinerary">
               <table>
                 <td>
-                  <Form.Label>가는 날</Form.Label>
-                  <DatePicker
+                  <Button
+                    variant = "primary"
+                    onClick={handleGoingDateShow}
+                  >가는 날 선택하기</Button>
+                  <Modal
+                    className="GoingModal"
+                    show={goingDateModal}
+                    onHide={handleGoingDateClose}
+                  >
+                    <Modal.Header closeButton>
+                    <DatePicker
                     selected={currentMonth}
                     onChange={handleCurrentMonthChange}
                     placeholderText="가는 날 선택"
                     popperPlacement="bottom-start"
                     className="goingDate"
-                  />
-                  {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setGoing(e.target.value)} />*/}
+                    />
+                    </Modal.Header>
+                  </Modal>
                 </td>
                 <td>
-                  <Form.Label>오는 날</Form.Label>
-                  <DatePicker
+                  <Button
+                    variant = "primary"
+                    onClick={handleComingDateShow}
+                  >오는 날 선택하기</Button>
+                  <Modal
+                     className="ComingModal"
+                     show={comingDateModal}
+                     onHide={handleComingDateClose}
+                  >
+                    <Modal.Header closeButton>
+                    <DatePicker
                     selected={nextMonth}
                     filterDate={disableNextMonthDates}
                     onChange={handleNextMonthChange}
@@ -597,7 +644,8 @@ function FindPage() {
                     popperPlacement="bottom-start"
                     className="comingDate"
                   />
-                  {/*<Form.Control style={{width: "300px"}} type="date" onChange={(e) => setComing(e.target.value)} />*/}
+                    </Modal.Header>
+                  </Modal>
                 </td>
               </table>
             </Form.Group>
