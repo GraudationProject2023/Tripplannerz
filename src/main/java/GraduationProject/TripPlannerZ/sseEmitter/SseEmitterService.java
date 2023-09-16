@@ -28,7 +28,7 @@ public class SseEmitterService {
 
     public SseEmitter subscribe(Long memberId) {
 
-        SseEmitter sseEmitter = sseEmitterRepository.addEmitter(memberId, new SseEmitter(Long.MAX_VALUE));
+        SseEmitter sseEmitter = sseEmitterRepository.addEmitter(memberId, new SseEmitter(60L * 1000 * 60));
 
         sseEmitter.onCompletion(() -> {
             sseEmitterRepository.saveLastEventId(memberId);
