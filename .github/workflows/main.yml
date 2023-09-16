@@ -10,21 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Source Code
+    - name: checkout source code
       uses: actions/checkout@v2
 
-    - name: Node.js Install
+    - name: node.js version check
       uses: actions/setup-node@v2
       with:
         node-version: 17
 
-    - name: Move to Client Folder
-      run: cd client
-      working-directory: ./
-
-    - name: Npm Install
+    - name: npm install
       run: npm install
       working-directory: ./client
+
+    - name: add KakaoData.js 
+      run: |
+       cd src/components/StartPage/Kakao 
+       touch KakaoData.js                
+       REST_API_KEY="${{ secrets.REST_API_KEY }}"
+       REDIRECT_URI="${{ secrets.REDIRECT_URI }}"
+       KAKAO_AUTH_URL="${{ secrets.KAKAO_AUTH_URL }}"
+       SECRET="${{ secrets.SECRET}}"
+       echo "export const REST_API_KEY = '${REST_API_KEY}';" > KakaoData.js
+       echo "export const REDIRECT_URI = '${REDIRECT_URI}';" >> KakaoData.js
+       echo "export const KAKAO_AUTH_URL = '${KAKAO_AUTH_URL}';" >> KakaoData.js
+       echo "export const SECRET = '${SECRET}';" >> KakaoData.js
+      working-directory: /src/components/StartPage/Kakao
 
     - name: Execute React App
       run: npm start
