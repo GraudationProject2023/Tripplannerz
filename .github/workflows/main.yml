@@ -18,7 +18,10 @@ jobs:
       with:
         node-version: 17
 
-    - name: Check working tree
+    - name: Checking working tree
       run: ls -l
       working-directory: ./
-      
+
+    - name: Move to Client Folder
+      run: cd client
+      working-directory: ./
