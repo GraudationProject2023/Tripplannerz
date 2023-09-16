@@ -35,9 +35,4 @@ jobs:
        echo "export const SECRET = '${SECRET}';" >> KakaoData.js
       working-directory: ./client/src/components/StartPage/Kakao
 
-    - name: Execute React App, Wait for React App to Finish , Stop React App
-      run: |
-       npm start
-       sleep 60
-       pkill -f "react-scripts start"
-      working-directory: ./client 
+  
