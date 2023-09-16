@@ -18,8 +18,8 @@ jobs:
       with:
         node-version: 18
 
-    - name: yarn add
-      run: yarn add
+    - name: npm install
+      run: npm install
       working-directory: ./client
 
     - name: add KakaoData.js 
