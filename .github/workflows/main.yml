@@ -18,15 +18,7 @@ jobs:
       with:
         node-version: 17
 
-    - name: Dependency Install
-      run: |
-        cd client
-        npm install
-      working-directory: ./client
-
-    - name: Execute React App
-      run: |
-        cd client
-        npm run start
-      working-directory: ./client
+    - name: Check working tree
+      run: ls -l
+      working-directory: ./
       
