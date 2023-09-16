@@ -19,7 +19,6 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class SseEmitterService {
 
     private final SseEmitterRepository sseEmitterRepository;
@@ -85,7 +84,7 @@ public class SseEmitterService {
 
         try {
             sseEmitter.send(SseEmitter.event()
-                    .id(eventId)
+                    .id(String.valueOf(eventId))
                     .name("SSE")
                     .data(om.writeValueAsString(data)));
         } catch (IOException e) {
