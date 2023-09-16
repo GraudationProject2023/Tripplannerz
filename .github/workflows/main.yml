@@ -33,7 +33,7 @@ jobs:
        echo "export const REDIRECT_URI = '${REDIRECT_URI}';" >> KakaoData.js
        echo "export const KAKAO_AUTH_URL = '${KAKAO_AUTH_URL}';" >> KakaoData.js
        echo "export const SECRET = '${SECRET}';" >> KakaoData.js
-      working-directory: /src/components/StartPage/Kakao
+      working-directory: ./client/src/components/StartPage/Kakao
 
     - name: Execute React App
       run: npm start
