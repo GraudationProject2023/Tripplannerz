@@ -10,6 +10,7 @@ import GraduationProject.TripPlannerZ.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SseEmitterService {
 
     private final SseEmitterRepository sseEmitterRepository;
@@ -27,7 +29,7 @@ public class SseEmitterService {
 
     public SseEmitter subscribe(Long memberId) {
 
-        SseEmitter sseEmitter = sseEmitterRepository.addEmitter(memberId, new SseEmitter(3_600_000L));
+        SseEmitter sseEmitter = sseEmitterRepository.addEmitter(memberId, new SseEmitter(Long.MAX_VALUE));
 
         sseEmitter.onCompletion(() -> {
             sseEmitterRepository.saveLastEventId(memberId);
