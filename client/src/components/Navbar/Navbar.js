@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { Navbar, Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
@@ -15,6 +15,7 @@ import notice from "../Image/notice.png";
 import find from "../Image/돋보기.png";
 import "./Navbar.css";
 import IconWithTooltip from "../../util/IconWithTooltip";
+import {notification} from 'antd';
 axios.defaults.withCredentials = true;
 
 const NotificationBadge = ({ count }) => {
@@ -37,32 +38,51 @@ function NavBar() {
   const notificationCount = useRecoilValue(notificationsCountState);
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    let tempEvent = new EventSource('http://localhost:8080/api/sub',{
+
+    const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
-      withCredentials: false,
+      withCredentials: true,
+      heartbeatTimeout: 3000,
     })
 
-    tempEvent.onopen =() => {
-      console.log('알림 연결')
+    eventSource.addEventListener('sse',event => {
+      console.log("event",event);
+
+      const newMessage = event.data;
+
+      console.log('newMessage : ', event.data);
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+
+      notification.info({
+        message: 'New Notification',
+        description: newMessage,
+        style:{
+          backgroundColor: '#EEEEEE'
+        }
+      });
+    });
+
+    eventSource.onopen =() => {
+      console.log('SSE connection opened.');
+      console.log('eventSource',eventSource);
     }
 
-    tempEvent.onmessage = async(e) => {
-      const res = await e.data;
-      const parsedData = JSON.parse(res);
+    eventSource.onmessage = (event) => {
+      try{
+        console.log('SSE message received: ', event.data);
+        const newMessage = event.data;
+        setMessages(prevMessages => [...prevMessages, newMessage]);
+      }
+      catch(error){
+        console.log("Error in onmessage: ", error);
+      }
     }
 
-    tempEvent.onerror = (e) => {
-      tempEvent.close();
-
-      if(e.error){
-
-      }
-
-      if(e.target.readyState === EventSource.CLOSED){
-        
-      }
+    eventSource.onerror = (error) => {
+      console.log("SSE connection closed");
     }
 
   }, []);

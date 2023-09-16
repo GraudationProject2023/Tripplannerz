@@ -12,3 +12,6 @@ body::-webkit-scrollbar{
 .StartAnimation::-webkit-scrollbar{
     display:none;
 }
+.LoginModal::-webkit-scrollbar{
+    display:none;
+}

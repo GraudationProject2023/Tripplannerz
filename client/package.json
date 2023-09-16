@@ -73,6 +73,7 @@
     "@storybook/react": "^7.1.0",
     "@storybook/react-webpack5": "^7.1.0",
     "@storybook/testing-library": "^0.2.0",
+    "@types/node": "^20.6.0",
     "axios-mock-adapter": "^1.21.5",
     "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-plugin-storybook": "^0.6.13",
