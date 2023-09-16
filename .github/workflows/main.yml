@@ -18,10 +18,14 @@ jobs:
       with:
         node-version: 17
 
-    - name: Checking working tree
-      run: ls -l
-      working-directory: ./
-
     - name: Move to Client Folder
       run: cd client
       working-directory: ./
+
+    - name: Npm Install
+      run: npm install
+      working-directory: ./client
+
+    - name: Execute React App
+      run: npm start
+      working-directory: ./client
