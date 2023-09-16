@@ -68,7 +68,7 @@ public class MemberController {
         return ResponseEntity.ok().body(member);
     }
 
-    @RequestMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = "/sub", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe() {
         // 세션문제 해결하면 주석 제거
 //        String memberEmail = (String) request.getSession().getAttribute("loginMember");
