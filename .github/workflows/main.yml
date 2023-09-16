@@ -1,0 +1,32 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v2
+
+    - name: Node.js Install
+      uses: actions/setup-node@v2
+      with:
+        node-version: 17
+
+    - name: Dependency Install
+      run: |
+        cd client
+        npm install
+      working-directory: ./client
+
+    - name: Execute React App
+      run: |
+        cd client
+        npm run start
+      working-directory: ./client
+      
