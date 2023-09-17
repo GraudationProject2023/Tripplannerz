@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: set process.env.CI to false
-      run: echo "process.env.CI=false" >> $GITHUB_ENV
     
     - name: checkout source code
       uses: actions/checkout@v2
@@ -38,7 +36,3 @@ jobs:
        echo "export const SECRET = '${SECRET}';" >> KakaoData.js
       working-directory: ./client/src/components/StartPage/Kakao
 
-    - name: build React App
-      run: npm run build
-      working-directory: ./client
-  
