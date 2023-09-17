@@ -51,6 +51,7 @@ public class TestInitDb {
                     .email("1@naver.com")
                     .pw(passwordEncoder.encode("1"))
                     .types(new ArrayList<>())
+                    .madeTripList(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();
             em.persist(member);
@@ -60,6 +61,7 @@ public class TestInitDb {
                     .email("2@naver.com")
                     .pw(passwordEncoder.encode("2"))
                     .types(new ArrayList<>())
+                    .madeTripList(new ArrayList<>())
                     .memberPartyList(new ArrayList<>())
                     .build();
             em.persist(member2);
@@ -128,6 +130,7 @@ public class TestInitDb {
                     .recruitNum(4)
                     .party(party)
                     .closeRecruitDate("2023-04-11")
+                    .creater(member)
                     .build();
             em.persist(trip);
 
@@ -139,6 +142,7 @@ public class TestInitDb {
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party1)
+                    .creater(member)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip1);
@@ -151,6 +155,7 @@ public class TestInitDb {
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party2)
+                    .creater(member)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip2);
@@ -163,6 +168,7 @@ public class TestInitDb {
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party3)
+                    .creater(member)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip3);
@@ -175,6 +181,7 @@ public class TestInitDb {
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party4)
+                    .creater(member)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip4);
@@ -187,6 +194,7 @@ public class TestInitDb {
                     .tripImage(new ArrayList<>())
                     .recruitNum(4)
                     .party(party5)
+                    .creater(member2)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip5);

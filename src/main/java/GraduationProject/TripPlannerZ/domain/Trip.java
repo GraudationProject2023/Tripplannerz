@@ -44,12 +44,15 @@ public class Trip {
     private Integer likes;
     private Integer hits;
 
-    //private Chat chat;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member creater;
 
     @Builder
     public Trip(String title, List<TripImage> tripImage, int recruitNum,
                 String closeRecruitDate, String content,
-                String startingDate, String comingDate, Party party, int areaCode, int sigunguCode, List<Comment> comments) {
+                String startingDate, String comingDate, Party party, int areaCode, int sigunguCode, List<Comment> comments,
+                Member creater) {
 
         this.UUID = java.util.UUID.randomUUID().toString();
         this.title = title;
@@ -68,11 +71,17 @@ public class Trip {
         creationTime = LocalDateTime.now();
 
         setParty(party);
+        setCreater(creater);
     }
 
     // == 연관관계 편의 메서드 == //
     public void setParty(Party party) {
         this.party = party;
         party.setTrip(this);
+    }
+
+    public void setCreater(Member creater) {
+        this.creater = creater;
+        creater.getMadeTripList().add(this);
     }
 }

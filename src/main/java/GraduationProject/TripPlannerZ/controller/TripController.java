@@ -4,10 +4,11 @@ import GraduationProject.TripPlannerZ.API.Item;
 import GraduationProject.TripPlannerZ.cityNum.Area;
 import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
+import GraduationProject.TripPlannerZ.comment.Comment;
 import GraduationProject.TripPlannerZ.comment.CommentService;
 import GraduationProject.TripPlannerZ.comment.TripComment;
-import GraduationProject.TripPlannerZ.config.UserAuthProvider;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.CommentPost;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
@@ -18,8 +19,7 @@ import GraduationProject.TripPlannerZ.service.LocationService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +28,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class TripController {
     private final TripImageRepository tripImageRepository;
     private final LocationService locationService;
     private final CommentService commentService;
+    private final SseEmitterService sseEmitterService;
 
 
     @PostMapping("/trip/create")
@@ -67,8 +71,6 @@ public class TripController {
         Member principal = (Member) authentication.getPrincipal();
 
         Member member = memberService.findByEmail(principal.getEmail()).get();
-
-        System.out.println("member.getName() = " + member.getName());
 
 
         // 해당 멤버가 group 생성
@@ -96,6 +98,7 @@ public class TripController {
                 .party(party)
                 .areaCode(areaNum.getCode())
                 .sigunguCode(sigunguNum.getCode())
+                .creater(member)
                 .build();
         tripService.createTrip(trip);
 
@@ -105,46 +108,11 @@ public class TripController {
         File newFile = new File(tripImage.getImg_uuid() + ".png");
         uploadFile.transferTo(newFile);
 
-
-        // 이미지 파일로 변환
-//        byte[] fileData = uploadFile.getBytes();
-//        File newFile = new File(tripImage.getImg_uuid());
-//        FileOutputStream fos = new FileOutputStream(newFile);
-//        fos.write(fileData);
-//        fos.close();
-
-        /*
-        byte[] fileData = multipartFile.getBytes();
-
-        // 이미지 파일로 변환
-        File outputFile = new File(outputPath);
-        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-        fileOutputStream.write(fileData);
-        fileOutputStream.close();
-         */
-
-
-        System.out.println("uploadFile = " + uploadFile);
-
-
-//        for (MultipartFile file : uploadFile) {
-//            if(!file.isEmpty()) {
-//                TripImage tripImage = TripImage.builder().trip(trip).build();
-//                tripImageRepository.save(tripImage);
-//
-//                File newFile = new File(tripImage.getImg_uuid());
-//                file.transferTo(newFile);
-//            }
-//        }
-    }
-
-    @PostMapping("/trip/select")
-    public void selectSigungu() {
-
     }
 
     @GetMapping("/trip/send")
     public void tripDetailed(Model model) {
+        // imgPath를 properties에 저장해서 static 값 가져오는거로 수정해야됨
         String imgPath = "/Users/seongbochoi/trip_image/e276a5b3-af89-453f-bd6d-62f52ce33ff2";
         model.addAttribute("imgPath", imgPath);
     }
@@ -176,5 +144,40 @@ public class TripController {
                 memberList.size(), memberList, commentList);
 
         return tripDetail;
+    }
+
+    // 여행 만든사람한테 알림 가게
+    @PostMapping("/trip/requestAccompany")
+    public void requestAccompany(@RequestParam("tripUUID") String tripUUID, @RequestBody CommentPost commentPost) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member principal = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(principal.getEmail()).get();
+
+        Trip trip = tripService.findByUUID(tripUUID).get();
+        Member creater = trip.getCreater();
+        SseEmitter emitter = sseEmitterService.findEmitterByMember(creater.getId());
+
+
+        String curDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+        Comment comment = Comment.builder()
+                .type("AccompanyRequest")
+                .review(commentPost.getReview())
+                .trip(trip)
+                .postDate(curDateTime)
+                .sender(member)
+                .build();
+
+        commentService.saveComment(comment);
+
+        sseEmitterService.sendRequest(creater, emitter, comment);
+
+
+    }
+
+    // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
+    @GetMapping("/trip/responseAccompany")
+    public void reponseAccompany() {
+
     }
 }
