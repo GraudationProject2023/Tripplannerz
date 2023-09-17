@@ -105,46 +105,11 @@ public class TripController {
         File newFile = new File(tripImage.getImg_uuid() + ".png");
         uploadFile.transferTo(newFile);
 
-
-        // 이미지 파일로 변환
-//        byte[] fileData = uploadFile.getBytes();
-//        File newFile = new File(tripImage.getImg_uuid());
-//        FileOutputStream fos = new FileOutputStream(newFile);
-//        fos.write(fileData);
-//        fos.close();
-
-        /*
-        byte[] fileData = multipartFile.getBytes();
-
-        // 이미지 파일로 변환
-        File outputFile = new File(outputPath);
-        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-        fileOutputStream.write(fileData);
-        fileOutputStream.close();
-         */
-
-
-        System.out.println("uploadFile = " + uploadFile);
-
-
-//        for (MultipartFile file : uploadFile) {
-//            if(!file.isEmpty()) {
-//                TripImage tripImage = TripImage.builder().trip(trip).build();
-//                tripImageRepository.save(tripImage);
-//
-//                File newFile = new File(tripImage.getImg_uuid());
-//                file.transferTo(newFile);
-//            }
-//        }
-    }
-
-    @PostMapping("/trip/select")
-    public void selectSigungu() {
-
     }
 
     @GetMapping("/trip/send")
     public void tripDetailed(Model model) {
+        // imgPath를 properties에 저장해서 static 값 가져오는거로 수정해야됨
         String imgPath = "/Users/seongbochoi/trip_image/e276a5b3-af89-453f-bd6d-62f52ce33ff2";
         model.addAttribute("imgPath", imgPath);
     }
