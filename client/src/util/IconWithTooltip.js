@@ -27,7 +27,6 @@ const IconWithTooltip = ({ iconSrc }) => {
         src={iconSrc}
         alt="Icon"
         className="icon"
-        onMouseOver={handleIconHover}
         onMouseOut={() => setTooltipData(null)}
       />
       {tooltipData && <div className="tooltip">{tooltipData}</div>}
