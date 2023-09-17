@@ -142,4 +142,20 @@ public class TripController {
 
         return tripDetail;
     }
+
+    @PostMapping("/trip/acceptAccompany")
+    public void acceptAccompany(@RequestParam("tripUUID") String tripUUID, @RequestParam("memberEmail") String memberEmail) {
+
+        Member member = memberService.findByEmail(memberEmail).get();
+
+        Trip trip = tripService.findByUUID(tripUUID).get();
+        Long partyId = partyService.findPartyByTrip(trip.getId());
+
+        partyService.findParty(partyId).get();
+
+
+
+    }
+
+    //
 }
