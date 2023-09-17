@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: set process.env.CI to false
+      run: echo "process.env.CI=false" >> $GITHUB_ENV
+    
     - name: checkout source code
       uses: actions/checkout@v2
 
