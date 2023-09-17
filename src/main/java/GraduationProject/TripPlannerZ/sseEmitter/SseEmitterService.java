@@ -126,6 +126,16 @@ public class SseEmitterService {
 
     }
 
+    public void sendRequest(Member creater, SseEmitter emitter, Object data) {
+        if (sseEmitterRepository.containsEmittersByMemberId(creater.getId())) {
+            sendEvent(emitter, creater.getId(), data);
+        }
+    }
+
+    public SseEmitter findEmitterByMember(Long memberId) {
+        return sseEmitterRepository.findEmitterByMemberId(memberId);
+    }
+
 
 
 }

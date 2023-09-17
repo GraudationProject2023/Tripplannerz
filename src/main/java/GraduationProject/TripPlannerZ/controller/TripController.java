@@ -4,9 +4,11 @@ import GraduationProject.TripPlannerZ.API.Item;
 import GraduationProject.TripPlannerZ.cityNum.Area;
 import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
+import GraduationProject.TripPlannerZ.comment.Comment;
 import GraduationProject.TripPlannerZ.comment.CommentService;
 import GraduationProject.TripPlannerZ.comment.TripComment;
 import GraduationProject.TripPlannerZ.domain.*;
+import GraduationProject.TripPlannerZ.dto.CommentPost;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
@@ -17,8 +19,7 @@ import GraduationProject.TripPlannerZ.service.LocationService;
 import GraduationProject.TripPlannerZ.service.MemberService;
 import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,9 +28,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +52,7 @@ public class TripController {
     private final TripImageRepository tripImageRepository;
     private final LocationService locationService;
     private final CommentService commentService;
+    private final SseEmitterService sseEmitterService;
 
 
     @PostMapping("/trip/create")
@@ -66,8 +71,6 @@ public class TripController {
         Member principal = (Member) authentication.getPrincipal();
 
         Member member = memberService.findByEmail(principal.getEmail()).get();
-
-        System.out.println("member.getName() = " + member.getName());
 
 
         // 해당 멤버가 group 생성
@@ -95,6 +98,7 @@ public class TripController {
                 .party(party)
                 .areaCode(areaNum.getCode())
                 .sigunguCode(sigunguNum.getCode())
+                .creater(member)
                 .build();
         tripService.createTrip(trip);
 
@@ -142,13 +146,18 @@ public class TripController {
         return tripDetail;
     }
 
-    @PostMapping("/trip/acceptAccompany")
-    public void acceptAccompany(@RequestParam("tripUUID") String tripUUID, @RequestParam("memberEmail") String memberEmail) {
+    // 여행 만든사람한테 알림 가게
+    @PostMapping("/trip/requestAccompany")
+    public void requestAccompany(@RequestParam("tripUUID") String tripUUID, @RequestBody CommentPost commentPost) {
 
-        Member member = memberService.findByEmail(memberEmail).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member principal = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(principal.getEmail()).get();
 
         Trip trip = tripService.findByUUID(tripUUID).get();
-        Long partyId = partyService.findPartyByTrip(trip.getId());
+        Member creater = trip.getCreater();
+        SseEmitter emitter = sseEmitterService.findEmitterByMember(creater.getId());
+
 
         String curDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
         Comment comment = Comment.builder()
@@ -166,5 +175,9 @@ public class TripController {
 
     }
 
-    //
+    // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
+    @GetMapping("/trip/responseAccompany")
+    public void reponseAccompany() {
+
+    }
 }
