@@ -31,10 +31,13 @@ public class Comment {
 
     private String postDate;
 
+    private String type;
+
     @Builder
-    public Comment(Member sender, Trip trip, String review, String postDate) {
+    public Comment(Member sender, Trip trip, String review, String postDate, String type) {
         this.review = review;
         this.postDate = postDate;
+        this.type = type;
         setSender(sender);
         setTrip(trip);
     }

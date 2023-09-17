@@ -32,8 +32,11 @@ public class Member {
     @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "creater", cascade = CascadeType.REMOVE)
+    private List<Trip> madeTripList = new ArrayList<>();
+
     @Builder
-    public Member(String pw, String email, String name, Gender gender, List<MemberPreference> types, List<MemberParty> memberPartyList, List<Comment> comments) {
+    public Member(String pw, String email, String name, Gender gender, List<MemberPreference> types, List<MemberParty> memberPartyList, List<Comment> comments, List<Trip> madeTripList) {
         this.pw = pw;
         this.email = email;
         this.name = name;
@@ -41,6 +44,7 @@ public class Member {
         this.types = types;
         this.memberPartyList = memberPartyList;
         this.comments = comments;
+        this.madeTripList = madeTripList;
     }
 
     // == 회원 탈퇴 == //
@@ -67,7 +71,7 @@ public class Member {
             this.types = types;
     }
 
-    public void setPw(String pw) { this.pw = pw; };
+    public void setPw(String pw) { this.pw = pw; }
 
     public void setTypes(){
         this.types = new ArrayList<>();

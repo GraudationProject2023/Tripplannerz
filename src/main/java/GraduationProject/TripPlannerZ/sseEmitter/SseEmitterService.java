@@ -10,7 +10,6 @@ import GraduationProject.TripPlannerZ.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -125,6 +124,16 @@ public class SseEmitterService {
             }
         }
 
+    }
+
+    public void sendRequest(Member creater, SseEmitter emitter, Object data) {
+        if (sseEmitterRepository.containsEmittersByMemberId(creater.getId())) {
+            sendEvent(emitter, creater.getId(), data);
+        }
+    }
+
+    public SseEmitter findEmitterByMember(Long memberId) {
+        return sseEmitterRepository.findEmitterByMemberId(memberId);
     }
 
 
