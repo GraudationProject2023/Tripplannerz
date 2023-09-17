@@ -19,28 +19,6 @@
   margin-left: 10%;
 }
 
-.form-Title {
-  margin-left: 15%;
-}
-
-.form-Number {
-  margin-top: -10%;
-  margin-left: 23%;
-}
-
-.form-Date {
-  margin-top: 1%;
-  margin-left: 22.7%;
-}
-
-.form-Itinerary {
-  margin-top: -2.5%;
-  margin-left: 50%;
-}
-
-.form-Footer {
-  margin-top: 2%;
-}
 
 .main-category {
   margin-right: 1px;
@@ -89,9 +67,20 @@
   background-color: skyblue;
 }
 
+.CreateTravel{
+  margin-top: 1%;
+  height: 550px;
+  overflow-y: auto;
+  background-color: gray;
+}
+
+.CreateTravel::-webkit-scrollbar{
+  display: none;
+}
+
 .rc-slider {
   position: relative;
-  width: 25%;
+  width: 50%;
   height: 14px;
   padding: 5px 0;
   border-radius: 6px;
@@ -407,17 +396,3 @@
   border-top-color: #6c6c6c;
 }
 
-.SelectModal
-{
-  margin-top: 28.3%;
-}
-
-.GoingModal
-{
-  margin-top: 28.3%;
-}
-
-.ComingModal
-{
-  margin-top: 28.3%;
-}

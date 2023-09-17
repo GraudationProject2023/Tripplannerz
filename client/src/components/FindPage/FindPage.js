@@ -523,17 +523,19 @@ function FindPage() {
         <br />
         <br />
         <Button
+          style={{marginLeft: "38%", width: "400px"}}
           variant="primary"
           onClick={handleCreateTravelShow}
         >
           여행 생성하기
         </Button>
         <Modal
+          className="CreateTravel"
           show={createTravelModal}
           onHide={handleCreateTravelClose}
         >
         <Modal.Header closeButton>
-           여행 정보 입력
+           <h4>여행 정보 입력</h4>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -546,7 +548,7 @@ function FindPage() {
                       </tr>
                       <tr>
                         {preview ? (
-                          <img style={{width: "300px", height: "100px"}} src={preview} />
+                          <img style={{width: "300px", height: "150px"}} src={preview} />
                         ):(
                           <h6>이미지 없음</h6>
                         )}
@@ -554,190 +556,69 @@ function FindPage() {
                     </table>
                   </Form.Group>
                 </div>
-                <hr />
+                <br />
                 <div>
                   <Form.Group controlId="formTitle">
-                    <Form.Label>제목</Form.Label>
+                    <Form.Label>여행 제목</Form.Label>
                     <Form.Control 
                        type="text" 
                        onChange={(e) => setTitle(e.target.value)} 
                     />
                   </Form.Group>
                 </div>
+                <br />
                 <div>
                   <Form.Group controlId="formCapacity">
                     <Form.Label>모집 인원</Form.Label>
-                    <Slider onChange={(e) => setCapacity(e)} />
-                    {Math.ceil(capacity / 10)}명
+                      <Slider onChange={(e) => setCapacity(e)} />
+                      {Math.ceil(capacity / 10)}명    
                   </Form.Group>
                 </div>
+                <br />
                 <div>
                   <Form.Group controlId="formDate">
+                    <Form.Label>모집 마감 날짜</Form.Label>
                     <Form.Control 
                       type="date"
                       onChange={(e) => setDate(e.target.value)}
                     />
                   </Form.Group>
                 </div>
+                <br />
                 <div>
                   <Form.Group controlId="formItinerary">
-                    <DatePicker
-                      selected={currentMonth}
-                      onChange={handleCurrentMonthChange}
-                      placeholderText="가는 날 선택"
-                      popperPlacement="bottom-start"
-                    />
-                    <DatePicker
-                      selected={nextMonth}
-                      filterDate={disableNextMonthDates}
-                      onChange={handleNextMonthChange}
-                      placeholderText="오는 날 선택"
-                      popperPlacement="bottom-start"
-                    />
+                    <table>
+                      <td>
+                      <Form.Label>여행 시작 날짜</Form.Label>
+                      <DatePicker
+                        selected={currentMonth}
+                        onChange={handleCurrentMonthChange}
+                        placeholderText="가는 날 선택"
+                        popperPlacement="bottom-start"
+                      />
+                      </td>
+                      <td>
+                      <Form.Label>여행 종료 날짜</Form.Label>
+                      <DatePicker
+                        selected={nextMonth}
+                        filterDate={disableNextMonthDates}
+                        onChange={handleNextMonthChange}
+                        placeholderText="오는 날 선택"
+                        popperPlacement="bottom-start"
+                      />
+                      </td>
+                    </table>
                   </Form.Group>
                 </div>
+                <hr />
                 <div>
-                  <Button variant="primary" type="submit">
+                <Button style={{width: "200px", marginLeft: "25%"}} variant="primary" type="submit">
                     등록
-                  </Button>
+                </Button>
                 </div>
           </Form>
         </Modal.Body>
         </Modal>
-
-        {/*<Form onSubmit={handleSubmit}>
-          <table>
-            <td>
-              <div className="image-title">
-                <Form.Group controlId="form-Image">
-                  <Form.Label>사진 업로드</Form.Label>
-                  <table>
-                    <tr>
-                      <Form.Control
-                        style={{ width: "300px" }}
-                        type="file"
-                        onChange={onChangeImageInput}
-                      />
-                    </tr>
-                    <br />
-                    <tr>
-                      {preview ? (
-                        <img
-                          style={{ width: "100px", height: "150px" }}
-                          src={preview}
-                        />
-                      ) : (
-                        <img
-                          style={{ width: "100px", height: "150px" }}
-                          alt="기본페이지"
-                        />
-                      )}
-                    </tr>
-                  </table>
-                </Form.Group>
-              </div>
-            </td>
-            <td>
-              <div className="form-Title">
-                <Form.Group controlId="formTitle">
-                  <Form.Label>제목</Form.Label>
-                  <Form.Control
-                    style={{ width: "300px" }}
-                    type="text"
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </Form.Group>
-              </div>
-            </td>
-          </table>
-          <div className="form-Number">
-            <Form.Group controlId="formCapacity">
-              <Form.Label>모집인원</Form.Label>
-              <Slider onAfterChange={(e) => setCapacity(e)} />
-              {Math.ceil(capacity / 10)}명
-            </Form.Group>
-          </div>
-
-          <div className="form-Date">
-            <Form.Group controlId="formDate">
-              <Button
-                variant="primary"
-                onClick={handleDeadlineShow}
-              >마감날짜 선택하기</Button>
-              <Modal className="SelectModal" show={deadlineModal} onHide={handleDeadlineClose}>
-              <Modal.Header closeButton>
-              <Modal.Body>
-              <Form.Control
-                style={{ width: "300px" }}
-                type="date"
-                onChange={(e) => setDate(e.target.value)}
-              />
-              </Modal.Body>
-              </Modal.Header>
-              </Modal>
-              
-            </Form.Group>
-          </div>
-           <div className="form-Itinerary">
-            <Form.Group controlId="formItinerary">
-              <table>
-                <td>
-                  <Button
-                    variant = "primary"
-                    onClick={handleGoingDateShow}
-                  >가는 날 선택하기</Button>
-                  <Modal
-                    className="GoingModal"
-                    show={goingDateModal}
-                    onHide={handleGoingDateClose}
-                  >
-                    <Modal.Header closeButton>
-                    <DatePicker
-                    selected={currentMonth}
-                    onChange={handleCurrentMonthChange}
-                    placeholderText="가는 날 선택"
-                    popperPlacement="bottom-start"
-                    className="goingDate"
-                    />
-                    </Modal.Header>
-                  </Modal>
-                </td>
-                <td>
-                  <Button
-                    variant = "primary"
-                    onClick={handleComingDateShow}
-                  >오는 날 선택하기</Button>
-                  <Modal
-                     className="ComingModal"
-                     show={comingDateModal}
-                     onHide={handleComingDateClose}
-                  >
-                    <Modal.Header closeButton>
-                    <DatePicker
-                    selected={nextMonth}
-                    filterDate={disableNextMonthDates}
-                    onChange={handleNextMonthChange}
-                    placeholderText="오는 날 선택"
-                    popperPlacement="bottom-start"
-                    className="comingDate"
-                  />
-                    </Modal.Header>
-                  </Modal>
-                </td>
-              </table>
-            </Form.Group>
-          </div> 
-          <div className="form-Footer">
-            <hr />
-            <Button
-              style={{ width: "200px", marginLeft: "45%" }}
-              variant="primary"
-              type="submit"
-            >
-              등록
-            </Button>
-          </div>
-                      </Form>*/}
       </div>
     </div>
   );
