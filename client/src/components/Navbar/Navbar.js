@@ -33,18 +33,20 @@ const NotificationBadge = ({ count }) => {
 
 function NavBar() {
   let token = localStorage.getItem("token");
+  
   const EventSource = EventSourcePolyfill || NativeEventSource;
+  
   const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
+  
   const notificationCount = useRecoilValue(notificationsCountState);
+  
   const [searchTerm, setSearchTerm] = useState(""); //검색창
+  
   const navigate = useNavigate();
+  
   const [messages, setMessages] = useState([]);
-  let newMessage;
 
   useEffect(() => {
-
-  
-
     const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
@@ -53,7 +55,7 @@ function NavBar() {
     eventSource.addEventListener('SSE',event => {
       console.log("event",event);
 
-       newMessage = event.data;
+      const newMessage = event.data;
 
       console.log('newMessage : ', event.data);
       setMessages(prevMessages => [...prevMessages, newMessage]);
@@ -87,7 +89,11 @@ function NavBar() {
       console.log("SSE connection closed");
     }
 
-  }, [newMessage]);
+    return () => {
+      eventSource.close();
+    }
+
+  }, [token]);
 
   //검색창
   const handleSearch = (event) => {
