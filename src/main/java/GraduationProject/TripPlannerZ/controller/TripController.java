@@ -6,7 +6,6 @@ import GraduationProject.TripPlannerZ.cityNum.Sigungu;
 import GraduationProject.TripPlannerZ.cityNum.SigunguRepository;
 import GraduationProject.TripPlannerZ.comment.CommentService;
 import GraduationProject.TripPlannerZ.comment.TripComment;
-import GraduationProject.TripPlannerZ.config.UserAuthProvider;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
@@ -151,8 +150,18 @@ public class TripController {
         Trip trip = tripService.findByUUID(tripUUID).get();
         Long partyId = partyService.findPartyByTrip(trip.getId());
 
-        partyService.findParty(partyId).get();
+        String curDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+        Comment comment = Comment.builder()
+                .type("AccompanyRequest")
+                .review(commentPost.getReview())
+                .trip(trip)
+                .postDate(curDateTime)
+                .sender(member)
+                .build();
 
+        commentService.saveComment(comment);
+
+        sseEmitterService.sendRequest(creater, emitter, comment);
 
 
     }
