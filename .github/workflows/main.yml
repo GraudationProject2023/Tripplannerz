@@ -36,3 +36,7 @@ jobs:
        echo "export const SECRET = '${SECRET}';" >> KakaoData.js
       working-directory: ./client/src/components/StartPage/Kakao
 
+    - name: set process.env.CI false and Build React App
+      run: CI='false' npm run build
+      working-directory: ./client
+
