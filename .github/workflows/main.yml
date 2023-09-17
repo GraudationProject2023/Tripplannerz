@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
     - name: checkout source code
       uses: actions/checkout@v2
 
@@ -35,4 +36,7 @@ jobs:
        echo "export const SECRET = '${SECRET}';" >> KakaoData.js
       working-directory: ./client/src/components/StartPage/Kakao
 
-  
+    - name: set process.env.CI false and Build React App
+      run: CI='false' npm run build
+      working-directory: ./client
+
