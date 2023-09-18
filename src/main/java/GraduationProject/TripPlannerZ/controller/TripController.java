@@ -151,10 +151,12 @@ public class TripController {
     }
 
     // 여행 만든사람한테 알림 가게
-    @PostMapping("/trip/requestAccompany")
+    @GetMapping("/trip/requestAccompany")
     public ResponseEntity<String> requestAccompany(@RequestBody CommentPost commentPost) {
 
+        System.out.println("tripUUID = " + commentPost.getTripUUID());
         Trip trip = tripService.findByUUID(commentPost.getTripUUID()).get();
+        System.out.println("trip = " + trip.getTitle());
 
         if (trip.getCurrentNum() > trip.getRecruitNum()) {
             return ResponseEntity.ok().body("false");
@@ -186,10 +188,12 @@ public class TripController {
     }
 
     // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
-    @GetMapping("/trip/responseAccompany")
+    @PostMapping("/trip/responseAccompany")
     public void responseAccompany(@RequestBody CommentResponse commentResponse) {
 
+
         Trip trip = tripService.findByUUID(commentResponse.getTripUUID()).get();
+
         Member sender = memberService.findByEmail(commentResponse.getSenderEmail()).get();
 
         Long partyId = partyService.findPartyByTrip(trip.getId());
