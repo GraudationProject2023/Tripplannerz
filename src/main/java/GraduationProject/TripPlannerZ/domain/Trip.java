@@ -27,6 +27,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip")
     private List<TripImage> tripImages = new ArrayList<>();
     private int recruitNum;
+    private int currentNum;
     private String closeRecruitDate;
     private String startingDate;
     private String comingDate;
@@ -49,7 +50,7 @@ public class Trip {
     private Member creater;
 
     @Builder
-    public Trip(String title, List<TripImage> tripImage, int recruitNum,
+    public Trip(String title, List<TripImage> tripImage, int recruitNum, int currentNum,
                 String closeRecruitDate, String content,
                 String startingDate, String comingDate, Party party, int areaCode, int sigunguCode, List<Comment> comments,
                 Member creater) {
@@ -57,6 +58,7 @@ public class Trip {
         this.UUID = java.util.UUID.randomUUID().toString();
         this.title = title;
         this.recruitNum = recruitNum;
+        this.currentNum = currentNum;
         this.closeRecruitDate = closeRecruitDate;
         this.startingDate = startingDate;
         this.comingDate = comingDate;
