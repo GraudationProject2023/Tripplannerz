@@ -92,6 +92,7 @@ public class TripController {
                 .title(tripCreate.getTitle())
                 .tripImage(new ArrayList<>())
                 .recruitNum(tripCreate.getCapacity())
+                .currentNum(1)
                 .startingDate(tripCreate.getGoingDate())
                 .comingDate(tripCreate.getComingDate())
                 .closeRecruitDate(tripCreate.getCloseRecruitDate())
