@@ -187,7 +187,16 @@ public class TripController {
 
     // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
     @GetMapping("/trip/responseAccompany")
-    public void reponseAccompany() {
+    public void responseAccompany(@RequestBody CommentResponse commentResponse) {
 
+        Trip trip = tripService.findByUUID(commentResponse.getTripUUID()).get();
+        Member sender = memberService.findByEmail(commentResponse.getSenderEmail()).get();
+
+        Long partyId = partyService.findPartyByTrip(trip.getId());
+        Party party = partyService.findParty(partyId).get();
+
+        MemberParty mp = MemberParty.addPartyMember(sender, party);
+
+        memberPartyRepository.save(mp);
     }
 }
