@@ -9,6 +9,7 @@ import GraduationProject.TripPlannerZ.comment.CommentService;
 import GraduationProject.TripPlannerZ.comment.TripComment;
 import GraduationProject.TripPlannerZ.domain.*;
 import GraduationProject.TripPlannerZ.dto.CommentPost;
+import GraduationProject.TripPlannerZ.dto.CommentResponse;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
@@ -23,6 +24,7 @@ import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -36,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -149,13 +152,19 @@ public class TripController {
 
     // 여행 만든사람한테 알림 가게
     @PostMapping("/trip/requestAccompany")
-    public void requestAccompany(@RequestParam("tripUUID") String tripUUID, @RequestBody CommentPost commentPost) {
+    public ResponseEntity<String> requestAccompany(@RequestBody CommentPost commentPost) {
+
+        Trip trip = tripService.findByUUID(commentPost.getTripUUID()).get();
+
+        if (trip.getCurrentNum() > trip.getRecruitNum()) {
+            return ResponseEntity.ok().body("false");
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member principal = (Member) authentication.getPrincipal();
         Member member = memberService.findByEmail(principal.getEmail()).get();
 
-        Trip trip = tripService.findByUUID(tripUUID).get();
+
         Member creater = trip.getCreater();
         SseEmitter emitter = sseEmitterService.findEmitterByMember(creater.getId());
 
@@ -173,7 +182,7 @@ public class TripController {
 
         sseEmitterService.sendRequest(creater, emitter, comment);
 
-
+        return ResponseEntity.ok().body("true");
     }
 
     // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
