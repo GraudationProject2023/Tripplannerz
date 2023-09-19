@@ -10,12 +10,11 @@ import GraduationProject.TripPlannerZ.service.PartyService;
 import GraduationProject.TripPlannerZ.service.TripService;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -49,6 +48,7 @@ public class CommentController {
                 .sender(sender)
                 .trip(trip)
                 .postDate(curDateTime)
+                .type("Comment")
                 .build();
 
         commentService.saveComment(comment);
