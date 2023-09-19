@@ -14,22 +14,7 @@ import Menu from "../Image/Menu.png";
 import notice from "../Image/notice.png";
 import find from "../Image/돋보기.png";
 import "./Navbar.css";
-import IconWithTooltip from "../../util/IconWithTooltip";
-import {notification} from 'antd';
 axios.defaults.withCredentials = true;
-
-const NotificationBadge = ({ count }) => {
-  const renderNotificationBadge = () => {
-    return (
-      <div className="notification-badge">
-        <IconWithTooltip iconSrc={notice} />
-        {count > 0 && <div className="badge">{count}</div>}
-      </div>
-    );
-  };
-
-  return renderNotificationBadge();
-};
 
 function NavBar() {
   let token = localStorage.getItem("token");
@@ -59,14 +44,6 @@ function NavBar() {
 
       console.log('newMessage : ', event.data);
       setMessages(prevMessages => [...prevMessages, newMessage]);
-
-      notification.info({
-        message: 'New Notification',
-        description: newMessage,
-        style:{
-          backgroundColor: '#EEEEEE'
-        }
-      });
     });
 
     eventSource.onopen =() => {
@@ -95,6 +72,13 @@ function NavBar() {
 
   }, [token]);
 
+  //알림바
+  const [noticeOpen, setNoticeOpen] = useState(false);
+
+  const toggleNotice = () => {
+    setNoticeOpen(!noticeOpen);
+  }
+
   //검색창
   const handleSearch = (event) => {
     if (event.key === "Enter" && searchTerm !== "") {
@@ -122,8 +106,8 @@ function NavBar() {
     axios
       .get("http://localhost:8080/api/members/logout",{
         headers:{
-                      'Authorization': `Bearer ${token}`
-                  }
+        'Authorization': `Bearer ${token}`
+        }
       })
       .then((res) => {
         console.log(res);
@@ -147,36 +131,6 @@ function NavBar() {
     window.location.href = "/my";
   }
 
-  //메뉴바
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedList, setSelectedList] = useState("");
-  const navbarLinksRef = useRef(null);
-  const toggleNavbar = () => {
-    setIsOpen(!isOpen);
-  };
-  const closeNavbar = () => {
-    setIsOpen(false);
-  };
-
-  const handleListClick = (list) => {
-    setSelectedList(list);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        navbarLinksRef.current &&
-        !navbarLinksRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [navbarLinksRef]);
-
   //마이페이지
   const [esOpen, setesOpen] = useState(false);
   const toggleMypage = () => {
@@ -193,10 +147,6 @@ function NavBar() {
   const moveToSearch = (e) => {
     setSearchTerm("");
     window.location.href = `/search?keyword=${searchTerm}`;
-  };
-
-  const moveToNotice = (e) => {
-    window.location.href = "/notice";
   };
 
   if (offset === "1") {
@@ -244,8 +194,23 @@ function NavBar() {
                 일정조회
               </Button>
             </Nav>
-            <Nav className="notice" onClick={moveToNotice}>
-              <NotificationBadge count={notificationCount} />
+            <Nav className="notice">
+              <div className="notification-badge">
+                <img src={notice} onClick={toggleNotice} />
+                {noticeOpen && (
+                   <ul className="noticepage-content">
+                   {messages.map((element, index) => (
+                     <div>
+                      <br />
+                      <li className="MessageBox" key={index}>
+                       {element}
+                      </li>
+                      <br />
+                     </div>
+                   ))}
+                 </ul>
+                )}
+              </div>
             </Nav>
             <Nav className="user">
               <img src={image} onClick={toggleMypage} />
@@ -289,9 +254,6 @@ function NavBar() {
                   </table>
                 </ul>
               )}
-            </Nav>
-            <Nav className="chat">
-              <img src={chat} alt="채팅" />
             </Nav>
           </Nav>
         </Navbar>
