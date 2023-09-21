@@ -13,6 +13,7 @@ import axios from "axios";
 import Menu from "../Image/Menu.png";
 import notice from "../Image/notice.png";
 import find from "../Image/돋보기.png";
+import warn from '../Image/warning.png';
 import "./Navbar.css";
 axios.defaults.withCredentials = true;
 
@@ -199,9 +200,16 @@ function NavBar() {
                 <img src={notice} onClick={toggleNotice} />
                 {noticeOpen && (
                    <ul className="noticepage-content">
-                   {messages.map((element, index) => (
+                   {messages.length === 0 ? 
+                     (<>
+                       <img style={{width: '100px', height: '100px'}} alt="알림없음" src={warn} />
+                       <br />
+                       <br />
+                       <h2>수신된 알림이 없습니다.</h2>
+                     </>) : messages.map((element, index) => (
                      <div>
                       <br />
+                     
                       <li className="MessageBox" key={index}>
                        {element}
                       </li>
