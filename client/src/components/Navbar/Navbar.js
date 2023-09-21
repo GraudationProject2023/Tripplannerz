@@ -199,25 +199,22 @@ function NavBar() {
               <div className="notification-badge">
                 <img src={notice} onClick={toggleNotice} />
                 {noticeOpen && (
-                   <ul className="noticepage-content">
-                   {messages.length === 0 ? 
-                     (<>
-                       <img style={{width: '100px', height: '100px'}} alt="알림없음" src={warn} />
-                       <br />
-                       <br />
-                       <h2>수신된 알림이 없습니다.</h2>
-                     </>) : messages.map((element, index) => (
-                     <div>
-                      <br />
-                     
-                      <li className="MessageBox" key={index}>
-                       {element}
-                      </li>
-                      <br />
-                     </div>
-                   ))}
-                 </ul>
-                )}
+                    <>
+                    <div className={`drawer${noticeOpen ? ' open' : ''}`}>
+                     <ul>
+                      <h2>알림: {messages.length}개</h2>
+                      <hr />
+                      {messages.map((text, index) => (
+                        <li key={text}>
+                          <button className="btn btn-light">
+                             {index % 2 === 0 ? <span className="bullet"></span> : <span className="bullet"></span>}
+                                {text}
+                          </button>
+                        </li>
+                      ))}
+                </ul>
+             </div>
+            </>)}
               </div>
             </Nav>
             <Nav className="user">
