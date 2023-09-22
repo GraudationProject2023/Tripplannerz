@@ -152,15 +152,14 @@ function NavBar() {
 
   if (offset === "1") {
     return (
-      <div className="navbar">
         <Navbar
           expand="md"
           className="justify-content-center navbar-top"
           fixed="top"
           style={{
-            border: "1px solid #FFFFFF",
-            backgroundColor: "#EEEEEE",
-            height: "15%",
+            borderBottom: "1px solid black",
+            backgroundColor: "#FFFFFF",
+            height: "13%",
           }}
         >
           <Nav className="me-auto">
@@ -170,7 +169,7 @@ function NavBar() {
                 onClick={movetomain}
                 alt="메뉴"
                 className="navbar-toggle"
-                style={{ width: "200px", height: "50px", marginTop: "0%" }}
+                style={{ width: "300px", height: "120px", marginLeft: "3%"}}
               />
             </Nav>
             <Nav className="find">
@@ -262,8 +261,6 @@ function NavBar() {
             </Nav>
           </Nav>
         </Navbar>
-        <hr />
-      </div>
     );
   }
 }
