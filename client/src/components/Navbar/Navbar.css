@@ -241,17 +241,19 @@
   background-color: transparent;
 }
 
-.drawer .btn:hover {
-  background-color: #555;
-}
-
 .bullet {
   display: inline-block;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: white;
   margin-right: 10px;
+}
+
+.notification-list{
+  background-color: black;
+  height: 50px;
+  border-radius: 100px;
 }
 
 
@@ -266,10 +268,10 @@
 
   .drawer {
     position: fixed;
-    margin-top: 115px;
-    margin-left: 100px;
-    width: 600px;
-    height: 710px;
+    margin-top: 78px;
+    margin-left: 15px;
+    width: 400px;
+    height: 740px;
     overflow-y: auto;
     background-color: #333;
     transition: left 0.3s ease-in-out;
@@ -300,16 +302,18 @@
     background-color: transparent;
   }
   
-  .drawer .btn:hover {
-    background-color: #555;
-  }
-  
   .bullet {
     display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: white;
     margin-right: 10px;
   }
+  .notification-list{
+    background-color: black;
+    height: 50px;
+    border-radius: 100px;
+  }
+  
 }

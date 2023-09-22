@@ -36,6 +36,7 @@ function NavBar() {
     const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
+      heartbeatTimeout: 300000,
     })
 
     eventSource.addEventListener('SSE',event => {
@@ -203,13 +204,15 @@ function NavBar() {
                      <ul>
                       <h2>알림: {messages.length}개</h2>
                       <hr />
-                      {messages.map((text, index) => (
-                        <li key={text}>
+                      {messages.map((text, index) => (<>
+                        <li className="notification-list" key={text}>
                           <button className="btn btn-light">
                              {index % 2 === 0 ? <span className="bullet"></span> : <span className="bullet"></span>}
                                 {text}
                           </button>
                         </li>
+                        <br />
+                        </>
                       ))}
                 </ul>
              </div>
