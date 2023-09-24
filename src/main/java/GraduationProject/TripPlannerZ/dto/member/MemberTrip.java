@@ -3,7 +3,6 @@ package GraduationProject.TripPlannerZ.dto.member;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @Data
 @NoArgsConstructor
