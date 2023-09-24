@@ -16,7 +16,7 @@ function KakaoMap(){
     return (
         <div id="map" style={{
               marginTop: '10%',
-              marginLeft: '20%',
+              marginLeft: '15%',
               width: '400px',
               height: '400px',
               borderRadius: '10px',
