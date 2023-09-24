@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
+import { Button, Form, Card, Container, Row, Col, Modal } from "react-bootstrap";
 import StarRating from "./util/StarRating";
 import Navbar from "../Navbar/Navbar";
 import Kakao from "../../util/KakaoMap";
@@ -40,6 +40,10 @@ function SearchResultPage(props) {
 
   const [recoilComment, setRecoilComment] = useRecoilState(comment);
 
+  const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
+
+  const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
+
   useEffect(() => {
     console.log(recoilComment);
 
@@ -57,6 +61,14 @@ function SearchResultPage(props) {
       setComments(res.data.commentList);
     });
   }, []);
+
+  const handleOpenModal = () => {
+    setRequestAccompanyModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setRequestAccompanyModal(false);
+  }
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -90,6 +102,23 @@ function SearchResultPage(props) {
     }
   }
 
+  const handleRequestContent = (event) => {
+    setRequestContent(event.target.value);
+  }
+
+  const handleRequestAccompany = () => {
+    const postToServer = {
+      review: requestContent,
+      tripUUID: tripUuid
+    }
+
+    axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
+      headers: {'Authorization': `Bearer ${token}`}
+    }).then((res) => {
+      alert("동행 신청이 완료되었습니다.")
+    }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
+  }
+
  
   return (
     <div>
@@ -107,6 +136,22 @@ function SearchResultPage(props) {
             </Card.Subtitle>
             <br />
             <Card.Text>내용: {content}</Card.Text>
+            <Button onClick={handleOpenModal}>동행 신청</Button>
+            <Modal style={{width: '600px', height: '600px'}} 
+             show={requestAccompanyModal} 
+             onHide={handleCloseModal}>
+             <Modal.Header closeButton>
+               <Modal.Title>동행 신청</Modal.Title>
+             </Modal.Header>
+             <Modal.Body>
+              <Form>
+                <Form.Control type="textarea" style={{height: '300px'}} placeholder="신청서를 작성해주세요" onChange={handleRequestContent}/>
+                <Button variant="primary" type="submit" onClick={handleRequestAccompany}>
+                  신청하기
+                </Button>
+              </Form>
+             </Modal.Body>
+            </Modal>
           </Card.Body>
         </Card>
       </div>
