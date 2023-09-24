@@ -36,6 +36,7 @@ function NavBar() {
     const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
+      heartbeatTimeout: 300000,
     })
 
     eventSource.addEventListener('SSE',event => {
@@ -152,15 +153,14 @@ function NavBar() {
 
   if (offset === "1") {
     return (
-      <div className="navbar">
         <Navbar
           expand="md"
           className="justify-content-center navbar-top"
           fixed="top"
           style={{
-            border: "1px solid #FFFFFF",
-            backgroundColor: "#EEEEEE",
-            height: "15%",
+            borderBottom: "1px solid black",
+            backgroundColor: "#FFFFFF",
+            height: "13%",
           }}
         >
           <Nav className="me-auto">
@@ -170,7 +170,7 @@ function NavBar() {
                 onClick={movetomain}
                 alt="메뉴"
                 className="navbar-toggle"
-                style={{ width: "200px", height: "50px", marginTop: "0%" }}
+                style={{ width: "300px", height: "120px", marginLeft: "3%"}}
               />
             </Nav>
             <Nav className="find">
@@ -199,25 +199,24 @@ function NavBar() {
               <div className="notification-badge">
                 <img src={notice} onClick={toggleNotice} />
                 {noticeOpen && (
-                   <ul className="noticepage-content">
-                   {messages.length === 0 ? 
-                     (<>
-                       <img style={{width: '100px', height: '100px'}} alt="알림없음" src={warn} />
-                       <br />
-                       <br />
-                       <h2>수신된 알림이 없습니다.</h2>
-                     </>) : messages.map((element, index) => (
-                     <div>
-                      <br />
-                     
-                      <li className="MessageBox" key={index}>
-                       {element}
-                      </li>
-                      <br />
-                     </div>
-                   ))}
-                 </ul>
-                )}
+                    <>
+                    <div className={`drawer${noticeOpen ? ' open' : ''}`}>
+                     <ul>
+                      <h2>알림: {messages.length}개</h2>
+                      <hr />
+                      {messages.map((text, index) => (<>
+                        <li className="notification-list" key={text}>
+                          <button className="btn btn-light">
+                             {index % 2 === 0 ? <span className="bullet"></span> : <span className="bullet"></span>}
+                                {text}
+                          </button>
+                        </li>
+                        <br />
+                        </>
+                      ))}
+                </ul>
+             </div>
+            </>)}
               </div>
             </Nav>
             <Nav className="user">
@@ -265,8 +264,6 @@ function NavBar() {
             </Nav>
           </Nav>
         </Navbar>
-        <hr />
-      </div>
     );
   }
 }

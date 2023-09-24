@@ -1,0 +1,30 @@
+.ResultContent{
+    margin-left: 47%;
+    margin-top: -25%;
+    width: 30%;
+}
+.ResultComment{
+    width: 60%;
+    margin-top: 5%;
+    margin-left: 20%;
+}
+
+
+@media (min-width: 1920px) {
+    .ResultContent{
+        margin-left: 36%;
+        margin-top: -20.8%;
+        width: 30%;
+    }
+    .ResultComment{
+        width: 60%;
+        margin-top: 0%;
+        margin-left: 15%;
+    }
+    .CommentList{
+        margin-left: 63%;
+        margin-top: -31.2%;
+        height: 600px;
+        overflow-y: auto;
+    }
+}
