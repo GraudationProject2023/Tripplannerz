@@ -33,7 +33,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                         JPAExpressions
                                 .selectFrom(trip)
                                 .where(trip.UUID.eq(tripUUID))
-                ))
+                ).and(comment.type.eq("Comment")))
                 .orderBy(comment.postDate.desc())
                 .fetch();
 
