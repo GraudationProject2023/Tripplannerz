@@ -165,6 +165,7 @@ public class TripController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member principal = (Member) authentication.getPrincipal();
         Member member = memberService.findByEmail(principal.getEmail()).get();
+        System.out.println("member = " + member.getEmail());
 
 
         Member creater = trip.getCreater();
@@ -194,12 +195,14 @@ public class TripController {
 
         Trip trip = tripService.findByUUID(commentResponse.getTripUUID()).get();
 
+
         Member sender = memberService.findByEmail(commentResponse.getSenderEmail()).get();
 
         Long partyId = partyService.findPartyByTrip(trip.getId());
         Party party = partyService.findParty(partyId).get();
 
         MemberParty mp = MemberParty.addPartyMember(sender, party);
+        trip.setCurrentNum(trip.getCurrentNum() + 1);
 
         memberPartyRepository.save(mp);
     }
