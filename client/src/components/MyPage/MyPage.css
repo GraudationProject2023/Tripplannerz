@@ -16,15 +16,14 @@
   .profilecard {
     width: 750px;
     height: 600px;
+    overflow-y: auto;
     border: 1px solid black;
     border-radius: 5px;
     padding: 20px;
     background-color: white;
   }
-  .Accompany{
-    background-color: azure;
-    height: 300px;
-    overflow-y: auto;
+  .profilecard::-webkit-scrollbar{
+    display: none;
   }
 }
 

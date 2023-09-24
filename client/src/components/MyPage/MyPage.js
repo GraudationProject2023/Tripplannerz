@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal, Card } from "react-bootstrap";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import "./MyPage.css";
@@ -19,31 +19,56 @@ axios.default.withCredentials = true;
 
 function MyPage() {
   let token = localStorage.getItem("token");
+  
   const [name, setName] = useState(""); //프로필 이름
+  
   const [gender, setGender] = useState(""); //프로필 성별
+  
   const [email, setEmail] = useState(""); //프로필 이메일
+  
   const [rank, setRank] = useState([]); //프로필 선호 태그
+  
   const [currentPage, setCurrentPage] = useState("profile"); //메뉴 토글
+  
   const [preview, setPreview] = useState([]);
+  
   const [create, setCreate] = useState(0); //생성한 일정 개수
+  
   const [pw, setPw] = useState(""); //현재 패스워드
+  
   const [password, setPassword] = useState(""); // 수정할 패스워드
+  
   const [withdrawPassword, setWithdrawPassword] = useState("");
+  
   const [confirmPassword, setConfirmPassword] = useState(""); //수정할 패스워드 확인
+  
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+  
   const [posts, setPosts] = useState([]); //페이지마다 띄울 게시판 목록
+  
   const [postNumber, setPostNumber] = useState([]); // 각 목록 번호
+  
   const [postsPerPage, setPostsPerPage] = useState(10); //페이지마다 띄울 게시판 목록 개수
+  
   var [currentNumber, setCurrentNumber] = useState(0); //현재 페이지 번호
+  
   const [totalPage, setTotalPage] = useState(0); //전체 페이지 개수
+  
   const [total, setTotal] = useState(13); //전체 목록 개수
+  
   const [order, setOrder] = useState("기본"); //버튼 정렬 기준
+  
   const [keyword, setKeyword] = useState(""); // 일정 검색어
+  
   const [loading, setLoading] = useState(false);
 
   const [nestedModal, setNestedModal] = useState(false);
+  
   const [toggle, setToggle] = useState(false);
+  
   const [withdrawModal, setWithdrawModal] = useState(false);
+
+  const [accompanyList, setAccompanyList] = useState(["안녕하세요","안녕하세요","안녕하세요","안녕하세요","안녕하세요"]) // 동행 신청 현황
 
   var ranklist = "";
   var size = posts.length;
@@ -476,10 +501,20 @@ function MyPage() {
         <h5>선호태그 : {ranklist} </h5>
         <hr />
         <h4>동행 신청 현황</h4>
-        <div className="Accompany">
-
+          {accompanyList.map((item,idx) => 
+            <Card key={idx} style={{
+              height: '100px'
+            }} >
+              {item}
+              <Button
+                style={{
+                  width: '50px',
+                  height: '50px'
+                }}
+              >O</Button>
+            </Card>
+          )}
         </div>
-      </div>
     );
   };
 
