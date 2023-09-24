@@ -107,10 +107,10 @@ public class SseEmitterService {
             Member m = receivedMember.getMember();
 
             // 알림 저장 및 알림 전송
-            Notification notification = Notification.builder()
-                    .comment(comment)
-                    .member(m)
-                    .build();
+//            Notification notification = Notification.builder()
+//                    .comment(comment)
+//                    .member(m)
+//                    .build();
 
 //            notificationService.saveNotification(notification);
             Long id = m.getId();
