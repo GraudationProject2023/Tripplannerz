@@ -18,15 +18,20 @@ public class MemberTrip {
     private String startingDate;
     private String comingDate;
     private String imagePath;
+    private int recruitNum;
+    private int currentNum;
 
     @QueryProjection
-    public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID) {
+    public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID,
+                      int recruitNum, int currentNum) {
         this.id = id;
         this.UUID = UUID;
         this.title = title;
         this.startingDate = startingDate;
         this.comingDate = comingDate;
         this.imagePath = "/Users/seongbochoi/trip_image/" + imageUUID + ".png";
+        this.recruitNum = recruitNum;
+        this.currentNum = currentNum;
 
     }
 }
