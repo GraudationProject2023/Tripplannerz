@@ -384,7 +384,7 @@ function MyPage() {
   const handlePasswordButton = (e) => {
 
     const postToServer = {
-      pw: pw
+      pw: password
     }
 
     axios
