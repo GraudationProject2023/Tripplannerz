@@ -200,7 +200,7 @@ public class TestInitDb {
                     .recruitNum(4)
                     .currentNum(1)
                     .party(party5)
-                    .creater(member2)
+                    .creater(member)
                     .closeRecruitDate("2023-04-11")
                     .build();
             em.persist(trip5);

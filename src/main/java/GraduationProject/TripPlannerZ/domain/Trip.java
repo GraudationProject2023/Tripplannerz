@@ -86,4 +86,8 @@ public class Trip {
         this.creater = creater;
         creater.getMadeTripList().add(this);
     }
+
+    public void setCurrentNum(int currentNum) {
+        this.currentNum = currentNum;
+    }
 }
