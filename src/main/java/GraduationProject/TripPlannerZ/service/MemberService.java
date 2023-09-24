@@ -10,6 +10,7 @@ import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import GraduationProject.TripPlannerZ.repository.PartyRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final MemberPreferenceService memberPreferenceService;
+    private final EntityManager em;
 
     // 회원 가입
     @Transactional
@@ -88,9 +90,9 @@ public class MemberService {
     // 비밀 번호 변경
     @Transactional
     public void changePw(Member member, String pw) {
-
-//        System.out.println(passwordEncoder.encode(CharBuffer.wrap(pwArr)));
         member.changePw(passwordEncoder.encode(CharBuffer.wrap(pw)));
+//        em.clear();
+
     }
 
     // 비밀 번호 찾기
