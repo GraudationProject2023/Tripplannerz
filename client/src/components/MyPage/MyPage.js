@@ -475,7 +475,10 @@ function MyPage() {
         <h5>이메일 : {email}</h5>
         <h5>선호태그 : {ranklist} </h5>
         <hr />
-        <h4>평점 : NaN점</h4>
+        <h4>동행 신청 현황</h4>
+        <div className="Accompany">
+
+        </div>
       </div>
     );
   };
@@ -821,6 +824,7 @@ function MyPage() {
           </td>
         </table>
       </div>
+      <br />
       <Footer />
     </div>
   );

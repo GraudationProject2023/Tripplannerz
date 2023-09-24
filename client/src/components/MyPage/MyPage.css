@@ -5,14 +5,26 @@
   padding: 20px;
   position: sticky;
   top: 100px;
-  background-color: #ffffff;
+  background-color: white;
 }
 
-@media screen and (max-width: 600px) {
-  .container {
-    position: static;
-    margin-left: 0;
-    margin-right: 0;
+@media (max-width: 1920px) {
+  .table_n{
+    margin-top: 5%;
+    margin-left: 10%;
+  }
+  .profilecard {
+    width: 750px;
+    height: 600px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: white;
+  }
+  .Accompany{
+    background-color: azure;
+    height: 300px;
+    overflow-y: auto;
   }
 }
 
@@ -32,26 +44,13 @@
   width: 100%;
 }
 
-.profilecard {
-  width: 750px;
-  height: 600px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-
-.content {
-  margin-right: 100%;
-}
-
 .menu-card {
   width: 300px;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   border-radius: 5px;
   padding: 20px;
   margin-left: 10%;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 
 .button-group {
@@ -67,7 +66,7 @@
 .buttonstyle {
   width: 260px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: skyblue;
   border: none;
   border-radius: 5px;
   font-size: 16px;
