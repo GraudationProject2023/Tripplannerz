@@ -151,7 +151,7 @@ public class TripController {
     }
 
     // 여행 만든사람한테 알림 가게
-    @GetMapping("/trip/requestAccompany")
+    @PostMapping("/trip/requestAccompany")
     public ResponseEntity<String> requestAccompany(@RequestBody CommentPost commentPost) {
 
         System.out.println("tripUUID = " + commentPost.getTripUUID());
@@ -183,7 +183,11 @@ public class TripController {
 
         commentService.saveComment(comment);
 
-        sseEmitterService.sendRequest(creater, emitter, comment);
+        TripComment tripComment = TripComment.builder()
+                .comment(comment)
+                .build();
+
+        sseEmitterService.sendRequest(creater, emitter, tripComment);
 
         return ResponseEntity.ok().body("true");
     }
