@@ -132,21 +132,25 @@ public class MemberController {
     }
 
     @RequestMapping("members/verify/pw") // get post 둘다 가능
-    public ResponseEntity<String> verifyPw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
+    public ResponseEntity<String> verifyPw(@RequestBody ChangeMemberInfo memberInfo) {
 
-        String email = (String) request.getSession().getAttribute("loginMember");
-        String pw = memberInfo.getPw();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member loginMember = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(loginMember.getEmail()).get();
 
-        if (memberService.findPw(email, pw)) // 비번 일치
+        if (memberService.findPw(member.getEmail(), memberInfo.getPw())) // 비번 일치
             return ResponseEntity.ok().body("{\"result\": true}");
         return ResponseEntity.ok().body("{\"result\": false}");
     }
 
     @PostMapping("members/change/pw")
-    public void changePw(HttpServletRequest request, @RequestBody ChangeMemberInfo memberInfo) {
+    public void changePw(@RequestBody ChangeMemberInfo memberInfo) {
 
-        String email = (String) request.getSession().getAttribute("loginMember");
-        Member member = memberService.findByEmail(email).get();
+//        String email = (String) request.getSession().getAttribute("loginMember");
+//        Member member = memberService.findByEmail(email).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member loginMember = (Member) authentication.getPrincipal();
+        Member member = memberService.findByEmail(loginMember.getEmail()).get();
 
         memberService.changePw(member, memberInfo.getPw());
     }
