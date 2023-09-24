@@ -3,7 +3,6 @@ package GraduationProject.TripPlannerZ.dto.member;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @Data
 @NoArgsConstructor
@@ -18,15 +17,20 @@ public class MemberTrip {
     private String startingDate;
     private String comingDate;
     private String imagePath;
+    private int recruitNum;
+    private int currentNum;
 
     @QueryProjection
-    public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID) {
+    public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID,
+                      int recruitNum, int currentNum) {
         this.id = id;
         this.UUID = UUID;
         this.title = title;
         this.startingDate = startingDate;
         this.comingDate = comingDate;
         this.imagePath = "/Users/seongbochoi/trip_image/" + imageUUID + ".png";
+        this.recruitNum = recruitNum;
+        this.currentNum = currentNum;
 
     }
 }

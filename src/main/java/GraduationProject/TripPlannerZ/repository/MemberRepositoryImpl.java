@@ -48,7 +48,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.title,
                                 trip.startingDate,
                                 trip.comingDate,
-                                tripImage.img_uuid
+                                tripImage.img_uuid,
+                                trip.currentNum,
+                                trip.recruitNum
                         ))
                         .from(trip).where(trip.party.in(
                                 JPAExpressions
@@ -78,7 +80,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.title,
                                 trip.startingDate,
                                 trip.comingDate,
-                                tripImage.img_uuid
+                                tripImage.img_uuid,
+                                trip.currentNum,
+                                trip.recruitNum
                         ))
                         .from(trip).where(trip.party.in(
                                 JPAExpressions
@@ -108,7 +112,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                                 trip.title,
                                 trip.startingDate,
                                 trip.comingDate,
-                                tripImage.img_uuid
+                                tripImage.img_uuid,
+                                trip.currentNum,
+                                trip.recruitNum
                         ))
                         .from(trip).where(trip.party.in(
                                 JPAExpressions
@@ -138,7 +144,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         trip.title,
                         trip.startingDate,
                         trip.comingDate,
-                        tripImage.img_uuid
+                        tripImage.img_uuid,
+                        trip.currentNum,
+                        trip.recruitNum
                 ))
                 .from(trip).where(trip.party.in(
                         JPAExpressions

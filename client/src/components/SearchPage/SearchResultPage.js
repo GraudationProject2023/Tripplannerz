@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
+import { Button, Form, Card, Container, Row, Col, Modal } from "react-bootstrap";
 import StarRating from "./util/StarRating";
 import Navbar from "../Navbar/Navbar";
 import Kakao from "../../util/KakaoMap";
@@ -40,6 +40,8 @@ function SearchResultPage(props) {
 
   const [recoilComment, setRecoilComment] = useRecoilState(comment);
 
+  const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
+
   useEffect(() => {
     console.log(recoilComment);
 
@@ -57,6 +59,14 @@ function SearchResultPage(props) {
       setComments(res.data.commentList);
     });
   }, []);
+
+  const handleOpenModal = () => {
+    setRequestAccompanyModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setRequestAccompanyModal(false);
+  }
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -107,6 +117,14 @@ function SearchResultPage(props) {
             </Card.Subtitle>
             <br />
             <Card.Text>내용: {content}</Card.Text>
+            <Button onClick={handleOpenModal}>동행 신청</Button>
+            <Modal style={{width: '600px', height: '600px'}} 
+             show={requestAccompanyModal} 
+             onHide={handleCloseModal}>
+             <Modal.Header closeButton>
+
+             </Modal.Header>
+            </Modal>
           </Card.Body>
         </Card>
       </div>
