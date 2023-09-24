@@ -42,6 +42,8 @@ function SearchResultPage(props) {
 
   const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
 
+  const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
+
   useEffect(() => {
     console.log(recoilComment);
 
@@ -100,6 +102,23 @@ function SearchResultPage(props) {
     }
   }
 
+  const handleRequestContent = (event) => {
+    setRequestContent(event.target.value);
+  }
+
+  const handleRequestAccompany = () => {
+    const postToServer = {
+      review: requestContent,
+      tripUUID: tripUuid
+    }
+
+    axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
+      headers: {'Authorization': `Bearer ${token}`}
+    }).then((res) => {
+      alert("동행 신청이 완료되었습니다.")
+    }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
+  }
+
  
   return (
     <div>
@@ -122,8 +141,16 @@ function SearchResultPage(props) {
              show={requestAccompanyModal} 
              onHide={handleCloseModal}>
              <Modal.Header closeButton>
-
+               <Modal.Title>동행 신청</Modal.Title>
              </Modal.Header>
+             <Modal.Body>
+              <Form>
+                <Form.Control type="textarea" style={{height: '300px'}} placeholder="신청서를 작성해주세요" onChange={handleRequestContent}/>
+                <Button variant="primary" type="submit" onClick={handleRequestAccompany}>
+                  신청하기
+                </Button>
+              </Form>
+             </Modal.Body>
             </Modal>
           </Card.Body>
         </Card>
