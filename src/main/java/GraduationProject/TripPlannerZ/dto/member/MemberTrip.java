@@ -22,7 +22,7 @@ public class MemberTrip {
 
     @QueryProjection
     public MemberTrip(Long id, String UUID, String title, String startingDate, String comingDate, String imageUUID,
-                      int recruitNum, int currentNum) {
+                      int currentNum, int recruitNum) {
         this.id = id;
         this.UUID = UUID;
         this.title = title;

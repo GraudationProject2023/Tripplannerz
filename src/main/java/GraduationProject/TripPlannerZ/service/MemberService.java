@@ -88,13 +88,13 @@ public class MemberService {
     // 비밀 번호 변경
     @Transactional
     public void changePw(Member member, String pw) {
-        member.changePw(pw);
+        member.changePw(passwordEncoder.encode(CharBuffer.wrap(pw)));
     }
 
     // 비밀 번호 찾기
     public boolean findPw(String email, String pw) {
         Member member = memberRepository.findByEmail(email).get();
-        return member.getPw().equals(pw);
+        return member.getPw().equals(passwordEncoder.encode(CharBuffer.wrap(pw)));
     }
 
     public List<MemberInfo> memberList(Long id) {
