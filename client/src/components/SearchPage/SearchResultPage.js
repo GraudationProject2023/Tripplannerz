@@ -7,6 +7,7 @@ import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
 import StarRating from "./util/StarRating";
 import Navbar from "../Navbar/Navbar";
 import Kakao from "../../util/KakaoMap";
+import "./SearchResultPage.css"
 axios.defaults.withCredentials = true;
 
 function SearchResultPage(props) {
@@ -94,8 +95,11 @@ function SearchResultPage(props) {
     <div>
       <Navbar />
       <Kakao />
-      <div className="content">
-        <Card style={{ width: "400px", height: "400px" }}>
+      <div className="ResultContent">
+        <Card style={{
+          width: "500px",
+          height: "400px"
+        }}>
           <Card.Body>
             <Card.Title>{title}</Card.Title>
             <Card.Subtitle>
@@ -106,20 +110,11 @@ function SearchResultPage(props) {
           </Card.Body>
         </Card>
       </div>
-      <div className="profile">
-        <Card style={{ width: "300px", height: "200px" }}>
-          <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Subtitle>
-              {startingDate} ~ {comingDate}
-            </Card.Subtitle>
-            <br />
-            <Card.Text>내용: {content}</Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
-      <div className="review">
-        <Card style={{ width: "800px", height: "200px" }}>
+      <div className="ResultComment">
+        <Card style={{
+          width: "905px",
+          height: "200px"
+        }}>
           <Card.Body>
             <Card.Title>댓글</Card.Title>
             <Form.Group>
@@ -128,12 +123,10 @@ function SearchResultPage(props) {
                 rows={3}
                 value={review}
                 onChange={handleReviewChange}
-                style={{ width: "700px" }}
                 onKeyDown={keyDown}
               />
             </Form.Group>
             <Button
-              style={{ marginLeft: "80%", marginTop: "-10%" }}
               variant="primary"
               onClick={handleAddComment}
             >
@@ -142,11 +135,14 @@ function SearchResultPage(props) {
           </Card.Body>
         </Card>
       </div>
-      <div className="comments">
+      <div className="CommentList">
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
-              <Card style={{ width: "800px" }} key={index}>
+              <Card style={{
+                width: "600px",
+                height: "120px"
+              }} key={index}>
                 <p>날짜: {comment.postDate}</p>
                 <p>글쓴이: {comment.senderName}</p>
                 <p>댓글: {comment.review}</p>
