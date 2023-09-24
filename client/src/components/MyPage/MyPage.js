@@ -62,7 +62,6 @@ function MyPage() {
     axios.get("http://localhost:8080/api/members/tripInfo", 
      {
       headers:{'Authorization': `Bearer ${token}` },
-      withCredentials: true
      }).then((response) => {
       setName(response.data.name);
       setGender(response.data.gender);
@@ -79,7 +78,6 @@ function MyPage() {
         `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
-          withCredentials: true,
         }
       );
       console.log(response.data);
@@ -103,7 +101,6 @@ function MyPage() {
         `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
-          withCredentials: true,
         }
       );
 
@@ -236,10 +233,14 @@ function MyPage() {
     } else {
       var ranks = localStorage.getItem("rank");
       console.log(ranks);
+
+      const postToServer = {
+        types: rank
+      }
+
       axios
-        .post("http://localhost:8080/api/members/change/types", {
+        .post("http://localhost:8080/api/members/change/types", postToServer, {
           headers: {'Authorization': `Bearer ${token}`},
-          types: ranks,
         })
         .then((res) => console.log(res), alert("태그가 변경되었습니다."));
 
@@ -335,10 +336,14 @@ function MyPage() {
   };
 
   const handleCurrentPasswordButton = (e) => {
+
+    const postToServer = {
+      pw: pw
+    }
+
     axios
-      .post("http://localhost:8080/api/members/verify/pw", {
+      .post("http://localhost:8080/api/members/verify/pw", postToServer,{
         headers: {'Authorization': `Bearer ${token}`},
-        pw: pw,
       })
       .then((res) => {
         console.log(res.data.result);
@@ -352,11 +357,17 @@ function MyPage() {
   };
 
   const handlePasswordButton = (e) => {
+
+    const postToServer = {
+      pw: pw
+    }
+
     axios
-      .post("http://localhost:8080/api/members/change/pw", {
-        pw: password,
-      },{ headers: {'Authorization': `Bearer ${token}`}})
-      .then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
+      .post("http://localhost:8080/api/members/change/pw", postToServer,
+      { 
+        headers: {'Authorization': `Bearer ${token}`}
+      }
+      ).then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
   };
 
   const Posts = ({ posts, loading, handleClick }) => {
