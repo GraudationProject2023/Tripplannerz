@@ -2,19 +2,15 @@ package GraduationProject.TripPlannerZ.controller;
 
 import GraduationProject.TripPlannerZ.config.UserAuthProvider;
 import GraduationProject.TripPlannerZ.domain.MemberPreference;
-import GraduationProject.TripPlannerZ.dto.member.Credential;
-import GraduationProject.TripPlannerZ.dto.member.MemberDto;
-import GraduationProject.TripPlannerZ.dto.member.MemberRegister;
+import GraduationProject.TripPlannerZ.dto.member.*;
 import GraduationProject.TripPlannerZ.domain.Member;
-import GraduationProject.TripPlannerZ.dto.member.ChangeMemberInfo;
 import GraduationProject.TripPlannerZ.delete.MemberLogin;
-import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
-import GraduationProject.TripPlannerZ.dto.member.MyPage;
 import GraduationProject.TripPlannerZ.service.*;
 
 
 import GraduationProject.TripPlannerZ.service.TripService;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
+import GraduationProject.TripPlannerZ.util.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +34,10 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberService memberService;
-    private final LoginService loginService;
-    private final TripService tripService;
     private final MemberPreferenceService memberPreferenceService;
     private final UserAuthProvider userAuthProvider;
     private final SseEmitterService sseEmitterService;
-    private final PartyService partyService;
+    private final AuthService authService;
 
 
 
@@ -81,12 +75,10 @@ public class MemberController {
 
     }
 
-    @GetMapping("/members/logout")
-    public void logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-
-        if (session != null)
-            session.invalidate();
+    @PostMapping("/members/logout")
+    public void logout(@RequestBody BlackList blackList) {
+        System.out.println("blackList.getToken() = " + blackList.getToken());
+        authService.logout(blackList.getToken());
     }
 
     @GetMapping("/members/tripInfo")
