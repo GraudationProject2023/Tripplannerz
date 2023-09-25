@@ -122,6 +122,7 @@ function NavBar() {
         alert("정상적으로 로그아웃 되었습니다.");
         localStorage.setItem("vest", 0);
         localStorage.setItem("name", "");
+        window.location.href = "/";
       })
       .catch((error) => {
         console.log(error);
@@ -129,8 +130,6 @@ function NavBar() {
         localStorage.setItem("vest", 0);
         localStorage.setItem("name", "");
       });
-
-    window.location.href = "/";
     }
   }
 
