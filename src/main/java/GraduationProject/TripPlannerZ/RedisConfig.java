@@ -33,12 +33,7 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    @Bean
-    public RedisTemplate<?, ?> blackList() {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory((redisConnectionFactory()));
-        return redisTemplate;
-    }
+
 
 
 }

@@ -77,7 +77,6 @@ public class MemberController {
 
     @PostMapping("/members/logout")
     public void logout(@RequestBody BlackList blackList) {
-        System.out.println("blackList.getToken() = " + blackList.getToken());
         authService.logout(blackList.getToken());
     }
 
