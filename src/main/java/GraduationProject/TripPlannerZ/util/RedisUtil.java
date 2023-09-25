@@ -14,6 +14,7 @@ import java.time.Duration;
 public class RedisUtil {
 
     private final StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate blackList;
 
     public String getData(String key) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
@@ -27,6 +28,12 @@ public class RedisUtil {
         valueOperations.set(key, value, expireDuration);
     }
 
+    public void setBlackList(String key, String value, long duration) {
+        ValueOperations<String, String> valueOperations = blackList.opsForValue();
+        Duration expireDuration = Duration.ofSeconds(duration);
+        valueOperations.set(key, "BlackList", expireDuration);
+    }
+
     public void deleteData(String key) {
         // 데이터 삭제
         redisTemplate.delete(key);
@@ -34,6 +41,10 @@ public class RedisUtil {
 
     public boolean existData(String key) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+    public boolean existBlackList(String key) {
+        return Boolean.TRUE.equals(blackList.hasKey(key));
     }
 
 }

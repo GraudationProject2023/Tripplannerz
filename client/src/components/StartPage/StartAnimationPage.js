@@ -241,6 +241,8 @@ function StartAnimation() {
   const [showModal, setShowModal] = useState(false);
   
   const [firstShowModal, setFirstShowModal] = useState(false);
+
+  const [passwordModal, setPasswordModal] = useState(false);
   
   const [name, setName] = useState("1"); //이름
   
@@ -289,6 +291,14 @@ function StartAnimation() {
       setNestedModal(false);
     }
   };
+
+  const handlePasswordModalOpen = () => {
+    setPasswordModal(true)
+  }
+
+  const handlePasswordModalClose = () => {
+    setPasswordModal(false)
+  }
 
   const handleNameChange = (event) => setName(event.target.value);
   
@@ -524,7 +534,26 @@ function StartAnimation() {
               </Button>
               </Form>
             </Modal.Body>
-            <Modal.Footer></Modal.Footer>
+            <Modal.Footer>
+              <Button
+                onClick={handlePasswordModalOpen}
+              >
+                비밀번호 찾기
+              </Button>
+              <Modal
+               show={passwordModal}
+               onHide={handlePasswordModalClose}
+              >
+              <Modal.Header closeButton>
+                <Modal.Title>Find Password</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Control />
+                </Form>
+              </Modal.Body>
+              </Modal>
+            </Modal.Footer>
           </Modal>
           </td>
           <td>

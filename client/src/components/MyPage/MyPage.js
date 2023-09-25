@@ -68,7 +68,7 @@ function MyPage() {
   
   const [withdrawModal, setWithdrawModal] = useState(false);
 
-  const [accompanyList, setAccompanyList] = useState(["안녕하세요","안녕하세요","안녕하세요","안녕하세요","안녕하세요"]) // 동행 신청 현황
+  const [accompanyList, setAccompanyList] = useState(["1","2","3","4","5"]) // 동행 신청 현황
 
   var ranklist = "";
   var size = posts.length;
@@ -505,13 +505,33 @@ function MyPage() {
             <Card key={idx} style={{
               height: '100px'
             }} >
-              {item}
-              <Button
-                style={{
-                  width: '50px',
-                  height: '50px'
+              <h6>여행 일정 :</h6>
+              <h6>신청자 : </h6> 
+              <h6>신청 내용 : {item.length <= 50 ? item : item.slice(0,50) + '...'}</h6>
+              <table>
+                <td><Button
+                onClick={(e) => {
+                  const updateList = accompanyList.filter((listItem) => listItem !== item)
+                  setAccompanyList(updateList);
                 }}
-              >O</Button>
+                style={{
+                  marginTop: '-15%',
+                  marginLeft: '170%',
+                  width: '40px',
+                  height: '40px'
+                }}
+              >O</Button></td>
+                <td>
+                  <Button  onClick= {(e) => {
+                  const updateList = accompanyList.filter((listItem) => listItem !== item)
+                  setAccompanyList(updateList);
+                  }} 
+                  style={{marginTop: '-15%', marginLeft: '85%',width: '40px', height: '40px'}}>
+                    X
+                  </Button>
+                </td>
+              </table>
+              
             </Card>
           )}
         </div>
