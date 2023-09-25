@@ -105,8 +105,9 @@ function NavBar() {
   }
 
   function logout() {
-    axios
-      .get("http://localhost:8080/api/members/logout",{
+    if(token !== null){
+      axios
+      .post("http://localhost:8080/api/members/logout",token,{
         headers:{
         'Authorization': `Bearer ${token}`
         }
@@ -125,6 +126,7 @@ function NavBar() {
       });
 
     window.location.href = "/";
+    }
   }
 
   var offset = localStorage.getItem("vest");
