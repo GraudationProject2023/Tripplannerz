@@ -106,8 +106,13 @@ function NavBar() {
 
   function logout() {
     if(token !== null){
+
+      const postToData = {
+        token: token
+      }
+
       axios
-      .post("http://localhost:8080/api/members/logout",token,{
+      .post("http://localhost:8080/api/members/logout", postToData, {
         headers:{
         'Authorization': `Bearer ${token}`
         }
