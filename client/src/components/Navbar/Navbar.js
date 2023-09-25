@@ -40,28 +40,28 @@ function NavBar() {
     })
 
     eventSource.addEventListener('SSE',event => {
-      console.log("event",event);
 
       const newMessage = event.data;
 
-      console.log('newMessage : ', event.data);
-      setMessages(prevMessages => [...prevMessages, newMessage]);
+      if(newMessage[0] === '{')
+      {
+         const jsonData = JSON.parse(newMessage);
+
+         const senderName = jsonData.senderName;
+         const review = jsonData.review;
+         const postDate = jsonData.postDate;
+
+         const notificationString = `${senderName}님이\n ${review.slice(0,4)}..를 입력하였습니다.\n ${postDate}`
+         setMessages(prevMessages => [...prevMessages, notificationString])
+        }
+      else{
+        setMessages(prevMessages => [...prevMessages, newMessage]);
+      }
     });
 
     eventSource.onopen =() => {
       console.log('SSE connection opened.');
       console.log('eventSource',eventSource);
-    }
-
-    eventSource.onmessage = (event) => {
-      try{
-        console.log('SSE message received: ', event.data);
-        const newMessage = event.data;
-        setMessages(prevMessages => [...prevMessages, newMessage]);
-      }
-      catch(error){
-        console.log("Error in onmessage: ", error);
-      }
     }
 
     eventSource.onerror = (error) => {
