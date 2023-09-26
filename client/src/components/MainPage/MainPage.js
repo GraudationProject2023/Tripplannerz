@@ -66,7 +66,7 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <div>
+        <div className = "mainPageContext">
           <MainSlider />
       <br />
       <br />
@@ -77,13 +77,16 @@ function MainPage() {
       <hr />
       <div className="ShowList">
         {travelList.map((item) => (
-          <Card key={item.id} onClick={(e) => movetoSubPage(item.id)}>
+          <Card style={{
+            display: 'inline-block',
+            width: '10%',
+            height: '100px',
+            margin: '0 30px'
+          }} key={item.id} onClick={(e) => movetoSubPage(item.id)}>
             <h4>{item.title}</h4>
           </Card>
         ))}
       </div>
-      <br />
-      <br />
       <hr />
       <Footer />
      </div>
