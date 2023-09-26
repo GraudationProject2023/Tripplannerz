@@ -292,8 +292,13 @@ function MyPage() {
     }
   };
   const handleCloseWithdraw = () => {
+
+    const postToServer = {
+      ok: true
+    }
+
     axios
-      .post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`,{
+      .post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`,postToServer,{
         headers: {'Authorization': `Bearer ${token}`}
       })
       .then((response) => {
