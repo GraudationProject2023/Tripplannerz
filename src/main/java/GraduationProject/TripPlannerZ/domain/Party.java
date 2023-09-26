@@ -18,11 +18,11 @@ public class Party {
     @Column(name = "party_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    @OneToMany(mappedBy = "party")
+    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE)
     private List<MemberParty> memberPartyList = new ArrayList<>();
 
     @Builder

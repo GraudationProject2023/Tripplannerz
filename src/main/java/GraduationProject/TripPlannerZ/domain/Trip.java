@@ -38,7 +38,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne(mappedBy = "trip", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Party party;
 
     private LocalDateTime creationTime;
