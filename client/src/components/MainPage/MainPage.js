@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Card } from "react-bootstrap";
 import NavBar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import axios from "axios";
@@ -37,81 +38,57 @@ function MainSlider() {
 
 function MainPage() {
   let token = localStorage.getItem("token");
+  const [travelList, setTravelList] = useState([])
+
+  const currentNumber = 0
+  const order = "new"
+
+  const fetchData = async () => {
+    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
+        headers: {'Authorization': `Bearer ${token}`}
+      })
+    console.log(response.data.content)
+    const updateList = response.data.content
+    setTravelList(updateList)
+  }
   
   useEffect(() => {
       localStorage.setItem("cast", 1);
       localStorage.setItem("rank", -1);
       localStorage.setItem("vest", 1);
+      fetchData()
   },[]);
 
   function movetoSubPage(point) {
     window.location.href = `/search/${point}`;
   }
-
-  const items = [];
-
-  for (let i = 0; i < 2; i++) {
-    const rowId = `${i}`;
-    const cards = [];
-
-    for (let j = 0; j < 4; j++) {
-      const cardId = `${i + j}`;
-      cards.push(
-        <td key={cardId}>
-          <div className="List">
-            <div className="container-fluid">
-              <div class="row">
-                <div class="col-12 mt-3">
-                  <div class="card" onClick={(e) => movetoSubPage(cardId)}>
-                    <table>
-                      <td>
-                        <div className="img-square-wrapper">
-                          <img src={img} alt="사진" />
-                        </div>
-                      </td>
-                      <td>
-                        <div class="card-body">
-                          <h2 class="card-title">여행</h2>
-                          <p class="card-text">
-                            <h4>부산</h4>
-                            <br />
-                            <h5>#해운대 #광안리</h5>
-                          </p>
-                        </div>
-                      </td>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </td>
-      );
-    }
-
-    items.push(<td key={rowId}>{cards}</td>);
-  }
-
   return (
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <div>
+        <div className = "mainPageContext">
           <MainSlider />
       <br />
       <br />
       <div className="mainPageTitle">
-        <h2>여행 일정을 확인하고 동행해보세요!</h2>
+        <h2>동행할 여행 목록</h2>
       </div>
       <br />
       <hr />
       <div className="ShowList">
-        <table>
-          <tr>{items}</tr>
-        </table>
+        {travelList.map((item) => (
+          <Card style={{
+            display: 'inline-block',
+            width: '20%',
+            height: '200px',
+            margin: '0 30px'
+          }} key={item.id} onClick={(e) => movetoSubPage(item.id)}>
+            <h4>제목 : {item.title}</h4>
+            <h4>인원 현황 : {item.currentNum} / {item.recruitNum}</h4>
+            <h4>여행 기간 : {item.startingDate} ~ {item.comingDate}</h4>
+          </Card>
+        ))}
       </div>
-      <br />
-      <br />
       <hr />
       <Footer />
      </div>
