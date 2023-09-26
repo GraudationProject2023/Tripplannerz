@@ -76,12 +76,11 @@ function MainPage() {
       <br />
       <hr />
       <div className="ShowList">
-        {console.log(travelList)}
-       {travelList.length === 0 ? 'null' : travelList.map((item, idx) => {
-         <Card key={item.id}>
-          {item.title}
-         </Card>
-       })}
+        {travelList.map((item) => (
+          <Card key={item.id} onClick={(e) => movetoSubPage(item.id)}>
+            <h4>{item.title}</h4>
+          </Card>
+        ))}
       </div>
       <br />
       <br />
