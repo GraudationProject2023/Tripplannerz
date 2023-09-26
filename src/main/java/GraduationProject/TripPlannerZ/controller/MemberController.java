@@ -38,7 +38,7 @@ public class MemberController {
     private final UserAuthProvider userAuthProvider;
     private final SseEmitterService sseEmitterService;
     private final AuthService authService;
-
+    private final LoginService loginService;
 
 
     @PostMapping("/members/register")
@@ -56,7 +56,6 @@ public class MemberController {
     public ResponseEntity<MemberDto> loginJWT(@RequestBody Credential credential) {
         MemberDto member = memberService.login(credential);
         member.setToken(userAuthProvider.createToken(member.getEmail()));
-
 
 
         return ResponseEntity.ok().body(member);
@@ -85,9 +84,11 @@ public class MemberController {
 
 //        String email = (String) request.getSession().getAttribute("loginMember");
 //        Optional<Member> loginMember = memberService.findByEmail(email);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member loginMember = (Member) authentication.getPrincipal();
-        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member loginMember = (Member) authentication.getPrincipal();
+//        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+
+        Member member = loginService.getLoggedInMember();
 
         return new MyPage(member);
     }
@@ -97,9 +98,11 @@ public class MemberController {
                                               @RequestParam("sortType") String sortType) {
 //        String email = (String) request.getSession().getAttribute("loginMember");
 //        Member member = memberService.findByEmail(email).get();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member loginMember = (Member) authentication.getPrincipal();
-        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member loginMember = (Member) authentication.getPrincipal();
+//        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+
+        Member member = loginService.getLoggedInMember();
 
         PageRequest pageRequest = PageRequest.of(page, 10);
 
@@ -108,13 +111,18 @@ public class MemberController {
     }
 
     @PostMapping("members/exit")
-    public ResponseEntity<String> exitMember(HttpServletRequest request, @RequestParam("pw") String pw) {
+    public ResponseEntity<String> exitMember(@RequestBody MemberExit memberExit) {
 
-        String email = (String) request.getSession().getAttribute("loginMember");
-        Optional<Member> loginMember = memberService.findByEmail(email);
-        Member member = loginMember.get();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member loginMember = (Member) authentication.getPrincipal();
+//        Member member = memberService.findByEmail(loginMember.getEmail()).get();
 
-        if (member.getPw().equals(pw)) {
+        //authService.logout(blackList.getToken() : RequestBody에 토큰 받은 후에 Redis에 저장
+        System.out.println("비밀번호 = " + memberExit.getPw());
+
+        Member member = loginService.getLoggedInMember();
+
+        if (memberService.findPw(member.getEmail(), memberExit.getPw())) {
             memberService.exit(member);
             return ResponseEntity.ok().body("{\"result\": true}");
         } else
@@ -125,9 +133,11 @@ public class MemberController {
     @RequestMapping("members/verify/pw") // get post 둘다 가능
     public ResponseEntity<String> verifyPw(@RequestBody ChangeMemberInfo memberInfo) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member loginMember = (Member) authentication.getPrincipal();
-        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member loginMember = (Member) authentication.getPrincipal();
+//        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+
+        Member member = loginService.getLoggedInMember();
 
         if (memberService.findPw(member.getEmail(), memberInfo.getPw())) // 비번 일치
             return ResponseEntity.ok().body("{\"result\": true}");
@@ -139,9 +149,11 @@ public class MemberController {
 
 //        String email = (String) request.getSession().getAttribute("loginMember");
 //        Member member = memberService.findByEmail(email).get();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member loginMember = (Member) authentication.getPrincipal();
-        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member loginMember = (Member) authentication.getPrincipal();
+//        Member member = memberService.findByEmail(loginMember.getEmail()).get();
+
+        Member member = loginService.getLoggedInMember();
 
         memberService.changePw(member, memberInfo.getPw());
     }

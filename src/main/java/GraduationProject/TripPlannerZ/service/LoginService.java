@@ -3,6 +3,8 @@ package GraduationProject.TripPlannerZ.service;
 import GraduationProject.TripPlannerZ.domain.Member;
 import GraduationProject.TripPlannerZ.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +15,15 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class LoginService {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    public Member Login(String email, String pw) {
-        Optional<Member> member = memberRepository.findByEmail(email);
+    public Member getLoggedInMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // 존재하지 않는 회원
-        if (member.isEmpty())
-            return null;
+        if (authentication != null && authentication.getPrincipal() instanceof Member loginMember) {
+            return memberService.findByEmail(loginMember.getEmail()).orElse(null);
+        }
 
-        // 비밀번호 불일치
-        if (!member.get().getPw().equals(pw))
-            return null;
-
-        return member.get();
+        return null;
     }
 }

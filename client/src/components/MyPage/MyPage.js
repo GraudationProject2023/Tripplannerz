@@ -291,18 +291,18 @@ function MyPage() {
       alert("동의 버튼을 체크해주시기 바랍니다.");
     }
   };
-  const handleCloseWithdraw = () => {
 
+  const handleCloseWithdraw = () => {
     const postToServer = {
-      ok: true
+      pw: withdrawPassword
     }
 
     axios
-      .post(`http://localhost:8080/api/members/exit?pw=${withdrawPassword}`,postToServer,{
+      .post("http://localhost:8080/api/members/exit", postToServer,{
         headers: {'Authorization': `Bearer ${token}`}
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("비번: ",response.data.result);
         if (response.data.result === true) {
           alert("탈퇴가 완료되었습니다.");
           setWithdrawModal(false);
