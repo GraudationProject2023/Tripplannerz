@@ -79,11 +79,13 @@ function MainPage() {
         {travelList.map((item) => (
           <Card style={{
             display: 'inline-block',
-            width: '10%',
-            height: '100px',
+            width: '20%',
+            height: '200px',
             margin: '0 30px'
           }} key={item.id} onClick={(e) => movetoSubPage(item.id)}>
-            <h4>{item.title}</h4>
+            <h4>제목 : {item.title}</h4>
+            <h4>인원 현황 : {item.currentNum} / {item.recruitNum}</h4>
+            <h4>여행 기간 : {item.startingDate} ~ {item.comingDate}</h4>
           </Card>
         ))}
       </div>
