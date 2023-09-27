@@ -55,6 +55,7 @@ public class TripController {
     private final CommentService commentService;
     private final SseEmitterService sseEmitterService;
     private final LoginService loginService;
+    private final MemberPartyService memberPartyService;
 
 
     @PostMapping("/trip/create")
@@ -145,6 +146,13 @@ public class TripController {
         TripDetail tripDetail = new TripDetail(trip.getId(), trip.getUUID(), trip.getTitle(),
                 trip.getStartingDate(), trip.getComingDate(), trip.getContent(),
                 memberList.size(), memberList, commentList);
+
+        Member loggedInMember = loginService.getLoggedInMember();
+        List<MemberParty> membersInTrip = memberPartyRepository.findAllByPartyId(trip.getParty().getId());
+        if (!memberPartyService.tripContainsMember(membersInTrip, loggedInMember)) {
+            tripService.hitTrip(id);
+        }
+
 
         return tripDetail;
     }

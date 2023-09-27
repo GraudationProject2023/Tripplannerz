@@ -21,6 +21,11 @@ public class TripService {
     }
 
     @Transactional
+    public void hitTrip(Long tripId) {
+        tripRepository.updateHits(tripId);
+    }
+
+    @Transactional
     public Long deleteTrip(Trip trip) {
         tripRepository.delete(trip);
         return trip.getId();
