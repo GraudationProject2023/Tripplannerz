@@ -60,16 +60,7 @@ public class TripController {
 
     @PostMapping("/trip/create")
     public void createTrip(@RequestPart("contentsData") TripCreate tripCreate, @RequestPart("image") MultipartFile uploadFile) throws IOException {
-//            @RequestParam("title") String title, @RequestParam("capacity") int capacity,
-//                           @RequestParam("closeRecruitDate") String closeRecruitDate,
-//                           @RequestParam("goingDate") String goingDate, @RequestParam("comingDate") String comingDate,
-//                           @RequestParam("area") String area, @RequestParam("sigungu") String sigungu,
-//                           @RequestPart(value = "image", required = false) MultipartFile uploadFile,
-//                           HttpServletRequesrt request) throws IOException {
 
-        // 멤버 찾기
-//        HttpSession session = request.getSession(false);
-//        String email = (String) session.getAttribute("loginMember");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member principal = (Member) authentication.getPrincipal();
 
