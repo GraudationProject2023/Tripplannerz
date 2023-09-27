@@ -42,8 +42,9 @@ public class Trip {
     private Party party;
 
     private LocalDateTime creationTime;
-    private Integer likes;
-    private Integer hits;
+    private int likes;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int hits;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
