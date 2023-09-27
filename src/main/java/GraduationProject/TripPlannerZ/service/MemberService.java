@@ -78,13 +78,13 @@ public class MemberService {
     // 회원 탈퇴
     @Transactional
     public void exit(Member member) {
-        member.exit();
+//        member.exit();
         memberRepository.delete(member);
-        List<Long> list = partyRepository.noMemberParty();
-
-        for (Long id : list) {
-            partyRepository.deleteById(id);
-        }
+//        List<Long> list = partyRepository.noMemberParty();
+//
+//        for (Long id : list) {
+//            partyRepository.deleteById(id);
+//        }
     }
 
     // 비밀 번호 변경
