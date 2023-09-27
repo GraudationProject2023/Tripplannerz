@@ -13,13 +13,11 @@ import GraduationProject.TripPlannerZ.dto.CommentResponse;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
+import GraduationProject.TripPlannerZ.dto.trip.TripDelete;
 import GraduationProject.TripPlannerZ.dto.trip.TripDetail;
 import GraduationProject.TripPlannerZ.repository.MemberPartyRepository;
 import GraduationProject.TripPlannerZ.repository.TripImageRepository;
-import GraduationProject.TripPlannerZ.service.LocationService;
-import GraduationProject.TripPlannerZ.service.MemberService;
-import GraduationProject.TripPlannerZ.service.PartyService;
-import GraduationProject.TripPlannerZ.service.TripService;
+import GraduationProject.TripPlannerZ.service.*;
 import GraduationProject.TripPlannerZ.sseEmitter.SseEmitterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -56,6 +54,7 @@ public class TripController {
     private final LocationService locationService;
     private final CommentService commentService;
     private final SseEmitterService sseEmitterService;
+    private final LoginService loginService;
 
 
     @PostMapping("/trip/create")
@@ -209,5 +208,20 @@ public class TripController {
         trip.setCurrentNum(trip.getCurrentNum() + 1);
 
         memberPartyRepository.save(mp);
+    }
+
+    @PostMapping("/trip/delete")
+    public ResponseEntity<String> deleteTrip(@RequestBody TripDelete tripDelete) {
+        Member member = loginService.getLoggedInMember();
+        Trip trip = tripService.findByUUID(tripDelete.getTripUUID()).get();
+        Member creater = memberService.findByEmail(trip.getCreater().getEmail()).get();
+
+        if (member != creater) {
+            return ResponseEntity.ok().body("not allowed");
+        }
+
+        tripService.deleteTrip(trip);
+
+        return ResponseEntity.ok().body("deleted");
     }
 }

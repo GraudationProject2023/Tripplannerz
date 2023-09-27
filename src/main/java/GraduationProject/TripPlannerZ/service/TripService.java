@@ -20,6 +20,12 @@ public class TripService {
         return trip.getId();
     }
 
+    @Transactional
+    public Long deleteTrip(Trip trip) {
+        tripRepository.delete(trip);
+        return trip.getId();
+    }
+
     public Optional<Trip> findByUUID(String id){
         return tripRepository.findByUUID(id);
     }
