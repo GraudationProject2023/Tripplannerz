@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import {DatePicker} from 'react-datepicker'
 import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Button, Nav } from "react-bootstrap";
+import { Navbar, Modal, Form ,Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import image from "../Image/마이페이지.png";
 import chat from "../Image/chat.png";
@@ -73,6 +74,18 @@ function NavBar() {
     }
 
   }, [token]);
+
+  //일정 생성 모달
+  const [createTravelModal, setCreateTravelModal] = useState(false);
+  
+  const openCreateTravelModal = () => {
+    setCreateTravelModal(true)
+  }
+
+  const closeCreateTravelModal = () => {
+    setCreateTravelModal(false)
+  }
+
 
   //알림바
   const [noticeOpen, setNoticeOpen] = useState(false);
@@ -192,9 +205,70 @@ function NavBar() {
               />
             </Nav>
             <Nav className="new">
-              <Button className="menu-button" onClick={moveToFind}>
+              <Button className="menu-button" variant="primary" onClick={openCreateTravelModal}>
                 일정생성
               </Button>
+              <Modal
+                className="createTravelModal"
+                show={createTravelModal}
+                onHide={closeCreateTravelModal}
+              >
+              <Modal.Header closeButton>
+                <Modal.Title>일정 생성</Modal.Title>
+              </Modal.Header>
+                <Modal.Body>
+                  <h2>1. 여행 장소 선택</h2>
+                  <hr />
+                  <h2>2. 여행 정보 입력</h2>
+                  <br />
+                  <Form>
+                  <div>
+                    <Form.Group controlId="form-Image">
+                      <Form.Label>사진 업로드</Form.Label>
+                      <table>
+                        <tr>
+                          <Form.Control type="file" />
+                        </tr>
+                      </table>
+                    </Form.Group>
+                  </div>
+                  <br />
+                  <div>
+                    <Form.Group controlId="formTitle">
+                      <Form.Label>여행 제목</Form.Label>
+                      <Form.Control
+                        type="text"
+                      />
+                    </Form.Group>
+                  </div>
+                  <br />
+                  <div>
+                    <Form.Group controlId="formDate">
+                      <Form.Label>모집 마감 날짜</Form.Label>
+                      <Form.Control type="date" />
+                    </Form.Group>
+                  </div>
+                  <br />
+                  <div>
+                    <Form.Group controlId="formItinerary">
+                      <table>
+                        <td>
+                          <Form.Label>여행 시작 날짜</Form.Label>
+                          <Form.Control type = "date" />
+                        </td>
+                        <td>
+                          <Form.Label>여행 종료 날짜</Form.Label>
+                          <Form.Control type = "date" />
+                        </td>
+                      </table>
+                    </Form.Group>
+                  </div>
+                  <Button>
+                    등록
+                  </Button>
+                  </Form>
+                </Modal.Body>
+              </Modal>
             </Nav>
             <Nav className="search">
               <Button className="menu-button" onClick={moveToSearch}>
