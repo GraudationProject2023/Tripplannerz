@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  database:
+    build: ./postgres
+    restart: unless-stopped
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: tripplannerz
+      POSTGRES_USER: seongbochoi
+      POSTGRES_PASSWORD: sb22150498
+    volumes:
+      - ./postgres/sqls:/docker-entrypoint-initdb.d
+
+  cache:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./
+    container_name: app_backend
+    ports:
+      - 8080:8080
+
+  frontend:
+    build : ./client
+    container_name: app_frontend
+    ports:
+      - 3000:3000
+    stdin_open: true
+
+
+
+
+
+
