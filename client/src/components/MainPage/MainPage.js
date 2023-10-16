@@ -76,18 +76,33 @@ function MainPage() {
       <br />
       <hr />
       <div className="ShowList">
-        {travelList.map((item) => (
-          <Card style={{
+      {travelList.map((item) => (
+         <Card
+          style={{
             display: 'inline-block',
             width: '20%',
             height: '200px',
-            margin: '0 30px'
-          }} key={item.id} onClick={(e) => movetoSubPage(item.id)}>
-            <h4>제목 : {item.title}</h4>
-            <h4>인원 현황 : {item.currentNum} / {item.recruitNum}</h4>
-            <h4>여행 기간 : {item.startingDate} ~ {item.comingDate}</h4>
-          </Card>
-        ))}
+            margin: '0 30px',
+            padding: '15px',
+            borderRadius: '10px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            cursor: 'pointer',
+            textAlign: 'left',
+            transition: 'transform 0.3s ease-in-out',
+          }}
+          key={item.id}
+          onClick={(e) => movetoSubPage(item.id)}
+          >
+        <h4 style={{ marginBottom: '10px', color: '#333' }}>제목: {item.title}</h4>
+        <div style={{ marginBottom: '10px', color: '#666' }}>
+          <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
+        </div>
+        <div style={{ color: '#666' }}>
+          <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+        </div>
+        </Card>
+      ))}
+
       </div>
       <hr />
       <Footer />
