@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal, Card } from "react-bootstrap";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+import Navbar from '../../components/Navbar/Navbar'
+import Footer from '../../components/Footer/Footer'
 import "./MyPage.css";
-import find from "../Image/돋보기.png";
-import Menu from "../Image/Menu.png";
-import notice from "../Image/notice.png";
-import sight from "../Image/관광지.png";
-import culture from "../Image/문화시설.png";
-import festival from "../Image/축제.png";
-import surfing from "../Image/서핑.png";
-import hotel from "../Image/호텔.png";
-import shopping from "../Image/쇼핑.png";
-import restaurant from "../Image/레스토랑.png";
+import find from "../../Image/돋보기.png";
+import Menu from "../../Image/Menu.png";
+import notice from "../../Image/notice.png";
+import sight from "../../Image/관광지.png";
+import culture from "../../Image/문화시설.png";
+import festival from "../../Image/축제.png";
+import surfing from "../../Image/서핑.png";
+import hotel from "../../Image/호텔.png";
+import shopping from "../../Image/쇼핑.png";
+import restaurant from "../../Image/레스토랑.png";
 import axios from "axios";
 import Pagination from "./utils/SchedulePagination";
 axios.default.withCredentials = true;

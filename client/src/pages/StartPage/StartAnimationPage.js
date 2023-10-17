@@ -5,13 +5,13 @@ import { eventSource } from "../../util/recoilState";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from 'axios';
-import sight from '../Image/관광지.png';
-import culture from "../Image/문화시설.png";
-import festival from "../Image/축제.png";
-import surfing from "../Image/서핑.png";
-import hotel from "../Image/호텔.png";
-import shopping from "../Image/쇼핑.png";
-import restaurant from "../Image/레스토랑.png";
+import sight from '../../Image/관광지.png';
+import culture from "../../Image/문화시설.png";
+import festival from "../../Image/축제.png";
+import surfing from "../../Image/서핑.png";
+import hotel from "../../Image/호텔.png";
+import shopping from "../../Image/쇼핑.png";
+import restaurant from "../../Image/레스토랑.png";
 import './StartAnimationPage.css'
 import {Modal, Form, Button} from 'react-bootstrap'
 axios.defaults.withCredentials = true;

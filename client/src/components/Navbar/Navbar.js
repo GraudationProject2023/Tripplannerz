@@ -7,14 +7,14 @@ import { eventSource } from "../../util/recoilState";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { Navbar, Modal, Form ,Button, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import image from "../Image/마이페이지.png";
-import chat from "../Image/chat.png";
+import image from "../../Image/마이페이지.png";
+import chat from "../../Image/chat.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import Menu from "../Image/Menu.png";
-import notice from "../Image/notice.png";
-import find from "../Image/돋보기.png";
-import warn from '../Image/warning.png';
+import Menu from "../../Image/Menu.png";
+import notice from "../../Image/notice.png";
+import find from "../../Image/돋보기.png";
+import warn from '../../Image/warning.png'
 import "./Navbar.css";
 axios.defaults.withCredentials = true;
 

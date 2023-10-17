@@ -1,14 +1,14 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import StartAnimation from './components/StartPage/StartAnimationPage'
-import MainPage from "./components/MainPage/MainPage";
-import Search from "./components/SearchPage/SearchPage";
-import SearchResult from "./components/SearchPage/SearchResultPage";
-import Find from "./components/FindPage/FindPage";
-import MyPage from "./components/MyPage/MyPage";
-import MyResult from "./components/MyPage/MyResultPage";
-import Notice from "./components/NoticePage/NoticePage";
+import StartAnimation from './pages/StartPage/StartAnimationPage'
+import MainPage from './pages/MainPage/MainPage'
+import Search from "./pages/SearchPage/SearchPage";
+import SearchResult from "./pages/SearchPage/SearchResultPage";
+import Find from "./pages/FindPage/FindPage";
+import MyPage from "./pages/MyPage/MyPage";
+import MyResult from "./pages/MyPage/MyResultPage";
+import Notice from "./pages/NoticePage/NoticePage";
 
 
 function App() {

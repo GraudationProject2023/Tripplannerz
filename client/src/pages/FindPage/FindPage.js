@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { Form, Button, Modal } from "react-bootstrap";
 import DatePicker, { Calendar } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
