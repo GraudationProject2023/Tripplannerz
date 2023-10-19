@@ -257,8 +257,8 @@
 }
 
 .createTravelModal{
-  margin-top: -5%;
-  background-color: white;
+  margin-top: 10%;
+  background-color: transparent;
   height: 500px;
   overflow-y: auto;
 }

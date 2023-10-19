@@ -6,7 +6,7 @@ import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Modal, Form ,Button, Nav } from "react-bootstrap";
+import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import my from "../../Image/마이페이지.png"
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -359,97 +359,53 @@ function NavBar() {
                    style={{
                       border: "1px solid black",
                       borderRadius: "10px",
-                      height: "400px",
+                      height: "500px",
+                      overflowY: "auto"
                    }}
                   >
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div
-                            style={{
-                              width: "100px",
-                              height: "370px",
-                              marginTop: "20px",
-                            }}
-                          >
-                    {mainCategories.map((category) => (
-                      <div
-                        key={category}
-                        className={
-                          selectedMainCategory === category
-                            ? "selected-main-category"
-                            : "main-category"
-                        }
-                        onClick={() => handleMainCategoryChange(category)}
-                      >
+                  
+                  {mainCategories.map((category) => (
+                    <Card key={category} onClick={() => handleMainCategoryChange(category)}>
                         {category}
-                      </div>
-                    ))}
-                  </div>
-                </td>
-                <td>
-                  <div
-                    style={{
-                      width: "100px",
-                      height: "370px",
-                      marginLeft: "50px",
-                    }}
-                  >
-                    {selectedMainCategory && (
-                      <div className="sub-category-container">
-                        {categories[selectedMainCategory].map((category) => (
-                          <div
-                            key={category}
-                            className={`sub-category ${
-                              selectedCategory === category
-                                ? "selected-sub-category"
-                                : ""
-                            }`}
-                            onClick={() => handleCategoryChange(category)}
-                          >
-                            {category}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <div
-                    style={{
-                      width: "1200px",
-                      height: "370px",
-                      marginLeft: "50px",
-                    }}
-                  >
-                    {selectedCategory && (
-                      <div className="sub-category-container">
-                        {subCategories[selectedCategory].map(
-                          (subCategory, index) => (
-                            <div
+                    </Card>
+                  ))}
+                  
+                  <br />
+                  <br />
+                  {selectedMainCategory && (
+                    <div>
+                      {categories[selectedMainCategory].map((category) => (
+                        <Card
+                          key={category}
+                          onClick={() => 
+                            handleCategoryChange(category)
+                          }
+                        >
+                        {category}
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                  <br />
+                  <br />
+                  {selectedCategory && (
+                    <div>
+                       {subCategories[selectedCategory].map(
+                          (subCategory) => (
+                            <Card
                               key={subCategory}
-                              className={`sub-category ${
-                                selectedSubCategory === subCategory
-                                  ? "selected-sub-category"
-                                  : ""
-                              }`}
                               onClick={() =>
                                 handleSubCategoryChange(subCategory)
                               }
                             >
                               {subCategory}
-                            </div>
+                            </Card>
                           )
                         )}
-                      </div>
-                            )}
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    </div>
+                  )}   
                   </Form>
+                  
                   <hr />
                   <h2>2. 여행 정보 입력</h2>
                   <br />
