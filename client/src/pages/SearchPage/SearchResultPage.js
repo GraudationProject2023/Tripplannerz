@@ -5,7 +5,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Container, Row, Col, Modal } from "react-bootstrap";
 import StarRating from "./util/StarRating";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar"
 import Kakao from "../../util/KakaoMap";
 import "./SearchResultPage.css"
 axios.defaults.withCredentials = true;
