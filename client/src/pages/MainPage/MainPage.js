@@ -2,38 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
+import { ImageSlider } from "../../util/ImageSlider";
 import axios from "axios";
 import "./MainPage.css";
-import main1 from '../../Image/main.jpg'
-import main2 from '../../Image/main2.jpg'
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-function MainSlider() {
-  const settings = {
-    infinite: true,
-    slickarrow: true,
-    speed: 500,
-    slideToShow: 1,
-    slideToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 6000,
-    dots: false,
-  };
-  return (
-    <div className="image-slider">
-      <Slider {...settings}>
-        <div>
-          <img alt="img1" className="main-slider-img" src={main1} />
-        </div>
-        <div>
-          <img alt="img2" className="main-slider-img" src={main2} />
-        </div>
-      </Slider>
-    </div>
-  );
-}
 
 function MainPage() {
   let token = localStorage.getItem("token");
@@ -66,7 +37,7 @@ function MainPage() {
       <NavBar />
       {token && <NavBar /> &&
         <div className = "mainPageContext">
-          <MainSlider />
+          <ImageSlider />
       <br />
       <br />
       <div className="mainPageTitle">
