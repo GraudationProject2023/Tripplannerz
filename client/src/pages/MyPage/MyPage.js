@@ -7,7 +7,6 @@ import { SelectPreference } from "../../util/SelectPreference";
 import "./MyPage.css";
 import find from "../../Image/돋보기.png";
 import axios from "axios";
-import Pagination from "../../util/Pagination";
 axios.default.withCredentials = true;
 
 function MyPage() {
