@@ -6,7 +6,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t chltjdqh217/client-test ./frontend
+  - docker build -t chltjdqh217/client-test ./client
 
 script:
   - docker run -e CI=true chltjdqh217/client-test npm run test
