@@ -24,7 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 #protection
-KakaoData.js
 /test-results/
 /playwright-report/
 /playwright/.cache/
