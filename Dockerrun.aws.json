@@ -1,0 +1,26 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "frontend",
+      "image": "chltjdqh217/tripplannerz-frontend",
+      "hostname": "frontend",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "backend",
+      "image": "chltjdqh217/tripplannerz-backend",
+      "hostname": "backend",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "cache",
+      "image": "redis:alpine",
+      "hostname": "cache",
+      "essential": false,
+      "memory": 128
+    }
+  ]
+}
