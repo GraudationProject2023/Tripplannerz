@@ -257,7 +257,7 @@
 }
 
 .createTravelModal{
-  margin-top: 10%;
+  margin-top: 5%;
   background-color: transparent;
   height: 500px;
   overflow-y: auto;
@@ -333,6 +333,17 @@
     background-color: black;
     height: 50px;
     border-radius: 100px;
+  }
+
+  .createTravelModal{
+    margin-top: 5%;
+    background-color: whitesmoke;
+    height: 600px;
+    overflow-y: auto;
+  }
+  
+  .createTravelModal::-webkit-scrollbar{
+    display: none;
   }
   
 }
