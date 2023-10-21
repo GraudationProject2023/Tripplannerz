@@ -1,16 +1,17 @@
 version: "3"
 
 services:
-  database:
-    build: ./postgres
-    restart: unless-stopped
-    container_name: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./postgres/sqls:/docker-entrypoint-initdb.d
-    environment:
-      POSTGRES_PASSWORD: 1234
+#  database:
+#    build: ./postgres
+#    restart: unless-stopped
+#    container_name: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - ./postgres/sqls:/docker-entrypoint-initdb.d
+#    environment:
+#      POSTGRES_USERNAME: postgres
+#      POSTGRES_PASSWORD: 1234
 
   cache:
     container_name: redis
@@ -22,14 +23,17 @@ services:
     build: ./
     container_name: app_backend
     ports:
-      - 8080:8080
+      - "8080:8080"
+
 
   frontend:
     build : ./client
     container_name: app_frontend
-    ports:
-      - 3000:3000
     stdin_open: true
+
+
+
+
 
 
 
