@@ -5,7 +5,6 @@ import StartAnimation from './pages/StartPage/StartAnimationPage'
 import MainPage from './pages/MainPage/MainPage'
 import Search from "./pages/SearchPage/SearchPage";
 import SearchResult from "./pages/SearchPage/SearchResultPage";
-import Find from "./pages/FindPage/FindPage";
 import MyPage from "./pages/MyPage/MyPage";
 import MyResult from "./pages/MyPage/MyResultPage";
 import Notice from "./pages/NoticePage/NoticePage";
@@ -22,7 +21,6 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/my/:postId" element={<MyResult />} />
           <Route path="/search/:postId" element={<SearchResult />} />
-          <Route path="/find" element={<Find />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/notice" element={<Notice />} />
         </Routes>
