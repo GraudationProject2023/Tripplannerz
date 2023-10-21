@@ -564,6 +564,7 @@ function StartAnimation() {
             회원가입
           </AboutButton>
           <Modal
+          className="SignUpModal"
           style={{ width: "600px", height: "700px" }}
           show={showModal}
           onHide={handleClose}

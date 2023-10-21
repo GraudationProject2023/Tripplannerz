@@ -15,3 +15,7 @@ body::-webkit-scrollbar{
 .LoginModal::-webkit-scrollbar{
     display:none;
 }
+
+.SignUpModal{
+    margin-left: 35%;
+}
