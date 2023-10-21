@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
 import "./SearchPage.css";
-import find from "../Image/돋보기.png";
-import Navbar from "../Navbar/Navbar";
+import find from "../../Image/돋보기.png";
+import Navbar from "../../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom";
 axios.defaults.withCredentials = true;
 

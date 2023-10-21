@@ -1,34 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
-import styled from "styled-components";
-import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
-import Footer from "../Footer/Footer";
-import Loginpage from "./Kakao/Loginpage";
-import "./StartPage.css";
+import React, { useRef, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import CountdownTimer from "../../util/CountdownTimer";
-import sight from "../Image/관광지.png";
-import culture from "../Image/문화시설.png";
-import festival from "../Image/축제.png";
-import surfing from "../Image/서핑.png";
-import hotel from "../Image/호텔.png";
-import shopping from "../Image/쇼핑.png";
-import restaurant from "../Image/레스토랑.png";
+import { eventSource } from "../../util/recoilState";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { useRecoilState, useRecoilValue } from "recoil";
+import axios from 'axios';
+import sight from '../../Image/관광지.png';
+import culture from "../../Image/문화시설.png";
+import festival from "../../Image/축제.png";
+import surfing from "../../Image/서핑.png";
+import hotel from "../../Image/호텔.png";
+import shopping from "../../Image/쇼핑.png";
+import restaurant from "../../Image/레스토랑.png";
+import './StartAnimationPage.css'
+import {Modal, Form, Button} from 'react-bootstrap'
 axios.defaults.withCredentials = true;
 
 const onButtonClick = () => {
   console.log("이메일 전송 완료");
 };
 
-const SearchBox = styled.form`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: space-evenly;
-  margin: 20px;
-  border: black solid 1px;
-  border-radius: 10px;
-`;
 const Button1 = () => {
   const arr = [
     { id: 1, name: "관광지", code: "SIGHTSEEING", image: sight },
@@ -108,51 +99,189 @@ const Button1 = () => {
   );
 };
 
-function StartPage() {
-  const videoRef = useRef(null);
+const StyledAboutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 500px;
+  overflow-y: auto;
+  align-items: center;
+  opacity: 0;
+  background-color: #000000;
+  color: #FFFFFF;
+  &.animation {
+    animation-name: opacity;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes opacity {
+    from {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+`;
+
+const AboutTitle = styled.h1`
+  font-size: 150rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.2rem;
+  }
+  margin: 0;
+
+  &.animation {
+    animation-name: slide-in;
+    animation-duration: 3000ms;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+`;
+
+const AboutContent = styled.h1`
+  font-size: 150rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.2rem;
+  }
+  margin: 0;
+
+  &.animation {
+    animation-name: slide-in;
+    animation-duration: 3000ms;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+`;
+
+const AboutButton = styled.button`
+  background-color: black; 
+  color: white;
+  border-radius : 10px;
+  transition: background-color 0.3s, color 0.3s;
+
+  &.animation {
+    animation-name: slide-in;
+    animation-duration: 3000ms;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+
+  &:hover {
+    background-color: white; 
+    color: black;
+  }
+`;
+
+const StyledAboutImage = styled.img`
+  display: flex;
+  @media ${(props) => props.theme.desktop} {
+    width: 500px;
+  }
+
+  @media ${(props) => props.theme.laptop} {
+    width: 400px;
+  }
+
+  @media ${(props) => props.theme.tablet} {
+    width: 300px;
+  }
+
+  object-fit: contain;
+`;
+
+
+function StartAnimation() {
+  const element = useRef(null);
+  
+  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
+  
+  const [inViewPort, setInViewPort] = useState(false);
+  
+  const [showSecondContainer, setShowSecondContainer] = useState(false); 
+  
   const [showModal, setShowModal] = useState(false);
+  
   const [firstShowModal, setFirstShowModal] = useState(false);
-  const [name, setName] = useState(""); //이름
+
+  const [passwordModal, setPasswordModal] = useState(false);
+  
+  const [name, setName] = useState("1"); //이름
+  
   const [gender, setGender] = useState(""); //성별
+  
   const [email, setEmail] = useState(""); // 이메일
+  
   const [emailCode, setEmailCode] = useState("000000"); //이메일 인증 코드
+  
   const [password, setPassword] = useState(""); // 비밀번호
+  
   const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인
+  
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
+  
   const [checkEmail, setCheckEmail] = useState(false); //이메일 @기호 포함여부
+  
   const [emailSuccess, setEmailSuccess] = useState(false);
+  
   const [loginSuccess, setLoginSuccess] = useState(false);
+  
   const [emailTimer, setEmailTimer] = useState(false);
+  
   const [nestedModal, setNestedModal] = useState(false);
 
   let successEmail = localStorage.getItem("cast");
   let requestWord = "";
 
-  useEffect(() => {
-    localStorage.setItem("cast", 0);
-    localStorage.setItem("rank", -1);
-    localStorage.setItem("vest", 0);
+  const handleFirstShow = () => setFirstShowModal(true);
 
-    const handleScroll = () => {
-      const video = videoRef.current;
+  const handleFirstClose = () => setFirstShowModal(false);
 
-      const { top, bottom } = video.getBoundingClientRect();
-      const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
+  const handleShow = () => setShowModal(true);
 
-      if (top <= windowHeight && bottom >= 0) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    };
+  const handleClose = () => setShowModal(false);
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const handleNestedModal = () => {
+    setNestedModal(true);
+  };
 
   const handleCloseNested = () => {
     var res = localStorage.getItem("rank");
@@ -163,15 +292,18 @@ function StartPage() {
     }
   };
 
-  const handleNestedModal = () => {
-    setNestedModal(true);
-  };
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
-  const handleFirstClose = () => setFirstShowModal(false);
-  const handleFirstShow = () => setFirstShowModal(true);
+  const handlePasswordModalOpen = () => {
+    setPasswordModal(true)
+  }
+
+  const handlePasswordModalClose = () => {
+    setPasswordModal(false)
+  }
+
   const handleNameChange = (event) => setName(event.target.value);
+  
   const handleGenderChange = (event) => setGender(event.target.value);
+  
   const handleEmailChange = (event) => {
     const e = event.target.value;
     if (e.indexOf("@") === -1) {
@@ -183,8 +315,11 @@ function StartPage() {
     }
     setEmail(event.target.value);
   };
+
   const handleEmailCodeChange = (event) => setEmailCode(event.target.value);
+
   const handlePasswordChange = (event) => setPassword(event.target.value);
+
   const handleConfirmPasswordChange = (event) => {
     const CONFIRMPASSWORD = event.target.value;
     if (confirmPassword !== password.slice(0, -1)) {
@@ -261,6 +396,26 @@ function StartPage() {
         const token = res.data.token
         if(token !== null){
         localStorage.setItem("token", token);
+
+        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true
+        })
+
+        console.log(tempEvent)
+
+        tempEvent.onopen = (e) =>{
+          console.log('알림성공')
+        } 
+
+        tempEvent.onmessage = function(e) {
+          const data = e.data;
+          console.log(data)
+        }
+
+        localStorage.setItem("name",name);
         alert("반갑습니다! 로그인이 되었습니다.");
         window.location.href = "/main";
         } else{
@@ -268,7 +423,6 @@ function StartPage() {
         }
       });
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -296,46 +450,72 @@ function StartPage() {
     }
   };
 
+  useEffect(() => {
+    
+    localStorage.setItem("cast", 0);
+    localStorage.setItem("rank", -1);
+    localStorage.setItem("vest", 0);
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setInViewPort(true);
+          setTimeout(() => {
+            setShowSecondContainer(true);
+          }, 2000); 
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.5,
+    });
+
+    if (element.current) {
+      observer.observe(element.current);
+    }
+  }, []);
+
   return (
-    <div className="StartPage">
-      <br />
-      <div>
-        <video
-          className="video"
-          ref={videoRef}
-          src="https://drive.google.com/uc?export=download&id=1ifnERKh7Q7OzSY_pL9Kvx36LAFTg8Wtv"
-          autoPlay
-          muted
-          loop
-        />
-      </div>
-      <div className="show">
-        <SearchBox>
-          <h1>TripPlannerz</h1>
-        </SearchBox>
-        <Button
-          variant="primary"
-          onClick={handleFirstShow}
-          style={{
-            marginTop: "40px",
-            backgroundColor: "#FFFFFF",
-            color: "#000000",
-            width: "150px",
-            height: "37px",
-          }}
-        >
-          로그인
-        </Button>
-        <Modal
-          style={{ width: "600px", height: "600px" }}
-          show={firstShowModal}
-          onHide={handleFirstClose}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleSubmit}>
+    <div className="StartAnimation">
+      <StyledAboutContainer ref={element} className={inViewPort ? 'animation' : ''}>
+        <StyledAboutImage src={sight} alt="시작 이미지" />
+        <br />
+        <br />
+        <AboutTitle className={inViewPort ? 'animation' : ''}>
+          TripPlannerz
+        </AboutTitle>
+        <br />
+        <br />
+        <AboutContent className={inViewPort ? 'animation' : ''}>
+          여행을 좋아하시는 분들에게 특별한 경험을 전해드립니다.
+        </AboutContent>
+      </StyledAboutContainer>
+      {showSecondContainer && (
+        <StyledAboutContainer className={inViewPort ? 'animation': ''}>
+        <AboutContent className={inViewPort ? 'animation' : ''}>
+          자유롭게 여행 계획을 세우고, 여행을 같이 가고 싶은 동행자를 찾아보세요.
+        </AboutContent>
+        <br />
+        <br />
+        <table>
+          <td>
+          <AboutButton 
+            variant="primary" 
+            onClick={handleFirstShow}
+          >
+             로그인
+          </AboutButton>
+          <Modal
+            className="LoginModal"
+            show={firstShowModal}
+            onHide={handleFirstClose}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form onSubmit = {handleSubmit}>
               <Form.Control
                 type="email"
                 placeholder="이메일을 입력해주세요"
@@ -352,30 +532,39 @@ function StartPage() {
               <Button variant="primary" type="submit" onClick={handleJWTLogin}>
                 접속하기
               </Button>
-            </Form>
-            <Form onSubmit={handleSubmit}></Form>
-            <hr />
-            <h5>소셜 로그인</h5>
-            <Loginpage />
-          </Modal.Body>
-          <Modal.Footer></Modal.Footer>
-        </Modal>
-        <Button
-          variant="primary"
-          onClick={handleShow}
-          style={{
-            marginLeft: "10px",
-            marginTop: "40px",
-            backgroundColor: "#FFFFFF",
-            color: "#000000",
-            width: "150px",
-            height: "37px",
-          }}
-        >
-          회원가입
-        </Button>
-
-        <Modal
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onClick={handlePasswordModalOpen}
+              >
+                비밀번호 찾기
+              </Button>
+              <Modal
+               show={passwordModal}
+               onHide={handlePasswordModalClose}
+              >
+              <Modal.Header closeButton>
+                <Modal.Title>Find Password</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Control />
+                </Form>
+              </Modal.Body>
+              </Modal>
+            </Modal.Footer>
+          </Modal>
+          </td>
+          <td>
+          <AboutButton 
+            variant="primary" 
+            onClick={handleShow}
+          >
+            회원가입
+          </AboutButton>
+          <Modal
+          className="SignUpModal"
           style={{ width: "600px", height: "700px" }}
           show={showModal}
           onHide={handleClose}
@@ -495,10 +684,12 @@ function StartPage() {
             </Button>
           </Modal.Footer>
         </Modal>
-      </div>
-      <Footer />
+          </td>
+        </table>
+        </StyledAboutContainer>
+      )}
     </div>
   );
 }
 
-export default StartPage;
+export default StartAnimation;

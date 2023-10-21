@@ -1,7 +1,7 @@
 import React from "react";
-import NavBar from '../Navbar/Navbar';
+import NavBar from '../../components/Navbar/Navbar';
 import './NoticePage.css';
-import warn from '../Image/warning.png';
+import warn from '../../Image/warning.png';
 import {eventSource} from '../../util/recoilState';
 
 function NoticePage() {

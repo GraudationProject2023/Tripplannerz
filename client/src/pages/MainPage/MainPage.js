@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
-import NavBar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+import NavBar from '../../components/Navbar/Navbar'
+import Footer from '../../components/Footer/Footer'
 import axios from "axios";
 import "./MainPage.css";
-import img from "../Image/카카오톡.png";
-import main1 from "../Image/main.jpg";
-import main2 from "../Image/main2.jpg";
+import main1 from '../../Image/main.jpg'
+import main2 from '../../Image/main2.jpg'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

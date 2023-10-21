@@ -256,6 +256,25 @@
   border-radius: 100px;
 }
 
+.createTravelModal{
+  margin-top: 10%;
+  background-color: transparent;
+  height: 500px;
+  overflow-y: auto;
+}
+
+.createTravelModal::-webkit-scrollbar{
+  display: none;
+}
+
+.modal-content{
+  width: 500px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+.modal-content::-webkit-scrollbar{
+  display: none;
+}
 
 @media (min-width: 1200px) {
   .noticepage-content {
