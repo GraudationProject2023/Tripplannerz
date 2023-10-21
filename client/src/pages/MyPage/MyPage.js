@@ -14,7 +14,7 @@ import hotel from "../../Image/호텔.png";
 import shopping from "../../Image/쇼핑.png";
 import restaurant from "../../Image/레스토랑.png";
 import axios from "axios";
-import Pagination from "./utils/SchedulePagination";
+import Pagination from "../../util/Pagination";
 axios.default.withCredentials = true;
 
 function MyPage() {
