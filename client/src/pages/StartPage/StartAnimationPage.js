@@ -5,7 +5,6 @@ import { SelectPreference } from '../../util/SelectPreference';
 import {StyledAboutContainer, StyledAboutImage, AboutTitle, AboutContent, AboutButton } from '../../style/StyleComponent'
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
-
 import axios from 'axios';
 import sight from '../../Image/관광지.png'
 import './StartAnimationPage.css'
@@ -443,6 +442,7 @@ function StartAnimation() {
 
             {nestedModal && (
               <Modal
+                className="TagModal"
                 style={{ width: "600px", height: "700px" }}
                 show={handleNestedModal}
                 onHide={handleCloseNested}

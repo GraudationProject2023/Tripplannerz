@@ -3,8 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Card, Container, Row, Col, Modal } from "react-bootstrap";
-import StarRating from "./util/StarRating";
+import { Button, Form, Card, Modal } from "react-bootstrap";
 import Navbar from "../../components/Navbar/Navbar"
 import Kakao from "../../util/KakaoMap";
 import "./SearchResultPage.css"
