@@ -10,4 +10,9 @@ RUN ./gradlew bootJar
 
 FROM openjdk:17-jdk-alpine
 COPY --from=builder /backend/build/libs/*.jar app.jar
+<<<<<<< HEAD
+=======
+
+EXPOSE 8080
+>>>>>>> 5314b45 (backend Dockerfile fixed)
 ENTRYPOINT ["java", "-Dspring.profiles.active=docker","-jar","app.jar"]
