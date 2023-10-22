@@ -1,4 +1,4 @@
-FROM openjdk17 AS builder
+FROM openjdk:17-jdk-alpine AS builder
 WORKDIR /backend
 COPY gradlew .
 COPY gradle gradle
@@ -8,7 +8,7 @@ COPY src src
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
-FROM openjdk:17
+FROM openjdk:17-jdk-alpine
 COPY --from=builder /backend/build/libs/*.jar app.jar
 
 EXPOSE 8080
