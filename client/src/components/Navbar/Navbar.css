@@ -258,8 +258,9 @@
 
 .createTravelModal{
   margin-top: 5%;
+  margin-left: -10%;
   background-color: transparent;
-  height: 500px;
+  height: 700px;
   overflow-y: auto;
 }
 
@@ -267,13 +268,17 @@
   display: none;
 }
 
-.modal-content{
-  width: 500px;
-  max-height: 500px;
+.createTravelModal .modal-content{
+  width: 1000px;
+  max-height: 700px;
   overflow-y: auto;
 }
 .modal-content::-webkit-scrollbar{
   display: none;
+}
+
+.card.placed{
+  background-color: red;
 }
 
 @media (min-width: 1200px) {
@@ -337,13 +342,27 @@
 
   .createTravelModal{
     margin-top: 5%;
-    background-color: whitesmoke;
-    height: 600px;
+    margin-left: -10%;
+    background-color: transparent;
+    height: 700px;
     overflow-y: auto;
   }
   
   .createTravelModal::-webkit-scrollbar{
     display: none;
+  }
+
+  .createTravelModal .modal-content{
+    width: 1000px;
+    max-height: 700px;
+    overflow-y: auto;
+  }
+  .modal-content::-webkit-scrollbar{
+    display: none;
+  }
+
+  .card.placed{
+    background-color: skyblue;
   }
   
 }
