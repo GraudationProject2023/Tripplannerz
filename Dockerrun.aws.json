@@ -19,7 +19,7 @@
       "name": "cache",
       "image": "redis:alpine",
       "hostname": "cache",
-      "essential": false,
+      "essential": true,
       "memory": 128
     }
   ]
