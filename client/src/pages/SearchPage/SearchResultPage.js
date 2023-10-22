@@ -33,7 +33,7 @@ function SearchResultPage(props) {
 
   const [review, setReview] = useState("");//댓글의 실제 내용
 
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(["1","2"]);
 
   const [tripUuid, setTripUuid] = useState("");
 
@@ -42,6 +42,8 @@ function SearchResultPage(props) {
   const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
 
   const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
+
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     console.log(recoilComment);
@@ -59,6 +61,14 @@ function SearchResultPage(props) {
       setMemberList(res.data.memberList);
       setComments(res.data.commentList);
     });
+
+    axios.get("/api/members/tripInfo", 
+    {
+     headers:{'Authorization': `Bearer ${token}` },
+    }).then((response) => {
+      setUserName(response.data.name)
+    })
+
   }, []);
 
   const handleOpenModal = () => {
@@ -183,6 +193,7 @@ function SearchResultPage(props) {
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
+            <div>
               <Card style={{
                 width: "600px",
                 height: "120px"
@@ -191,6 +202,11 @@ function SearchResultPage(props) {
                 <p>글쓴이: {comment.senderName}</p>
                 <p>댓글: {comment.review}</p>
               </Card>
+              {comment.senderName === userName ? (
+                <Button>
+                  삭제
+                </Button>) : ""}
+              </div>
             ))}
       </div>
     </div>
