@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class RestExceptionHandler {
 
     /**
-     *  모든 컨트롤러에 적용, Appexception 발생시 실행됨
+     *  모든 컨트롤러에 적용, Appexception 발생시 실행됨..
      */
     @ExceptionHandler(value = {AppException.class})
     @ResponseBody
