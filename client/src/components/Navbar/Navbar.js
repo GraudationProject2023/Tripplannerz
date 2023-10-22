@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import DatePicker, { Calendar } from "react-datepicker";
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { notificationsCountState } from "../../util/recoilState";
@@ -14,9 +14,9 @@ import axios from "axios";
 import Menu from "../../Image/Menu.png";
 import notice from "../../Image/notice.png";
 import find from "../../Image/돋보기.png";
-import warn from '../../Image/warning.png'
 import "./Navbar.css";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
+import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import moment from 'moment'
 import Slider from "rc-slider";
 axios.defaults.withCredentials = true;
@@ -250,10 +250,6 @@ function NavBar() {
     setSearchTerm(event.target.value);
   };
 
-  function movetomain() {
-    window.location.href = "/main";
-  }
-
   function logout() {
     if(token !== null){
 
@@ -285,10 +281,6 @@ function NavBar() {
 
   var offset = localStorage.getItem("vest");
 
-  function movetoMy() {
-    window.location.href = "/my";
-  }
-
   //마이페이지
   const [esOpen, setesOpen] = useState(false);
   const toggleMypage = () => {
@@ -302,10 +294,6 @@ function NavBar() {
     setSearchTerm("");
     window.location.href = `/search?keyword=${searchTerm}`;
   };
-
-  const moveToBill = (e) => {
-    window.location.href="/bill"
-  }
 
   if (offset === "1") {
     return (
@@ -323,7 +311,7 @@ function NavBar() {
             <Nav>
               <img
                 src={Menu}
-                onClick={movetomain}
+                onClick={moveToMain}
                 alt="메뉴"
                 className="navbar-toggle"
                 style={{ width: "300px", height: "120px", marginLeft: "3%"}}
@@ -551,7 +539,7 @@ function NavBar() {
                     <br />
                     <tr>
                       <Button
-                        onClick={movetoMy}
+                        onClick={moveToMy}
                         style={{
                           border: "1px solid white",
                           backgroundColor: "#FFFFFF",
