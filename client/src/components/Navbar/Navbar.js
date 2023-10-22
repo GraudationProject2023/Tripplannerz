@@ -365,7 +365,16 @@ function NavBar() {
                   >
                   
                   {mainCategories.map((category) => (
-                    <Card key={category} onClick={() => handleMainCategoryChange(category)}>
+                    <Card 
+                    className={selectedMainCategory === category ? 'placed' : ''}
+                    key={category} onClick={() => handleMainCategoryChange(category)}
+                    style={{
+                      width: '150px',
+                      height: '150px',
+                      textAlign: 'center',
+                      justifyContent: 'center'
+                    }}
+                    >
                         {category}
                     </Card>
                   ))}
@@ -376,10 +385,18 @@ function NavBar() {
                     <div>
                       {categories[selectedMainCategory].map((category) => (
                         <Card
+                          className={selectedCategory === category ? 'placed' : ''}
                           key={category}
+                          style={{
+                            width: '150px',
+                            height: '150px',
+                            textAlign: 'center',
+                            justifyContent: 'center'
+                          }}
                           onClick={() => 
                             handleCategoryChange(category)
                           }
+                          
                         >
                         {category}
                         </Card>
@@ -393,7 +410,14 @@ function NavBar() {
                        {subCategories[selectedCategory].map(
                           (subCategory) => (
                             <Card
+                              className = {selectedSubCategory === subCategory ? 'placed' : ''}
                               key={subCategory}
+                              style={{
+                                width: '150px',
+                                height: '150px',
+                                textAlign: 'center',
+                                justifyContent: 'center'
+                              }}
                               onClick={() =>
                                 handleSubCategoryChange(subCategory)
                               }
