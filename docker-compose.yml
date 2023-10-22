@@ -13,6 +13,14 @@ services:
 #      POSTGRES_USERNAME: postgres
 #      POSTGRES_PASSWORD: 1234
 
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3000:80"
+
   cache:
     container_name: redis
     image: redis:alpine

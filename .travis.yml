@@ -6,11 +6,13 @@ services:
   - docker
 
 script:
+  - docker build -t chltjdqh217/tripplannerz-nginx ./nginx
   - docker build -t chltjdqh217/tripplannerz-frontend ./client
   - docker build -t chltjdqh217/tripplannerz-backend ./
 
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
+  - docker push chltjdqh217/tripplannerz-nginx
   - docker push chltjdqh217/tripplannerz-frontend
   - docker push chltjdqh217/tripplannerz-backend
 
