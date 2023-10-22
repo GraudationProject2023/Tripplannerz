@@ -14,7 +14,7 @@ function MainPage() {
   const order = "new"
 
   const fetchData = async () => {
-    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
+    const response = await axios.get(`/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
         headers: {'Authorization': `Bearer ${token}`}
       })
     console.log(response.data.content)

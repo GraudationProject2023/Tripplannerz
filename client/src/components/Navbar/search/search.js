@@ -1,6 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
-
 export const handleSearch = (navigate, event, searchTerm) => {
     if(event.key === "Enter" && searchTerm !== ""){
         event.preventDefault();
