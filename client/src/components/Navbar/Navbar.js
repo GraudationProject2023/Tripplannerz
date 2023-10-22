@@ -17,7 +17,7 @@ import find from "../../Image/돋보기.png";
 import "./Navbar.css";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
-import { Logout } from "../Logout/Logout"
+import { Logout } from "./api/Logout";
 import moment from 'moment'
 import Slider from "rc-slider";
 axios.defaults.withCredentials = true;
