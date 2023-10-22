@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
+import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from 'moment'
+import Slider from "rc-slider";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Navbar.css";
+
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
-import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import my from "../../Image/마이페이지.png"
-import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
-import Menu from "../../Image/Menu.png";
-import notice from "../../Image/notice.png";
-import find from "../../Image/돋보기.png";
-import "./Navbar.css";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { Logout } from "./api/Logout";
-import moment from 'moment'
-import Slider from "rc-slider";
+import { handleSearch, handleSearchClick } from "./search/search";
+
+import my from "../../Image/마이페이지.png"
+import Menu from "../../Image/Menu.png";
+import notice from "../../Image/notice.png";
+import find from "../../Image/돋보기.png";
+
+
 axios.defaults.withCredentials = true;
 
 function NavBar() {
   let token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
   
   const EventSource = EventSourcePolyfill || NativeEventSource;
   
@@ -33,9 +41,8 @@ function NavBar() {
   
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   
-  const navigate = useNavigate();
-  
   const [messages, setMessages] = useState([]);
+  
   const [title, setTitle] = useState("");
   
   const [capacity, setCapacity] = useState(0);
@@ -232,21 +239,6 @@ function NavBar() {
     setNoticeOpen(!noticeOpen);
   }
 
-  //검색창
-  const handleSearch = (event) => {
-    if (event.key === "Enter" && searchTerm !== "") {
-      event.preventDefault();
-      const url = `/search?keyword=${searchTerm}`;
-      navigate(url);
-    }
-  };
-
-  const handleSearchClick = (event) => {
-    event.preventDefault();
-    const url = `/search?keyword=${searchTerm}`;
-    navigate(url);
-  };
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -290,7 +282,9 @@ function NavBar() {
               />
             </Nav>
             <Nav className="find">
-              <img src={find} onClick={handleSearchClick} />
+              <img src={find} alt="여행검색" onClick={(event) => 
+                handleSearchClick(navigate, event, searchTerm)
+              } />
             </Nav>
             <Nav className="inputbox">
               <input
@@ -298,7 +292,8 @@ function NavBar() {
                 placeholder="여행 일정을 검색하세요"
                 value={searchTerm}
                 onChange={handleChange}
-                onKeyPress={handleSearch}
+                onKeyPress={(event) => 
+                handleSearch(navigate, event, searchTerm)}
               />
             </Nav>
             <Nav className="new">
