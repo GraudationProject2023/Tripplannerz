@@ -1,15 +1,15 @@
-FROM gradle:7.6.1-jdk17 AS builder
-WORKDIR /usr/src/app
-COPY gradlew ./
+FROM openjdk:17-jdk-alpine AS builder
+WORKDIR /backend
+COPY gradlew .
 COPY gradle gradle
-COPY build.gradle ./
-COPY settings.gradle ./
-COPY src /usr/src/app/src
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
-FROM openjdk:17
-COPY --from=builder /usr/src/app/build/libs/*.jar app.jar
+FROM openjdk:17-jdk-alpine
+COPY --from=builder /backend/build/libs/*.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]

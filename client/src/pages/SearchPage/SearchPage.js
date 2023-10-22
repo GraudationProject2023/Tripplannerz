@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Pagination from "./Pagination";
+import Pagination from "../../util/Pagination";
 import "./SearchPage.css";
 import find from "../../Image/돋보기.png";
 import Navbar from "../../components/Navbar/Navbar"
@@ -52,7 +52,7 @@ function SearchPage() {
     const fetchData = async () => {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+        `/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
           withCredentials: true,

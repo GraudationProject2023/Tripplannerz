@@ -24,7 +24,7 @@ const errorResponse = {
 };
 
 // POST 요청을 가로채서 가짜 응답을 반환합니다.
-mock.onPost("http://localhost:8080/members/join").reply((config) => {
+mock.onPost("/members/join").reply((config) => {
   const { username, password } = JSON.parse(config.data);
 
   // 여기에서 실제 로그인 로직을 구현하고 결과에 따라 가짜 응답을 반환합니다.
@@ -42,7 +42,7 @@ export const Default = () => <Button onClick={handleLogin}>Login</Button>;
 const handleLogin = async () => {
   try {
     // 실제 로그인 요청이라고 가정합니다. axios.post를 호출합니다.
-    const response = await axios.post("http://localhost:8080/members/join", {
+    const response = await axios.post("/members/join", {
       username: "aaa",
       password: "password",
     });

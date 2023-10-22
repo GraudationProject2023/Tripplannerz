@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
-import StarRating from "./utils/StarRating";
+import StarRating from "../../util/StarRating"
 
 axios.defaults.withCredentials = true;
 
@@ -18,7 +18,7 @@ function SearchResultPage(props) {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/members/trip/result?id=${postId}`,
+          `/api/members/trip/result?id=${postId}`,
           {
             withCredentials: true,
           }
