@@ -21,6 +21,20 @@
       "hostname": "cache",
       "essential": true,
       "memory": 128
+    },
+    {
+      "name": "nginx",
+      "image": "chltjdqh217/tripplannerz-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["frontend", "backend"],
+      "memory": 128
     }
   ]
 }
