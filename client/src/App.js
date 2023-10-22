@@ -8,6 +8,7 @@ import SearchResult from "./pages/SearchPage/SearchResultPage";
 import MyPage from "./pages/MyPage/MyPage";
 import MyResult from "./pages/MyPage/MyResultPage";
 import Notice from "./pages/NoticePage/NoticePage";
+import Billing from './pages/BillingPage/BillingPage';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/search/:postId" element={<SearchResult />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/notice" element={<Notice />} />
+          <Route path="/bill" element={<Billing />} />
         </Routes>
       </Suspense>
     </Router>

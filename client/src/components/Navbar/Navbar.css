@@ -43,6 +43,13 @@
   transform: translate(-50%, -50%);
 }
 
+.bill{
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
 .find {
   position: absolute;
   top: 50%;
@@ -338,6 +345,13 @@
     background-color: black;
     height: 50px;
     border-radius: 100px;
+  }
+
+  .bill{
+    position: absolute;
+    top: 50%;
+    left: 34%;
+    transform: translate(-50%, -50%);
   }
 
   .createTravelModal{
