@@ -298,14 +298,14 @@ function NavBar() {
     toggleMypage();
   };
 
-  const moveToFind = (e) => {
-    window.location.href = "/find";
-  };
-
   const moveToSearch = (e) => {
     setSearchTerm("");
     window.location.href = `/search?keyword=${searchTerm}`;
   };
+
+  const moveToBill = (e) => {
+    window.location.href="/bill"
+  }
 
   if (offset === "1") {
     return (
@@ -512,6 +512,11 @@ function NavBar() {
             <Nav className="search">
               <Button className="menu-button" onClick={moveToSearch}>
                 일정조회
+              </Button>
+            </Nav>
+            <Nav className="bill">
+              <Button className="menu-button" onClick={moveToBill}>
+                여행 경비
               </Button>
             </Nav>
             <Nav className="notice">
