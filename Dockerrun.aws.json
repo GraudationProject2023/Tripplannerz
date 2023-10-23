@@ -13,7 +13,7 @@
       "image": "chltjdqh217/tripplannerz-backend",
       "hostname": "backend",
       "essential": true,
-      "memory": 128
+      "memory": 256
     },
     {
       "name": "cache",
