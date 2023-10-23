@@ -23,6 +23,7 @@ public class WebConfiguration {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://frontend");
+        config.addAllowedOrigin("http://tripplannerz-env.eba-wp9u62py.ap-northeast-2.elasticbeanstalk.com");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
