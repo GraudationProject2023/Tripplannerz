@@ -20,7 +20,13 @@
       "image": "redis:alpine",
       "hostname": "cache",
       "essential": true,
-      "memory": 128
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 6379,
+          "containerPort": 6379
+        }
+      ]
     },
     {
       "name": "nginx",
