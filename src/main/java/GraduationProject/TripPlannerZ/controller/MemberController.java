@@ -52,6 +52,11 @@ public class MemberController {
         return ResponseEntity.ok().body("{\"result\": true}");
     }
 
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok().body("hello");
+    }
+
     @PostMapping("/members/loginJWT")
     public ResponseEntity<MemberDto> loginJWT(@RequestBody Credential credential) {
         MemberDto member = memberService.login(credential);
