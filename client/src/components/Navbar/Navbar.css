@@ -43,6 +43,13 @@
   transform: translate(-50%, -50%);
 }
 
+.bill{
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
 .find {
   position: absolute;
   top: 50%;
@@ -258,8 +265,9 @@
 
 .createTravelModal{
   margin-top: 5%;
+  margin-left: -10%;
   background-color: transparent;
-  height: 500px;
+  height: 700px;
   overflow-y: auto;
 }
 
@@ -267,13 +275,17 @@
   display: none;
 }
 
-.modal-content{
-  width: 500px;
-  max-height: 500px;
+.createTravelModal .modal-content{
+  width: 1000px;
+  max-height: 700px;
   overflow-y: auto;
 }
 .modal-content::-webkit-scrollbar{
   display: none;
+}
+
+.card.placed{
+  background-color: red;
 }
 
 @media (min-width: 1200px) {
@@ -335,15 +347,36 @@
     border-radius: 100px;
   }
 
+  .bill{
+    position: absolute;
+    top: 50%;
+    left: 34%;
+    transform: translate(-50%, -50%);
+  }
+
   .createTravelModal{
     margin-top: 5%;
-    background-color: whitesmoke;
-    height: 600px;
+    margin-left: -10%;
+    background-color: transparent;
+    height: 700px;
     overflow-y: auto;
   }
   
   .createTravelModal::-webkit-scrollbar{
     display: none;
+  }
+
+  .createTravelModal .modal-content{
+    width: 1000px;
+    max-height: 700px;
+    overflow-y: auto;
+  }
+  .modal-content::-webkit-scrollbar{
+    display: none;
+  }
+
+  .card.placed{
+    background-color: skyblue;
   }
   
 }

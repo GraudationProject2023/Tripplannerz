@@ -1,28 +1,37 @@
-import React, { useState, useEffect, useRef } from "react";
-import DatePicker, { Calendar } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
+import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from 'moment'
+import Slider from "rc-slider";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Navbar.css";
+
 import { notificationsCountState } from "../../util/recoilState";
 import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
-import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { mainCategories, categories, subCategories } from "../../util/Categories";
+import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
+import { Logout } from "./api/Logout";
+import { handleSearch, handleSearchClick } from "./search/search";
+
 import my from "../../Image/마이페이지.png"
-import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import Menu from "../../Image/Menu.png";
 import notice from "../../Image/notice.png";
 import find from "../../Image/돋보기.png";
-import warn from '../../Image/warning.png'
-import "./Navbar.css";
-import { mainCategories, categories, subCategories } from "../../util/Categories";
-import moment from 'moment'
-import Slider from "rc-slider";
+
+
 axios.defaults.withCredentials = true;
 
 function NavBar() {
   let token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
   
   const EventSource = EventSourcePolyfill || NativeEventSource;
   
@@ -32,9 +41,8 @@ function NavBar() {
   
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   
-  const navigate = useNavigate();
-  
   const [messages, setMessages] = useState([]);
+  
   const [title, setTitle] = useState("");
   
   const [capacity, setCapacity] = useState(0);
@@ -165,7 +173,7 @@ function NavBar() {
       alert("모든 항목을 입력해주세요.");
     } else {
       axios
-        .post("http://localhost:8080/api/trip/create", formData, {
+        .post("/api/trip/create", formData, {
           headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}`},
         })
         .then((response) => {
@@ -183,7 +191,7 @@ function NavBar() {
   };
 
   useEffect(() => {
-    const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
+    const eventSource = new EventSourcePolyfill('/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
       heartbeatTimeout: 300000,
@@ -231,63 +239,11 @@ function NavBar() {
     setNoticeOpen(!noticeOpen);
   }
 
-  //검색창
-  const handleSearch = (event) => {
-    if (event.key === "Enter" && searchTerm !== "") {
-      event.preventDefault();
-      const url = `/search?keyword=${searchTerm}`;
-      navigate(url);
-    }
-  };
-
-  const handleSearchClick = (event) => {
-    event.preventDefault();
-    const url = `/search?keyword=${searchTerm}`;
-    navigate(url);
-  };
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  function movetomain() {
-    window.location.href = "/main";
-  }
-
-  function logout() {
-    if(token !== null){
-
-      const postToData = {
-        token: token
-      }
-
-      axios
-      .post("http://localhost:8080/api/members/logout", postToData, {
-        headers:{
-        'Authorization': `Bearer ${token}`
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        alert("정상적으로 로그아웃 되었습니다.");
-        localStorage.setItem("vest", 0);
-        localStorage.setItem("name", "");
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("서버와의 연결이 끊어졌습니다.");
-        localStorage.setItem("vest", 0);
-        localStorage.setItem("name", "");
-      });
-    }
-  }
-
   var offset = localStorage.getItem("vest");
-
-  function movetoMy() {
-    window.location.href = "/my";
-  }
 
   //마이페이지
   const [esOpen, setesOpen] = useState(false);
@@ -296,10 +252,6 @@ function NavBar() {
   };
   const closeMypage = () => {
     toggleMypage();
-  };
-
-  const moveToFind = (e) => {
-    window.location.href = "/find";
   };
 
   const moveToSearch = (e) => {
@@ -323,14 +275,16 @@ function NavBar() {
             <Nav>
               <img
                 src={Menu}
-                onClick={movetomain}
+                onClick={moveToMain}
                 alt="메뉴"
                 className="navbar-toggle"
                 style={{ width: "300px", height: "120px", marginLeft: "3%"}}
               />
             </Nav>
             <Nav className="find">
-              <img src={find} onClick={handleSearchClick} />
+              <img src={find} alt="여행검색" onClick={(event) => 
+                handleSearchClick(navigate, event, searchTerm)
+              } />
             </Nav>
             <Nav className="inputbox">
               <input
@@ -338,7 +292,8 @@ function NavBar() {
                 placeholder="여행 일정을 검색하세요"
                 value={searchTerm}
                 onChange={handleChange}
-                onKeyPress={handleSearch}
+                onKeyPress={(event) => 
+                handleSearch(navigate, event, searchTerm)}
               />
             </Nav>
             <Nav className="new">
@@ -365,7 +320,16 @@ function NavBar() {
                   >
                   
                   {mainCategories.map((category) => (
-                    <Card key={category} onClick={() => handleMainCategoryChange(category)}>
+                    <Card 
+                    className={selectedMainCategory === category ? 'placed' : ''}
+                    key={category} onClick={() => handleMainCategoryChange(category)}
+                    style={{
+                      width: '150px',
+                      height: '150px',
+                      textAlign: 'center',
+                      justifyContent: 'center'
+                    }}
+                    >
                         {category}
                     </Card>
                   ))}
@@ -376,10 +340,18 @@ function NavBar() {
                     <div>
                       {categories[selectedMainCategory].map((category) => (
                         <Card
+                          className={selectedCategory === category ? 'placed' : ''}
                           key={category}
+                          style={{
+                            width: '150px',
+                            height: '150px',
+                            textAlign: 'center',
+                            justifyContent: 'center'
+                          }}
                           onClick={() => 
                             handleCategoryChange(category)
                           }
+                          
                         >
                         {category}
                         </Card>
@@ -393,7 +365,14 @@ function NavBar() {
                        {subCategories[selectedCategory].map(
                           (subCategory) => (
                             <Card
+                              className = {selectedSubCategory === subCategory ? 'placed' : ''}
                               key={subCategory}
+                              style={{
+                                width: '150px',
+                                height: '150px',
+                                textAlign: 'center',
+                                justifyContent: 'center'
+                              }}
                               onClick={() =>
                                 handleSubCategoryChange(subCategory)
                               }
@@ -490,6 +469,11 @@ function NavBar() {
                 일정조회
               </Button>
             </Nav>
+            <Nav className="bill">
+              <Button className="menu-button" onClick={moveToBill}>
+                여행 경비
+              </Button>
+            </Nav>
             <Nav className="notice">
               <div className="notification-badge">
                 <img src={notice} onClick={toggleNotice} />
@@ -522,7 +506,7 @@ function NavBar() {
                     <br />
                     <tr>
                       <Button
-                        onClick={movetoMy}
+                        onClick={moveToMy}
                         style={{
                           border: "1px solid white",
                           backgroundColor: "#FFFFFF",
@@ -548,7 +532,7 @@ function NavBar() {
                           width: "150px",
                           height: "50px",
                         }}
-                        onClick={logout}
+                        onClick={Logout}
                       >
                         로그아웃
                       </Button>

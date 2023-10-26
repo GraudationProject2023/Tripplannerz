@@ -1,38 +1,5 @@
 import React, { useState } from "react";
-
-const footerStyle = {
-  backgroundColor: "#000000",
-  color: "#FFFFFF",
-  padding: "20px",
-  justifyContent: "center",
-  textAlign: "center",
-  fontSize: "14px",
-  height: "55px",
-};
-
-const linkStyle = {
-  color: "#FFFFFF",
-  textDecoration: "none",
-  marginTop: "-100%",
-  marginLeft: "40%",
-};
-
-const tooltipStyle = {
-  marginTop: "-8%",
-  marginLeft: "70%",
-  transform: "translateX(-50%)",
-  backgroundColor: "#333",
-  color: "#fff",
-  padding: "5px",
-  fontSize: "12px",
-  borderRadius: "3px",
-  whiteSpace: "nowrap",
-  display: "none",
-};
-
-const linkContainerStyle = {
-  marginTop: "-1.8%",
-};
+import {footerStyle, linkStyle , tooltipStyle, linkContainerStyle} from '../../style/StyleComponent'
 
 function Footer() {
   const [showTooltip, setShowTooltip] = useState(false);

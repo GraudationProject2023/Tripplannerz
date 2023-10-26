@@ -3,8 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { Button, Form, Card, Container, Row, Col, Modal } from "react-bootstrap";
-import StarRating from "./util/StarRating";
+import { Button, Form, Card, Modal } from "react-bootstrap";
 import Navbar from "../../components/Navbar/Navbar"
 import Kakao from "../../util/KakaoMap";
 import "./SearchResultPage.css"
@@ -34,7 +33,7 @@ function SearchResultPage(props) {
 
   const [review, setReview] = useState("");//댓글의 실제 내용
 
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(["1","2"]);
 
   const [tripUuid, setTripUuid] = useState("");
 
@@ -44,10 +43,12 @@ function SearchResultPage(props) {
 
   const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
 
+  const [userName, setUserName] = useState("");
+
   useEffect(() => {
     console.log(recoilComment);
 
-    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
+    axios.get(`/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
     }).then((res) => {
@@ -60,6 +61,14 @@ function SearchResultPage(props) {
       setMemberList(res.data.memberList);
       setComments(res.data.commentList);
     });
+
+    axios.get("/api/members/tripInfo", 
+    {
+     headers:{'Authorization': `Bearer ${token}` },
+    }).then((response) => {
+      setUserName(response.data.name)
+    })
+
   }, []);
 
   const handleOpenModal = () => {
@@ -85,7 +94,7 @@ function SearchResultPage(props) {
         tripUUID: tripUuid,
       }
 
-      axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
+      axios.post(`/api/trip/postComment`,postToServer,{
        headers: {'Authorization': `Bearer ${token}`}
      }).then((res) => {
       alert("댓글이 등록되었습니다.")
@@ -112,7 +121,7 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
 
-    axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
+    axios.post(`/api/trip/requestAccompany`, postToServer, {
       headers: {'Authorization': `Bearer ${token}`}
     }).then((res) => {
       alert("동행 신청이 완료되었습니다.")
@@ -184,6 +193,7 @@ function SearchResultPage(props) {
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
+            <div>
               <Card style={{
                 width: "600px",
                 height: "120px"
@@ -192,6 +202,11 @@ function SearchResultPage(props) {
                 <p>글쓴이: {comment.senderName}</p>
                 <p>댓글: {comment.review}</p>
               </Card>
+              {comment.senderName === userName ? (
+                <Button>
+                  삭제
+                </Button>) : ""}
+              </div>
             ))}
       </div>
     </div>

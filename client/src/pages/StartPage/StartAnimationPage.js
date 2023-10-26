@@ -1,17 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import CountdownTimer from "../../util/CountdownTimer";
 import { eventSource } from "../../util/recoilState";
+import { SelectPreference } from '../../util/SelectPreference';
+import {StyledAboutContainer, StyledAboutImage, AboutTitle, AboutContent, AboutButton } from '../../style/StyleComponent'
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from 'axios';
-import sight from '../../Image/관광지.png';
-import culture from "../../Image/문화시설.png";
-import festival from "../../Image/축제.png";
-import surfing from "../../Image/서핑.png";
-import hotel from "../../Image/호텔.png";
-import shopping from "../../Image/쇼핑.png";
-import restaurant from "../../Image/레스토랑.png";
+import sight from '../../Image/관광지.png'
 import './StartAnimationPage.css'
 import {Modal, Form, Button} from 'react-bootstrap'
 axios.defaults.withCredentials = true;
@@ -19,215 +14,6 @@ axios.defaults.withCredentials = true;
 const onButtonClick = () => {
   console.log("이메일 전송 완료");
 };
-
-const Button1 = () => {
-  const arr = [
-    { id: 1, name: "관광지", code: "SIGHTSEEING", image: sight },
-    { id: 2, name: "문화시설", code: "CULTURE", image: culture },
-    { id: 3, name: "축제 • 공연", code: "FESTIVAL", image: festival },
-    { id: 4, name: "레포츠", code: "LEISURE", image: surfing },
-    { id: 5, name: "호캉스", code: "VACATION", image: hotel },
-    { id: 6, name: "쇼핑", code: "SHOPPING", image: shopping },
-    { id: 7, code: "RESTAURANT", name: "맛집탐방", image: restaurant },
-  ];
-  const [pick1, setPick1] = useState(arr);
-  const [select1, setSelect1] = useState([]);
-  const [ranking, setRanking] = useState([]);
-  const [show, setShow] = useState([]);
-
-  const handleButtonClick = (itemId) => {
-    if (select1.includes(itemId)) {
-      setSelect1(select1.filter((button) => button !== itemId));
-    } else if (select1.length < 3) {
-      setSelect1((select1) => [...select1, itemId]);
-    }
-  };
-
-  const setRankingText = () => {
-    const rankingText = [];
-    const rankingShow = [];
-    for (let i = 0; i < select1.length; i++) {
-      const button = pick1.find((item) => item.id === select1[i]);
-      rankingShow.push(`${i + 1}순위`);
-      rankingText.push(`${button.code}`);
-    }
-    setShow(rankingShow);
-    setRanking(rankingText);
-    if (rankingText.length === 0) {
-      localStorage.setItem("rank", -1);
-    } else {
-      localStorage.setItem("rank", rankingText);
-    }
-  };
-
-  useEffect(() => {
-    setRankingText();
-  }, [select1]);
-
-  return (
-    <div>
-      <div>
-        {pick1.map((item) => (
-          <div
-            key={item.id}
-            className={
-              select1.includes(item.id)
-                ? "button_table_btn_ns"
-                : "button_table_btn_s"
-            }
-            onClick={() => handleButtonClick(item.id)}
-          >
-            <img
-              style={{ width: "50px", height: "50px", marginTop: "5px" }}
-              src={item.image}
-              alt={item.name}
-              className="card_image"
-            />
-            <div
-              style={{ marginTop: "5px", fontSize: "18px" }}
-              className="card_text"
-            >
-              {item.name}
-            </div>
-            {select1.includes(item.id) && (
-              <div className="rank_text">{show[select1.indexOf(item.id)]}</div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const StyledAboutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 500px;
-  overflow-y: auto;
-  align-items: center;
-  opacity: 0;
-  background-color: #000000;
-  color: #FFFFFF;
-  &.animation {
-    animation-name: opacity;
-    animation-duration: 1000ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-in-out;
-  }
-
-  @keyframes opacity {
-    from {
-      opacity: 0;
-      transform: translateY(-50%);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-`;
-
-const AboutTitle = styled.h1`
-  font-size: 150rem;
-  @media ${(props) => props.theme.mobile} {
-    font-size: 1.2rem;
-  }
-  margin: 0;
-
-  &.animation {
-    animation-name: slide-in;
-    animation-duration: 3000ms;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes slide-in {
-    from {
-      opacity: 0;
-      transform: translateY(-50%);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-`;
-
-const AboutContent = styled.h1`
-  font-size: 150rem;
-  @media ${(props) => props.theme.mobile} {
-    font-size: 1.2rem;
-  }
-  margin: 0;
-
-  &.animation {
-    animation-name: slide-in;
-    animation-duration: 3000ms;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes slide-in {
-    from {
-      opacity: 0;
-      transform: translateY(-50%);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-`;
-
-const AboutButton = styled.button`
-  background-color: black; 
-  color: white;
-  border-radius : 10px;
-  transition: background-color 0.3s, color 0.3s;
-
-  &.animation {
-    animation-name: slide-in;
-    animation-duration: 3000ms;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes slide-in {
-    from {
-      opacity: 0;
-      transform: translateY(-50%);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
-
-  &:hover {
-    background-color: white; 
-    color: black;
-  }
-`;
-
-const StyledAboutImage = styled.img`
-  display: flex;
-  @media ${(props) => props.theme.desktop} {
-    width: 500px;
-  }
-
-  @media ${(props) => props.theme.laptop} {
-    width: 400px;
-  }
-
-  @media ${(props) => props.theme.tablet} {
-    width: 300px;
-  }
-
-  object-fit: contain;
-`;
-
 
 function StartAnimation() {
   const element = useRef(null);
@@ -336,7 +122,7 @@ function StartAnimation() {
     event.preventDefault();
     if (checkEmail === true) {
       axios
-        .post("http://localhost:8080/api/members/emailConfirm", {
+        .post("/api/members/emailConfirm", {
           email: email,
         })
         .then((res) => console.log(res))
@@ -354,7 +140,7 @@ function StartAnimation() {
     event.preventDefault();
     axios
       .post(
-        "http://localhost:8080/api/members/emailConfirmCode",
+        "/api/members/emailConfirmCode",
         {
           emailConfirmCode: emailCode,
           email: email,
@@ -389,7 +175,7 @@ function StartAnimation() {
       pw: password,
     };
     axios.post(
-        "http://localhost:8080/api/members/loginJWT",
+        "/api/members/loginJWT",
         credentialDto
       ).then((res) => 
       {
@@ -397,7 +183,7 @@ function StartAnimation() {
         if(token !== null){
         localStorage.setItem("token", token);
 
-        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
+        let tempEvent = new EventSourcePolyfill("/api/sub", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -434,7 +220,7 @@ function StartAnimation() {
     } else {
       if (cas === "1") {
         axios
-          .post("http://localhost:8080/api/members/register", {
+          .post("/api/members/register", {
             name: name,
             gender: gender,
             pw: password,
@@ -656,6 +442,7 @@ function StartAnimation() {
 
             {nestedModal && (
               <Modal
+                className="TagModal"
                 style={{ width: "600px", height: "700px" }}
                 show={handleNestedModal}
                 onHide={handleCloseNested}
@@ -664,7 +451,7 @@ function StartAnimation() {
                   <Modal.Title>태그</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <Button1 />
+                 <SelectPreference />
                 </Modal.Body>
                 <Modal.Footer>
                   <Button
