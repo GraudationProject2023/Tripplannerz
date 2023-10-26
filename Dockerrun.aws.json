@@ -12,7 +12,7 @@
       "name": "backend",
       "image": "chltjdqh217/tripplannerz-backend",
       "hostname": "backend",
-      "essential": true,
+      "essential": false,
       "memory": 256
     },
     {
