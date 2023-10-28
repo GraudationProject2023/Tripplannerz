@@ -122,7 +122,7 @@ function StartAnimation() {
     event.preventDefault();
     if (checkEmail === true) {
       axios
-        .post("/api/members/emailConfirm", {
+        .post("http://localhost:8080/api/members/emailConfirm", {
           email: email,
         })
         .then((res) => console.log(res))
@@ -140,7 +140,7 @@ function StartAnimation() {
     event.preventDefault();
     axios
       .post(
-        "/api/members/emailConfirmCode",
+        "http://localhost:8080/api/members/emailConfirmCode",
         {
           emailConfirmCode: emailCode,
           email: email,
@@ -175,7 +175,7 @@ function StartAnimation() {
       pw: password,
     };
     axios.post(
-        "/api/members/loginJWT",
+        "http://localhost:8080/api/members/loginJWT",
         credentialDto
       ).then((res) => 
       {
@@ -183,7 +183,7 @@ function StartAnimation() {
         if(token !== null){
         localStorage.setItem("token", token);
 
-        let tempEvent = new EventSourcePolyfill("/api/sub", {
+        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -220,7 +220,7 @@ function StartAnimation() {
     } else {
       if (cas === "1") {
         axios
-          .post("/api/members/register", {
+          .post("http://localhost:8080/api/members/register", {
             name: name,
             gender: gender,
             pw: password,
