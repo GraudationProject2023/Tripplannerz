@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CommentResponse {
 
-    String tripUUID;
-    String senderEmail;
+    Long comment_id;
+
 }
