@@ -110,10 +110,7 @@ function MyPage() {
           headers: {'Authorization': `Bearer ${token}`},
         }
       );
-      console.log(response.data);
-      console.log(response.data.totalPages);
-      console.log(response.data.totalElements);
-      console.log(response.data.content);
+      
       const postNumberArray = response.data.content.map((post) => post.id);
       setPostNumber(postNumberArray);
       setPosts(response.data.content);
@@ -323,14 +320,34 @@ function MyPage() {
       ).then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
   };
 
-  const responseAccompany = () => {
+  const responseAccompanyTrue = () => {
+
+    const check = true
 
     const postToServer = {
       tripUUID: '1',
       SenderEmail: '1@naver.com'
     }
 
-    axios.post("http://localhost:8080/api/trip/responseAccompany",postToServer,{
+    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
+      headers: {'Atuhorization': `Bearer ${token}`}
+    })
+    .then((res) => {
+      console.log(res)
+      alert('동행 신청을 허락하였습니다.')
+    })
+  }
+
+  const responseAccompanyFalse = () => {
+
+    const check = false
+
+    const postToServer = {
+      tripUUID: '1',
+      SenderEmail: '1@naver.com'
+    }
+
+    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
       headers: {'Atuhorization': `Bearer ${token}`}
     })
     .then((res) => {
@@ -454,7 +471,7 @@ function MyPage() {
               <table>
                 <td><Button
                 onClick={(e) => {
-                  responseAccompany()
+                  responseAccompanyTrue()
                   const updateList = accompanyList.filter((listItem) => listItem !== item)
                   setAccompanyList(updateList);
                 }}
@@ -467,7 +484,7 @@ function MyPage() {
               >O</Button></td>
                 <td>
                   <Button  onClick= {(e) => {
-                  responseAccompany()
+                  responseAccompanyFalse()
                   const updateList = accompanyList.filter((listItem) => listItem !== item)
                   setAccompanyList(updateList);
                   }} 
