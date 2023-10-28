@@ -17,7 +17,6 @@ import { token } from "../../util/recoilState";
 import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
-import { Logout } from "./api/Logout";
 import { handleSearch, handleSearchClick } from "./search/search";
 
 import my from "../../Image/마이페이지.png"
@@ -189,6 +188,34 @@ function NavBar() {
         });
     }
   };
+
+  function Logout() {
+    if(token !== null)
+    {
+        const postToData = {
+            token: token
+        }
+      axios
+      .post("http://localhost:8080/api/members/logout", postToData, {
+        headers:{
+        'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        alert("정상적으로 로그아웃 되었습니다.");
+        localStorage.setItem("vest", 0);
+        localStorage.setItem("name", "");
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("서버와의 연결이 끊어졌습니다.");
+        localStorage.setItem("vest", 0);
+        localStorage.setItem("name", "");
+      });
+    }
+}
 
   useEffect(() => {
     const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
