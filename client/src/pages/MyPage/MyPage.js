@@ -436,7 +436,6 @@ function MyPage() {
             <Card key={idx} style={{
               height: '100px'
             }} >
-              <h6>여행 일정 :</h6>
               <h6>신청자 : </h6> 
               <h6>신청 내용 : {item.length <= 50 ? item : item.slice(0,50) + '...'}</h6>
               <table>
