@@ -60,7 +60,7 @@ function MyPage() {
   
   const [withdrawModal, setWithdrawModal] = useState(false);
 
-  const [accompanyList, setAccompanyList] = useState(["1","2","3","4","5"]) // 동행 신청 현황
+  const [accompanyList, setAccompanyList] = useState([]) // 동행 신청 현황
 
   var ranklist = "";
   var size = posts.length;
@@ -94,6 +94,7 @@ function MyPage() {
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(response)
+    setAccompanyList(response.data)
   }
   
   fetchData()
@@ -110,7 +111,7 @@ function MyPage() {
           headers: {'Authorization': `Bearer ${token}`},
         }
       );
-      
+
       const postNumberArray = response.data.content.map((post) => post.id);
       setPostNumber(postNumberArray);
       setPosts(response.data.content);
@@ -330,7 +331,7 @@ function MyPage() {
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
-      headers: {'Atuhorization': `Bearer ${token}`}
+      headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {
       console.log(res)
@@ -348,7 +349,7 @@ function MyPage() {
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
-      headers: {'Atuhorization': `Bearer ${token}`}
+      headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {
       console.log(res)
@@ -466,8 +467,9 @@ function MyPage() {
             <Card key={idx} style={{
               height: '100px'
             }} >
-              <h6>신청자 : </h6> 
-              <h6>신청 내용 : {item.length <= 50 ? item : item.slice(0,50) + '...'}</h6>
+              <h6>신청자 : {item.senderName}</h6> 
+              <h6>여행: {item.tripName}</h6>
+              <h6>신청 내용 : {item.comment.length <= 50 ? item.comment : item.comment.slice(0,50) + '...'}</h6>
               <table>
                 <td><Button
                 onClick={(e) => {
