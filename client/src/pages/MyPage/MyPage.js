@@ -89,8 +89,8 @@ function MyPage() {
 
   useEffect(() => {
   
-  const fetchData = async() => {
-    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+  const fetchData = () => {
+    const response = axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(response)
@@ -326,7 +326,7 @@ function MyPage() {
     const check = true
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id)
+      comment_id: accompanyList.filter((item) => item.comment_id === id).comment_id
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -343,7 +343,7 @@ function MyPage() {
     const check = false
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id )
+      comment_id: accompanyList.filter((item) => item.comment_id === id).comment_id
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
