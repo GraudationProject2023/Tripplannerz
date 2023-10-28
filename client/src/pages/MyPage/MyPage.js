@@ -99,7 +99,7 @@ function MyPage() {
   
   fetchData()
   
-  },[accompanyList])
+  },[])
 
   useEffect(() => {
     console.log(currentNumber);
