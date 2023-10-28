@@ -155,7 +155,7 @@ function SearchResultPage(props) {
              <Modal.Body>
               <Form>
                 <Form.Control type="textarea" style={{height: '300px'}} placeholder="신청서를 작성해주세요" onChange={handleRequestContent}/>
-                <Button variant="primary" type="submit" onClick={handleRequestAccompany}>
+                <Button onClick={handleRequestAccompany}>
                   신청하기
                 </Button>
               </Form>
