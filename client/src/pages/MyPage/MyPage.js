@@ -88,12 +88,16 @@ function MyPage() {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+  
+  const fetchData = async() => {
+    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
-     })
-    .then((response) => {
-      console.log(response)
     })
+    console.log(response)
+  }
+  
+  fetchData()
+  
   },[accompanyList])
 
   useEffect(() => {
