@@ -88,6 +88,15 @@ function MyPage() {
   }, []);
 
   useEffect(() => {
+    axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+      headers:{'Authorization': `Bearer ${token}` },
+     })
+    .then((response) => {
+      console.log(response)
+    })
+  },[accompanyList])
+
+  useEffect(() => {
     console.log(currentNumber);
     const fetchData = async () => {
       setLoading(true);
