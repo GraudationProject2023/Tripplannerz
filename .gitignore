@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 settings.gradle
+/src/main/java/GraduationProject/TripPlannerZ/config/WebConfiguration.java
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
