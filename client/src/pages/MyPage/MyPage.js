@@ -89,8 +89,8 @@ function MyPage() {
 
   useEffect(() => {
   
-  const fetchData = async() => {
-    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+  const fetchData = () => {
+    const response = axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(response)
