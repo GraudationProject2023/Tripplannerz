@@ -60,7 +60,7 @@ function MyPage() {
   
   const [withdrawModal, setWithdrawModal] = useState(false);
 
-  const [accompanyList, setAccompanyList] = useState([]) // 동행 신청 현황
+  const [accompanyList, setAccompanyList] = useState(["1"]) // 동행 신청 현황
 
   var ranklist = "";
   var size = posts.length;
@@ -94,7 +94,6 @@ function MyPage() {
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(response)
-    setAccompanyList(response.data)
   }
   
   fetchData()
@@ -326,7 +325,7 @@ function MyPage() {
     const check = true
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id).comment_id
+      comment_id: accompanyList.filter((item) => item.comment_id === id)
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -343,7 +342,7 @@ function MyPage() {
     const check = false
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id).comment_id
+      comment_id: accompanyList.filter((item) => item.comment_id === id)
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -467,7 +466,7 @@ function MyPage() {
             }} >
               <h6>신청자 : {item.senderName}</h6> 
               <h6>여행: {item.tripName}</h6>
-              <h6>신청 내용 : {item.comment.length <= 50 ? item.comment : item.comment.slice(0,50) + '...'}</h6>
+              {/* <h6>신청 내용 : {item.comment.length <= 50 ? item.comment : item.comment.slice(0,50) + '...'}</h6> */}
               <table>
                 <td><Button
                 onClick={(e) => {
