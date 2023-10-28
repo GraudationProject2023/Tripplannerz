@@ -5,6 +5,8 @@ import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
 import GraduationProject.TripPlannerZ.dto.member.QMemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.QMemberTrip;
+import GraduationProject.TripPlannerZ.dto.trip.AccompanyRequest;
+import GraduationProject.TripPlannerZ.dto.trip.QAccompanyRequest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -22,6 +24,7 @@ import static GraduationProject.TripPlannerZ.domain.QMemberParty.memberParty;
 import static GraduationProject.TripPlannerZ.domain.QParty.party;
 import static GraduationProject.TripPlannerZ.domain.QTrip.trip;
 import static GraduationProject.TripPlannerZ.domain.QTripImage.tripImage;
+import static GraduationProject.TripPlannerZ.comment.QComment.comment;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
@@ -189,7 +192,24 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return memberInfoList;
     }
 
-
+    @Override
+    public List<AccompanyRequest> accompanyRequestList(Member creater) {
+        return queryFactory
+                .select(new QAccompanyRequest(
+                        comment.id,
+                        comment.trip.title,
+                        comment.sender.name,
+                        comment.trip.UUID,
+                        comment.review
+                ))
+                .from(comment)
+                .where(comment.type.eq("AccompanyRequest").and(comment.trip.in(
+                        JPAExpressions
+                                .selectFrom(trip)
+                                .where(trip.creater.eq(creater))
+                )))
+                .fetch();
+    }
 
     private BooleanExpression memberPartyIn(Member member) {
         return member != null ? memberParty.member.eq(member) : null;
