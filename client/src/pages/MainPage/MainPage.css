@@ -30,15 +30,6 @@
   height: 200px;
 }
 
-.ShowList {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-.ShowList::-webkit-scrollbar {
-  display: none;
-}
-
 .mainPageTitle {
   margin-left: 35%;
 }
