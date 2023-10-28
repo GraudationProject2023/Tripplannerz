@@ -321,13 +321,12 @@ function MyPage() {
       ).then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
   };
 
-  const responseAccompanyTrue = () => {
+  const responseAccompanyTrue = (id) => {
 
     const check = true
 
     const postToServer = {
-      tripUUID: '1',
-      SenderEmail: '1@naver.com'
+      comment_id: accompanyList.filter((item) => item.comment_id === id)
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -339,13 +338,12 @@ function MyPage() {
     })
   }
 
-  const responseAccompanyFalse = () => {
+  const responseAccompanyFalse = (id) => {
 
     const check = false
 
     const postToServer = {
-      tripUUID: '1',
-      SenderEmail: '1@naver.com'
+      comment_id: accompanyList.filter((item) => item.comment_id === id )
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -473,9 +471,7 @@ function MyPage() {
               <table>
                 <td><Button
                 onClick={(e) => {
-                  responseAccompanyTrue()
-                  const updateList = accompanyList.filter((listItem) => listItem !== item)
-                  setAccompanyList(updateList);
+                  responseAccompanyTrue(item.comment_id)
                 }}
                 style={{
                   marginTop: '-15%',
@@ -486,9 +482,7 @@ function MyPage() {
               >O</Button></td>
                 <td>
                   <Button  onClick= {(e) => {
-                  responseAccompanyFalse()
-                  const updateList = accompanyList.filter((listItem) => listItem !== item)
-                  setAccompanyList(updateList);
+                  responseAccompanyFalse(item.comment_id)
                   }} 
                   style={{marginTop: '-15%', marginLeft: '85%',width: '40px', height: '40px'}}>
                     X
