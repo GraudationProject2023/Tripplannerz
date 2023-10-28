@@ -3,8 +3,23 @@ import { Card } from "react-bootstrap";
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
+import styled from "styled-components";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"
+import 'slick-carousel/slick/slick-theme.css'
 import axios from "axios";
+import CustomArrow from "../../components/Arrow/Arrow";
 import "./MainPage.css";
+
+
+const StyledSlider = styled(Slider)`
+    .slick-slide div{
+      width: 90%;
+      height: 300px;
+      outline: none;
+    }
+`;
+
 
 function MainPage() {
   let token = localStorage.getItem("token");
@@ -14,7 +29,7 @@ function MainPage() {
   const order = "new"
 
   const fetchData = async () => {
-    const response = await axios.get(`/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
+    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
         headers: {'Authorization': `Bearer ${token}`}
       })
     console.log(response.data.content)
@@ -32,6 +47,16 @@ function MainPage() {
   function movetoSubPage(point) {
     window.location.href = `/search/${point}`;
   }
+
+  const settings = {
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    nextArrow: <CustomArrow direction = "next" />,
+    prevArrow: <CustomArrow direction = "prev" />,
+    speed: 500
+  }
+
   return (
     <div>
       <NavBar />
@@ -44,37 +69,21 @@ function MainPage() {
         <h2>동행할 여행 목록</h2>
       </div>
       <br />
-      <hr />
-      <div className="ShowList">
+      <StyledSlider {...settings}>
       {travelList.map((item) => (
          <Card
-          style={{
-            display: 'inline-block',
-            width: '20%',
-            height: '200px',
-            margin: '0 30px',
-            padding: '15px',
-            borderRadius: '10px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-            cursor: 'pointer',
-            textAlign: 'left',
-            transition: 'transform 0.3s ease-in-out',
-          }}
           key={item.id}
           onClick={(e) => movetoSubPage(item.id)}
           >
-        <h4 style={{ marginBottom: '10px', color: '#333' }}>제목: {item.title}</h4>
-        <div style={{ marginBottom: '10px', color: '#666' }}>
-          <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
-        </div>
-        <div style={{ color: '#666' }}>
-          <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
-        </div>
+          <h4 style={{ color: '#333', marginBottom: '10px' }}>제목: {item.title}</h4>
+          <div style={{ color: '#666', marginBottom: '5px' }}>
+            <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
+            <br />
+            <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+          </div>
         </Card>
       ))}
-
-      </div>
-      <hr />
+      </StyledSlider>
       <Footer />
      </div>
      }
