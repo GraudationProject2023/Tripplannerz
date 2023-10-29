@@ -10,5 +10,6 @@ COPY src src
 RUN ./gradlew bootJar
 
 FROM openjdk:17-jdk-alpine
+EXPOSE 8080
 COPY --from=builder /backend/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-Dspring.profiles.active=prod","-jar","app.jar"]
