@@ -76,7 +76,7 @@ function MyPage() {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    axios.get("http://localhost:8080/api/members/tripInfo", 
+    axios.get("/api/members/tripInfo", 
      {
       headers:{'Authorization': `Bearer ${token}` },
      }).then((response) => {
@@ -90,12 +90,12 @@ function MyPage() {
   useEffect(() => {
   
   const fetchData = async () => {
-    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+    const response = await axios.get("/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
-    console.log(response)
+    console.log(typeof(response.data))
 
-    if(!response)
+    if(response.data.length > 0)
     {
       
       const accompany = {
@@ -121,7 +121,7 @@ function MyPage() {
     const fetchData = async () => {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
+        `/api/members/tripList?page=${currentNumber}&sortType=${order}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
         }
@@ -141,7 +141,7 @@ function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
+        `/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
         }
@@ -200,7 +200,7 @@ function MyPage() {
       }
 
       axios
-        .post("http://localhost:8080/api/members/change/types", postToServer, {
+        .post("/api/members/change/types", postToServer, {
           headers: {'Authorization': `Bearer ${token}`},
         })
         .then((res) => console.log(res), alert("태그가 변경되었습니다."));
@@ -234,7 +234,7 @@ function MyPage() {
     }
 
     axios
-      .post("http://localhost:8080/api/members/exit", postToServer,{
+      .post("/api/members/exit", postToServer,{
         headers: {'Authorization': `Bearer ${token}`}
       })
       .then((response) => {
@@ -308,7 +308,7 @@ function MyPage() {
     }
 
     axios
-      .post("http://localhost:8080/api/members/verify/pw", postToServer,{
+      .post("/api/members/verify/pw", postToServer,{
         headers: {'Authorization': `Bearer ${token}`},
       })
       .then((res) => {
@@ -329,7 +329,7 @@ function MyPage() {
     }
 
     axios
-      .post("http://localhost:8080/api/members/change/pw", postToServer,
+      .post("/api/members/change/pw", postToServer,
       { 
         headers: {'Authorization': `Bearer ${token}`}
       }
@@ -344,7 +344,7 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
+    axios.post(`/api/trip/responseAccompany/${check}`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {
@@ -361,7 +361,7 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
+    axios.post(`/api/trip/responseAccompany/${check}`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {

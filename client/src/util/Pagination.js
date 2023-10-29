@@ -2,10 +2,9 @@ import React from "react";
 import {PageUl, PageLi, PageSpan} from '../style/StyleComponent'
 
 
-export const Pagination = ({ postsPerPage, totalPosts, paginate, total }) => {
+export const Pagination = ({ paginate, totalPage }) => {
   const pageNumbers = [];
-  var t = total;
-  for (let i = 1; i <= t / 10 + 1 ; i++) {
+  for (let i = 1; i <= totalPage; i++) {
     pageNumbers.push(i);
   }
 
