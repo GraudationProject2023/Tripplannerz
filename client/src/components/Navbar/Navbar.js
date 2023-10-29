@@ -8,6 +8,7 @@ import axios from "axios";
 import moment from 'moment'
 import Slider from "rc-slider";
 
+import 'rc-slider/assets/index.css'
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
@@ -44,7 +45,7 @@ function NavBar() {
   
   const [title, setTitle] = useState("");
   
-  const [capacity, setCapacity] = useState(0);
+  const [memberCapacity, setMemberCapacity] = useState(0);
   
   const [date, setDate] = useState("");
   
@@ -134,6 +135,7 @@ function NavBar() {
     event.preventDefault();
 
     const formData = new FormData();
+    var capacity = memberCapacity / 10;
     var closeRecruitDate = date.toString();
     var goingDate = currentMonth.toISOString().slice(0, 10);
     var comingDate = nextMonth.toISOString().slice(0, 10);
@@ -447,8 +449,8 @@ function NavBar() {
                   <div>
                   <Form.Group controlId="formCapacity">
                     <Form.Label>모집 인원</Form.Label>
-                      <Slider onChange={(e) => setCapacity(e)} />
-                      {Math.ceil(capacity / 10)}명    
+                      <Slider onChange={(e) => setMemberCapacity(e)} />
+                      {Math.ceil(memberCapacity / 10)}명    
                   </Form.Group>
                 </div>
                 <br />
