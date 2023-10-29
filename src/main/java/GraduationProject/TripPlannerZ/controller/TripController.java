@@ -118,7 +118,7 @@ public class TripController {
                                        @RequestParam("sortType") String sortType,
                                        @RequestParam("keyWord") String keyWord) {
 
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, 2);
         return memberService.findTrip(null, sortType, pageRequest, keyWord);
     }
 

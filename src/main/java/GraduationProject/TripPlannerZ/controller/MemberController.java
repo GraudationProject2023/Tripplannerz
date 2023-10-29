@@ -109,7 +109,7 @@ public class MemberController {
 
         Member member = loginService.getLoggedInMember();
 
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, 5);
 
 
         return memberService.findTrip(member, sortType, pageRequest, null);
