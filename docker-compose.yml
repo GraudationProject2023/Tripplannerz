@@ -1,17 +1,17 @@
 version: "3"
 
 services:
-#  database:
-#    build: ./postgres
-#    restart: unless-stopped
-#    container_name: postgres
-#    ports:
-#      - "5432:5432"
-#    volumes:
-#      - ./postgres/sqls:/docker-entrypoint-initdb.d
-#    environment:
-#      POSTGRES_USERNAME: postgres
-#      POSTGRES_PASSWORD: 1234
+  database:
+    build: ./postgres
+    restart: unless-stopped
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/sqls:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 1234
 
   nginx:
     restart: always
@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
       context: ./nginx
     ports:
-      - "3000:80"
+      - "49160:80"
 
   cache:
     container_name: redis
@@ -28,11 +28,15 @@ services:
       - "6379:6379"
 
   backend:
-    build: ./
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
     container_name: app_backend
 
   frontend:
-    build : ./client
+    build :
+      dockerfile: Dockerfile
+      context: ./client
     container_name: app_frontend
     stdin_open: true
 
