@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @Component
 @RequiredArgsConstructor
 public class TestInitDb {
-
+    // test
     private final InitService initService;
 
 
