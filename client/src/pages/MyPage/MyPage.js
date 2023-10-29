@@ -95,17 +95,21 @@ function MyPage() {
     })
     console.log(response)
 
-    const accompany = {
-      comment: response.data[0].comment,
-      comment_id: response.data[0].comment_id,
-      senderName: response.data[0].senderName,
-      tripName: response.data[0].tripName,
-      tripUUID: response.data[0].tripUUID
+    if(!response)
+    {
+      
+      const accompany = {
+        comment: response.data[0].comment,
+        comment_id: response.data[0].comment_id,
+        senderName: response.data[0].senderName,
+        tripName: response.data[0].tripName,
+        tripUUID: response.data[0].tripUUID
+      }
+
+      console.log(accompany)
+
+      setAccompanyList([...accompanyList, accompany])
     }
-
-    console.log(accompany)
-
-    setAccompanyList([...accompanyList, accompany])
   }
   
   fetchData()
