@@ -207,7 +207,22 @@ function StartAnimation() {
         } else{
           alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
         }
-      });
+      })
+      .catch((error) => {
+        console.log(error.response.data.message)
+
+        if(error.response.data.message === 'Invalid password')
+        {
+          alert('비밀번호가 틀렸습니다.')
+        }
+        else if(error.response.data.message === 'Unknown user')
+        {
+          alert('등록되지 않은 유저입니다.')
+        }
+
+        window.location.href="/"
+      })
+      ;
   };
 
   const handleSubmit = (event) => {

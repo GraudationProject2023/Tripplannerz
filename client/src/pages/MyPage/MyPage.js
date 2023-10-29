@@ -60,7 +60,7 @@ function MyPage() {
   
   const [withdrawModal, setWithdrawModal] = useState(false);
 
-  const [accompanyList, setAccompanyList] = useState(["1"]) // 동행 신청 현황
+  const [accompanyList, setAccompanyList] = useState([]) // 동행 신청 현황
 
   var ranklist = "";
   var size = posts.length;
@@ -89,11 +89,27 @@ function MyPage() {
 
   useEffect(() => {
   
-  const fetchData = () => {
-    const response = axios.get("http://localhost:8080/api/trip/accompany/requestList",{
+  const fetchData = async () => {
+    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(response)
+
+    if(!response)
+    {
+      
+      const accompany = {
+        comment: response.data[0].comment,
+        comment_id: response.data[0].comment_id,
+        senderName: response.data[0].senderName,
+        tripName: response.data[0].tripName,
+        tripUUID: response.data[0].tripUUID
+      }
+
+      console.log(accompany)
+
+      setAccompanyList([...accompanyList, accompany])
+    }
   }
   
   fetchData()
@@ -325,7 +341,7 @@ function MyPage() {
     const check = true
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id)
+      comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -342,7 +358,7 @@ function MyPage() {
     const check = false
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id)
+      comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
     axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
@@ -460,7 +476,7 @@ function MyPage() {
         <h5>선호태그 : {ranklist} </h5>
         <hr />
         <h4>동행 신청 현황</h4>
-          {accompanyList.map((item,idx) => 
+          {accompanyList.length > 0 && accompanyList.map((item,idx) => 
             <Card key={idx} style={{
               height: '100px'
             }} >
