@@ -6,7 +6,6 @@ COPY gradlew .
 COPY gradle gradle
 USER root
 RUN chmod +x ./gradlew
-RUN ./gradlew build
 COPY src src
 RUN ./gradlew bootJar
 
