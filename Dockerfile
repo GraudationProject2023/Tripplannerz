@@ -9,6 +9,7 @@ RUN chmod +x ./gradlew
 COPY src src
 RUN ./gradlew bootJar
 
+
 FROM openjdk:17-jdk-alpine
 EXPOSE 5000
 COPY --from=builder /backend/build/libs/*.jar app.jar
