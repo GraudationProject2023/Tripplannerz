@@ -93,9 +93,9 @@ function MyPage() {
     const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
-    console.log(response)
+    console.log(typeof(response.data))
 
-    if(!response)
+    if(response.data.length > 0)
     {
       
       const accompany = {
