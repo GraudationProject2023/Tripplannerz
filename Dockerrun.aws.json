@@ -2,13 +2,6 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "database",
-      "image": "chltjdqh217/tripplannerz-database",
-      "hostname": "database",
-      "essential": true,
-      "memory": 256
-    },
-    {
       "name": "frontend",
       "image": "chltjdqh217/tripplannerz-frontend",
       "hostname": "frontend",
