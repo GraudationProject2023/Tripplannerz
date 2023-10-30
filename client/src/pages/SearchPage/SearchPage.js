@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import {PageUl, PageLi, PageSpan} from '../../style/StyleComponent'
 import axios from "axios";
-import Pagination from "../../util/Pagination";
 import "./SearchPage.css";
 import find from "../../Image/돋보기.png";
 import Navbar from "../../components/Navbar/Navbar"
@@ -40,7 +40,8 @@ function SearchPage() {
     localStorage.setItem("vest", 1);
   }, []);
 
-  useEffect(() => {
+      
+  const fetchData = async () => {
     let encodedKey;
     if (/[\u0080-\uFFFF]/.test(key)) {
       encodedKey = encodeURIComponent(key);
@@ -48,27 +49,56 @@ function SearchPage() {
       encodedKey = key;
     }
     setKeyword(encodedKey);
-    
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
-        {
-          headers: {'Authorization': `Bearer ${token}`},
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-      console.log(response.data.content);
-      setPosts(response.data.content);
-      setTotal(response.data.totalElements);
-      setTotalPage(response.data.totalPages);
-      const postNumberArray = response.data.content.map((post) => post.id);
-      setPostNumber(postNumberArray);
-      setLoading(false);
-    };
+
+    setLoading(true);
+    const response = await axios.get(
+      `/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+      {
+        headers: {'Authorization': `Bearer ${token}`},
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    console.log(response.data.content);
+    setPosts(response.data.content);
+    setTotal(response.data.totalElements);
+    setTotalPage(response.data.totalPages);
+    const postNumberArray = response.data.content.map((post) => post.id);
+    setPostNumber(postNumberArray);
+    setLoading(false);
+  };
+
+  const Pagination = ({ paginate, totalPage }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPage; i++) {
+      pageNumbers.push(i);
+    }
+  
+    return (
+      <div style={{ marginLeft: "30%", marginTop: "7%" }}>
+        <nav>
+          <PageUl className="pagination">
+            {pageNumbers.map((number) => (
+              <PageLi key={number} className="page-item">
+                <PageSpan onClick={() => {
+                  paginate(number)
+                  setCurrentNumber(number-1)
+                  }} className="page-link">
+                  {number}
+                </PageSpan>
+              </PageLi>
+            ))}
+          </PageUl>
+        </nav>
+      </div>
+    );
+  };
+
+
+  useEffect(() => {
     fetchData();
-  }, [currentPage, currentNumber, order, key]);
+    Pagination({})
+  }, [currentPage,currentNumber, order, key]);
   
 
   const handleInputChange = (e) => {
@@ -210,10 +240,8 @@ function SearchPage() {
           ""
         ) : (
           <Pagination
-            postsPerPage={postsPerPage}
-            totalPosts={posts.length}
             paginate={(pageNumber) => setCurrentPage(pageNumber - 1)}
-            total={total}
+            totalPage={totalPage}
           ></Pagination>
         )}
       </div>

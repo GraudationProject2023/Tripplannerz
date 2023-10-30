@@ -12,6 +12,7 @@ import GraduationProject.TripPlannerZ.dto.CommentPost;
 import GraduationProject.TripPlannerZ.dto.CommentResponse;
 import GraduationProject.TripPlannerZ.dto.member.MemberInfo;
 import GraduationProject.TripPlannerZ.dto.member.MemberTrip;
+import GraduationProject.TripPlannerZ.dto.trip.AccompanyRequest;
 import GraduationProject.TripPlannerZ.dto.trip.TripCreate;
 import GraduationProject.TripPlannerZ.dto.trip.TripDelete;
 import GraduationProject.TripPlannerZ.dto.trip.TripDetail;
@@ -117,7 +118,7 @@ public class TripController {
                                        @RequestParam("sortType") String sortType,
                                        @RequestParam("keyWord") String keyWord) {
 
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, 2);
         return memberService.findTrip(null, sortType, pageRequest, keyWord);
     }
 
@@ -191,14 +192,18 @@ public class TripController {
     }
 
     // 승인 요청되면 동행 요청한 사람한테 승인 알림 가게
-    @PostMapping("/trip/responseAccompany")
-    public void responseAccompany(@RequestBody CommentResponse commentResponse) {
+    @PostMapping("/trip/responseAccompany/{check}")
+    public void responseAccompany(@PathVariable("check") boolean check, @RequestBody CommentResponse commentResponse) {
 
+        if(!check)
+        {
+            // x일때 알림
+            commentService.delete(commentResponse.getComment_id());
+            return;
+        }
 
-        Trip trip = tripService.findByUUID(commentResponse.getTripUUID()).get();
-
-
-        Member sender = memberService.findByEmail(commentResponse.getSenderEmail()).get();
+        Trip trip = commentService.getCommentById(commentResponse.getComment_id()).getTrip();
+        Member sender = commentService.getCommentById(commentResponse.getComment_id()).getSender();
 
         Long partyId = partyService.findPartyByTrip(trip.getId());
         Party party = partyService.findParty(partyId).get();
@@ -207,6 +212,8 @@ public class TripController {
         trip.setCurrentNum(trip.getCurrentNum() + 1);
 
         memberPartyRepository.save(mp);
+        commentService.delete(commentResponse.getComment_id());
+        // o일 때 알림
     }
 
     @PostMapping("/trip/delete")
@@ -222,5 +229,11 @@ public class TripController {
         tripService.deleteTrip(trip);
 
         return ResponseEntity.ok().body("deleted");
+    }
+
+    @GetMapping("/trip/accompany/requestList")
+    public List<AccompanyRequest> requestList() {
+        Member member = loginService.getLoggedInMember();
+        return memberService.accompanyRequestList(member);
     }
 }

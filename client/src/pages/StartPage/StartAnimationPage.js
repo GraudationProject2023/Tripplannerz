@@ -122,7 +122,7 @@ function StartAnimation() {
     event.preventDefault();
     if (checkEmail === true) {
       axios
-        .post("http://localhost:8080/api/members/emailConfirm", {
+        .post("/api/members/emailConfirm", {
           email: email,
         })
         .then((res) => console.log(res))
@@ -140,7 +140,7 @@ function StartAnimation() {
     event.preventDefault();
     axios
       .post(
-        "http://localhost:8080/api/members/emailConfirmCode",
+        "/api/members/emailConfirmCode",
         {
           emailConfirmCode: emailCode,
           email: email,
@@ -175,7 +175,7 @@ function StartAnimation() {
       pw: password,
     };
     axios.post(
-        "http://localhost:8080/api/members/loginJWT",
+        "/api/members/loginJWT",
         credentialDto
       ).then((res) => 
       {
@@ -183,7 +183,7 @@ function StartAnimation() {
         if(token !== null){
         localStorage.setItem("token", token);
 
-        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
+        let tempEvent = new EventSourcePolyfill("/api/sub", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -207,7 +207,22 @@ function StartAnimation() {
         } else{
           alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
         }
-      });
+      })
+      .catch((error) => {
+        console.log(error.response.data.message)
+
+        if(error.response.data.message === 'Invalid password')
+        {
+          alert('비밀번호가 틀렸습니다.')
+        }
+        else if(error.response.data.message === 'Unknown user')
+        {
+          alert('등록되지 않은 유저입니다.')
+        }
+
+        window.location.href="/"
+      })
+      ;
   };
 
   const handleSubmit = (event) => {
@@ -220,7 +235,7 @@ function StartAnimation() {
     } else {
       if (cas === "1") {
         axios
-          .post("http://localhost:8080/api/members/register", {
+          .post("/api/members/register", {
             name: name,
             gender: gender,
             pw: password,
