@@ -7,9 +7,8 @@ services:
 
 script:
   - docker build -t chltjdqh217/tripplannerz-nginx ./nginx
-  - docker build -t chltjdqh217/tripplannerz-database ./postgres
   - docker build -t chltjdqh217/tripplannerz-frontend ./client
-  - docker build -t chltjdqh217/tripplannerz-backend -f Dockerfile.dev ./
+  - docker build -t chltjdqh217/tripplannerz-backend ./
 
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
