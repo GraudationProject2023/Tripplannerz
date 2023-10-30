@@ -3,6 +3,7 @@ package GraduationProject.TripPlannerZ.service;
 import GraduationProject.TripPlannerZ.dto.member.Credential;
 import GraduationProject.TripPlannerZ.dto.member.MemberDto;
 import GraduationProject.TripPlannerZ.dto.member.MemberRegister;
+import GraduationProject.TripPlannerZ.dto.trip.AccompanyRequest;
 import GraduationProject.TripPlannerZ.exceptions.AppException;
 import GraduationProject.TripPlannerZ.config.mappers.MemberMapper;
 import GraduationProject.TripPlannerZ.domain.Member;
@@ -122,6 +123,10 @@ public class MemberService {
         }
 
         throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
+    }
+
+    public List<AccompanyRequest> accompanyRequestList(Member creater) {
+        return memberRepository.accompanyRequestList(creater);
     }
 
 
