@@ -3,7 +3,6 @@ import { Menu, Button ,Tooltip, Input } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import DatePicker from "react-datepicker";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Nav } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,9 +21,6 @@ import { mainCategories, categories, subCategories } from "../../util/Categories
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
 
-import my from "../../Image/마이페이지.png"
-import MenuImage from "../../Image/Menu.png";
-import notice from "../../Image/notice.png";
 import find from "../../Image/돋보기.png";
 
 
@@ -263,6 +259,11 @@ function NavBar() {
 
   }, [token]);
 
+  const moveToMain = () => {
+    window.location.href = '/main'
+  }
+
+
   //알림바
   const [noticeOpen, setNoticeOpen] = useState(false);
 
@@ -292,27 +293,34 @@ function NavBar() {
 
   if (offset === "1") {
     return (
-      <Menu mode="horizontal" style={{display: 'flex', justifyContent: 'center'}}>
+      <Menu 
+        mode="horizontal" 
+        style={{
+          height: '100px',
+          display: 'flex', 
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
         <Menu.Item>
-            <Tooltip>TripPlannerz</Tooltip>
+          <Button style={{width: '200px'}} onClick={moveToMain}>TripPlannerz</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button>일정생성</Button>
+          <Button style={{width: '200px'}}>일정생성</Button>
         </Menu.Item>
         <Menu.Item>
-            <Button>일정조회</Button>
+          <Button style={{width: '200px'}}>일정조회</Button>
         </Menu.Item>
         <Menu.Item>
-            <Button>여행경비</Button>
+          <Button style={{width: '200px'}}>여행경비</Button>
         </Menu.Item>
         <Menu.Item>
-            <Input style={{width: '300px', textAlign:'center'}} placeholder="여행 일정을 검색하세요" />
+            <Input style={{width: '600px', textAlign:'center'}} placeholder="여행 일정을 검색하세요" />
         </Menu.Item>
         <Menu.Item>
-            <BellOutlined />
+            <BellOutlined style={{width: '50px', justifyContent: 'center'}} />
         </Menu.Item>
         <Menu.Item>
-            <UserOutlined />
+          <UserOutlined style={{width: '50px', justifyContent: 'center'}} />
         </Menu.Item>
       </Menu>
     );
