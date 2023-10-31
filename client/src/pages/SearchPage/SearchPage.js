@@ -52,7 +52,7 @@ function SearchPage() {
 
     setLoading(true);
     const response = await axios.get(
-      `/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+      `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
       {
         headers: {'Authorization': `Bearer ${token}`},
         withCredentials: true,
