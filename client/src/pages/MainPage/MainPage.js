@@ -14,8 +14,8 @@ import "./MainPage.css";
 
 const StyledSlider = styled(Slider)`
     .slick-slide div{
-      width: 90%;
-      height: 300px;
+      width: 100%;
+      height: 200px;
       outline: none;
     }
 `;
@@ -63,12 +63,7 @@ function MainPage() {
       {token && <NavBar /> &&
         <>
           <ImageSlider />
-        </>
-      }
-        {/* <div className="mainPageTitle">
-        <h2>동행할 여행 목록</h2>
-        </div> */}
-        {/* <StyledSlider {...settings}>
+          <StyledSlider {...settings}>
       {travelList.map((item) => (
          <Card
           key={item.id}
@@ -82,7 +77,13 @@ function MainPage() {
           </div>
         </Card>
         ))}
-        </StyledSlider> */}
+        </StyledSlider>
+        </>
+      }
+        {/* <div className="mainPageTitle">
+        <h2>동행할 여행 목록</h2>
+        </div> */}
+        
         {/* <Footer /> */}
     </div>
   );
