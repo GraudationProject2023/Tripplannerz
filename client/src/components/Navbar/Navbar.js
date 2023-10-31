@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Button ,Tooltip, Input } from 'antd';
+import { 
+  Menu, 
+  Button, 
+  Input, 
+  Upload ,
+  Form, 
+  Card, 
+  Drawer,
+  DatePicker } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
-import DatePicker from "react-datepicker";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
@@ -267,8 +274,12 @@ function NavBar() {
   //알림바
   const [noticeOpen, setNoticeOpen] = useState(false);
 
-  const toggleNotice = () => {
-    setNoticeOpen(!noticeOpen);
+  const handleOpenNotice = () => {
+    setNoticeOpen(true)
+  }
+  
+  const handleCloseNotice = () => {
+    setNoticeOpen(false)
   }
 
   const handleChange = (event) => {
@@ -294,8 +305,10 @@ function NavBar() {
   if (offset === "1") {
     return (
       <Menu 
-        mode="horizontal" 
+        mode="horizontal"
+        theme="light" 
         style={{
+          backgroundColor: '#EEEEEE',
           height: '100px',
           display: 'flex', 
           justifyContent: 'center',
@@ -305,19 +318,186 @@ function NavBar() {
           <Button style={{width: '200px'}} onClick={moveToMain}>TripPlannerz</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button style={{width: '200px'}}>일정생성</Button>
+          <Button style={{width: '200px'}} onClick={handleCreateTravelShow}>일정생성</Button>
+          <Drawer
+            title= "여행 생성"
+            style={{width: '1000px', overflowY: 'auto'}}
+            placement="left"
+            onClose={handleCreateTravelClose}
+            visible={createTravelModal}
+          >
+            <h5>1. 여행 장소 선택</h5>
+                  <Form
+                    style={{
+                      border: "1px solid black",
+                       borderRadius: "10px",
+                       height: "500px",
+                       overflowY: "auto",
+                    }}
+                   >
+                   {mainCategories.map((category) => (
+                     <Card 
+                     className={selectedMainCategory === category ? 'placed' : ''}
+                     key={category} onClick={() => handleMainCategoryChange(category)}
+                     style={{ width: '150px',
+                       height: '150px',
+                       textAlign: 'center',
+                       justifyContent: 'center'
+                     }}
+                     >
+                     {category}
+                     </Card>
+                   ))}
+                  
+                   <br />
+                   <br />
+                   {selectedMainCategory && (
+                     <div>
+                       {categories[selectedMainCategory].map((category) => (
+                         <Card
+                           className={selectedCategory === category ? 'placed' : ''}
+                           key={category}
+                           style={{
+                             width: '150px',
+                             height: '150px',
+                             textAlign: 'center',
+                            justifyContent: 'center'
+                           }}
+                           onClick={() => 
+                             handleCategoryChange(category)
+                           }
+                          
+                         >
+                         {category}
+                         </Card>
+                       ))}
+                     </div>
+                   )}
+                   <br />
+                   <br />
+                   {selectedCategory && (
+                     <div>
+                        {subCategories[selectedCategory].map(
+                           (subCategory) => (
+                             <Card
+                               className = {selectedSubCategory === subCategory ? 'placed' : ''}
+                               key={subCategory}
+                               style={{
+                                 width: '150px',
+                                 height: '150px',
+                                 textAlign: 'center',
+                                 justifyContent: 'center'
+                                }}
+                               onClick={() =>
+                                 handleSubCategoryChange(subCategory)
+                               }
+                             >
+                               {subCategory}
+                             </Card>
+                           )
+                         )}
+                     </div>
+                   )}   
+                   </Form>
+                   <hr />
+                  <h5>2. 여행 정보 입력</h5>
+                  <br />
+                  <Form>
+                  <table>
+                    <h6>1) 사진 업로드</h6>
+                      <tr>
+                        <Upload 
+                            onChange={onChangeImageInput}
+                            showUploadList={false}   
+                        />
+                        </tr>
+                        <tr>
+                        {preview ? (
+                          <img style={{width: "300px", height: "150px"}} src={preview} />
+                        ):(
+                          <h6>이미지 없음</h6>
+                        )}
+                        </tr>
+                  </table>
+                  <br />
+                  <Form.Item label="2) 여행 제목" name="title">
+                      <Input onChange={(e) => setTitle(e.target.value)} />
+                  </Form.Item>
+                  <Form.Item label={`3) 모집 인원 ${Math.ceil(memberCapacity / 10)}명`} name="capcity">
+                    <Slider onChange={(e) => setMemberCapacity(e)} />
+                  </Form.Item>
+                  <table>
+                    <td>
+                      <Form.Item label="4) 모집 마감 날짜">
+                      <DatePicker onChange = {(date, dateString) => setDate(dateString)} />
+                      </Form.Item>
+                    </td>
+                    <td style={{padding: '10px'}}>
+                    <Form.Item label="5) 여행 시작 날짜">
+                    <DatePicker
+                        selected={currentMonth}
+                        onChange={handleCurrentMonthChange}
+                        placeholderText="가는 날 선택"
+                        popperPlacement="bottom-start"
+                      />
+                    </Form.Item>
+                    </td>
+                    <td style={{padding: '10px'}}>
+                    <Form.Item label="6) 여행 종료 날짜">
+                      <DatePicker
+                        selected={nextMonth}
+                        filterDate={disableNextMonthDates}
+                        onChange={handleNextMonthChange}
+                        placeholderText="오는 날 선택"
+                        popperPlacement="bottom-start"
+                      />
+                    </Form.Item>
+                    </td>
+                  </table>
+                  <Button variant="primary" type="submit">
+                    등록
+                  </Button>
+                  </Form> 
+          </Drawer>
         </Menu.Item>
         <Menu.Item>
-          <Button style={{width: '200px'}}>일정조회</Button>
+          <Button style={{width: '200px'}} onClick={moveToSearch}>일정조회</Button>
         </Menu.Item>
         <Menu.Item>
           <Button style={{width: '200px'}}>여행경비</Button>
         </Menu.Item>
         <Menu.Item>
-            <Input style={{width: '600px', textAlign:'center'}} placeholder="여행 일정을 검색하세요" />
+            <Input 
+              style={{width: '600px', textAlign:'center'}} 
+              value={searchTerm} 
+              placeholder="여행 일정을 검색하세요"
+              onChange={handleChange}
+              onKeyPress={(event) => 
+              handleSearch(navigate, event, searchTerm)}
+             />
         </Menu.Item>
         <Menu.Item>
-            <BellOutlined style={{width: '50px', justifyContent: 'center'}} />
+            <BellOutlined 
+              style={{width: '150px', justifyContent: 'center'}}  
+              onClick={handleOpenNotice}
+            /> 
+            <Drawer
+             title="알림"
+             onClose={handleCloseNotice}
+             visible={noticeOpen}
+            >
+            <h5>알림: {messages.length}개</h5>
+            <hr />
+            {messages.map((text, index) => (<>
+              <li key={text}>
+                <Button>
+                  {text}
+                </Button>
+              </li>
+              <br />
+              </>
+            ))}
+            </Drawer>
         </Menu.Item>
         <Menu.Item>
           <UserOutlined style={{width: '50px', justifyContent: 'center'}} />
@@ -328,211 +508,22 @@ function NavBar() {
 }
 
 export default NavBar;
-{/*<Navbar
-          expand="md"
-          className="justify-content-center navbar-top"
-          fixed="top"
-          style={{
-            borderBottom: "1px solid black",
-            backgroundColor: "#FFFFFF",
-            height: "13%",
-          }}
-        >
-          <Nav className="me-auto">
-            <Nav>
-              <img
-                src={MenuImage}
-                onClick={moveToMain}
-                alt="메뉴"
-                className="navbar-toggle"
-                style={{ width: "300px", height: "120px", marginLeft: "3%"}}
-              />
+{/*       <Nav className="me-auto">
             </Nav>
             <Nav className="find">
               <img src={find} alt="여행검색" onClick={(event) => 
                 handleSearchClick(navigate, event, searchTerm)
               } />
             </Nav>
-            <Nav className="inputbox">
-              <input
-                type="text"
-                placeholder="여행 일정을 검색하세요"
-                value={searchTerm}
-                onChange={handleChange}
-                onKeyPress={(event) => 
-                handleSearch(navigate, event, searchTerm)}
-              />
             </Nav>
             <Nav className="new">
-              <Button className="menu-button" variant="primary" onClick={handleCreateTravelShow}>
+              <Button className="menu-button" variant="primary" >
                 일정생성
               </Button>
-              <Modal
-                className="createTravelModal"
-                show={createTravelModal}
-                onHide={handleCreateTravelClose}
-              >
-              <Modal.Header closeButton>
-                <Modal.Title>일정 생성</Modal.Title>
-              </Modal.Header>
-                <Modal.Body>
-                  <h2>1. 여행 장소 선택</h2>
-                  <Form
-                   style={{
-                      border: "1px solid black",
-                      borderRadius: "10px",
-                      height: "500px",
-                      overflowY: "auto"
-                   }}
-                  >
-                  
-                  {mainCategories.map((category) => (
-                    <Card 
-                    className={selectedMainCategory === category ? 'placed' : ''}
-                    key={category} onClick={() => handleMainCategoryChange(category)}
-                    style={{
-                      width: '150px',
-                      height: '150px',
-                      textAlign: 'center',
-                      justifyContent: 'center'
-                    }}
-                    >
-                        {category}
-                    </Card>
-                  ))}
-                  
-                  <br />
-                  <br />
-                  {selectedMainCategory && (
-                    <div>
-                      {categories[selectedMainCategory].map((category) => (
-                        <Card
-                          className={selectedCategory === category ? 'placed' : ''}
-                          key={category}
-                          style={{
-                            width: '150px',
-                            height: '150px',
-                            textAlign: 'center',
-                            justifyContent: 'center'
-                          }}
-                          onClick={() => 
-                            handleCategoryChange(category)
-                          }
-                          
-                        >
-                        {category}
-                        </Card>
-                      ))}
-                    </div>
-                  )}
-                  <br />
-                  <br />
-                  {selectedCategory && (
-                    <div>
-                       {subCategories[selectedCategory].map(
-                          (subCategory) => (
-                            <Card
-                              className = {selectedSubCategory === subCategory ? 'placed' : ''}
-                              key={subCategory}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                textAlign: 'center',
-                                justifyContent: 'center'
-                              }}
-                              onClick={() =>
-                                handleSubCategoryChange(subCategory)
-                              }
-                            >
-                              {subCategory}
-                            </Card>
-                          )
-                        )}
-                    </div>
-                  )}   
-                  </Form>
-                  
-                  <hr />
-                  <h2>2. 여행 정보 입력</h2>
-                  <br />
-                  <Form onSubmit ={handleSubmit}>
-                  <div>
-                    <Form.Group controlId="form-Image">
-                      <Form.Label>사진 업로드</Form.Label>
-                      <table>
-                        <tr>
-                          <Form.Control type="file" onChange={onChangeImageInput} />
-                        </tr>
-                        <tr>
-                        {preview ? (
-                          <img style={{width: "300px", height: "150px"}} src={preview} />
-                        ):(
-                          <h6>이미지 없음</h6>
-                        )}
-                        </tr>
-                      </table>
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                    <Form.Group controlId="formTitle">
-                      <Form.Label>여행 제목</Form.Label>
-                      <Form.Control
-                        type="text"
-                        onChange={(e) => setTitle(e.target.value)} 
-                      />
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                  <Form.Group controlId="formCapacity">
-                    <Form.Label>모집 인원</Form.Label>
-                      <Slider onChange={(e) => setMemberCapacity(e)} />
-                      {Math.ceil(memberCapacity / 10)}명    
-                  </Form.Group>
-                </div>
-                <br />
-                  <div>
-                    <Form.Group controlId="formDate">
-                      <Form.Label>모집 마감 날짜</Form.Label>
-                      <Form.Control type="date" onChange={(e) => setDate(e.target.value)} />
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                    <Form.Group controlId="formItinerary">
-                      <table>
-                        <td>
-                          <Form.Label>여행 시작 날짜</Form.Label>
-                          <DatePicker
-                        selected={currentMonth}
-                        onChange={handleCurrentMonthChange}
-                        placeholderText="가는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                        </td>
-                        <td>
-                          <Form.Label>여행 종료 날짜</Form.Label>
-                          <DatePicker
-                        selected={nextMonth}
-                        filterDate={disableNextMonthDates}
-                        onChange={handleNextMonthChange}
-                        placeholderText="오는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                        </td>
-                      </table>
-                    </Form.Group>
-                  </div>
-                  <Button variant="primary" type="submit">
-                    등록
-                  </Button>
-                  </Form>
-                </Modal.Body>
-              </Modal>
+              
             </Nav>
             <Nav className="search">
-              <Button className="menu-button" onClick={moveToSearch}>
+              <Button className="menu-button" >
                 일정조회
               </Button>
             </Nav>
@@ -543,23 +534,14 @@ export default NavBar;
             </Nav>
             <Nav className="notice">
               <div className="notification-badge">
-                <img src={notice} onClick={toggleNotice} />
+                <img src={notice}  />
                 {noticeOpen && (
                     <>
                     <div className={`drawer${noticeOpen ? ' open' : ''}`}>
                      <ul>
-                      <h2>알림: {messages.length}개</h2>
+                      
                       <hr />
-                      {messages.map((text, index) => (<>
-                        <li className="notification-list" key={text}>
-                          <button className="btn btn-light">
-                             {index % 2 === 0 ? <span className="bullet"></span> : <span className="bullet"></span>}
-                                {text}
-                          </button>
-                        </li>
-                        <br />
-                        </>
-                      ))}
+                      
                 </ul>
              </div>
             </>)}
@@ -610,3 +592,13 @@ export default NavBar;
             </Nav>
           </Nav>
                       </Navbar>*/}
+
+// <Modal.Header closeButton>
+//                 <Modal.Title>일정 생성</Modal.Title>
+//               </Modal.Header>
+//                 <Modal.Body>
+//                   
+                  
+//                   <hr />
+
+//                 </Modal.Body>
