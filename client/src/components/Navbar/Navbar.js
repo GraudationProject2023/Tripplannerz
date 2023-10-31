@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { 
-  Menu, 
+  Menu,
+  Table,
+  Col, 
   Button, 
   Input, 
   Upload ,
   Form, 
   Card, 
   Drawer,
-  DatePicker } from 'antd';
+  DatePicker,
+  notification
+} from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -67,6 +71,14 @@ function NavBar() {
   const [image, setImage] = useState([]);
   
   const [preview, setPreview] = useState([]);
+
+  const [name, setName] = useState(""); //프로필 이름
+  
+  const [gender, setGender] = useState(""); //프로필 성별
+  
+  const [email, setEmail] = useState(""); //프로필 이메일
+  
+  const [rank, setRank] = useState([]); //프로필 선호 태그
   
   const [createTravelModal,setCreateTravelModal] = useState(false);
   
@@ -253,7 +265,9 @@ function NavBar() {
 
     eventSource.onopen =() => {
       console.log('SSE connection opened.');
-      console.log('eventSource',eventSource);
+      notification.open({
+        message: '접속이 되었습니다.'
+      })
     }
 
     eventSource.onerror = (error) => {
@@ -265,6 +279,18 @@ function NavBar() {
     }
 
   }, [token]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/members/tripInfo", 
+     {
+      headers:{'Authorization': `Bearer ${token}` },
+     }).then((response) => {
+      setName(response.data.name);
+      setGender(response.data.gender);
+      setEmail(response.data.email);
+      setRank(response.data.preferences);
+    });
+  },[])
 
   const moveToMain = () => {
     window.location.href = '/main'
@@ -289,12 +315,12 @@ function NavBar() {
   var offset = localStorage.getItem("vest");
 
   //마이페이지
-  const [esOpen, setesOpen] = useState(false);
-  const toggleMypage = () => {
-    setesOpen(!esOpen);
-  };
+  const [esOpen, setEsOpen] = useState(false);
+  const openMyPage = () => {
+    setEsOpen(true)
+  }
   const closeMypage = () => {
-    toggleMypage();
+    setEsOpen(false)
   };
 
   const moveToSearch = (e) => {
@@ -321,8 +347,8 @@ function NavBar() {
           <Button style={{width: '200px'}} onClick={handleCreateTravelShow}>일정생성</Button>
           <Drawer
             title= "여행 생성"
-            style={{width: '1000px', overflowY: 'auto'}}
-            placement="left"
+            style={{width: '100%', height: '620px', overflowY: 'auto'}}
+            placement="top"
             onClose={handleCreateTravelClose}
             visible={createTravelModal}
           >
@@ -464,7 +490,7 @@ function NavBar() {
           <Button style={{width: '200px'}} onClick={moveToSearch}>일정조회</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button style={{width: '200px'}}>여행경비</Button>
+          <Button style={{width: '200px'}} onClick={moveToBill}>여행경비</Button>
         </Menu.Item>
         <Menu.Item>
             <Input 
@@ -478,7 +504,7 @@ function NavBar() {
         </Menu.Item>
         <Menu.Item>
             <BellOutlined 
-              style={{width: '150px', justifyContent: 'center'}}  
+              style={{width: '100px', justifyContent: 'center'}}  
               onClick={handleOpenNotice}
             /> 
             <Drawer
@@ -500,7 +526,40 @@ function NavBar() {
             </Drawer>
         </Menu.Item>
         <Menu.Item>
-          <UserOutlined style={{width: '50px', justifyContent: 'center'}} />
+          <UserOutlined style={{width: '100px', justifyContent: 'center'}} onClick={openMyPage} />
+          <Drawer
+            title="사용자 정보"
+            onClose={closeMypage}
+            visible={esOpen}
+          >
+            <Table dataSource={[{ name, gender, email, rank}]}>
+            <Col title="이름" dataIndex="name" key="name" />
+            <Col title="성별" dataIndex="gender" key="gender" render={(text) => (text ? text : '없음')} />
+            <Col title="이메일" dataIndex="email" key="email" />
+            <Col title="선호도" dataIndex="rank" key="rank" />
+            </Table>
+          <hr />
+          <Button
+            style={{
+              width: '330px',
+              borderColor: 'black'
+            }}
+            onClick={moveToMy}
+          >
+          마이페이지
+          </Button>
+          <br />
+          <br />
+          <Button
+            onClick={Logout}
+            style={{
+              width: '330px',
+              borderColor: 'black'
+            }}
+          >
+            로그아웃
+          </Button>
+          </Drawer>
         </Menu.Item>
       </Menu>
     );
@@ -508,97 +567,3 @@ function NavBar() {
 }
 
 export default NavBar;
-{/*       <Nav className="me-auto">
-            </Nav>
-            <Nav className="find">
-              <img src={find} alt="여행검색" onClick={(event) => 
-                handleSearchClick(navigate, event, searchTerm)
-              } />
-            </Nav>
-            </Nav>
-            <Nav className="new">
-              <Button className="menu-button" variant="primary" >
-                일정생성
-              </Button>
-              
-            </Nav>
-            <Nav className="search">
-              <Button className="menu-button" >
-                일정조회
-              </Button>
-            </Nav>
-            <Nav className="bill">
-              <Button className="menu-button" onClick={moveToBill}>
-                여행 경비
-              </Button>
-            </Nav>
-            <Nav className="notice">
-              <div className="notification-badge">
-                <img src={notice}  />
-                {noticeOpen && (
-                    <>
-                    <div className={`drawer${noticeOpen ? ' open' : ''}`}>
-                     <ul>
-                      
-                      <hr />
-                      
-                </ul>
-             </div>
-            </>)}
-              </div>
-            </Nav>
-            <Nav className="user">
-            <img src={my} onClick={toggleMypage} />
-              {esOpen && (
-                <ul className="mypage-content">
-                  <table>
-                    <br />
-                    <tr>
-                      <Button
-                        onClick={moveToMy}
-                        style={{
-                          border: "1px solid white",
-                          backgroundColor: "#FFFFFF",
-                          color: "#000000",
-                          marginTop: "-30px",
-                          marginLeft: "-32px",
-                          width: "150px",
-                          height: "50px",
-                        }}
-                      >
-                        {localStorage.getItem("name")}님
-                      </Button>
-                    </tr>
-                    <hr style={{ marginLeft: "-32px", marginTop: "0px" }} />
-                    <tr>
-                      <Button
-                        style={{
-                          border: "1px solid white",
-                          backgroundColor: "#FFFFFF",
-                          color: "#000000",
-                          marginTop: "-15.6px",
-                          marginLeft: "-32px",
-                          width: "150px",
-                          height: "50px",
-                        }}
-                        onClick={Logout}
-                      >
-                        로그아웃
-                      </Button>
-                    </tr>
-                  </table>
-                </ul>
-              )}
-            </Nav>
-          </Nav>
-                      </Navbar>*/}
-
-// <Modal.Header closeButton>
-//                 <Modal.Title>일정 생성</Modal.Title>
-//               </Modal.Header>
-//                 <Modal.Body>
-//                   
-                  
-//                   <hr />
-
-//                 </Modal.Body>
