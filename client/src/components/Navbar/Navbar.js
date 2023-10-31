@@ -10,7 +10,8 @@ import {
   Card, 
   Drawer,
   DatePicker,
-  notification
+  notification,
+  Cascader,
 } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
@@ -31,6 +32,7 @@ import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
+import {TourComponent} from '../../util/tourComponent'
 
 import find from "../../Image/돋보기.png";
 
@@ -328,6 +330,8 @@ function NavBar() {
     window.location.href = `/search?keyword=${searchTerm}`;
   };
 
+
+
   if (offset === "1") {
     return (
       <Menu 
@@ -341,101 +345,42 @@ function NavBar() {
           alignItems: 'center'
         }}>
         <Menu.Item>
-          <Button style={{width: '200px'}} onClick={moveToMain}>TripPlannerz</Button>
+          <TourComponent />
+        </Menu.Item>
+        <Menu.Item>
+          <Button style={{width: '200px'}} onClick={moveToMain}>메인페이지</Button>
         </Menu.Item>
         <Menu.Item>
           <Button style={{width: '200px'}} onClick={handleCreateTravelShow}>일정생성</Button>
           <Drawer
             title= "여행 생성"
-            style={{width: '100%', height: '620px', overflowY: 'auto'}}
+            style={{marginLeft: '25%',width: '50%', height: '620px', overflowY: 'auto'}}
             placement="top"
             onClose={handleCreateTravelClose}
             visible={createTravelModal}
           >
             <h5>1. 여행 장소 선택</h5>
-                  <Form
-                    style={{
-                      border: "1px solid black",
-                       borderRadius: "10px",
-                       height: "500px",
-                       overflowY: "auto",
-                    }}
-                   >
-                   {mainCategories.map((category) => (
-                     <Card 
-                     className={selectedMainCategory === category ? 'placed' : ''}
-                     key={category} onClick={() => handleMainCategoryChange(category)}
-                     style={{ width: '150px',
-                       height: '150px',
-                       textAlign: 'center',
-                       justifyContent: 'center'
-                     }}
-                     >
-                     {category}
-                     </Card>
-                   ))}
-                  
-                   <br />
-                   <br />
-                   {selectedMainCategory && (
-                     <div>
-                       {categories[selectedMainCategory].map((category) => (
-                         <Card
-                           className={selectedCategory === category ? 'placed' : ''}
-                           key={category}
-                           style={{
-                             width: '150px',
-                             height: '150px',
-                             textAlign: 'center',
-                            justifyContent: 'center'
-                           }}
-                           onClick={() => 
-                             handleCategoryChange(category)
-                           }
-                          
-                         >
-                         {category}
-                         </Card>
-                       ))}
-                     </div>
-                   )}
-                   <br />
-                   <br />
-                   {selectedCategory && (
-                     <div>
-                        {subCategories[selectedCategory].map(
-                           (subCategory) => (
-                             <Card
-                               className = {selectedSubCategory === subCategory ? 'placed' : ''}
-                               key={subCategory}
-                               style={{
-                                 width: '150px',
-                                 height: '150px',
-                                 textAlign: 'center',
-                                 justifyContent: 'center'
-                                }}
-                               onClick={() =>
-                                 handleSubCategoryChange(subCategory)
-                               }
-                             >
-                               {subCategory}
-                             </Card>
-                           )
-                         )}
-                     </div>
-                   )}   
+                  <Form onFinish={handleSubmit}>
+                   <Cascader options={
+                    mainCategories.map(category => 
+                      ({ value: category, 
+                         label: category, 
+                         children: categories[category].map
+                                  (subCategory => 
+                                  ({ value: subCategory, 
+                                     label: subCategory, 
+                                     children: subCategories[subCategory]?.map
+                                     (city => ({ value: city, label: city })) })) }))} 
+                                     size="large"
+                                     placeholder="지역을 선택하세요" />
                    </Form>
                    <hr />
                   <h5>2. 여행 정보 입력</h5>
                   <br />
-                  <Form>
-                  <table>
+                  <Form onFinish={handleSubmit}>
                     <h6>1) 사진 업로드</h6>
                       <tr>
-                        <Upload 
-                            onChange={onChangeImageInput}
-                            showUploadList={false}   
-                        />
+                       <input type="file" id="imageUpload" style={{display: 'none'}} onChange={onChangeImageInput} />
                         </tr>
                         <tr>
                         {preview ? (
@@ -444,7 +389,6 @@ function NavBar() {
                           <h6>이미지 없음</h6>
                         )}
                         </tr>
-                  </table>
                   <br />
                   <Form.Item label="2) 여행 제목" name="title">
                       <Input onChange={(e) => setTitle(e.target.value)} />
@@ -480,7 +424,7 @@ function NavBar() {
                     </Form.Item>
                     </td>
                   </table>
-                  <Button variant="primary" type="submit">
+                  <Button variant="primary" htmlType="submit">
                     등록
                   </Button>
                   </Form> 
@@ -494,7 +438,7 @@ function NavBar() {
         </Menu.Item>
         <Menu.Item>
             <Input 
-              style={{width: '600px', textAlign:'center'}} 
+              style={{width: '400px', textAlign:'center'}} 
               value={searchTerm} 
               placeholder="여행 일정을 검색하세요"
               onChange={handleChange}
