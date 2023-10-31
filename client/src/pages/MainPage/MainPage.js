@@ -61,15 +61,14 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <div className = "mainPageContext">
+        <>
           <ImageSlider />
-      <br />
-      <br />
-      <div className="mainPageTitle">
+        </>
+      }
+        {/* <div className="mainPageTitle">
         <h2>동행할 여행 목록</h2>
-      </div>
-      <br />
-      <StyledSlider {...settings}>
+        </div> */}
+        {/* <StyledSlider {...settings}>
       {travelList.map((item) => (
          <Card
           key={item.id}
@@ -82,11 +81,9 @@ function MainPage() {
             <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
           </div>
         </Card>
-      ))}
-      </StyledSlider>
-      <Footer />
-     </div>
-     }
+        ))}
+        </StyledSlider> */}
+        {/* <Footer /> */}
     </div>
   );
 }

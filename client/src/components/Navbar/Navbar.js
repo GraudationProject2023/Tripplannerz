@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Menu, Button ,Tooltip, Input } from 'antd';
+import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import DatePicker from "react-datepicker";
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -21,7 +23,7 @@ import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
 
 import my from "../../Image/마이페이지.png"
-import Menu from "../../Image/Menu.png";
+import MenuImage from "../../Image/Menu.png";
 import notice from "../../Image/notice.png";
 import find from "../../Image/돋보기.png";
 
@@ -290,7 +292,35 @@ function NavBar() {
 
   if (offset === "1") {
     return (
-        <Navbar
+      <Menu mode="horizontal" style={{display: 'flex', justifyContent: 'center'}}>
+        <Menu.Item>
+            <Tooltip>TripPlannerz</Tooltip>
+        </Menu.Item>
+        <Menu.Item>
+            <Button>일정생성</Button>
+        </Menu.Item>
+        <Menu.Item>
+            <Button>일정조회</Button>
+        </Menu.Item>
+        <Menu.Item>
+            <Button>여행경비</Button>
+        </Menu.Item>
+        <Menu.Item>
+            <Input style={{width: '300px', textAlign:'center'}} placeholder="여행 일정을 검색하세요" />
+        </Menu.Item>
+        <Menu.Item>
+            <BellOutlined />
+        </Menu.Item>
+        <Menu.Item>
+            <UserOutlined />
+        </Menu.Item>
+      </Menu>
+    );
+  }
+}
+
+export default NavBar;
+{/*<Navbar
           expand="md"
           className="justify-content-center navbar-top"
           fixed="top"
@@ -303,7 +333,7 @@ function NavBar() {
           <Nav className="me-auto">
             <Nav>
               <img
-                src={Menu}
+                src={MenuImage}
                 onClick={moveToMain}
                 alt="메뉴"
                 className="navbar-toggle"
@@ -571,9 +601,4 @@ function NavBar() {
               )}
             </Nav>
           </Nav>
-        </Navbar>
-    );
-  }
-}
-
-export default NavBar;
+                      </Navbar>*/}
