@@ -34,8 +34,6 @@ import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
 import {TourComponent} from '../../util/tourComponent'
 
-import find from "../../Image/돋보기.png";
-
 
 axios.defaults.withCredentials = true;
 
@@ -59,10 +57,6 @@ function NavBar() {
   const [memberCapacity, setMemberCapacity] = useState(0);
   
   const [date, setDate] = useState("");
-  
-  const [going, setGoing] = useState("");
-  
-  const [coming, setComing] = useState("");
   
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   
@@ -265,7 +259,7 @@ function NavBar() {
       }
     });
 
-    eventSource.onopen =() => {
+    eventSource.onopen = () => {
       console.log('SSE connection opened.');
       notification.open({
         message: '접속이 되었습니다.'
@@ -293,12 +287,7 @@ function NavBar() {
       setRank(response.data.preferences);
     });
   },[])
-
-  const moveToMain = () => {
-    window.location.href = '/main'
-  }
-
-
+  
   //알림바
   const [noticeOpen, setNoticeOpen] = useState(false);
 

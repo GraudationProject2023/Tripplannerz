@@ -3,6 +3,7 @@ import { Table } from "antd";
 import {PageUl, PageLi, PageSpan} from '../../style/StyleComponent'
 import axios from "axios";
 import "./SearchPage.css";
+import Footer from "../../components/Footer/Footer";
 import find from "../../Image/돋보기.png";
 import Navbar from "../../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom";
@@ -209,6 +210,7 @@ function SearchPage() {
       <br />
       <br />
       <br />
+      <Footer />
     </div>
   );
 }
