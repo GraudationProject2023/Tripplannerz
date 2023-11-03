@@ -80,11 +80,7 @@ function MainPage() {
         </StyledSlider>
         </>
       }
-        {/* <div className="mainPageTitle">
-        <h2>동행할 여행 목록</h2>
-        </div> */}
-        
-        {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

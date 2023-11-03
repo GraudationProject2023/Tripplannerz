@@ -1,16 +1,14 @@
-.contain {
-  max-width: 600px;
-  margin-top: 20%;
-  margin-left: 130%;
-  padding: 20px;
-  position: sticky;
-  top: 100px;
-  background-color: white;
-}
-
 @media (min-width: 100px) {
+  .contain {
+    max-width: 600px;
+    margin-left: 130%;
+    padding: 20px;
+    position: sticky;
+    top: 100px;
+    background-color: white;
+  }
+
   .table_n{
-    margin-top: 5%;
     margin-left: 10%;
   }
   .profilecard {
@@ -83,7 +81,6 @@ ul li::marker {
 }
 
 .showData{
-  margin-top: -1%;
   max-height: 330px;
   overflow-y: auto;
 }
