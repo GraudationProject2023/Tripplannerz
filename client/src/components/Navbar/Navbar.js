@@ -32,7 +32,6 @@ import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
-import {TourComponent} from '../../util/tourComponent'
 
 
 axios.defaults.withCredentials = true;
@@ -320,6 +319,10 @@ function NavBar() {
   };
 
 
+  const [travelButton, setTravelButton] = useState(false)
+  const toggleTravelButton = () => {
+    setTravelButton(!travelButton)
+  }
 
   if (offset === "1") {
     return (
@@ -334,13 +337,16 @@ function NavBar() {
           alignItems: 'center'
         }}>
         <Menu.Item>
-          <TourComponent />
+          <Button style={{width: '200px'}} onClick={moveToMain}>TripPlannerz</Button>
         </Menu.Item>
         <Menu.Item>
-          <Button style={{width: '200px'}} onClick={moveToMain}>메인페이지</Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button style={{width: '200px'}} onClick={handleCreateTravelShow}>일정생성</Button>
+          <Button style={{width: '200px'}} onClick={toggleTravelButton}>
+              여행 계획
+          </Button>
+        {travelButton && (
+          <>
+          <Menu.Item>
+          <Button style={{width: '100px'}} onClick={handleCreateTravelShow}>일정생성</Button>
           <Drawer
             title= "여행 생성"
             style={{marginLeft: '25%',width: '50%', height: '620px', overflowY: 'auto'}}
@@ -419,11 +425,14 @@ function NavBar() {
                   </Form> 
           </Drawer>
         </Menu.Item>
-        <Menu.Item>
-          <Button style={{width: '200px'}} onClick={moveToSearch}>일정조회</Button>
-        </Menu.Item>
-        <Menu.Item>
-          <Button style={{width: '200px'}} onClick={moveToBill}>여행경비</Button>
+                <Menu.Item>
+                <Button style={{width: '100px'}} onClick={moveToSearch}>일정조회</Button>
+              </Menu.Item>
+              <Menu.Item>
+                <Button style={{width: '100px'}} onClick={moveToBill}>여행경비</Button>
+              </Menu.Item>
+              </>
+        )}
         </Menu.Item>
         <Menu.Item>
             <Input 
