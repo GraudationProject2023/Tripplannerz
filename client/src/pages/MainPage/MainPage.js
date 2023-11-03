@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, List } from "antd";
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
-import styled from "styled-components";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"
-import 'slick-carousel/slick/slick-theme.css'
 import axios from "axios";
-import CustomArrow from "../../components/Arrow/Arrow";
 import "./MainPage.css";
-
-
-const StyledSlider = styled(Slider)`
-    .slick-slide div{
-      width: 100%;
-      height: 200px;
-      outline: none;
-    }
-`;
 
 
 function MainPage() {
@@ -47,37 +33,32 @@ function MainPage() {
   function movetoSubPage(point) {
     window.location.href = `/search/${point}`;
   }
-
-  const settings = {
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <CustomArrow direction = "next" />,
-    prevArrow: <CustomArrow direction = "prev" />,
-    speed: 500
-  }
-
+  
   return (
     <div>
       <NavBar />
       {token && <NavBar /> &&
         <>
           <ImageSlider />
-          <StyledSlider {...settings}>
-      {travelList.map((item) => (
-         <Card
-          key={item.id}
-          onClick={(e) => movetoSubPage(item.id)}
-          >
-          <h4 style={{ color: '#333', marginBottom: '10px' }}>제목: {item.title}</h4>
-          <div style={{ color: '#666', marginBottom: '5px' }}>
-            <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
-            <br />
-            <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
-          </div>
-        </Card>
-        ))}
-        </StyledSlider>
+          <br />
+          <List
+            grid={{ gutter: 16, column: 6 }}
+            dataSource={travelList}
+            renderItem={(item) => (
+              <List.Item>
+              <Card
+                onClick={(e) => movetoSubPage(item.id)}
+                style={{ width: '300px' }}
+              >
+              <h4 style={{ color: '#333', marginBottom: '10px' }}>제목: {item.title}</h4>
+              <div style={{ color: '#666', marginBottom: '5px' }}>
+              <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
+              <br />
+              <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+              </div>
+            </Card>
+            </List.Item>
+          )}/>
         </>
       }
       <Footer />
