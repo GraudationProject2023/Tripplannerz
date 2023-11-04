@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { 
-  Menu,
-  Table,
-  Col, 
-  Button, 
-  Input, 
-  Image,
-  Form, 
-  Card, 
-  Drawer,
-  DatePicker,
-  notification,
-  Cascader,
-} from 'antd';
+import { Menu,Table,Col, Button, Input, Image, Form, Drawer, DatePicker, notification, Cascader, Upload } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ImgCrop from 'antd-img-crop'
 import moment from 'moment'
 import Slider from "rc-slider";
 
@@ -62,10 +50,6 @@ function NavBar() {
   const [selectedCategory, setSelectedCategory] = useState("");
   
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  
-  const [image, setImage] = useState([]);
-  
-  const [preview, setPreview] = useState([]);
 
   const [name, setName] = useState(""); //프로필 이름
   
@@ -130,18 +114,44 @@ function NavBar() {
     setSelectedSubCategory(subCategory);
   };
 
-  const onChangeImageInput = (e) => {
-    setImage([e.target.files[0]]);
-
+  //이미지  
+  const [image, setImage] = useState([
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: '',
+    },
+  ]);
+  
+  const [preview, setPreview] = useState([]);
+  
+  const onImageChange = ({ fileList: newFileList }) => {
+    setImage(newFileList);
+  };
+  const onImageInput = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
-      setPreview(reader.result);
+      setImage([
+        {
+          uid: '-2',
+          name: file.name,
+          status: 'done',
+          url: reader.result,
+        },
+      ]);
     };
 
     reader.readAsDataURL(file);
   };
+
+  const onImagePreview = (file) => {
+    const imgWindow = window.open(file.url);
+    imgWindow?.document.write(`<img src="${file.url}" alt="Preview" />`);
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -331,12 +341,17 @@ function NavBar() {
       width: 200, 
       render: () => (
         <>
-          <Input type="file" id="imageUpload" onChange={onChangeImageInput} />
-          {preview ? (
-            <Image style={{ width: '150px', height: '150px' }} src={preview} alt="Preview" />
-          ) : (
-            <h6>이미지 없음</h6>
-          )}
+         <ImgCrop rotationSlider>
+        <Upload
+          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+          listType="picture-card"
+          fileList={image}
+          onChange={onImageChange}
+          onPreview={onImagePreview}
+        >
+          {image.length < 5 && '+ Upload'}
+        </Upload>
+      </ImgCrop>
         </>
       ),
     },
