@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, List } from "antd";
+import { Card, List, Progress } from "antd";
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
@@ -48,13 +48,20 @@ function MainPage() {
               <List.Item>
               <Card
                 onClick={(e) => movetoSubPage(item.id)}
-                style={{ width: '300px' }}
+                style={{ width: '300px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               >
-              <h4 style={{ color: '#333', marginBottom: '10px' }}>제목: {item.title}</h4>
-              <div style={{ color: '#666', marginBottom: '5px' }}>
-              <strong>인원 현황:</strong> {item.currentNum} / {item.recruitNum}
-              <br />
-              <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+              <h3 style={{ color: '#1890ff', marginBottom: '10px', fontWeight: 'bold', fontSize: '1.5rem' }}>
+                {item.title}
+              </h3>
+              <hr />
+              <div style={{ color: '#666', marginBottom: '10px', fontSize: '1rem' }}>
+                <strong>인원 현황:</strong>
+                  {item.currentNum} / {item.recruitNum}
+                <br />
+                <Progress percent={(item.currentNum / item.recruitNum) * 100} status="active" />
+              </div>
+              <div style={{ color: '#666', fontSize: '0.9rem' }}>
+                <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
               </div>
             </Card>
             </List.Item>
