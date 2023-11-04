@@ -424,14 +424,45 @@ function MyPage() {
     }
   }
   const renderProfilePage = () => {
+
+    const columns = [
+      {
+        title: '이름',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '성별',
+        dataIndex: 'gender',
+        key: 'gender',
+      },
+      {
+        title: '이메일',
+        dataIndex: 'email',
+        key: 'email',
+      },
+      {
+        title: '선호태그',
+        dataIndex: 'ranklist',
+        key: 'ranklist',
+      },
+    ]
+
+    const data = [
+      {
+        key: '1',
+        name: name,
+        gender: gender,
+        email: email,
+        ranklist: ranklist,
+      },
+    ];
+
     return (
       <div className="profilecard">
-        <h2>내 정보</h2>
+        <h3>내 정보</h3>
         <hr />
-        <h5>이름 : {name}</h5>
-        <h5>성별 : {gender} </h5>
-        <h5>이메일 : {email}</h5>
-        <h5>선호태그 : {ranklist} </h5>
+        <Table columns={columns} dataSource={data} bordered pagination={false} />
         <hr />
         <h4>동행 신청 현황</h4>
           {accompanyList.length > 0 && accompanyList.map((item,idx) => 
