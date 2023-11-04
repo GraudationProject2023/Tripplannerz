@@ -4,6 +4,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
+import { TravelChart } from "../../util/TravelChart";
 import axios from "axios";
 import "./MainPage.css";
 
@@ -42,6 +43,7 @@ function MainPage() {
         <>
           <ImageSlider />
           <br />
+          <TravelChart />
           <List
             grid={{ gutter: 16, column: 6 }}
             dataSource={travelList}
