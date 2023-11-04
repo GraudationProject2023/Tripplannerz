@@ -5,7 +5,7 @@ import {
   Col, 
   Button, 
   Input, 
-  Upload ,
+  Image,
   Form, 
   Card, 
   Drawer,
@@ -324,6 +324,79 @@ function NavBar() {
     setTravelButton(!travelButton)
   }
 
+  const columnsRow1 = [
+    {
+      title: '1) 사진 업로드',
+      dataIndex: 'imageUpload',
+      width: 200, 
+      render: () => (
+        <>
+          <Input type="file" id="imageUpload" onChange={onChangeImageInput} />
+          {preview ? (
+            <Image style={{ width: '150px', height: '150px' }} src={preview} alt="Preview" />
+          ) : (
+            <h6>이미지 없음</h6>
+          )}
+        </>
+      ),
+    },
+    {
+      title: '2) 여행 제목',
+      dataIndex: 'title',
+      width: 200, 
+      render: () => (
+        <Form.Item label="여행 제목" name="title" style={{ display: 'flex', alignItems: 'center' }}>
+          <Input style={{marginLeft: '10%', width: '200px'}} onChange={(e) => setTitle(e.target.value)} />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '3) 모집 인원',
+      dataIndex: 'capacity',
+      width: 200, 
+      render: () => (
+        <Form.Item label={`모집 인원 ${Math.ceil(memberCapacity / 10)}명`} name="capcity">
+          <Slider onChange={(e) => setMemberCapacity(e)} />
+        </Form.Item>
+      ),
+    },
+  ];
+
+  const columnsRow2 = [
+    {
+      title: '4) 모집 마감 날짜',
+      dataIndex: 'deadlineDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="모집 마감 날짜">
+          <DatePicker onChange={(date, dateString) => setDate(dateString)} />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '5) 여행 시작 날짜',
+      dataIndex: 'startDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="여행 시작 날짜">
+          <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText="가는 날 선택" popperPlacement="bottom-start" />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '6) 여행 종료 날짜',
+      dataIndex: 'endDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="여행 종료 날짜">
+          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText="오는 날 선택" popperPlacement="bottom-start" />
+        </Form.Item>
+      ),
+    },
+  ];
+
+  const data = [{}]
+
   if (offset === "1") {
     return (
       <Menu 
@@ -349,7 +422,7 @@ function NavBar() {
           <Button style={{width: '100px'}} onClick={handleCreateTravelShow}>일정생성</Button>
           <Drawer
             title= "여행 생성"
-            style={{marginLeft: '25%',width: '50%', height: '620px', overflowY: 'auto'}}
+            style={{width: '100%', height: '620px', overflowY: 'auto'}}
             placement="top"
             onClose={handleCreateTravelClose}
             visible={createTravelModal}
@@ -373,56 +446,21 @@ function NavBar() {
                   <h5>2. 여행 정보 입력</h5>
                   <br />
                   <Form onFinish={handleSubmit}>
-                    <h6>1) 사진 업로드</h6>
-                      <tr>
-                       <input type="file" id="imageUpload" style={{display: 'none'}} onChange={onChangeImageInput} />
-                        </tr>
-                        <tr>
-                        {preview ? (
-                          <img style={{width: "300px", height: "150px"}} src={preview} />
-                        ):(
-                          <h6>이미지 없음</h6>
-                        )}
-                        </tr>
-                  <br />
-                  <Form.Item label="2) 여행 제목" name="title">
-                      <Input onChange={(e) => setTitle(e.target.value)} />
-                  </Form.Item>
-                  <Form.Item label={`3) 모집 인원 ${Math.ceil(memberCapacity / 10)}명`} name="capcity">
-                    <Slider onChange={(e) => setMemberCapacity(e)} />
-                  </Form.Item>
-                  <table>
-                    <td>
-                      <Form.Item label="4) 모집 마감 날짜">
-                      <DatePicker onChange = {(date, dateString) => setDate(dateString)} />
-                      </Form.Item>
-                    </td>
-                    <td style={{padding: '10px'}}>
-                    <Form.Item label="5) 여행 시작 날짜">
-                    <DatePicker
-                        selected={currentMonth}
-                        onChange={handleCurrentMonthChange}
-                        placeholderText="가는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                    </Form.Item>
-                    </td>
-                    <td style={{padding: '10px'}}>
-                    <Form.Item label="6) 여행 종료 날짜">
-                      <DatePicker
-                        selected={nextMonth}
-                        filterDate={disableNextMonthDates}
-                        onChange={handleNextMonthChange}
-                        placeholderText="오는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                    </Form.Item>
-                    </td>
-                  </table>
-                  <Button variant="primary" htmlType="submit">
-                    등록
-                  </Button>
-                  </Form> 
+                    <Table
+                       columns={columnsRow1}
+                       dataSource={data}
+                       bordered
+                       pagination={false}
+                       rowKey={(record, index) => index}
+                    />
+                    <Table
+                       columns={columnsRow2}
+                       dataSource={data}
+                       bordered
+                       pagination={false}
+                       rowKey={(record,index) => index}
+                    />
+                  </Form>
           </Drawer>
         </Menu.Item>
                 <Menu.Item>
