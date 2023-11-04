@@ -115,14 +115,7 @@ function NavBar() {
   };
 
   //이미지  
-  const [image, setImage] = useState([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: '',
-    },
-  ]);
+  const [image, setImage] = useState([]);
   
   const [preview, setPreview] = useState([]);
   
