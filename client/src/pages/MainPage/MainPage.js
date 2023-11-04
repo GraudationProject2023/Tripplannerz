@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Card, List, Progress } from "antd";
+import { Card, List, Progress, FloatButton } from "antd";
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
@@ -50,7 +51,7 @@ function MainPage() {
                 onClick={(e) => movetoSubPage(item.id)}
                 style={{ width: '300px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               >
-              <h3 style={{ color: '#1890ff', marginBottom: '10px', fontWeight: 'bold', fontSize: '1.5rem' }}>
+              <h3 style={{ color: '#1890ff', marginBottom: '10px', textAlign: 'center' ,fontWeight: 'bold', fontSize: '1.5rem' }}>
                 {item.title}
               </h3>
               <hr />
@@ -68,6 +69,11 @@ function MainPage() {
           )}/>
         </>
       }
+      <FloatButton
+        tooltip={<div>Questions</div>}
+        style={{width: '60px', height: '60px'}}
+        icon={<QuestionCircleOutlined/>}
+      />
       <Footer />
     </div>
   );
