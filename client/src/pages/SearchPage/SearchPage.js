@@ -68,22 +68,16 @@ function SearchPage() {
     setLoading(false);
   };
 
-  const Pagination = ({ paginate, totalPage }) => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPage; i++) {
-      pageNumbers.push(i);
-    }
-  
+  const Pagination = ({ totalPage }) => {
+    const pageNumbers = Array.from({length: totalPage}, (_, index) => index + 1)
+
     return (
       <div style={{ marginLeft: "30%", marginTop: "7%" }}>
         <nav>
           <PageUl className="pagination">
             {pageNumbers.map((number) => (
               <PageLi key={number} className="page-item">
-                <PageSpan onClick={() => {
-                  paginate(number)
-                  setCurrentNumber(number-1)
-                  }} className="page-link">
+                <PageSpan onClick={() => { setCurrentNumber(number-1)}} className="page-link">
                   {number}
                 </PageSpan>
               </PageLi>
@@ -186,7 +180,6 @@ function SearchPage() {
               ""
             ) : (
               <Posts
-                posts={currentPosts(posts)}
                 loading={loading}
                 handleClick={handleClick}
               ></Posts>
@@ -198,10 +191,7 @@ function SearchPage() {
         {size === 0 ? (
           ""
         ) : (
-          <Pagination
-            paginate={(pageNumber) => setCurrentPage(pageNumber - 1)}
-            totalPage={totalPage}
-          ></Pagination>
+          <Pagination totalPage={totalPage}/>
         )}
       </div>
       <br />

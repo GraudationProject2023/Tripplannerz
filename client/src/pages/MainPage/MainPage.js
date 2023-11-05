@@ -44,7 +44,7 @@ function MainPage() {
         <>
           <ImageSlider />
           <br />
-          <TravelChart />
+          {/* <TravelChart /> */}
           <List
             grid={{ gutter: 16, column: 6 }}
             dataSource={travelList}

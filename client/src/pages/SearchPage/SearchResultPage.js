@@ -129,6 +129,20 @@ function SearchResultPage(props) {
     }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
   }
 
+  const timeLineItem = [
+    {
+      children: 'Create a services site 2015-09-01',
+    },
+    {
+      children: 'Solve initial network problems 2015-09-01',
+    },
+    {
+      children: 'Technical testing 2015-09-01',
+    },
+    {
+      children: 'Network problems being solved 2015-09-01',
+    },
+  ]
  
   return (
     <div>
@@ -146,6 +160,7 @@ function SearchResultPage(props) {
             </Card.Subtitle>
             <br />
             <Card.Text>내용: {content}</Card.Text>
+            <Timeline items={timeLineItem}/>
             <Button onClick={handleOpenModal}>동행 신청</Button>
             <Modal style={{width: '600px', height: '600px'}} 
              show={requestAccompanyModal} 
@@ -165,22 +180,6 @@ function SearchResultPage(props) {
           </Card.Body>
         </Card>
       </div>
-      <Timeline 
-         items={[
-          {
-            children: 'Create a services site 2015-09-01',
-          },
-          {
-            children: 'Solve initial network problems 2015-09-01',
-          },
-          {
-            children: 'Technical testing 2015-09-01',
-          },
-          {
-            children: 'Network problems being solved 2015-09-01',
-          },
-        ]}
-      />
       <div className="ResultComment">
         <Card style={{
           width: "905px",
