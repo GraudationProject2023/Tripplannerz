@@ -18,7 +18,7 @@ function SearchResultPage(props) {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/members/trip/result?id=${postId}`,
+          `/api/members/trip/result?id=${postId}`,
           {
             withCredentials: true,
           }
