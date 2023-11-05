@@ -122,6 +122,11 @@ public class TripController {
         return memberService.findTrip(null, sortType, pageRequest, keyWord);
     }
 
+    @GetMapping("/trip/entireTripList")
+    public List<MemberTrip> entireTrip(@RequestParam("sortType") String sortType) {
+        return memberService.getEntireTrip(sortType);
+    }
+
     @GetMapping("/trip/locationList")
     public List<Item> getLocationList() {
         return locationService.locationListByArea("1", "1");
