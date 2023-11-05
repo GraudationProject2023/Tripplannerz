@@ -49,7 +49,7 @@ function SearchResultPage(props) {
   useEffect(() => {
     console.log(recoilComment);
 
-    axios.get(`/api/trip/detail/${arr[2]}`,{
+    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
     }).then((res) => {
@@ -63,7 +63,7 @@ function SearchResultPage(props) {
       setComments(res.data.commentList);
     });
 
-    axios.get("/api/members/tripInfo", 
+    axios.get("http://localhost:8080/api/members/tripInfo", 
     {
      headers:{'Authorization': `Bearer ${token}` },
     }).then((response) => {
@@ -95,7 +95,7 @@ function SearchResultPage(props) {
         tripUUID: tripUuid,
       }
 
-      axios.post(`/api/trip/postComment`,postToServer,{
+      axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
        headers: {'Authorization': `Bearer ${token}`}
      }).then((res) => {
       alert("댓글이 등록되었습니다.")
@@ -122,7 +122,7 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
 
-    axios.post(`/api/trip/requestAccompany`, postToServer, {
+    axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
       headers: {'Authorization': `Bearer ${token}`}
     }).then((res) => {
       alert("동행 신청이 완료되었습니다.")
