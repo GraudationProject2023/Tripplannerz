@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu,Table,Col, Button, Input, Image, Form, Drawer, DatePicker, notification, Cascader, Upload } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import { EventSourcePolyfill} from "event-source-polyfill";
@@ -24,6 +24,8 @@ axios.defaults.withCredentials = true;
 
 function NavBar() {
   let token = localStorage.getItem("token");
+
+  const eventSourceRef = useRef(null)
 
   const navigate = useNavigate();
 
@@ -229,11 +231,13 @@ function NavBar() {
 }
 
   useEffect(() => {
-    const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
+    const eventSource = eventSourceRef.current || new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
       heartbeatTimeout: 300000,
     })
+
+    eventSourceRef.current = eventSource
 
     const handleSSE = (event) => {
       const newMessage = event.data;
@@ -255,11 +259,13 @@ function NavBar() {
 
     eventSource.addEventListener('SSE', handleSSE);
 
+    if(!eventSourceRef.current){
     eventSource.onopen = () => {
       console.log('SSE connection opened.');
       notification.open({
         message: '접속이 되었습니다.'
       })
+    }
     }
 
     eventSource.onerror = (error) => {
@@ -267,7 +273,9 @@ function NavBar() {
     }
 
     return () => {
-      eventSource.removeEventListener('SSE', handleSSE)
+      if(eventSourceRef.current){
+        eventSource.removeEventListener('SSE', handleSSE)
+      }
       eventSource.close();
     }
 
