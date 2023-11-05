@@ -4,6 +4,7 @@ import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Modal } from "react-bootstrap";
+import {Timeline} from 'antd'
 import Navbar from "../../components/Navbar/Navbar"
 import Kakao from "../../util/KakaoMap";
 import "./SearchResultPage.css"
@@ -164,6 +165,22 @@ function SearchResultPage(props) {
           </Card.Body>
         </Card>
       </div>
+      <Timeline 
+         items={[
+          {
+            children: 'Create a services site 2015-09-01',
+          },
+          {
+            children: 'Solve initial network problems 2015-09-01',
+          },
+          {
+            children: 'Technical testing 2015-09-01',
+          },
+          {
+            children: 'Network problems being solved 2015-09-01',
+          },
+        ]}
+      />
       <div className="ResultComment">
         <Card style={{
           width: "905px",
