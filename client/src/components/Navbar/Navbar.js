@@ -183,7 +183,7 @@ function NavBar() {
       alert("모든 항목을 입력해주세요.");
     } else {
       axios
-        .post("/api/trip/create", formData, {
+        .post("http://localhost:8080/api/trip/create", formData, {
           headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}`},
         })
         .then((response) => {
@@ -207,7 +207,7 @@ function NavBar() {
             token: token
         }
       axios
-      .post("/api/members/logout", postToData, {
+      .post("http://localhost:8080/api/members/logout", postToData, {
         headers:{
         'Authorization': `Bearer ${token}`
         }
@@ -229,7 +229,7 @@ function NavBar() {
 }
 
   useEffect(() => {
-    const eventSource = new EventSourcePolyfill('/api/sub',{
+    const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
       heartbeatTimeout: 300000,
@@ -274,7 +274,7 @@ function NavBar() {
   }, [dispatch, token]);
 
   useEffect(() => {
-    axios.get("/api/members/tripInfo", 
+    axios.get("http://localhost:8080/api/members/tripInfo", 
      {
       headers:{'Authorization': `Bearer ${token}` },
      }).then((response) => {
