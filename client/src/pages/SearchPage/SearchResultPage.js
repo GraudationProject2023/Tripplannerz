@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import {Input} from 'antd'
 import { Button, Form, Card, Modal } from "react-bootstrap";
 import {Timeline} from 'antd'
 import Navbar from "../../components/Navbar/Navbar"
@@ -45,6 +46,10 @@ function SearchResultPage(props) {
   const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
 
   const [userName, setUserName] = useState("");
+
+  const [searchPlace, setSearchPlace] = useState([])
+
+  const [searchPlaceInput, setSearchPlaceInput] = useState("")
 
   useEffect(() => {
     console.log(recoilComment);
@@ -129,33 +134,33 @@ function SearchResultPage(props) {
     }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
   }
 
-  const timeLineItem = [
-    {
-      children: 'Create a services site 2015-09-01',
-    },
-    {
-      children: 'Solve initial network problems 2015-09-01',
-    },
-    {
-      children: 'Technical testing 2015-09-01',
-    },
-    {
-      children: 'Network problems being solved 2015-09-01',
-    },
-  ]
+  const handleSearchInput = (event) => {
+    setSearchPlaceInput(event.target.value)
+  }
+
+  const handleUpdateSearchInput = () => {
+    setSearchPlace([...searchPlace, {children: searchPlaceInput}])
+    setSearchPlaceInput("")
+  }
+
+  const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
+      children: item.children
+  })): null
  
   return (
     <div>
       <Navbar />
+      {console.log(searchPlace)}
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" />
             <div style={{marginLeft: '20px', flex: '1'}}>
-            <Card.Title>{title}</Card.Title>
-            <Card.Subtitle>
+            <h3>{title}</h3>
+            <h4>
               {startingDate} ~ {comingDate}
-            </Card.Subtitle>
-            <Card.Text>내용: {content}</Card.Text>
+            </h4>
+            <h5>내용: {content}</h5>
+            <br />
             <Timeline items={timeLineItem}/>
             <Button onClick={handleOpenModal}>동행 신청</Button>
             </div>
@@ -174,6 +179,11 @@ function SearchResultPage(props) {
               </Form>
              </Modal.Body>
             </Modal>
+            <div style={{marginLeft: '20px', flex: '2'}}>
+              <h3>여행 장소</h3>
+              <Input style={{width: '400px'}} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
+              <Button onClick={handleUpdateSearchInput}>입력</Button>
+            </div>
           </Card.Body>
         </Card>
       <div className="CommentList">
