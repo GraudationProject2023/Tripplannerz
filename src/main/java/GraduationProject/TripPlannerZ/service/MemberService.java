@@ -129,5 +129,9 @@ public class MemberService {
         return memberRepository.accompanyRequestList(creater);
     }
 
+    public List<MemberTrip> getEntireTrip(String sortType) {
+        return memberRepository.getEntireTrip(sortType);
+    }
+
 
 }
