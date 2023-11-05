@@ -147,22 +147,19 @@ function SearchResultPage(props) {
   return (
     <div>
       <Navbar />
-      <Kakao />
-      <div className="ResultContent">
-        <Card style={{
-          width: "500px",
-          height: "400px"
-        }}>
-          <Card.Body>
+        <Card>
+          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
+            <Kakao width="400px" height="400px" />
+            <div style={{marginLeft: '20px', flex: '1'}}>
             <Card.Title>{title}</Card.Title>
             <Card.Subtitle>
               {startingDate} ~ {comingDate}
             </Card.Subtitle>
-            <br />
             <Card.Text>내용: {content}</Card.Text>
             <Timeline items={timeLineItem}/>
             <Button onClick={handleOpenModal}>동행 신청</Button>
-            <Modal style={{width: '600px', height: '600px'}} 
+            </div>
+            <Modal 
              show={requestAccompanyModal} 
              onHide={handleCloseModal}>
              <Modal.Header closeButton>
@@ -179,41 +176,27 @@ function SearchResultPage(props) {
             </Modal>
           </Card.Body>
         </Card>
-      </div>
-      <div className="ResultComment">
-        <Card style={{
-          width: "905px",
-          height: "200px"
-        }}>
-          <Card.Body>
-            <Card.Title>댓글</Card.Title>
-            <Form.Group>
-              <Form.Control
+      <div className="CommentList">
+        <Form.Group>
+          <Form.Control
                 as="textarea"
                 rows={3}
                 value={review}
                 onChange={handleReviewChange}
                 onKeyDown={keyDown}
-              />
-            </Form.Group>
-            <Button
-              variant="primary"
-              onClick={handleAddComment}
-            >
-              댓글 추가
-            </Button>
-          </Card.Body>
-        </Card>
-      </div>
-      <div className="CommentList">
+          />
+        </Form.Group>
+        <Button
+          variant="primary"
+          onClick={handleAddComment}
+        >
+          댓글 추가
+        </Button>
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
             <div>
-              <Card style={{
-                width: "600px",
-                height: "120px"
-              }} key={index}>
+              <Card key={index}>
                 <p>날짜: {comment.postDate}</p>
                 <p>글쓴이: {comment.senderName}</p>
                 <p>댓글: {comment.review}</p>
@@ -225,7 +208,7 @@ function SearchResultPage(props) {
               </div>
             ))}
       </div>
-    </div>
+      </div>
   );
 }
 
