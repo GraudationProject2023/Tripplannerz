@@ -1,10 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CountdownTimer from "../../util/CountdownTimer";
-import { eventSource } from "../../util/recoilState";
 import { SelectPreference } from '../../util/SelectPreference';
 import {StyledAboutContainer, StyledAboutImage, AboutTitle, AboutContent, AboutButton } from '../../style/StyleComponent'
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { EventSourcePolyfill } from "event-source-polyfill";
 import axios from 'axios';
 import sight from '../../Image/관광지.png'
 import './StartAnimationPage.css'
@@ -17,10 +15,8 @@ const onButtonClick = () => {
 };
 
 function StartAnimation() {
-  const element = useRef(null);
-  
-  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-  
+  const element = useRef(null)
+
   const [inViewPort, setInViewPort] = useState(false);
   
   const [showSecondContainer, setShowSecondContainer] = useState(false); 

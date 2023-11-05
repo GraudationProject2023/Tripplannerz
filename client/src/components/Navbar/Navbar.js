@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Menu,Table,Col, Button, Input, Image, Form, Drawer, DatePicker, notification, Cascader, Upload } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
 import { EventSourcePolyfill} from "event-source-polyfill";
-// import { useRecoilState, useRecoilValue } from "recoil";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,9 +14,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
-// import { notificationsCountState } from "../../util/recoilState";
-// import { token } from "../../util/recoilState";
-// import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
@@ -32,12 +28,6 @@ function NavBar() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch()
-  
-  // const EventSource = EventSourcePolyfill || NativeEventSource;
-  
-  // const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-  
-  // const notificationCount = useRecoilValue(notificationsCountState);
   
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   
