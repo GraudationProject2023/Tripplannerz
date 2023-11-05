@@ -6,6 +6,8 @@ import {
   commentReducer,
 } from './reducers';
 
+//test
+
 const rootReducer = combineReducers({
   notificationsCount: notificationsCountReducer,
   token: tokenReducer,
