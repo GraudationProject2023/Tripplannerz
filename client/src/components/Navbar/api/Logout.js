@@ -7,7 +7,7 @@ export function Logout(token) {
             token: token
         }
       axios
-      .post("http://localhost:8080/api/members/logout", postToData, {
+      .post("/api/members/logout", postToData, {
         headers:{
         'Authorization': `Bearer ${token}`
         }
