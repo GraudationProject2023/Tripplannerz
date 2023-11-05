@@ -123,8 +123,8 @@ public class TripController {
     }
 
     @GetMapping("/trip/entireTripList")
-    public List<MemberTrip> entireTrip(@RequestParam("sortType") String sortType) {
-        return memberService.getEntireTrip(sortType);
+    public List<MemberTrip> entireTrip() {
+        return memberService.getEntireTrip();
     }
 
     @GetMapping("/trip/locationList")
