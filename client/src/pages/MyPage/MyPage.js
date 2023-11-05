@@ -7,6 +7,7 @@ import { SelectPreference } from "../../util/SelectPreference";
 import "./MyPage.css";
 import find from "../../Image/돋보기.png";
 import axios from "axios";
+import { Table } from "antd";
 axios.default.withCredentials = true;
 
 function MyPage() {
@@ -76,7 +77,7 @@ function MyPage() {
     localStorage.setItem("cast", 1);
     localStorage.setItem("rank", -1);
     localStorage.setItem("vest", 1);
-    axios.get("/api/members/tripInfo", 
+    axios.get("http://localhost:8080/api/members/tripInfo", 
      {
       headers:{'Authorization': `Bearer ${token}` },
      }).then((response) => {
@@ -90,7 +91,7 @@ function MyPage() {
   useEffect(() => {
   
   const fetchData = async () => {
-    const response = await axios.get("/api/trip/accompany/requestList",{
+    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
       headers:{'Authorization': `Bearer ${token}` },
     })
     console.log(typeof(response.data))
@@ -121,7 +122,7 @@ function MyPage() {
     const fetchData = async () => {
       setLoading(true);
       const response = await axios.get(
-        `/api/members/tripList?page=${currentNumber}&sortType=${order}`,
+        `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
         }
@@ -141,7 +142,7 @@ function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
+        `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
         {
           headers: {'Authorization': `Bearer ${token}`},
         }
@@ -200,7 +201,7 @@ function MyPage() {
       }
 
       axios
-        .post("/api/members/change/types", postToServer, {
+        .post("http://localhost:8080/api/members/change/types", postToServer, {
           headers: {'Authorization': `Bearer ${token}`},
         })
         .then((res) => console.log(res), alert("태그가 변경되었습니다."));
@@ -234,7 +235,7 @@ function MyPage() {
     }
 
     axios
-      .post("/api/members/exit", postToServer,{
+      .post("http://localhost:8080/api/members/exit", postToServer,{
         headers: {'Authorization': `Bearer ${token}`}
       })
       .then((response) => {
@@ -308,7 +309,7 @@ function MyPage() {
     }
 
     axios
-      .post("/api/members/verify/pw", postToServer,{
+      .post("http://localhost:8080/api/members/verify/pw", postToServer,{
         headers: {'Authorization': `Bearer ${token}`},
       })
       .then((res) => {
@@ -329,7 +330,7 @@ function MyPage() {
     }
 
     axios
-      .post("/api/members/change/pw", postToServer,
+      .post("http://localhost:8080/api/members/change/pw", postToServer,
       { 
         headers: {'Authorization': `Bearer ${token}`}
       }
@@ -344,7 +345,7 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`/api/trip/responseAccompany/${check}`,postToServer,{
+    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {
@@ -361,7 +362,7 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`/api/trip/responseAccompany/${check}`,postToServer,{
+    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
       headers: {'Authorization': `Bearer ${token}`}
     })
     .then((res) => {
@@ -375,105 +376,93 @@ function MyPage() {
   };
 
   function ShowData() {
+
+    const columns = [
+      {
+        title: '일정 제목',
+        dataIndex: 'title',
+        key: 'title',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        ),
+      },
+      {
+        title: '마감날짜',
+        dataIndex: 'deadline',
+        key: 'deadline',
+      },
+      {
+        title: '인원 수',
+        dataIndex: 'participants',
+        key: 'participants',
+      },
+      {
+        title: '일정 날짜',
+        dataIndex: 'startingDate',
+        key: 'startingDate',
+      },
+    ]
+
+    const data = posts.map((post,index) => ({
+      key: postNumber[index],
+      title: post.title,
+      deadline: post.deadline,
+      participants: post.participants,
+      startingDate: post.startingDate,
+      comingDate: post.comingDate,
+    }))
+
+
     if (currentPage !== 1) {
       return (
         <div className="showData">
-          <ul>
-            <table className="table_board">
-              <tr className="table-head">
-                <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th>{" "}
-                <th>일정 날짜</th>
-              </tr>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div style={{ marginLeft: "-12px" }}>
-                            {post.title}
-                          </div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.startingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.startingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.comingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-            </table>
-          </ul>
+            <Table columns={columns} dataSource={data} />
         </div>
       );
     }
   }
   const renderProfilePage = () => {
+
+    const columns = [
+      {
+        title: '이름',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '성별',
+        dataIndex: 'gender',
+        key: 'gender',
+      },
+      {
+        title: '이메일',
+        dataIndex: 'email',
+        key: 'email',
+      },
+      {
+        title: '선호태그',
+        dataIndex: 'ranklist',
+        key: 'ranklist',
+      },
+    ]
+
+    const data = [
+      {
+        key: '1',
+        name: name,
+        gender: gender,
+        email: email,
+        ranklist: ranklist,
+      },
+    ];
+
     return (
       <div className="profilecard">
-        <h2>내 정보</h2>
+        <h3>내 정보</h3>
         <hr />
-        <h5>이름 : {name}</h5>
-        <h5>성별 : {gender} </h5>
-        <h5>이메일 : {email}</h5>
-        <h5>선호태그 : {ranklist} </h5>
+        <Table columns={columns} dataSource={data} bordered pagination={false} />
         <hr />
         <h4>동행 신청 현황</h4>
           {accompanyList.length > 0 && accompanyList.map((item,idx) => 

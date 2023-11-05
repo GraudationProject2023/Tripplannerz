@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Table } from "antd";
 import {PageUl, PageLi, PageSpan} from '../../style/StyleComponent'
 import axios from "axios";
 import "./SearchPage.css";
+import Footer from "../../components/Footer/Footer";
 import find from "../../Image/돋보기.png";
 import Navbar from "../../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom";
@@ -52,7 +54,7 @@ function SearchPage() {
 
     setLoading(true);
     const response = await axios.get(
-      `/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+      `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
       {
         headers: {'Authorization': `Bearer ${token}`},
         withCredentials: true,
@@ -114,89 +116,49 @@ function SearchPage() {
   };
 
   function ShowData() {
+
+    const columns = [
+      {
+        title: '일정 제목',
+        dataIndex: 'title',
+        key: 'title',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        ),
+      },
+      {
+        title: '마감날짜',
+        dataIndex: 'deadline',
+        key: 'deadline',
+      },
+      {
+        title: '인원 수',
+        dataIndex: 'participants',
+        key: 'participants',
+      },
+      {
+        title: '일정 날짜',
+        dataIndex: 'startingDate',
+        key: 'startingDate',
+      },
+    ]
+
+    const data = posts.map((post,index) => ({
+      key: postNumber[index],
+      title: post.title,
+      deadline: post.deadline,
+      participants: post.participants,
+      startingDate: post.startingDate,
+      comingDate: post.comingDate,
+    }))
+
     if (currentPage !== 1) {
       return (
         <div className="showData">
           <ul className="list">
-            <table className="table_board">
-              <tr className="table-head">
-                <th>일정 제목</th> <th>마감날짜</th> <th>인원 수</th>{" "}
-                <th>일정 날짜</th>
-              </tr>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.title}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.startingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.startingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-              <td>
-                {posts.map((post, index) => (
-                  <div>
-                    <li
-                      key={postNumber[index]}
-                      onClick={() => handleClick(postNumber[index])}
-                      className="list-key"
-                    >
-                      <table>
-                        <td>
-                          <div>{post.comingDate}</div>
-                        </td>
-                      </table>
-                      <hr />
-                    </li>
-                  </div>
-                ))}
-              </td>
-            </table>
+            <Table columns={columns} dataSource={data} />
           </ul>
         </div>
       );
@@ -248,6 +210,7 @@ function SearchPage() {
       <br />
       <br />
       <br />
+      <Footer />
     </div>
   );
 }
