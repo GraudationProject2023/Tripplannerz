@@ -7,7 +7,7 @@ const notificationsCountReducer = (state = 0, action) => {
     }
   };
   
-  const tokenReducer = (state = undefined, action) => {
+  const tokenReducer = (state = "undefined", action) => {
     switch (action.type) {
       case 'SET_TOKEN':
         return action.payload;
