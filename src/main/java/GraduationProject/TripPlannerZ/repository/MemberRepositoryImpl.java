@@ -171,7 +171,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public List<MemberTrip> getEntireTrip(String sortType) {
+    public List<MemberTrip> getEntireTrip() {
         List<MemberTrip> entireTripList = queryFactory
                 .select(new QMemberTrip(
                         trip.id,
@@ -184,7 +184,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         trip.recruitNum
                 ))
                 .from(trip)
-                .orderBy(trip.creationTime.desc())
+                .orderBy(trip.hits.desc())
                 .fetch();
 
 
