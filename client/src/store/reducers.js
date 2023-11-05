@@ -15,11 +15,18 @@ const notificationsCountReducer = (state = 0, action) => {
         return state;
     }
   };
+
+  const initialState = {
+    messages: [],
+  }
   
-  const eventSourceReducer = (state = {}, action) => {
+  const eventSourceReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'SET_EVENT_SOURCE':
-        return action.payload;
+        return {
+          ...state,
+          messages: [...state.messages, action.payload]
+        }
       default:
         return state;
     }

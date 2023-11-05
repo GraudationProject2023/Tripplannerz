@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Menu,Table,Col, Button, Input, Image, Form, Drawer, DatePicker, notification, Cascader, Upload } from 'antd';
 import { BellOutlined, UserOutlined } from '@ant-design/icons'
-import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { EventSourcePolyfill} from "event-source-polyfill";
+// import { useRecoilState, useRecoilValue } from "recoil";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ImgCrop from 'antd-img-crop'
@@ -14,12 +15,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
-import { notificationsCountState } from "../../util/recoilState";
-import { token } from "../../util/recoilState";
-import { eventSource } from "../../util/recoilState";
+// import { notificationsCountState } from "../../util/recoilState";
+// import { token } from "../../util/recoilState";
+// import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
+import { setEventSource } from "../../store/actions";
 
 
 axios.defaults.withCredentials = true;
@@ -28,12 +30,14 @@ function NavBar() {
   let token = localStorage.getItem("token");
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch()
   
-  const EventSource = EventSourcePolyfill || NativeEventSource;
+  // const EventSource = EventSourcePolyfill || NativeEventSource;
   
-  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
+  // const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
   
-  const notificationCount = useRecoilValue(notificationsCountState);
+  // const notificationCount = useRecoilValue(notificationsCountState);
   
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   
@@ -241,8 +245,7 @@ function NavBar() {
       heartbeatTimeout: 300000,
     })
 
-    eventSource.addEventListener('SSE',event => {
-
+    const handleSSE = (event) => {
       const newMessage = event.data;
 
       if(newMessage[0] === '{')
@@ -255,11 +258,12 @@ function NavBar() {
 
          const notificationString = `${senderName}님이\n ${review.slice(0,4)}..를 입력하였습니다.\n ${postDate}`
          setMessages(prevMessages => [...prevMessages, notificationString])
-        }
-      else{
-        setMessages(prevMessages => [...prevMessages, newMessage]);
+         dispatch(setEventSource(notificationString))
       }
-    });
+      
+    }
+
+    eventSource.addEventListener('SSE', handleSSE);
 
     eventSource.onopen = () => {
       console.log('SSE connection opened.');
@@ -273,10 +277,11 @@ function NavBar() {
     }
 
     return () => {
+      eventSource.removeEventListener('SSE', handleSSE)
       eventSource.close();
     }
 
-  }, [token]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/members/tripInfo", 
