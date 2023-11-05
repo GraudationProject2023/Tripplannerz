@@ -54,14 +54,12 @@ function SearchPage() {
 
     setLoading(true);
     const response = await axios.get(
-      `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
+      `/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=${encodedKey}`,
       {
         headers: {'Authorization': `Bearer ${token}`},
         withCredentials: true,
       }
     );
-    console.log(response.data);
-    console.log(response.data.content);
     setPosts(response.data.content);
     setTotal(response.data.totalElements);
     setTotalPage(response.data.totalPages);
@@ -179,8 +177,7 @@ function SearchPage() {
           <option default value="new">
             최신 순
           </option>
-          <option value="good">좋아요 순</option>
-          <option value="count">조회 수</option>
+          <option value="hits">조회 수</option>
         </select>
         <hr />
         <table className="table">
