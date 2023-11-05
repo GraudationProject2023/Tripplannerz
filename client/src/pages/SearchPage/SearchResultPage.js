@@ -60,6 +60,7 @@ function SearchResultPage(props) {
     }).then((res) => {
       setTripUuid(res.data.uuid);
       setTitle(res.data.title);
+      setSearchPlaceInput(res.data.title)
       setStartingDate(res.data.startingDate);
       setComingDate(res.data.comingDate);
       setContent(res.data.content);
@@ -153,7 +154,7 @@ function SearchResultPage(props) {
       {console.log(searchPlace)}
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
-            <Kakao width="400px" height="400px" />
+            <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
             <div style={{marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
             <h4>
