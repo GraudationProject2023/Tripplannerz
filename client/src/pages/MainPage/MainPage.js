@@ -5,6 +5,7 @@ import NavBar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import { ImageSlider } from "../../util/ImageSlider";
 import { TravelChart } from "../../util/TravelChart";
+import KakaoMap from '../../util/KakaoMap';
 import axios from "axios";
 import "./MainPage.css";
 
@@ -51,12 +52,13 @@ function MainPage() {
               <List.Item>
               <Card
                 onClick={(e) => movetoSubPage(item.id)}
-                style={{ width: '300px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                style={{ width: '300px', height: '400px' ,borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               >
               <h3 style={{ color: '#1890ff', marginBottom: '10px', textAlign: 'center' ,fontWeight: 'bold', fontSize: '1.5rem' }}>
                 {item.title}
               </h3>
               <hr />
+              <KakaoMap width="200px" height="200px"/>
               <div style={{ color: '#666', marginBottom: '10px', fontSize: '1rem' }}>
                 <strong>인원 현황:</strong>
                   {item.currentNum} / {item.recruitNum}
