@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 
 const {kakao} = window;
 
-function KakaoMap(){
+function KakaoMap({width = '400px', height = '400px'}){
 
     useEffect(() => {
     const container = document.getElementById('map');
@@ -17,8 +17,8 @@ function KakaoMap(){
         <div id="map" style={{
               marginTop: '10%',
               marginLeft: '15%',
-              width: '400px',
-              height: '400px',
+              width: width,
+              height: height,
               borderRadius: '10px',
               border: '2px solid skyblue'
         }}></div>
