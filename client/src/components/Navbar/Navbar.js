@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import { NativeEventSource , EventSourcePolyfill} from "event-source-polyfill";
-import { Navbar, Modal, Form ,Button, Nav, Card } from "react-bootstrap";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { Menu,Table,Col, Button, Input, Image, Form, Drawer, DatePicker, notification, Cascader, Upload } from 'antd';
+import { BellOutlined, UserOutlined } from '@ant-design/icons'
+import { EventSourcePolyfill} from "event-source-polyfill";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ImgCrop from 'antd-img-crop'
 import moment from 'moment'
 import Slider from "rc-slider";
 
@@ -13,17 +14,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
-import { notificationsCountState } from "../../util/recoilState";
-import { token } from "../../util/recoilState";
-import { eventSource } from "../../util/recoilState";
 import { mainCategories, categories, subCategories } from "../../util/Categories";
 import { moveToMain ,moveToMy, moveToBill } from "../../util/Route";
 import { handleSearch, handleSearchClick } from "./search/search";
-
-import my from "../../Image/마이페이지.png"
-import Menu from "../../Image/Menu.png";
-import notice from "../../Image/notice.png";
-import find from "../../Image/돋보기.png";
+import { setEventSource } from "../../store/actions";
 
 
 axios.defaults.withCredentials = true;
@@ -32,12 +26,8 @@ function NavBar() {
   let token = localStorage.getItem("token");
 
   const navigate = useNavigate();
-  
-  const EventSource = EventSourcePolyfill || NativeEventSource;
-  
-  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-  
-  const notificationCount = useRecoilValue(notificationsCountState);
+
+  const dispatch = useDispatch()
   
   const [searchTerm, setSearchTerm] = useState(""); //검색창
   
@@ -49,19 +39,19 @@ function NavBar() {
   
   const [date, setDate] = useState("");
   
-  const [going, setGoing] = useState("");
-  
-  const [coming, setComing] = useState("");
-  
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   
   const [selectedCategory, setSelectedCategory] = useState("");
   
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
+
+  const [name, setName] = useState(""); //프로필 이름
   
-  const [image, setImage] = useState([]);
+  const [gender, setGender] = useState(""); //프로필 성별
   
-  const [preview, setPreview] = useState([]);
+  const [email, setEmail] = useState(""); //프로필 이메일
+  
+  const [rank, setRank] = useState([]); //프로필 선호 태그
   
   const [createTravelModal,setCreateTravelModal] = useState(false);
   
@@ -118,18 +108,37 @@ function NavBar() {
     setSelectedSubCategory(subCategory);
   };
 
-  const onChangeImageInput = (e) => {
-    setImage([e.target.files[0]]);
-
+  //이미지  
+  const [image, setImage] = useState([]);
+  
+  const [preview, setPreview] = useState([]);
+  
+  const onImageChange = ({ fileList: newFileList }) => {
+    setImage(newFileList);
+  };
+  const onImageInput = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
-      setPreview(reader.result);
+      setImage([
+        {
+          uid: '-2',
+          name: file.name,
+          status: 'done',
+          url: reader.result,
+        },
+      ]);
     };
 
     reader.readAsDataURL(file);
   };
+
+  const onImagePreview = (file) => {
+    const imgWindow = window.open(file.url);
+    imgWindow?.document.write(`<img src="${file.url}" alt="Preview" />`);
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -174,7 +183,7 @@ function NavBar() {
       alert("모든 항목을 입력해주세요.");
     } else {
       axios
-        .post("/api/trip/create", formData, {
+        .post("http://localhost:8080/api/trip/create", formData, {
           headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}`},
         })
         .then((response) => {
@@ -198,7 +207,7 @@ function NavBar() {
             token: token
         }
       axios
-      .post("/api/members/logout", postToData, {
+      .post("http://localhost:8080/api/members/logout", postToData, {
         headers:{
         'Authorization': `Bearer ${token}`
         }
@@ -220,14 +229,13 @@ function NavBar() {
 }
 
   useEffect(() => {
-    const eventSource = new EventSourcePolyfill('/api/sub',{
+    const eventSource = new EventSourcePolyfill('http://localhost:8080/api/sub',{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
       heartbeatTimeout: 300000,
     })
 
-    eventSource.addEventListener('SSE',event => {
-
+    const handleSSE = (event) => {
       const newMessage = event.data;
 
       if(newMessage[0] === '{')
@@ -240,15 +248,18 @@ function NavBar() {
 
          const notificationString = `${senderName}님이\n ${review.slice(0,4)}..를 입력하였습니다.\n ${postDate}`
          setMessages(prevMessages => [...prevMessages, notificationString])
-        }
-      else{
-        setMessages(prevMessages => [...prevMessages, newMessage]);
+         dispatch(setEventSource(notificationString))
       }
-    });
+      
+    }
 
-    eventSource.onopen =() => {
+    eventSource.addEventListener('SSE', handleSSE);
+
+    eventSource.onopen = () => {
       console.log('SSE connection opened.');
-      console.log('eventSource',eventSource);
+      notification.open({
+        message: '접속이 되었습니다.'
+      })
     }
 
     eventSource.onerror = (error) => {
@@ -256,16 +267,33 @@ function NavBar() {
     }
 
     return () => {
+      eventSource.removeEventListener('SSE', handleSSE)
       eventSource.close();
     }
 
-  }, [token]);
+  }, [dispatch, token]);
 
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/members/tripInfo", 
+     {
+      headers:{'Authorization': `Bearer ${token}` },
+     }).then((response) => {
+      setName(response.data.name);
+      setGender(response.data.gender);
+      setEmail(response.data.email);
+      setRank(response.data.preferences);
+    });
+  },[])
+  
   //알림바
   const [noticeOpen, setNoticeOpen] = useState(false);
 
-  const toggleNotice = () => {
-    setNoticeOpen(!noticeOpen);
+  const handleOpenNotice = () => {
+    setNoticeOpen(true)
+  }
+  
+  const handleCloseNotice = () => {
+    setNoticeOpen(false)
   }
 
   const handleChange = (event) => {
@@ -275,12 +303,12 @@ function NavBar() {
   var offset = localStorage.getItem("vest");
 
   //마이페이지
-  const [esOpen, setesOpen] = useState(false);
-  const toggleMypage = () => {
-    setesOpen(!esOpen);
-  };
+  const [esOpen, setEsOpen] = useState(false);
+  const openMyPage = () => {
+    setEsOpen(true)
+  }
   const closeMypage = () => {
-    toggleMypage();
+    setEsOpen(false)
   };
 
   const moveToSearch = (e) => {
@@ -288,290 +316,235 @@ function NavBar() {
     window.location.href = `/search?keyword=${searchTerm}`;
   };
 
+
+  const [travelButton, setTravelButton] = useState(false)
+  const toggleTravelButton = () => {
+    setTravelButton(!travelButton)
+  }
+
+  const columnsRow1 = [
+    {
+      title: '1) 사진 업로드',
+      dataIndex: 'imageUpload',
+      width: 200, 
+      render: () => (
+        <>
+         <ImgCrop rotationSlider>
+        <Upload
+          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+          listType="picture-card"
+          fileList={image}
+          onChange={onImageChange}
+          onPreview={onImagePreview}
+        >
+          {image.length < 5 && '+ Upload'}
+        </Upload>
+      </ImgCrop>
+        </>
+      ),
+    },
+    {
+      title: '2) 여행 제목',
+      dataIndex: 'title',
+      width: 200, 
+      render: () => (
+        <Form.Item label="여행 제목" name="title" style={{ display: 'flex', alignItems: 'center' }}>
+          <Input style={{marginLeft: '10%', width: '200px'}} onChange={(e) => setTitle(e.target.value)} />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '3) 모집 인원',
+      dataIndex: 'capacity',
+      width: 200, 
+      render: () => (
+        <Form.Item label={`모집 인원 ${Math.ceil(memberCapacity / 10)}명`} name="capcity">
+          <Slider onChange={(e) => setMemberCapacity(e)} />
+        </Form.Item>
+      ),
+    },
+  ];
+
+  const columnsRow2 = [
+    {
+      title: '4) 모집 마감 날짜',
+      dataIndex: 'deadlineDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="모집 마감 날짜">
+          <DatePicker onChange={(date, dateString) => setDate(dateString)} />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '5) 여행 시작 날짜',
+      dataIndex: 'startDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="여행 시작 날짜">
+          <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText="가는 날 선택" popperPlacement="bottom-start" />
+        </Form.Item>
+      ),
+    },
+    {
+      title: '6) 여행 종료 날짜',
+      dataIndex: 'endDate',
+      width: 100,
+      render: () => (
+        <Form.Item label="여행 종료 날짜">
+          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText="오는 날 선택" popperPlacement="bottom-start" />
+        </Form.Item>
+      ),
+    },
+  ];
+
+  const data = [{}]
+
   if (offset === "1") {
     return (
-        <Navbar
-          expand="md"
-          className="justify-content-center navbar-top"
-          fixed="top"
-          style={{
-            borderBottom: "1px solid black",
-            backgroundColor: "#FFFFFF",
-            height: "13%",
-          }}
-        >
-          <Nav className="me-auto">
-            <Nav>
-              <img
-                src={Menu}
-                onClick={moveToMain}
-                alt="메뉴"
-                className="navbar-toggle"
-                style={{ width: "300px", height: "120px", marginLeft: "3%"}}
-              />
-            </Nav>
-            <Nav className="find">
-              <img src={find} alt="여행검색" onClick={(event) => 
-                handleSearchClick(navigate, event, searchTerm)
-              } />
-            </Nav>
-            <Nav className="inputbox">
-              <input
-                type="text"
-                placeholder="여행 일정을 검색하세요"
-                value={searchTerm}
-                onChange={handleChange}
-                onKeyPress={(event) => 
-                handleSearch(navigate, event, searchTerm)}
-              />
-            </Nav>
-            <Nav className="new">
-              <Button className="menu-button" variant="primary" onClick={handleCreateTravelShow}>
-                일정생성
-              </Button>
-              <Modal
-                className="createTravelModal"
-                show={createTravelModal}
-                onHide={handleCreateTravelClose}
-              >
-              <Modal.Header closeButton>
-                <Modal.Title>일정 생성</Modal.Title>
-              </Modal.Header>
-                <Modal.Body>
-                  <h2>1. 여행 장소 선택</h2>
-                  <Form
-                   style={{
-                      border: "1px solid black",
-                      borderRadius: "10px",
-                      height: "500px",
-                      overflowY: "auto"
-                   }}
-                  >
-                  
-                  {mainCategories.map((category) => (
-                    <Card 
-                    className={selectedMainCategory === category ? 'placed' : ''}
-                    key={category} onClick={() => handleMainCategoryChange(category)}
-                    style={{
-                      width: '150px',
-                      height: '150px',
-                      textAlign: 'center',
-                      justifyContent: 'center'
-                    }}
-                    >
-                        {category}
-                    </Card>
-                  ))}
-                  
+      <Menu 
+        mode="horizontal"
+        theme="light" 
+        style={{
+          backgroundColor: '#EEEEEE',
+          height: '100px',
+          display: 'flex', 
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+        <Menu.Item>
+          <Button style={{width: '200px'}} onClick={moveToMain}>TripPlannerz</Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button style={{width: '200px'}} onClick={toggleTravelButton}>
+              여행 계획
+          </Button>
+        {travelButton && (
+          <>
+          <Menu.Item>
+          <Button style={{width: '100px'}} onClick={handleCreateTravelShow}>일정생성</Button>
+          <Drawer
+            title= "여행 생성"
+            style={{width: '100%', height: '620px', overflowY: 'auto'}}
+            placement="top"
+            onClose={handleCreateTravelClose}
+            visible={createTravelModal}
+          >
+            <h5>1. 여행 장소 선택</h5>
+                  <Form onFinish={handleSubmit}>
+                   <Cascader options={
+                    mainCategories.map(category => 
+                      ({ value: category, 
+                         label: category, 
+                         children: categories[category].map
+                                  (subCategory => 
+                                  ({ value: subCategory, 
+                                     label: subCategory, 
+                                     children: subCategories[subCategory]?.map
+                                     (city => ({ value: city, label: city })) })) }))} 
+                                     size="large"
+                                     placeholder="지역을 선택하세요" />
+                   </Form>
+                   <hr />
+                  <h5>2. 여행 정보 입력</h5>
                   <br />
-                  <br />
-                  {selectedMainCategory && (
-                    <div>
-                      {categories[selectedMainCategory].map((category) => (
-                        <Card
-                          className={selectedCategory === category ? 'placed' : ''}
-                          key={category}
-                          style={{
-                            width: '150px',
-                            height: '150px',
-                            textAlign: 'center',
-                            justifyContent: 'center'
-                          }}
-                          onClick={() => 
-                            handleCategoryChange(category)
-                          }
-                          
-                        >
-                        {category}
-                        </Card>
-                      ))}
-                    </div>
-                  )}
-                  <br />
-                  <br />
-                  {selectedCategory && (
-                    <div>
-                       {subCategories[selectedCategory].map(
-                          (subCategory) => (
-                            <Card
-                              className = {selectedSubCategory === subCategory ? 'placed' : ''}
-                              key={subCategory}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                textAlign: 'center',
-                                justifyContent: 'center'
-                              }}
-                              onClick={() =>
-                                handleSubCategoryChange(subCategory)
-                              }
-                            >
-                              {subCategory}
-                            </Card>
-                          )
-                        )}
-                    </div>
-                  )}   
+                  <Form onFinish={handleSubmit}>
+                    <Table
+                       columns={columnsRow1}
+                       dataSource={data}
+                       bordered
+                       pagination={false}
+                       rowKey={(record, index) => index}
+                    />
+                    <Table
+                       columns={columnsRow2}
+                       dataSource={data}
+                       bordered
+                       pagination={false}
+                       rowKey={(record,index) => index}
+                    />
                   </Form>
-                  
-                  <hr />
-                  <h2>2. 여행 정보 입력</h2>
-                  <br />
-                  <Form onSubmit ={handleSubmit}>
-                  <div>
-                    <Form.Group controlId="form-Image">
-                      <Form.Label>사진 업로드</Form.Label>
-                      <table>
-                        <tr>
-                          <Form.Control type="file" onChange={onChangeImageInput} />
-                        </tr>
-                        <tr>
-                        {preview ? (
-                          <img style={{width: "300px", height: "150px"}} src={preview} />
-                        ):(
-                          <h6>이미지 없음</h6>
-                        )}
-                        </tr>
-                      </table>
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                    <Form.Group controlId="formTitle">
-                      <Form.Label>여행 제목</Form.Label>
-                      <Form.Control
-                        type="text"
-                        onChange={(e) => setTitle(e.target.value)} 
-                      />
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                  <Form.Group controlId="formCapacity">
-                    <Form.Label>모집 인원</Form.Label>
-                      <Slider onChange={(e) => setMemberCapacity(e)} />
-                      {Math.ceil(memberCapacity / 10)}명    
-                  </Form.Group>
-                </div>
-                <br />
-                  <div>
-                    <Form.Group controlId="formDate">
-                      <Form.Label>모집 마감 날짜</Form.Label>
-                      <Form.Control type="date" onChange={(e) => setDate(e.target.value)} />
-                    </Form.Group>
-                  </div>
-                  <br />
-                  <div>
-                    <Form.Group controlId="formItinerary">
-                      <table>
-                        <td>
-                          <Form.Label>여행 시작 날짜</Form.Label>
-                          <DatePicker
-                        selected={currentMonth}
-                        onChange={handleCurrentMonthChange}
-                        placeholderText="가는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                        </td>
-                        <td>
-                          <Form.Label>여행 종료 날짜</Form.Label>
-                          <DatePicker
-                        selected={nextMonth}
-                        filterDate={disableNextMonthDates}
-                        onChange={handleNextMonthChange}
-                        placeholderText="오는 날 선택"
-                        popperPlacement="bottom-start"
-                      />
-                        </td>
-                      </table>
-                    </Form.Group>
-                  </div>
-                  <Button variant="primary" type="submit">
-                    등록
-                  </Button>
-                  </Form>
-                </Modal.Body>
-              </Modal>
-            </Nav>
-            <Nav className="search">
-              <Button className="menu-button" onClick={moveToSearch}>
-                일정조회
-              </Button>
-            </Nav>
-            <Nav className="bill">
-              <Button className="menu-button" onClick={moveToBill}>
-                여행 경비
-              </Button>
-            </Nav>
-            <Nav className="notice">
-              <div className="notification-badge">
-                <img src={notice} onClick={toggleNotice} />
-                {noticeOpen && (
-                    <>
-                    <div className={`drawer${noticeOpen ? ' open' : ''}`}>
-                     <ul>
-                      <h2>알림: {messages.length}개</h2>
-                      <hr />
-                      {messages.map((text, index) => (<>
-                        <li className="notification-list" key={text}>
-                          <button className="btn btn-light">
-                             {index % 2 === 0 ? <span className="bullet"></span> : <span className="bullet"></span>}
-                                {text}
-                          </button>
-                        </li>
-                        <br />
-                        </>
-                      ))}
-                </ul>
-             </div>
-            </>)}
-              </div>
-            </Nav>
-            <Nav className="user">
-            <img src={my} onClick={toggleMypage} />
-              {esOpen && (
-                <ul className="mypage-content">
-                  <table>
-                    <br />
-                    <tr>
-                      <Button
-                        onClick={moveToMy}
-                        style={{
-                          border: "1px solid white",
-                          backgroundColor: "#FFFFFF",
-                          color: "#000000",
-                          marginTop: "-30px",
-                          marginLeft: "-32px",
-                          width: "150px",
-                          height: "50px",
-                        }}
-                      >
-                        {localStorage.getItem("name")}님
-                      </Button>
-                    </tr>
-                    <hr style={{ marginLeft: "-32px", marginTop: "0px" }} />
-                    <tr>
-                      <Button
-                        style={{
-                          border: "1px solid white",
-                          backgroundColor: "#FFFFFF",
-                          color: "#000000",
-                          marginTop: "-15.6px",
-                          marginLeft: "-32px",
-                          width: "150px",
-                          height: "50px",
-                        }}
-                        onClick={Logout}
-                      >
-                        로그아웃
-                      </Button>
-                    </tr>
-                  </table>
-                </ul>
-              )}
-            </Nav>
-          </Nav>
-        </Navbar>
+          </Drawer>
+        </Menu.Item>
+                <Menu.Item>
+                <Button style={{width: '100px'}} onClick={moveToSearch}>일정조회</Button>
+              </Menu.Item>
+              <Menu.Item>
+                <Button style={{width: '100px'}} onClick={moveToBill}>여행경비</Button>
+              </Menu.Item>
+              </>
+        )}
+        </Menu.Item>
+        <Menu.Item>
+            <Input 
+              style={{width: '400px', textAlign:'center'}} 
+              value={searchTerm} 
+              placeholder="여행 일정을 검색하세요"
+              onChange={handleChange}
+              onKeyPress={(event) => 
+              handleSearch(navigate, event, searchTerm)}
+             />
+        </Menu.Item>
+        <Menu.Item>
+            <BellOutlined 
+              style={{width: '100px', justifyContent: 'center'}}  
+              onClick={handleOpenNotice}
+            /> 
+            <Drawer
+             title="알림"
+             onClose={handleCloseNotice}
+             visible={noticeOpen}
+            >
+            <h5>알림: {messages.length}개</h5>
+            <hr />
+            {messages.map((text, index) => (<>
+              <li key={text}>
+                <Button>
+                  {text}
+                </Button>
+              </li>
+              <br />
+              </>
+            ))}
+            </Drawer>
+        </Menu.Item>
+        <Menu.Item>
+          <UserOutlined style={{width: '100px', justifyContent: 'center'}} onClick={openMyPage} />
+          <Drawer
+            title="사용자 정보"
+            onClose={closeMypage}
+            visible={esOpen}
+          >
+            <Table dataSource={[{ name, gender, email, rank}]}>
+            <Col title="이름" dataIndex="name" key="name" />
+            <Col title="성별" dataIndex="gender" key="gender" render={(text) => (text ? text : '없음')} />
+            <Col title="이메일" dataIndex="email" key="email" />
+            <Col title="선호도" dataIndex="rank" key="rank" />
+            </Table>
+          <hr />
+          <Button
+            style={{
+              width: '330px',
+              borderColor: 'black'
+            }}
+            onClick={moveToMy}
+          >
+          마이페이지
+          </Button>
+          <br />
+          <br />
+          <Button
+            onClick={Logout}
+            style={{
+              width: '330px',
+              borderColor: 'black'
+            }}
+          >
+            로그아웃
+          </Button>
+          </Drawer>
+        </Menu.Item>
+      </Menu>
     );
   }
 }

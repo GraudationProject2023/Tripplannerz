@@ -1,14 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CountdownTimer from "../../util/CountdownTimer";
-import { eventSource } from "../../util/recoilState";
 import { SelectPreference } from '../../util/SelectPreference';
 import {StyledAboutContainer, StyledAboutImage, AboutTitle, AboutContent, AboutButton } from '../../style/StyleComponent'
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { EventSourcePolyfill } from "event-source-polyfill";
 import axios from 'axios';
 import sight from '../../Image/관광지.png'
 import './StartAnimationPage.css'
 import {Modal, Form, Button} from 'react-bootstrap'
+import Footer from '../../components/Footer/Footer';
 axios.defaults.withCredentials = true;
 
 const onButtonClick = () => {
@@ -16,10 +15,8 @@ const onButtonClick = () => {
 };
 
 function StartAnimation() {
-  const element = useRef(null);
-  
-  const [eventSourceCreate, setEventSourceCreate] = useRecoilState(eventSource);
-  
+  const element = useRef(null)
+
   const [inViewPort, setInViewPort] = useState(false);
   
   const [showSecondContainer, setShowSecondContainer] = useState(false); 
@@ -122,7 +119,7 @@ function StartAnimation() {
     event.preventDefault();
     if (checkEmail === true) {
       axios
-        .post("/api/members/emailConfirm", {
+        .post("http://localhost:8080/api/members/emailConfirm", {
           email: email,
         })
         .then((res) => console.log(res))
@@ -140,7 +137,7 @@ function StartAnimation() {
     event.preventDefault();
     axios
       .post(
-        "/api/members/emailConfirmCode",
+        "http://localhost:8080/api/members/emailConfirmCode",
         {
           emailConfirmCode: emailCode,
           email: email,
@@ -175,7 +172,7 @@ function StartAnimation() {
       pw: password,
     };
     axios.post(
-        "/api/members/loginJWT",
+        "http://localhost:8080/api/members/loginJWT",
         credentialDto
       ).then((res) => 
       {
@@ -183,7 +180,7 @@ function StartAnimation() {
         if(token !== null){
         localStorage.setItem("token", token);
 
-        let tempEvent = new EventSourcePolyfill("/api/sub", {
+        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -235,7 +232,7 @@ function StartAnimation() {
     } else {
       if (cas === "1") {
         axios
-          .post("/api/members/register", {
+          .post("http://localhost:8080/api/members/register", {
             name: name,
             gender: gender,
             pw: password,
@@ -357,7 +354,7 @@ function StartAnimation() {
             </Modal.Footer>
           </Modal>
           </td>
-          <td>
+          <td style={{padding: '30px'}}>
           <AboutButton 
             variant="primary" 
             onClick={handleShow}

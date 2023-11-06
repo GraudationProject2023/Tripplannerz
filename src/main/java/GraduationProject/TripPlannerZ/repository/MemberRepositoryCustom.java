@@ -17,5 +17,7 @@ public interface MemberRepositoryCustom {
 
     List<AccompanyRequest> accompanyRequestList(Member creater);
 
+    List<MemberTrip> getEntireTrip();
+
 
 }

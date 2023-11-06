@@ -102,6 +102,8 @@ export const AboutContent = styled.h1`
 export const AboutButton = styled.button`
   background-color: black; 
   color: white;
+  width: 200px;
+  height: 100px;
   border-radius : 10px;
   transition: background-color 0.3s, color 0.3s;
 

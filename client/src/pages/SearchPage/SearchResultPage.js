@@ -4,6 +4,7 @@ import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Modal } from "react-bootstrap";
+import {Timeline} from 'antd'
 import Navbar from "../../components/Navbar/Navbar"
 import Kakao from "../../util/KakaoMap";
 import "./SearchResultPage.css"
@@ -48,7 +49,7 @@ function SearchResultPage(props) {
   useEffect(() => {
     console.log(recoilComment);
 
-    axios.get(`/api/trip/detail/${arr[2]}`,{
+    axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
     }).then((res) => {
@@ -62,7 +63,7 @@ function SearchResultPage(props) {
       setComments(res.data.commentList);
     });
 
-    axios.get("/api/members/tripInfo", 
+    axios.get("http://localhost:8080/api/members/tripInfo", 
     {
      headers:{'Authorization': `Bearer ${token}` },
     }).then((response) => {
@@ -94,7 +95,7 @@ function SearchResultPage(props) {
         tripUUID: tripUuid,
       }
 
-      axios.post(`/api/trip/postComment`,postToServer,{
+      axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
        headers: {'Authorization': `Bearer ${token}`}
      }).then((res) => {
       alert("댓글이 등록되었습니다.")
@@ -121,13 +122,27 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
 
-    axios.post(`/api/trip/requestAccompany`, postToServer, {
+    axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
       headers: {'Authorization': `Bearer ${token}`}
     }).then((res) => {
       alert("동행 신청이 완료되었습니다.")
     }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
   }
 
+  const timeLineItem = [
+    {
+      children: 'Create a services site 2015-09-01',
+    },
+    {
+      children: 'Solve initial network problems 2015-09-01',
+    },
+    {
+      children: 'Technical testing 2015-09-01',
+    },
+    {
+      children: 'Network problems being solved 2015-09-01',
+    },
+  ]
  
   return (
     <div>
@@ -145,6 +160,7 @@ function SearchResultPage(props) {
             </Card.Subtitle>
             <br />
             <Card.Text>내용: {content}</Card.Text>
+            <Timeline items={timeLineItem}/>
             <Button onClick={handleOpenModal}>동행 신청</Button>
             <Modal style={{width: '600px', height: '600px'}} 
              show={requestAccompanyModal} 

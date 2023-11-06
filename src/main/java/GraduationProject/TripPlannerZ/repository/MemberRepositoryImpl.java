@@ -171,6 +171,27 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    public List<MemberTrip> getEntireTrip() {
+        List<MemberTrip> entireTripList = queryFactory
+                .select(new QMemberTrip(
+                        trip.id,
+                        trip.UUID,
+                        trip.title,
+                        trip.startingDate,
+                        trip.comingDate,
+                        tripImage.img_uuid,
+                        trip.currentNum,
+                        trip.recruitNum
+                ))
+                .from(trip)
+                .orderBy(trip.hits.desc())
+                .fetch();
+
+
+        return entireTripList;
+    }
+
+    @Override
     public List<MemberInfo> tripMemberList(Long id) {
 
         List<MemberInfo> memberInfoList = queryFactory
