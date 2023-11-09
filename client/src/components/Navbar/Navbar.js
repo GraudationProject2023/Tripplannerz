@@ -472,6 +472,11 @@ function NavBar() {
                        rowKey={(record,index) => index}
                     />
                   </Form>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      등록
+                    </Button>
+                  </Form.Item>
           </Drawer>
         </Menu.Item>
                 <Menu.Item>
