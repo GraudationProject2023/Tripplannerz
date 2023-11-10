@@ -51,6 +51,8 @@ function SearchResultPage(props) {
 
   const [searchPlaceInput, setSearchPlaceInput] = useState("")
 
+  const [searchPlaceSort, setSearchPlaceSort] = useState(false)
+
   useEffect(() => {
     console.log(recoilComment);
 
@@ -147,6 +149,17 @@ function SearchResultPage(props) {
   const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
       children: item.children
   })): null
+
+
+  const handleChangeTimeLineItem = () => {
+      const originalOrder = [...searchPlace]
+      if(originalOrder.length === 0)
+      {
+        alert('경로를 입력해주세요')
+      }
+
+      setSearchPlace(originalOrder.reverse())
+  }
  
   return (
     <div>
@@ -162,7 +175,14 @@ function SearchResultPage(props) {
             </h4>
             <h5>내용: {content}</h5>
             <br />
-            <Timeline items={timeLineItem}/>
+            <Timeline>
+            {timeLineItem && timeLineItem.map((item,index) => (
+              <Timeline.Item key={index}>
+                {item.children}
+              </Timeline.Item>
+            ))}
+            </Timeline>
+            <Button onClick={handleChangeTimeLineItem}>경로 최적화</Button>
             <Button onClick={handleOpenModal}>동행 신청</Button>
             </div>
             <Modal 
