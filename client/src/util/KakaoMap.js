@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Table } from 'antd';
 
 const { kakao } = window;
 
@@ -99,7 +100,8 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
   }, [searchKeyword]);
 
   return (
-    <div
+    <div>
+      <div
       ref={container}
       style={{
         width: width,
@@ -108,11 +110,25 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
         border: '2px solid skyblue',
       }}
     >
-    {markers ? markers.map((marker) => (
+    </div>
       <div>
-        <h2>{marker.content}</h2>
-      </div>
-    )) : "검색어를 입력해주세요"}
+      {markers ? (
+        <Table
+          dataSource={markers.slice(0, 5)}
+          columns={[
+          {
+            title: '여행하실 장소들',
+            dataIndex: 'content',
+            key: 'content',
+            render: (text) => (
+              <h6 style={{ margin: '0', fontSize: '20px', color: '#333' }}>{text}</h6>
+            ),
+          },
+          ]}
+          pagination={false}
+        />
+      ) : "검색어를 입력해주세요"}
+    </div>
     </div>
   );
 }
