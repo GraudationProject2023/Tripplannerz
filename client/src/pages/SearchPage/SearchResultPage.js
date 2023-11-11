@@ -160,6 +160,15 @@ function SearchResultPage(props) {
 
       setSearchPlace(originalOrder.reverse())
   }
+
+  const handleDeleteCertainComment = (index) => {
+    const newComment = comments.filter((comment, idx) => idx !== index)
+    setComments(newComment)
+
+    alert('댓글이 삭제되었습니다.')
+
+    window.location.href=`/search/${arr[2]}`    
+  }
  
   return (
     <div>
@@ -233,7 +242,7 @@ function SearchResultPage(props) {
                 <p>댓글: {comment.review}</p>
               </Card>
               {comment.senderName === userName ? (
-                <Button>
+                <Button onClick={() => handleDeleteCertainComment(index)}>
                   삭제
                 </Button>) : ""}
               </div>
