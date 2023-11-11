@@ -173,7 +173,6 @@ function SearchResultPage(props) {
   return (
     <div>
       <Navbar />
-      {console.log(searchPlace)}
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />

@@ -1,12 +1,83 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const { kakao } = window;
+
+export const kakaoSearchPlace = (keyword) => {
+  const ps = kakao.maps.services.Places()
+}
 
 function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
   const container = useRef(null);
   const map = useRef(null);
 
+  const [markers, setMarkers] = useState([])
+
   useEffect(() => {
+
+    // 검색어를 적용한 Kakao Map 생성
+    const initializeMap = (latitude, longitude) => {
+      const defaultOptions = {
+        center: new kakao.maps.LatLng(latitude, longitude),
+        level: 3,
+      };
+      const options = searchKeyword ? {...defaultOptions,} : defaultOptions;
+      map.current = new kakao.maps.Map(container.current, options);
+      if (searchKeyword) {
+        searchPlaces(map.current, searchKeyword);
+      }
+    };
+
+    // 초기에 GPS를 이용한 렌더링 
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        initializeMap(latitude, longitude);
+      },
+      (error) => {
+        console.error('Error getting geolocation:', error);
+        // 기본 위치(서울)로 초기화
+        initializeMap(37.552635722509, 126.92436042413);
+      }
+    );
+    } else {
+      console.error('Geolocation is not supported in this browser');
+      // 기본 위치(서울)로 초기화
+      initializeMap(37.552635722509, 126.92436042413);
+    }
+
+    
+    // 검색어를 적용하는 함수
+    const searchPlaces = (map, keyword) => {
+      const ps = new kakao.maps.services.Places();
+
+      ps.keywordSearch(keyword, 
+        (data, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          const bounds = new kakao.maps.LatLngBounds();
+          let searchMarkers = []
+
+          for (let i = 0; i < data.length; i++) {
+            disPlayMarker(map, data[i]);
+            searchMarkers.push({
+              position: {
+                lat: data[i].y,
+                lng: data[i].x
+              },
+              content: data[i].place_name
+            })
+            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          }
+
+          setMarkers(searchMarkers)
+
+          map.setBounds(bounds);
+        }
+      });
+    };
+
+    // 검색어 입력 시, Marker 표출
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
     const disPlayMarker = (map, place) => {
@@ -25,67 +96,6 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
       });
     };
 
-    const searchPlaces = (map, keyword) => {
-      const ps = new kakao.maps.services.Places();
-
-      ps.keywordSearch(keyword, (data, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const bounds = new kakao.maps.LatLngBounds();
-
-          for (let i = 0; i < data.length; i++) {
-            disPlayMarker(map, data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          }
-
-          map.setBounds(bounds);
-        }
-      });
-    };
-
-    const initializeMap = (latitude, longitude) => {
-      const defaultOptions = {
-        center: new kakao.maps.LatLng(latitude, longitude),
-        level: 3,
-      };
-
-
-      const options = searchKeyword
-        ? {
-            ...defaultOptions,
-          }
-        : defaultOptions;
-
-
-      map.current = new kakao.maps.Map(container.current, options);
-
-    
-      if (searchKeyword) {
-        searchPlaces(map.current, searchKeyword);
-      }
-    };
-
-
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          initializeMap(latitude, longitude);
-        },
-        (error) => {
-          console.error('Error getting geolocation:', error);
-          // 기본 위치(서울)로 초기화
-          initializeMap(37.552635722509, 126.92436042413);
-        }
-      );
-    } else {
-      console.error('Geolocation is not supported in this browser');
-      // 기본 위치(서울)로 초기화
-      initializeMap(37.552635722509, 126.92436042413);
-    }
-
-    return () => {
-    };
   }, [searchKeyword]);
 
   return (
@@ -97,7 +107,13 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
         borderRadius: '10px',
         border: '2px solid skyblue',
       }}
-    ></div>
+    >
+    {markers ? markers.map((marker) => (
+      <div>
+        <h2>{marker.content}</h2>
+      </div>
+    )) : "검색어를 입력해주세요"}
+    </div>
   );
 }
 
