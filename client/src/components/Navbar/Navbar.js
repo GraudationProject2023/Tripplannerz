@@ -61,12 +61,10 @@ function NavBar() {
 
   const handleCreateTravelClose = () => setCreateTravelModal(false);
 
-  const [currentMonth, setCurrentMonth] = useState(
-    new Date(moment().startOf("day"))
-  );
-  const [nextMonth, setNextMonth] = useState(
-    new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
-  );
+  const [currentMonth, setCurrentMonth] = useState("");
+
+  const [nextMonth, setNextMonth] = useState("");
+
   const handleCurrentMonthChange = (date) => {
     setCurrentMonth(date);
   };
@@ -85,6 +83,26 @@ function NavBar() {
       )
     );
   };
+
+  const handleCascaderChange = (value, selectedOptions) => {
+    if (selectedOptions.length === 0) {
+      setSelectedMainCategory("");
+      setSelectedCategory("");
+      setSelectedSubCategory("");
+    } else {
+      selectedOptions.forEach((option, index) => {
+        const optionValue = option.value;
+        if (index === 0) {
+          handleMainCategoryChange(optionValue);
+        } else if (index === 1) {
+          handleCategoryChange(optionValue);
+        } else if (index === 2) {
+          handleSubCategoryChange(optionValue);
+        }
+      });
+    }
+  }
+
 
   const handleMainCategoryChange = (category) => {
     if (selectedMainCategory === category) {
@@ -112,9 +130,7 @@ function NavBar() {
 
   //이미지  
   const [image, setImage] = useState([]);
-  
-  const [preview, setPreview] = useState([]);
-  
+
   const onImageChange = ({ fileList: newFileList }) => {
     setImage(newFileList);
   };
@@ -145,18 +161,20 @@ function NavBar() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    if(!image|| !title || !memberCapacity || !date || !currentMonth || !nextMonth || !selectedCategory || !selectedSubCategory )
+    {
+      alert('모든 항목을 입력해주세요.')
+    }
+    else{
+      
     const formData = new FormData();
     var capacity = memberCapacity / 10;
-    var closeRecruitDate = date.toString();
-    var goingDate = currentMonth.toISOString().slice(0, 10);
-    var comingDate = nextMonth.toISOString().slice(0, 10);
+    var closeRecruitDate = date
+    var goingDate = currentMonth
+    var comingDate = nextMonth
     var area = selectedCategory;
     var sigungu = selectedSubCategory;
 
-    console.log(goingDate);
-    console.log(comingDate);
-
-    formData.append("image", image[0]);
     const contentsData = {
       title,
       capacity,
@@ -167,23 +185,14 @@ function NavBar() {
       sigungu,
     };
 
+    console.log(contentsData)
+
+    formData.append("image", image[0]);
     formData.append(
       "contentsData",
       new Blob([JSON.stringify(contentsData)], { type: "application/json" })
     );
 
-    if (
-      !image ||
-      !title ||
-      !capacity ||
-      !closeRecruitDate ||
-      !goingDate ||
-      !comingDate ||
-      !area ||
-      !sigungu
-    ) {
-      alert("모든 항목을 입력해주세요.");
-    } else {
       axios
         .post("http://localhost:8080/api/trip/create", formData, {
           headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}`},
@@ -390,7 +399,7 @@ function NavBar() {
       width: 100,
       render: () => (
         <Form.Item label="여행 시작 날짜">
-          <DatePicker selected={currentMonth} onChange={handleCurrentMonthChange} placeholderText="가는 날 선택" popperPlacement="bottom-start" />
+          <DatePicker selected={currentMonth} onChange={(date,dateString) => handleCurrentMonthChange(dateString)} placeholderText="가는 날 선택" popperPlacement="bottom-start" />
         </Form.Item>
       ),
     },
@@ -400,7 +409,7 @@ function NavBar() {
       width: 100,
       render: () => (
         <Form.Item label="여행 종료 날짜">
-          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={handleNextMonthChange} placeholderText="오는 날 선택" popperPlacement="bottom-start" />
+          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={(date,dateString) => handleNextMonthChange(dateString)} placeholderText="오는 날 선택" popperPlacement="bottom-start" />
         </Form.Item>
       ),
     },
@@ -449,7 +458,8 @@ function NavBar() {
                                   ({ value: subCategory, 
                                      label: subCategory, 
                                      children: subCategories[subCategory]?.map
-                                     (city => ({ value: city, label: city })) })) }))} 
+                                     (city => ({ value: city, label: city })) })) }))}
+                                     onChange={handleCascaderChange} 
                                      size="large"
                                      placeholder="지역을 선택하세요" />
                    </Form>
@@ -473,7 +483,7 @@ function NavBar() {
                     />
                   </Form>
                   <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" onClick={handleSubmit}>
                       등록
                     </Button>
                   </Form.Item>
