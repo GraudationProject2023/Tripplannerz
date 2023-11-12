@@ -122,8 +122,8 @@ public class TestInitDb {
             //em.persist(memberParty1);
 
             Trip trip = Trip.builder()
-                    .comingDate("2023-05-05")
-                    .startingDate("2027-05-01")
+                    .comingDate("2023-11-19")
+                    .startingDate("2023-11-17")
                     .title("서울여행")
                     .areaCode(1)
                     .tripImage(new ArrayList<>())
