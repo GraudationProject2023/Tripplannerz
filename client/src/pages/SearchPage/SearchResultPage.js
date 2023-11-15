@@ -176,12 +176,14 @@ function SearchResultPage(props) {
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div style={{marginLeft: '20px', flex: '1'}}>
+            <div style={{marginTop: '-10%', maxHeight: '600px' ,overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
+            <br />
             <h4>
               {startingDate} ~ {comingDate}
             </h4>
-            <h5>내용: {content}</h5>
+            <br />
+            <h5>내용: {content} </h5>
             <br />
             <Timeline>
             {timeLineItem && timeLineItem.map((item,index) => (
@@ -190,8 +192,10 @@ function SearchResultPage(props) {
               </Timeline.Item>
             ))}
             </Timeline>
-            <Button onClick={handleChangeTimeLineItem}>경로 최적화</Button>
-            <Button onClick={handleOpenModal}>동행 신청</Button>
+            <table>
+              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
+              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
+            </table>
             </div>
             <Modal 
              show={requestAccompanyModal} 
@@ -208,9 +212,9 @@ function SearchResultPage(props) {
               </Form>
              </Modal.Body>
             </Modal>
-            <div style={{marginLeft: '20px', flex: '2'}}>
+            <div style={{marginTop: '-25px', marginLeft: '20px', flex: '2'}}>
               <h3>여행 장소</h3>
-              <Input style={{width: '400px'}} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
+              <Input style={{width: '400px'}} value={searchPlaceInput} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
               <Button onClick={handleUpdateSearchInput}>입력</Button>
             </div>
           </Card.Body>
