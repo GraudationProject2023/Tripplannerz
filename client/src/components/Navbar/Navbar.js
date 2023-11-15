@@ -134,23 +134,24 @@ function NavBar() {
   const onImageChange = ({ fileList: newFileList }) => {
     setImage(newFileList);
   };
-  const onImageInput = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
 
-    reader.onload = () => {
-      setImage([
-        {
-          uid: '-2',
-          name: file.name,
-          status: 'done',
-          url: reader.result,
-        },
-      ]);
-    };
+  // const onImageInput = (e) => {
+  //   const file = e.target.files[0];
+  //   const reader = new FileReader();
 
-    reader.readAsDataURL(file);
-  };
+  //   reader.onload = () => {
+  //     setImage([
+  //       {
+  //         uid: '-2',
+  //         name: file.name,
+  //         status: 'done',
+  //         url: reader.result,
+  //       },
+  //     ]);
+  //   };
+
+  //   reader.readAsDataURL(file);
+  // };
 
   const onImagePreview = (file) => {
     const imgWindow = window.open(file.url);
@@ -185,9 +186,10 @@ function NavBar() {
       sigungu,
     };
 
+    console.log(image[0])
     console.log(contentsData)
 
-    formData.append("image", image[0]);
+    formData.append("image", image[0].originFileObj);
     formData.append(
       "contentsData",
       new Blob([JSON.stringify(contentsData)], { type: "application/json" })
