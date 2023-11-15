@@ -12,13 +12,55 @@ import "./MainPage.css";
 
 function MainPage() {
   let token = localStorage.getItem("token");
-  const [travelList, setTravelList] = useState([])
+  const [travelList, setTravelList] = useState([
+  {
+    title: '서울',
+    currentNum: 1,
+    recruitNum: 3,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '부산',
+    currentNum: 2,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '대구',
+    currentNum: 3,
+    recruitNum: 8,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '인천',
+    currentNum: 5,
+    recruitNum: 6,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '대전',
+    currentNum: 1,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '제주',
+    currentNum: 4,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  }])
 
   const currentNumber = 0
   const order = "new"
 
-  const fetchData = async () => {
-    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
+  const fetchData = () => {
+    const response =  axios.get(`http://localhost:8080/api/trip/entireTripList`,{
         headers: {'Authorization': `Bearer ${token}`}
       })
     console.log(response.data.content)
@@ -30,7 +72,7 @@ function MainPage() {
       localStorage.setItem("cast", 1);
       localStorage.setItem("rank", -1);
       localStorage.setItem("vest", 1);
-      fetchData()
+      // fetchData()
   },[]);
 
   function movetoSubPage(point) {
@@ -52,18 +94,18 @@ function MainPage() {
               <List.Item>
               <Card
                 onClick={(e) => movetoSubPage(item.id)}
-                style={{ width: '300px', height: '400px' ,borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                style={{ width: '300px', height: '340px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               >
               <h3 style={{ color: '#1890ff', marginBottom: '10px', textAlign: 'center' ,fontWeight: 'bold', fontSize: '1.5rem' }}>
                 {item.title}
               </h3>
               <hr />
-              <KakaoMap width="200px" height="200px"/>
+              {/* <KakaoMap width="200px" height="200px"/> */}
               <div style={{ color: '#666', marginBottom: '10px', fontSize: '1rem' }}>
-                <strong>인원 현황:</strong>
+                <strong>인원 현황: </strong>
                   {item.currentNum} / {item.recruitNum}
                 <br />
-                <Progress percent={(item.currentNum / item.recruitNum) * 100} status="active" />
+                <Progress percent={Math.floor((item.currentNum / item.recruitNum) * 100)} status="active" />
               </div>
               <div style={{ color: '#666', fontSize: '0.9rem' }}>
                 <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}

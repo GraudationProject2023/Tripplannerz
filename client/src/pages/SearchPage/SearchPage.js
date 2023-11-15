@@ -124,33 +124,47 @@ function SearchPage() {
         title: '마감날짜',
         dataIndex: 'deadline',
         key: 'deadline',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        ),
       },
       {
         title: '인원 수',
         dataIndex: 'participants',
         key: 'participants',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        ),
       },
       {
         title: '일정 날짜',
         dataIndex: 'startingDate',
         key: 'startingDate',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        ),
       },
     ]
 
     const data = posts.map((post,index) => ({
       key: postNumber[index],
       title: post.title,
-      deadline: post.deadline,
-      participants: post.participants,
-      startingDate: post.startingDate,
-      comingDate: post.comingDate,
+      deadline: post.comingDate,
+      participants: post.currentNum.toString() + ' / ' + post.recruitNum.toString(),
+      startingDate: post.comingDate + ' ~ ' + post.startingDate,
     }))
 
     if (currentPage !== 1) {
       return (
         <div className="showData">
           <ul className="list">
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} pagination={false} />
           </ul>
         </div>
       );

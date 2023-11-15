@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import {Input} from 'antd'
 import { Button, Form, Card, Modal } from "react-bootstrap";
 import {Timeline} from 'antd'
 import Navbar from "../../components/Navbar/Navbar"
@@ -46,6 +47,12 @@ function SearchResultPage(props) {
 
   const [userName, setUserName] = useState("");
 
+  const [searchPlace, setSearchPlace] = useState([])
+
+  const [searchPlaceInput, setSearchPlaceInput] = useState("")
+
+  const [searchPlaceSort, setSearchPlaceSort] = useState(false)
+
   useEffect(() => {
     console.log(recoilComment);
 
@@ -55,6 +62,7 @@ function SearchResultPage(props) {
     }).then((res) => {
       setTripUuid(res.data.uuid);
       setTitle(res.data.title);
+      setSearchPlaceInput(res.data.title)
       setStartingDate(res.data.startingDate);
       setComingDate(res.data.comingDate);
       setContent(res.data.content);
@@ -129,40 +137,63 @@ function SearchResultPage(props) {
     }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
   }
 
-  const timeLineItem = [
-    {
-      children: 'Create a services site 2015-09-01',
-    },
-    {
-      children: 'Solve initial network problems 2015-09-01',
-    },
-    {
-      children: 'Technical testing 2015-09-01',
-    },
-    {
-      children: 'Network problems being solved 2015-09-01',
-    },
-  ]
+  const handleSearchInput = (event) => {
+    setSearchPlaceInput(event.target.value)
+  }
+
+  const handleUpdateSearchInput = () => {
+    setSearchPlace([...searchPlace, {children: searchPlaceInput}])
+    setSearchPlaceInput("")
+  }
+
+  const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
+      children: item.children
+  })): null
+
+
+  const handleChangeTimeLineItem = () => {
+      const originalOrder = [...searchPlace]
+      if(originalOrder.length === 0)
+      {
+        alert('경로를 입력해주세요')
+      }
+
+      setSearchPlace(originalOrder.reverse())
+  }
+
+  const handleDeleteCertainComment = (index) => {
+    const newComment = comments.filter((comment, idx) => idx !== index)
+    setComments(newComment)
+
+    alert('댓글이 삭제되었습니다.')
+
+    window.location.href=`/search/${arr[2]}`    
+  }
  
   return (
     <div>
       <Navbar />
-      <Kakao />
-      <div className="ResultContent">
-        <Card style={{
-          width: "500px",
-          height: "400px"
-        }}>
-          <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Subtitle>
+        <Card>
+          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
+            <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
+            <div style={{marginLeft: '20px', flex: '1'}}>
+            <h3>{title}</h3>
+            <h4>
               {startingDate} ~ {comingDate}
-            </Card.Subtitle>
+            </h4>
+            <h5>내용: {content}</h5>
             <br />
-            <Card.Text>내용: {content}</Card.Text>
-            <Timeline items={timeLineItem}/>
+            <Timeline>
+            {timeLineItem && timeLineItem.map((item,index) => (
+              <Timeline.Item key={index}>
+                {item.children}
+              </Timeline.Item>
+            ))}
+            </Timeline>
+            <Button onClick={handleChangeTimeLineItem}>경로 최적화</Button>
             <Button onClick={handleOpenModal}>동행 신청</Button>
-            <Modal style={{width: '600px', height: '600px'}} 
+            </div>
+            <Modal 
              show={requestAccompanyModal} 
              onHide={handleCloseModal}>
              <Modal.Header closeButton>
@@ -177,55 +208,46 @@ function SearchResultPage(props) {
               </Form>
              </Modal.Body>
             </Modal>
+            <div style={{marginLeft: '20px', flex: '2'}}>
+              <h3>여행 장소</h3>
+              <Input style={{width: '400px'}} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
+              <Button onClick={handleUpdateSearchInput}>입력</Button>
+            </div>
           </Card.Body>
         </Card>
-      </div>
-      <div className="ResultComment">
-        <Card style={{
-          width: "905px",
-          height: "200px"
-        }}>
-          <Card.Body>
-            <Card.Title>댓글</Card.Title>
-            <Form.Group>
-              <Form.Control
+      <div className="CommentList">
+        <Form.Group>
+          <Form.Control
                 as="textarea"
                 rows={3}
                 value={review}
                 onChange={handleReviewChange}
                 onKeyDown={keyDown}
-              />
-            </Form.Group>
-            <Button
-              variant="primary"
-              onClick={handleAddComment}
-            >
-              댓글 추가
-            </Button>
-          </Card.Body>
-        </Card>
-      </div>
-      <div className="CommentList">
+          />
+        </Form.Group>
+        <Button
+          variant="primary"
+          onClick={handleAddComment}
+        >
+          댓글 추가
+        </Button>
         {comments.length === 0
           ? ""
           : comments.map((comment, index) => (
             <div>
-              <Card style={{
-                width: "600px",
-                height: "120px"
-              }} key={index}>
+              <Card key={index}>
                 <p>날짜: {comment.postDate}</p>
                 <p>글쓴이: {comment.senderName}</p>
                 <p>댓글: {comment.review}</p>
               </Card>
               {comment.senderName === userName ? (
-                <Button>
+                <Button onClick={() => handleDeleteCertainComment(index)}>
                   삭제
                 </Button>) : ""}
               </div>
             ))}
       </div>
-    </div>
+      </div>
   );
 }
 
