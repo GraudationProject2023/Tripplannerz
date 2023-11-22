@@ -1,6 +1,7 @@
 export interface Member {
-    email?: string
-    gender?: string | null
     name?: string
-    preferences?: string[]
+    gender?: string
+    email?: string
+    pw?: string
+    types?: string[]
 }

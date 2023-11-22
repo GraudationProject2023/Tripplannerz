@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export const postMemberRegister = async(name: string, gender: string, pw: string, email: string, types: string | null) => {
+export const postMemberRegister = async(name: string, gender: string, email: string, pw: string, types: string[]) => {
     
     const postToServer = {
         name: name,
         gender: gender,
-        pw: pw,
         email: email,
+        pw: pw,
         types: types
     };
 
