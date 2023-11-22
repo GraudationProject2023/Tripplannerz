@@ -84,7 +84,7 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
     const disPlayMarker = (map, place) => {
       const marker = new kakao.maps.Marker({
         map: map,
-        position: new kakao.maps.LatLng(place.place_y, place.place_x),
+        position: new kakao.maps.LatLng(place.y, place.x),
       });
 
       kakao.maps.event.addListener(marker, 'click', function () {
@@ -95,7 +95,13 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
         );
         infowindow.open(map, marker);
       });
+
+      const latitudeList = [];
+      latitudeList.push(place.x, place.y);
+
+      localStorage.setItem('latitude', latitudeList);
     };
+
 
   }, [searchKeyword]);
 
