@@ -144,6 +144,17 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
+    const postToServer = {
+      name: searchPlaceInput,
+      x: latitude.split(',')[0],
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    } 
+
+    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+    }).then((res) => console.log(res))
+
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
       x: latitude.split(',')[0], 
@@ -167,9 +178,9 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
-          headers: {'Authorization' : `Bearer ${token}`}
-      }).then((res) => console.log(res))    
+      // axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
+      //     headers: {'Authorization' : `Bearer ${token}`}
+      // }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
