@@ -59,8 +59,10 @@ function MainPage() {
   const currentNumber = 0
   const order = "new"
 
-  const fetchData = () => {
-    const response =  axios.get(`http://localhost:8080/api/trip/entireTripList`,{
+  const fetchData = async() => {
+    const response =  await axios.get(
+      `http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,
+      {
         headers: {'Authorization': `Bearer ${token}`}
       })
     console.log(response.data.content)
@@ -72,7 +74,7 @@ function MainPage() {
       localStorage.setItem("cast", 1);
       localStorage.setItem("rank", -1);
       localStorage.setItem("vest", 1);
-      // fetchData()
+      fetchData()
   },[]);
 
   function movetoSubPage(point) {
