@@ -204,7 +204,7 @@ function SearchResultPage(props) {
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', marginTop: '-6.5%' , maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
             <br />
             <h5>
