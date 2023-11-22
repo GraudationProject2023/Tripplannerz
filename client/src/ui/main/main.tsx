@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, List, Progress, FloatButton } from "antd";
 import { QuestionCircleOutlined } from '@ant-design/icons'
+
+import { getEntireTripList } from "@/application/api/getEntireTripList";
 // import NavBar from '../../components/Navbar/Navbar'
 // import Footer from '../../components/Footer/Footer'
 // import { ImageSlider } from "../../util/ImageSlider";
@@ -56,25 +58,18 @@ function MainPage() {
     comingDate: '2023-11-11',
   }])
 
-  const currentNumber = 0
-  const order = "new"
 
-  const fetchData = () => {
-    const response =  axios.get(`http://localhost:8080/api/trip/entireTripList`,{
-        headers: {'Authorization': `Bearer ${token}`}
-      })
+  const fetchData = async() => {
+    const response = await getEntireTripList(token);
     console.log(response.data.content)
     const updateList = response.data.content
     setTravelList(updateList)
   }
-  
-  useEffect(() => {
-      localStorage.setItem("cast", 1);
-      localStorage.setItem("rank", -1);
-      localStorage.setItem("vest", 1);
-      // fetchData()
-  },[]);
 
+  useEffect(() => {
+    fetchData();
+  }, [])
+  
   function movetoSubPage(point) {
     window.location.href = `/search/${point}`;
   }
