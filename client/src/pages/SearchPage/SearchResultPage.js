@@ -144,16 +144,16 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
-    const postToServer = {
-      name: searchPlaceInput,
-      x: latitude.split(',')[0],
-      y: latitude.split(',')[1],
-      tripUUID: tripUuid
-    } 
+    // const postToServer = {
+    //   name: searchPlaceInput,
+    //   x: latitude.split(',')[0],
+    //   y: latitude.split(',')[1],
+    //   tripUUID: tripUuid
+    // } 
 
-    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-          headers: {'Authorization' : `Bearer ${token}`}
-    }).then((res) => console.log(res))
+    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+    //       headers: {'Authorization' : `Bearer ${token}`}
+    // }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -178,13 +178,15 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      const postToServer = {
-        tripUUID: tripUuid
-      }
+      setSearchPlace(originalOrder.reverse())
 
-      axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-          headers: {'Authorization' : `Bearer ${token}`}
-      }).then((res) => console.log(res))    
+      // const postToServer = {
+      //   tripUUID: tripUuid
+      // }
+
+      // axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
+      //     headers: {'Authorization' : `Bearer ${token}`}
+      // }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -202,7 +204,7 @@ function SearchResultPage(props) {
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', marginTop: '-7.5%', maxHeight: '600px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', marginTop: '-6.5%' , maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
             <br />
             <h5>
@@ -215,7 +217,7 @@ function SearchResultPage(props) {
             <br />
             <h5>내용: {content ? content : "예시 여행입니다."} </h5>
             <br />
-            <div style={{border: '1px solid skyblue', borderRadius: '10px'}}>
+            <div style={{minHeight: '250px', maxHeight: '250px', overflowY: 'auto', border: '1px solid skyblue', borderRadius: '10px'}}>
             <h5>타임라인</h5>
             <br />
             <Timeline>
