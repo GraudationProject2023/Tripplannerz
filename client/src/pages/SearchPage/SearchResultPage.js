@@ -178,9 +178,13 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      // axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
-      //     headers: {'Authorization' : `Bearer ${token}`}
-      // }).then((res) => console.log(res))    
+      const postToServer = {
+        tripUUID: tripUuid
+      }
+
+      axios.post('http://localhost:8080/api/optimizeRoute', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+      }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
