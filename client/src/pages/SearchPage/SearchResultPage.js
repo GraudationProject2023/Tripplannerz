@@ -200,20 +200,23 @@ function SearchResultPage(props) {
     <div>
       <Navbar />
         <Card>
-          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
+          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div style={{marginTop: '-10%', maxHeight: '600px' ,overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', marginTop: '-7.5%', maxHeight: '600px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
             <br />
-            <h4>
-            {startingDate < comingDate ? (
+            <h5>
+            여행 기간 : {startingDate < comingDate ? (
               `${startingDate} ~ ${comingDate}`
             ) : (
               `${comingDate} ~ ${startingDate}`
             )}
-            </h4>
+            </h5>
             <br />
-            <h5>내용: {content} </h5>
+            <h5>내용: {content ? content : "예시 여행입니다."} </h5>
+            <br />
+            <div style={{border: '1px solid skyblue', borderRadius: '10px'}}>
+            <h5>타임라인</h5>
             <br />
             <Timeline>
             {timeLineItem && timeLineItem.map((item,index) => (
@@ -222,9 +225,10 @@ function SearchResultPage(props) {
               </Timeline.Item>
             ))}
             </Timeline>
+            </div>
             <table>
-              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
-              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
+              <td><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
+              <td style={{padding: '75px'}}><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
             </table>
             </div>
             <Modal 
