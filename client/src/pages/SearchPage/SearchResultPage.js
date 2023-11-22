@@ -159,6 +159,13 @@ function SearchResultPage(props) {
       }
 
       setSearchPlace(originalOrder.reverse())
+
+      /*
+        axios.post('', originalOrder, {
+          header: {'Authorization' : `Bearer ${token}`}
+        }).then((res) => console.log(res))
+
+      */
   }
 
   const handleDeleteCertainComment = (index) => {
