@@ -6,9 +6,12 @@ import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { postEmailSend } from '@/application/api/postEmailSend';
 import { postEmailConfirm } from '@/application/api/postEmailConfirm';
+import { postLoginJwt } from '@/application/api/postLoginJwt';
+import { postMemberRegister } from '@/application/api/postMemberRegister'; 
+import styles from '@/ui/start/start.module.css';
 
 import sight from '../../Image/관광지.png'
-import './StartAnimationPage.css'
+
 // import {Modal, Form, Button} from 'react-bootstrap'
 // import Footer from '../../components/Footer/Footer';
 
@@ -16,7 +19,7 @@ const onButtonClick = () => {
   console.log("이메일 전송 완료");
 };
 
-function StartAnimation() {
+function StartPage() {
   const element = useRef(null)
 
   const [inViewPort, setInViewPort] = useState(false);
@@ -162,64 +165,63 @@ function StartAnimation() {
     //   });
   };
 
-  const handleJWTLogin = (event) => {
+  const handleJWTLogin = async(event) => {
     event.preventDefault();
-    const credentialDto = {
-      email: email,
-      pw: password,
-    };
-    axios.post(
-        "http://localhost:8080/api/members/loginJWT",
-        credentialDto
-      ).then((res) => 
-      {
-        const token = res.data.token
-        if(token !== null){
-        localStorage.setItem("token", token);
+    
+    const response = await postLoginJwt(email, password);
 
-        let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true
-        })
+    // axios.post(
+    //     "http://localhost:8080/api/members/loginJWT",
+    //     credentialDto
+    //   ).then((res) => 
+    //   {
+    //     const token = res.data.token
+    //     if(token !== null){
+    //     localStorage.setItem("token", token);
 
-        console.log(tempEvent)
+    //     let tempEvent = new EventSourcePolyfill("http://localhost:8080/api/sub", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     withCredentials: true
+    //     })
 
-        tempEvent.onopen = (e) =>{
-          console.log('알림성공')
-        } 
+    //     console.log(tempEvent)
 
-        tempEvent.onmessage = function(e) {
-          const data = e.data;
-          console.log(data)
-        }
+    //     tempEvent.onopen = (e) =>{
+    //       console.log('알림성공')
+    //     } 
 
-        localStorage.setItem("name",name);
-        alert("반갑습니다! 로그인이 되었습니다.");
-        window.location.href = "/main";
-        } else{
-          alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
-        }
-      })
-      .catch((error) => {
-        console.log(error.response.data.message)
+    //     tempEvent.onmessage = function(e) {
+    //       const data = e.data;
+    //       console.log(data)
+    //     }
 
-        if(error.response.data.message === 'Invalid password')
-        {
-          alert('비밀번호가 틀렸습니다.')
-        }
-        else if(error.response.data.message === 'Unknown user')
-        {
-          alert('등록되지 않은 유저입니다.')
-        }
+    //     localStorage.setItem("name",name);
+    //     alert("반갑습니다! 로그인이 되었습니다.");
+    //     window.location.href = "/main";
+    //     } else{
+    //       alert("로그인에 오류가 발생하였습니다. 다시 로그인 진행해주세요!");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data.message)
 
-        window.location.href="/"
-      })
-      ;
+    //     if(error.response.data.message === 'Invalid password')
+    //     {
+    //       alert('비밀번호가 틀렸습니다.')
+    //     }
+    //     else if(error.response.data.message === 'Unknown user')
+    //     {
+    //       alert('등록되지 않은 유저입니다.')
+    //     }
+
+    //     window.location.href="/"
+    //   })
+    //   ;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     var cas = localStorage.getItem("cast");
     var rank = localStorage.getItem("rank");
@@ -227,29 +229,30 @@ function StartAnimation() {
     if (!name || !gender || !password || !email || rank === "-1") {
       alert("모든 항목을 입력하셔야 합니다.");
     } else {
-      if (cas === "1") {
-        axios
-          .post("http://localhost:8080/api/members/register", {
-            name: name,
-            gender: gender,
-            pw: password,
-            email: email,
-            types: rank,
-          })
-          .then((res) => console.log(res));
-        alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
-        setShowModal(false);
-      } else if (cas === "0") {
-        alert("이메일 인증을 먼저 진행해주세요.");
-      }
+      const response = await postMemberRegister(name, gender, password, email, rank);
+      // if (cas === "1") {
+      //   axios
+      //     .post("http://localhost:8080/api/members/register", {
+      //       name: name,
+      //       gender: gender,
+      //       pw: password,
+      //       email: email,
+      //       types: rank,
+      //     })
+      //     .then((res) => console.log(res));
+      //   alert(`반갑습니다. ${name}님! 로그인을 진행해주세요`);
+      //   setShowModal(false);
+      // } else if (cas === "0") {
+      //   alert("이메일 인증을 먼저 진행해주세요.");
+      // }
     }
   };
 
   useEffect(() => {
     
-    localStorage.setItem("cast", 0);
-    localStorage.setItem("rank", -1);
-    localStorage.setItem("vest", 0);
+    // localStorage.setItem("cast", 0);
+    // localStorage.setItem("rank", -1);
+    // localStorage.setItem("vest", 0);
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
@@ -272,36 +275,28 @@ function StartAnimation() {
   }, []);
 
   return (
-    <div className="StartAnimation">
-      <StyledAboutContainer ref={element} className={inViewPort ? 'animation' : ''}>
-        <StyledAboutImage src={sight} alt="시작 이미지" />
+    <div className={styles.startContainer}>
+      <div className={styles.startAnimationContainer}>
+        {/* <Image src={sight} alt="시작 이미지" /> */}
         <br />
         <br />
-        <AboutTitle className={inViewPort ? 'animation' : ''}>
           TripPlannerz
-        </AboutTitle>
         <br />
         <br />
-        <AboutContent className={inViewPort ? 'animation' : ''}>
           여행을 좋아하시는 분들에게 특별한 경험을 전해드립니다.
-        </AboutContent>
-      </StyledAboutContainer>
-      {showSecondContainer && (
-        <StyledAboutContainer className={inViewPort ? 'animation': ''}>
-        <AboutContent className={inViewPort ? 'animation' : ''}>
+      </div>
+      <div className={styles.startAnimationContainer}>
           자유롭게 여행 계획을 세우고, 여행을 같이 가고 싶은 동행자를 찾아보세요.
-        </AboutContent>
         <br />
         <br />
         <table>
           <td>
-          <AboutButton 
-            variant="primary" 
+          <button  
             onClick={handleFirstShow}
           >
              로그인
-          </AboutButton>
-          <Modal
+          </button>
+          {/* <Modal
             className="LoginModal"
             show={firstShowModal}
             onHide={handleFirstClose}
@@ -349,16 +344,15 @@ function StartAnimation() {
               </Modal.Body>
               </Modal>
             </Modal.Footer>
-          </Modal>
+          </Modal> */}
           </td>
           <td style={{padding: '30px'}}>
-          <AboutButton 
-            variant="primary" 
+          <button
             onClick={handleShow}
           >
             회원가입
-          </AboutButton>
-          <Modal
+          </button>
+          {/* <Modal
           className="SignUpModal"
           style={{ width: "600px", height: "700px" }}
           show={showModal}
@@ -479,13 +473,12 @@ function StartAnimation() {
               저장하기
             </Button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
           </td>
         </table>
-        </StyledAboutContainer>
-      )}
+        </div>
     </div>
   );
 }
 
-export default StartAnimation;
+export default StartPage;
