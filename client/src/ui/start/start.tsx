@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import type { Member } from '@/domain/Member';
-
-// import CountdownTimer from "../../util/CountdownTimer";
-// import { SelectPreference } from '../../util/SelectPreference';
-// import {StyledAboutContainer, StyledAboutImage, AboutTitle, AboutContent, AboutButton } from '../../style/StyleComponent'
 // import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { postEmailSend } from '@/application/api/postEmailSend';
 import { postEmailConfirm } from '@/application/api/postEmailConfirm';
 import { postLoginJwt } from '@/application/api/postLoginJwt';
 import { postMemberRegister } from '@/application/api/postMemberRegister'; 
-import styles from '@/ui/start/start.module.css';
+
 import sight from '@/lib/image/관광지.png';
 
-// import Footer from '../../components/Footer/Footer';
+import styles from '@/ui/start/start.module.css';
+import { LoginModal } from '@/ui/start/modal/loginModal';
+import { SignUpModal } from '@/ui/start/modal/signUpModal';
+
 
 function StartPage() {
 
@@ -25,8 +24,11 @@ function StartPage() {
       types: [],
   });
   
-  const [emailCode, setEmailCode] = useState(''); //이메일 인증 코드
-  const [confirmPassword, setConfirmPassword] = useState(''); // 비밀번호 확인
+  const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
+  const [confirmPassword, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
+  
+  const [toggleLoginModal, setToggleLoginModal] = useState<boolean>(false); //로그인 모달
+  const [toggleSignUpModal, setToggleSignUpModal] = useState<boolean>(false); //회원가입 모달
 
   const sendEmailToServer = async(event) => {
     event.preventDefault();
@@ -95,12 +97,13 @@ function StartPage() {
           <button>
              로그인
           </button>
+          <LoginModal />
           </td>
           <td style={{padding: '30px'}}>
           <button>
             회원가입
           </button>
-          {/*  */}
+          <SignUpModal />
           </td>
         </table>
         </div>
