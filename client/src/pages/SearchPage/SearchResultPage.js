@@ -142,23 +142,34 @@ function SearchResultPage(props) {
   }
 
   const handleUpdateSearchInput = () => {
-    setSearchPlace([...searchPlace, {children: searchPlaceInput}])
+    const latitude = localStorage.getItem('latitude');
+
+    setSearchPlace([...searchPlace, {
+      name: searchPlaceInput, 
+      x: latitude.split(',')[0], 
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    }])
+    console.log(searchPlace)
     setSearchPlaceInput("")
   }
 
   const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
-      children: item.children
+      children: item.name
   })): null
 
 
   const handleChangeTimeLineItem = () => {
       const originalOrder = [...searchPlace]
-      if(originalOrder.length === 0)
+      if(originalOrder.length < 1)
       {
-        alert('경로를 입력해주세요')
+        alert('2개 이상의 경로를 입력해주세요')
+        window.location.href = `/search/${arr[2]}`
       }
 
-      setSearchPlace(originalOrder.reverse())
+      axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
+          header: {'Authorization' : `Bearer ${token}`}
+      }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -176,12 +187,18 @@ function SearchResultPage(props) {
         <Card>
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div style={{marginLeft: '20px', flex: '1'}}>
+            <div style={{marginTop: '-10%', maxHeight: '600px' ,overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
             <h3>{title}</h3>
+            <br />
             <h4>
-              {startingDate} ~ {comingDate}
+            {startingDate < comingDate ? (
+              `${startingDate} ~ ${comingDate}`
+            ) : (
+              `${comingDate} ~ ${startingDate}`
+            )}
             </h4>
-            <h5>내용: {content}</h5>
+            <br />
+            <h5>내용: {content} </h5>
             <br />
             <Timeline>
             {timeLineItem && timeLineItem.map((item,index) => (
@@ -190,8 +207,10 @@ function SearchResultPage(props) {
               </Timeline.Item>
             ))}
             </Timeline>
-            <Button onClick={handleChangeTimeLineItem}>경로 최적화</Button>
-            <Button onClick={handleOpenModal}>동행 신청</Button>
+            <table>
+              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
+              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
+            </table>
             </div>
             <Modal 
              show={requestAccompanyModal} 
@@ -208,7 +227,7 @@ function SearchResultPage(props) {
               </Form>
              </Modal.Body>
             </Modal>
-            <div style={{marginLeft: '20px', flex: '2'}}>
+            <div style={{marginTop: '-25px', marginLeft: '20px', flex: '2'}}>
               <h3>여행 장소</h3>
               <Input style={{width: '400px'}} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
               <Button onClick={handleUpdateSearchInput}>입력</Button>
