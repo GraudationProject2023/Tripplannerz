@@ -120,7 +120,7 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
       <div>
       {markers ? (
         <Table
-          dataSource={markers.slice(0, 5)}
+          dataSource={markers.slice(0, 3)}
           columns={[
           {
             title: '여행하실 장소들',
