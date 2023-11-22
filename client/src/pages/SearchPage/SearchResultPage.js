@@ -168,7 +168,7 @@ function SearchResultPage(props) {
       }
 
       axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
-          header: {'Authorization' : `Bearer ${token}`}
+          headers: {'Authorization' : `Bearer ${token}`}
       }).then((res) => console.log(res))    
   }
 
