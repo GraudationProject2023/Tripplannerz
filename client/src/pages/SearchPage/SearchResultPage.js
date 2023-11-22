@@ -191,7 +191,11 @@ function SearchResultPage(props) {
             <h3>{title}</h3>
             <br />
             <h4>
-              {startingDate} ~ {comingDate}
+            {startingDate < comingDate ? (
+              `${startingDate} ~ ${comingDate}`
+            ) : (
+              `${comingDate} ~ ${startingDate}`
+            )}
             </h4>
             <br />
             <h5>내용: {content} </h5>
