@@ -392,26 +392,42 @@ function MyPage() {
         title: '마감날짜',
         dataIndex: 'deadline',
         key: 'deadline',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        )
       },
       {
         title: '인원 수',
         dataIndex: 'participants',
         key: 'participants',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        )
       },
       {
         title: '일정 날짜',
         dataIndex: 'startingDate',
         key: 'startingDate',
+        render: (text, record) => (
+          <span onClick={() => handleClick(record.key)} className="list-key">
+            {text}
+          </span>
+        )
       },
     ]
 
     const data = posts.map((post,index) => ({
       key: postNumber[index],
       title: post.title,
-      deadline: post.deadline,
-      participants: post.participants,
-      startingDate: post.startingDate,
-      comingDate: post.comingDate,
+      deadline: (post.startingDate < post.comingDate ? post.startingDate : post.comingDate),
+      participants: post.currentNum + ' / ' + post.recruitNum,
+      startingDate: (post.startingDate < post.comingDate ? 
+        post.startingDate + ' ~ ' + post.comingDate : 
+        post.comingDate + ' ~ ' + post.startingDate)
     }))
 
 
@@ -679,7 +695,7 @@ function MyPage() {
           </tbody>
         </table>
         <div>
-        {size === 0 ? (
+        {/* {size === 0 ? (
           ""
         ) : (
           <div className="searchText">
@@ -696,7 +712,7 @@ function MyPage() {
               </td>
             </table>
           </div>
-        )}
+        )} */}
         </div>
         <br />
         {size === 0 ? (

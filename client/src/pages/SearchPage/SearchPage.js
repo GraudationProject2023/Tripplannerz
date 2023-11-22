@@ -155,9 +155,11 @@ function SearchPage() {
     const data = posts.map((post,index) => ({
       key: postNumber[index],
       title: post.title,
-      deadline: post.startingDate.split('-')[0] + '-' + post.startingDate.split('-')[1] + '-20',
-      participants: post.currentNum.toString() + ' / ' + post.recruitNum.toString(),
-      startingDate: post.startingDate + ' ~ ' + post.comingDate,
+      deadline: (post.startingDate < post.comingDate ? post.startingDate : post.comingDate),
+      participants: post.currentNum + ' / ' + post.recruitNum,
+      startingDate: (post.startingDate < post.comingDate ? 
+        post.startingDate + ' ~ ' + post.comingDate : 
+        post.comingDate + ' ~ ' + post.startingDate)
     }))
 
     if (currentPage !== 1) {
