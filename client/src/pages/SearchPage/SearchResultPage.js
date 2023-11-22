@@ -142,30 +142,34 @@ function SearchResultPage(props) {
   }
 
   const handleUpdateSearchInput = () => {
-    setSearchPlace([...searchPlace, {children: searchPlaceInput}])
+    const latitude = localStorage.getItem('latitude');
+
+    setSearchPlace([...searchPlace, {
+      name: searchPlaceInput, 
+      x: latitude.split(',')[0], 
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    }])
+    console.log(searchPlace)
     setSearchPlaceInput("")
   }
 
   const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
-      children: item.children
+      children: item.name
   })): null
 
 
   const handleChangeTimeLineItem = () => {
       const originalOrder = [...searchPlace]
-      if(originalOrder.length === 0)
+      if(originalOrder.length < 1)
       {
-        alert('경로를 입력해주세요')
+        alert('2개 이상의 경로를 입력해주세요')
+        window.location.href = `/search/${arr[2]}`
       }
 
-      setSearchPlace(originalOrder.reverse())
-
-      /*
-        axios.post('', originalOrder, {
+      axios.post('http://localhost:8080/api/saveLocation', originalOrder, {
           header: {'Authorization' : `Bearer ${token}`}
-        }).then((res) => console.log(res))
-
-      */
+      }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -221,7 +225,7 @@ function SearchResultPage(props) {
             </Modal>
             <div style={{marginTop: '-25px', marginLeft: '20px', flex: '2'}}>
               <h3>여행 장소</h3>
-              <Input style={{width: '400px'}} value={searchPlaceInput} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
+              <Input style={{width: '400px'}} placeholder="여행장소를 입력하세요" onChange={handleSearchInput} />
               <Button onClick={handleUpdateSearchInput}>입력</Button>
             </div>
           </Card.Body>
