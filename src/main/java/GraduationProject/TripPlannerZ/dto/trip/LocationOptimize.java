@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TripRoute {
+public class LocationOptimize {
 
     private String tripUUID;
+    private String name;
 }

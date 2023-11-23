@@ -1,11 +1,10 @@
 package GraduationProject.TripPlannerZ.controller;
 
-import GraduationProject.TripPlannerZ.API.naver.NaverClient;
 import GraduationProject.TripPlannerZ.domain.Location;
 import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.dto.LocationOrder;
 import GraduationProject.TripPlannerZ.dto.LocationSave;
-import GraduationProject.TripPlannerZ.dto.trip.TripRoute;
+import GraduationProject.TripPlannerZ.dto.trip.LocationOptimize;
 import GraduationProject.TripPlannerZ.service.LocationService;
 import GraduationProject.TripPlannerZ.service.TripService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,15 @@ public class LocationController {
     private final TripService tripService;
 
     @PostMapping("/optimizeRoute")
-    public ArrayList<LocationOrder> optimizeRoute(@RequestBody TripRoute tripRoute) {
+    public void optimizeRoute(@RequestBody LocationOptimize locationOptimize) {
 
-        return locationService.optimizeOrder(tripRoute.getTripUUID());
+        locationService.optimizeOrder(locationOptimize);
+
+    }
+
+    @GetMapping("/getRoute")
+    public ArrayList<LocationOrder> getRoute(@RequestParam("tripUUID") String tripUUID) {
+        return locationService.getLocationInOrder(tripUUID);
 
     }
 

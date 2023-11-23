@@ -27,12 +27,15 @@ public class Location {
     @Nullable
     private Long orders;
 
+    private boolean start;
+
     @Builder
     public Location(String name, double x, double y, Trip trip) {
         this.name = name;
         this.x = x;
         this.y = y;
         setTrip(trip);
+        this.start = false;
     }
 
     public void setTrip(Trip trip) {
@@ -43,6 +46,7 @@ public class Location {
     public void setOrders(Long orders) {
         this.orders = orders;
     }
+    public void setStart(boolean start) { this.start = start; }
 
 
 }

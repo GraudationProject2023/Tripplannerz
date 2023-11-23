@@ -13,5 +13,8 @@ public class Summary {
     private Goal goal;
     private long distance;
     private long duration;
+    private long tollFare;
+    private long taxiFare;
+    private long fuelPrice;
 
 }
