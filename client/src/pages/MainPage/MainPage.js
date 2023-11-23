@@ -85,7 +85,7 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <div style={{height: 'calc(85vh)'}}>
+        <div style={{height: 'calc(75vh)'}}>
           <ImageSlider />
           <br />
           {/* <TravelChart /> */}
@@ -121,7 +121,6 @@ function MainPage() {
         style={{width: '60px', height: '60px'}}
         icon={<QuestionCircleOutlined/>}
       />
-      <Footer />
     </div>
   );
 }
