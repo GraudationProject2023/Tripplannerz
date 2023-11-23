@@ -144,16 +144,16 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
-    // const postToServer = {
-    //   name: searchPlaceInput,
-    //   x: latitude.split(',')[0],
-    //   y: latitude.split(',')[1],
-    //   tripUUID: tripUuid
-    // } 
+    const postToServer = {
+      name: searchPlaceInput,
+      x: latitude.split(',')[0],
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    } 
 
-    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-    //       headers: {'Authorization' : `Bearer ${token}`}
-    // }).then((res) => console.log(res))
+    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+    }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -170,23 +170,38 @@ function SearchResultPage(props) {
   })): null
 
 
-  const handleChangeTimeLineItem = () => {
+  const handleChangeTimeLineItem = async() => {
       const originalOrder = [...searchPlace]
-      if(originalOrder.length < 1)
+      if(originalOrder.length < 0)
       {
         alert('2개 이상의 경로를 입력해주세요')
         window.location.href = `/search/${arr[2]}`
       }
 
-      setSearchPlace(originalOrder.reverse())
+      const postToServer = {
+        tripUUID: tripUuid
+      }
 
-      // const postToServer = {
-      //   tripUUID: tripUuid
-      // }
+      const optimize = [];
 
-      // axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-      //     headers: {'Authorization' : `Bearer ${token}`}
-      // }).then((res) => console.log(res))    
+      const response = await axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+      })
+      
+      console.log(response);
+
+      response.data.forEach((data) => {
+        optimize.push(data.name);
+      })
+
+      console.log(optimize);
+
+      setSearchPlace(prevSearchPlace => (
+        prevSearchPlace.map((item, index) => ({
+          ...item,
+          name: optimize[index],
+        }))
+      ))
   }
 
   const handleDeleteCertainComment = (index) => {
