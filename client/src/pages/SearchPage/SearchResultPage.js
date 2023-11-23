@@ -178,30 +178,32 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      const postToServer = {
-        tripUUID: tripUuid
-      }
+      setSearchPlace(originalOrder.reverse());
 
-      const optimize = [];
+      // const postToServer = {
+      //   tripUUID: tripUuid
+      // }
 
-      const response = await axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-          headers: {'Authorization' : `Bearer ${token}`}
-      })
+      // const optimize = [];
+
+      // const response = await axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
+      //     headers: {'Authorization' : `Bearer ${token}`}
+      // })
       
-      console.log(response);
+      // console.log(response);
 
-      response.data.forEach((data) => {
-        optimize.push(data.name);
-      })
+      // response.data.forEach((data) => {
+      //   optimize.push(data.name);
+      // })
 
-      console.log(optimize);
+      // console.log(optimize);
 
-      setSearchPlace(prevSearchPlace => (
-        prevSearchPlace.map((item, index) => ({
-          ...item,
-          name: optimize[index],
-        }))
-      ))
+      // setSearchPlace(prevSearchPlace => (
+      //   prevSearchPlace.map((item, index) => ({
+      //     ...item,
+      //     name: optimize[index],
+      //   }))
+      // ))
   }
 
   const handleDeleteCertainComment = (index) => {
