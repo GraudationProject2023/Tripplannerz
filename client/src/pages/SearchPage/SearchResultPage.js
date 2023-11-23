@@ -205,6 +205,7 @@ function SearchResultPage(props) {
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
             <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <br />
             <h3>{title}</h3>
             <br />
             <h5>
@@ -217,10 +218,10 @@ function SearchResultPage(props) {
             <br />
             <h5>내용: {content ? content : "예시 여행입니다."} </h5>
             <br />
-            <div style={{minHeight: '250px', maxHeight: '250px', overflowY: 'auto', border: '1px solid skyblue', borderRadius: '10px'}}>
-            <h5>타임라인</h5>
-            <br />
-            <Timeline>
+            <div style={{ textAlign: 'center', minHeight: '250px', maxHeight: '250px', overflowY: 'auto', border: '4px solid skyblue', borderRadius: '10px'}}>
+            <h4 style={{padding: '5px'}}><strong>TimeLine</strong></h4>
+            <hr />
+            <Timeline mode="alternate">
             {timeLineItem && timeLineItem.map((item,index) => (
               <Timeline.Item key={index}>
                 {item.children}

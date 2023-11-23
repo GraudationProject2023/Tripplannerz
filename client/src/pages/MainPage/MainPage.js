@@ -85,7 +85,7 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <>
+        <div style={{height: 'calc(85vh)'}}>
           <ImageSlider />
           <br />
           {/* <TravelChart /> */}
@@ -114,7 +114,7 @@ function MainPage() {
             </Card>
             </List.Item>
           )}/>
-        </>
+        </div>
       }
       <FloatButton
         tooltip={<div>Questions</div>}
