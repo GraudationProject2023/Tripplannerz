@@ -37,7 +37,7 @@ public class LocationService {
     }
 
     @Transactional
-    public void optimizeOrder(LocationOptimize locationOptimize) {
+    public long optimizeOrder(LocationOptimize locationOptimize) {
 
         Trip trip = tripService.findByUUID(locationOptimize.getTripUUID()).get();
         Location prevStart = locationRepository.findStartNodeByTrip(trip);
@@ -71,9 +71,10 @@ public class LocationService {
                 tmp.setOrders((long)i);
             }
             Collections.sort(al);
+            return min / 1000 / 60;
 
         } else {
-            return;
+            return -1;
         }
 
 
