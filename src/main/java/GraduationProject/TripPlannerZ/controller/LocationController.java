@@ -8,6 +8,7 @@ import GraduationProject.TripPlannerZ.dto.trip.LocationOptimize;
 import GraduationProject.TripPlannerZ.service.LocationService;
 import GraduationProject.TripPlannerZ.service.TripService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,9 +22,10 @@ public class LocationController {
     private final TripService tripService;
 
     @PostMapping("/optimizeRoute")
-    public void optimizeRoute(@RequestBody LocationOptimize locationOptimize) {
+    public ResponseEntity<String> optimizeRoute(@RequestBody LocationOptimize locationOptimize) {
 
-        locationService.optimizeOrder(locationOptimize);
+        long min = locationService.optimizeOrder(locationOptimize);
+        return ResponseEntity.ok().body("{\"totalDuration\": " + min + " }");
 
     }
 
