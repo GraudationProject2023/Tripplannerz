@@ -210,10 +210,6 @@ function SearchPage() {
           <Pagination totalPage={totalPage}/>
         )}
       </div>
-      <br />
-      <br />
-      <br />
-      <Footer />
     </div>
   );
 }

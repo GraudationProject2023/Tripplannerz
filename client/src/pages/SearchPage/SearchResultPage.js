@@ -51,8 +51,6 @@ function SearchResultPage(props) {
 
   const [searchPlaceInput, setSearchPlaceInput] = useState("")
 
-  const [searchPlaceSort, setSearchPlaceSort] = useState(false)
-
   useEffect(() => {
     console.log(recoilComment);
 
@@ -144,16 +142,16 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
-    // const postToServer = {
-    //   name: searchPlaceInput,
-    //   x: latitude.split(',')[0],
-    //   y: latitude.split(',')[1],
-    //   tripUUID: tripUuid
-    // } 
+    const postToServer = {
+      name: searchPlaceInput,
+      x: latitude.split(',')[0],
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    } 
 
-    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-    //       headers: {'Authorization' : `Bearer ${token}`}
-    // }).then((res) => console.log(res))
+    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+    }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -168,9 +166,9 @@ function SearchResultPage(props) {
   const timeLineItem = searchPlace.length > 0 ? searchPlace.map(item => ({
       children: item.name
   })): null
+        
+  const handleChangeTimeLineItem = async() => {
 
-
-  const handleChangeTimeLineItem = () => {
       const originalOrder = [...searchPlace]
       if(originalOrder.length < 1)
       {
@@ -178,15 +176,7 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      setSearchPlace(originalOrder.reverse())
-
-      // const postToServer = {
-      //   tripUUID: tripUuid
-      // }
-
-      // axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-      //     headers: {'Authorization' : `Bearer ${token}`}
-      // }).then((res) => console.log(res))    
+      setSearchPlace(originalOrder.reverse());
   }
 
   const handleDeleteCertainComment = (index) => {
