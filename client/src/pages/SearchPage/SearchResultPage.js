@@ -170,11 +170,9 @@ function SearchResultPage(props) {
   })): null
 
 
-  const handleChangeTimeLineItem = async() => {
-      const originalOrder = [...searchPlace]
-      if(originalOrder.length < 0)
+
         
-  const handleChangeTimeLineItem = () => {
+  const handleChangeTimeLineItem = async() => {
       const originalOrder = [...searchPlace]
       if(originalOrder.length < 1)
       {
