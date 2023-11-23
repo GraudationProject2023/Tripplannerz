@@ -173,6 +173,10 @@ function SearchResultPage(props) {
   const handleChangeTimeLineItem = async() => {
       const originalOrder = [...searchPlace]
       if(originalOrder.length < 0)
+        
+  const handleChangeTimeLineItem = () => {
+      const originalOrder = [...searchPlace]
+      if(originalOrder.length < 1)
       {
         alert('2개 이상의 경로를 입력해주세요')
         window.location.href = `/search/${arr[2]}`
@@ -204,6 +208,8 @@ function SearchResultPage(props) {
           name: optimize[index],
         }))
       ))
+    
+      setSearchPlace(originalOrder.reverse())
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -222,6 +228,17 @@ function SearchResultPage(props) {
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
             <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <br />
+            <h3>{title}</h3>
+            <br />
+            <h5>
+            여행 기간 : {startingDate < comingDate ? (
+              `${startingDate} ~ ${comingDate}`
+            ) : (
+              `${comingDate} ~ ${startingDate}`
+            )}
+            </h5>
+            <br />
             <br />
             <h3>{title}</h3>
             <br />

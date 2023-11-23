@@ -12,7 +12,49 @@ import "./MainPage.css";
 
 function MainPage() {
   let token = localStorage.getItem("token");
-  const [travelList, setTravelList] = useState([])
+  const [travelList, setTravelList] = useState([
+  {
+    title: '서울',
+    currentNum: 1,
+    recruitNum: 3,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '부산',
+    currentNum: 2,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '대구',
+    currentNum: 3,
+    recruitNum: 8,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '인천',
+    currentNum: 5,
+    recruitNum: 6,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '대전',
+    currentNum: 1,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  },
+  {
+    title: '제주',
+    currentNum: 4,
+    recruitNum: 5,
+    startingDate: '2023-10-20',
+    comingDate: '2023-11-11',
+  }])
 
   const currentNumber = 0
   const order = "new"
@@ -43,7 +85,7 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <div style={{height: 'calc(75vh)'}}>
+        <div style={{height: 'calc(85vh)'}}>
           <ImageSlider />
           <br />
           {/* <TravelChart /> */}
@@ -79,6 +121,7 @@ function MainPage() {
         style={{width: '60px', height: '60px'}}
         icon={<QuestionCircleOutlined/>}
       />
+      <Footer />
     </div>
   );
 }
