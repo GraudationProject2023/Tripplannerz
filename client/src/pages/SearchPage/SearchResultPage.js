@@ -80,13 +80,17 @@ function SearchResultPage(props) {
       setUserName(response.data.name)
     })
 
-    axios.get(`http://localhost:8080/api/getRoute&tripUUID=${tripUuid}`, {
-      headers: {'Authorization': `Bearer ${token}`},
-    }).then((response) => {
-      setSearchPlace(response.data)
-    })
-
   }, []);
+
+  useEffect(() => {
+    if(tripUuid){
+      axios.get(`http://localhost:8080/api/getRoute?tripUUID=${tripUuid}`,{
+      headers: {'Authorization': `Bearer ${token}`},
+      }).then((response) => {
+        setSearchPlace(response.data)
+      })
+    }
+  },[tripUuid])
 
   const handleOpenModal = () => {
     setRequestAccompanyModal(true);
@@ -203,12 +207,12 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     }
 
-    const response = await axios.post('http://localhost:8080/api/optimizeRoute',postToServer, {
+    await axios.post('http://localhost:8080/api/optimizeRoute',postToServer, {
       headers: {'Authorization': `Bearer ${token}`}
+    }).then((res) => {
+      setOptimizeModal(false);
+      window.location.href = `/search/${arr[2]}`;
     })
-
-    setOptimizeModal(false);
-    window.location.href = `/search/${arr[2]}`;
   }
 
   const handleDeleteCertainComment = (index) => {
