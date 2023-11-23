@@ -35,6 +35,9 @@ public class Trip {
     private int areaCode;
     private int sigunguCode;
 
+    @OneToMany(mappedBy = "trip")
+    private List<Location> locationList = new ArrayList<>();
+
     @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 

@@ -1,42 +1,149 @@
 package GraduationProject.TripPlannerZ.service;
 
-import GraduationProject.TripPlannerZ.API.ApiResponse;
-import GraduationProject.TripPlannerZ.API.Item;
+import GraduationProject.TripPlannerZ.API.naver.NaverClient;
+import GraduationProject.TripPlannerZ.API.naver.ShortestTimeRouteReq;
+import GraduationProject.TripPlannerZ.API.naver.ShortestTimeRouteRes;
+import GraduationProject.TripPlannerZ.domain.Location;
+import GraduationProject.TripPlannerZ.domain.Trip;
+import GraduationProject.TripPlannerZ.dto.LocationOrder;
+import GraduationProject.TripPlannerZ.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class LocationService {
 
-    private final WebClient webClient = WebClient.create("https://apis.data.go.kr/B551011/KorService1");
-    private final String serviceKey = "4B0yGfBS//YHcP9p7Xwt0DFfKDm2NIT2kq9Qnt/tCsEQ01PFyIxoyCFMUNx99M0IY38tKItC8on5gEETaNEJ8A==";
+    private final LocationRepository locationRepository;
+    private final TripService tripService;
+    private final NaverClient nc;
 
-    public List<Item> locationListByArea(String areaCode, String sigunguCode) {
+    private static int n;
+    private static long w[][], dp[][];
+    private static int parent[][];
+    private static long INF = Long.MAX_VALUE;
+    private static long min;
 
-        ApiResponse apiResponse = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/areaBasedList1")
-                        .queryParam("serviceKey", serviceKey)
-                        .queryParam("numOfRows", 10)
-                        .queryParam("pageNo", 1)
-                        .queryParam("MobileOS", "ETC")
-                        .queryParam("MobileApp", "TripPlannerZ")
-                        .queryParam("_type", "json")
-                        .queryParam("areaCode", areaCode)
-                        .queryParam("sigunguCode", sigunguCode)
-                        .build())
-                .retrieve()
-                .bodyToMono(ApiResponse.class)
-                .block();
+    public void saveLocation(Location loc) {
 
-        // .getResponse()가 null일 경우 예외처리 추가해 줘야됨
-        List<Item> items = apiResponse.getResponse().getBody().getItems().getItem();
+        locationRepository.save(loc);
 
-
-        return items;
     }
+
+    @Transactional
+    public ArrayList<LocationOrder> optimizeOrder(String tripUUID) {
+
+        Trip trip = tripService.findByUUID(tripUUID).get();
+        ArrayList<Location> locationList = locationRepository.findByTrip(trip);
+
+
+
+        if (locationList.size() > 1) {
+
+
+            n = locationList.size();
+            w = getCost(locationList);
+            dp = new long[n][(1 << n) - 1];
+            parent = new int[n][(1 << n) - 1];
+            for (int i = 0; i < n; i++) Arrays.fill(dp[i], INF);
+            min = tsp(0, 1);
+            StringBuilder order = new StringBuilder("0,");
+            printOrder(0, 1, order);
+            String[] arr = order.toString().split(",");
+
+            ArrayList<LocationOrder> al = new ArrayList<>();
+            for (int i = 0; i < arr.length; i++) {
+                Location tmp = locationList.get(Integer.parseInt(arr[i]));
+                tmp.setOrders((long)i);
+                al.add(new LocationOrder(tmp.getName(), tmp.getOrders()));
+            }
+            Collections.sort(al);
+//            for (int i = 0; i < al.size(); i++) {
+//                System.out.println(al.get(i).getOrders() + " " + al.get(i).getName());
+//            }
+
+            return al;
+
+
+        } else {
+            return null;
+        }
+
+
+
+    }
+
+    public long[][] getCost(ArrayList<Location> locArr) {
+
+        long[][] cost = new long[locArr.size()][locArr.size()];
+
+
+        for (int i = 0; i < cost.length; i++) {
+            for (int j = 0; j < cost.length; j++) {
+                if (i == j) cost[i][j] = 0;
+                else {
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(locArr.get(i).getX() + "," + locArr.get(i).getY());
+                    String start = sb.toString();
+
+                    sb.setLength(0);
+
+                    sb.append(locArr.get(j).getX() + "," + locArr.get(j).getY());
+                    String goal = sb.toString();
+
+                    ShortestTimeRouteRes result = nc.searchShortestTimeRoute(new ShortestTimeRouteReq(start, goal, "trafast"));
+                    cost[i][j] = result.getDuration();
+
+                }
+
+
+            }
+        }
+
+        return cost;
+
+    }
+
+    public long tsp(int node, int visit) {
+//        System.out.println(visit);
+        if (visit == (1 << n) - 1) {
+            if (w[node][0] == 0) return INF;
+            return w[node][0];
+        }
+
+        if (dp[node][visit] != INF) return dp[node][visit];
+
+        for (int i = 0; i < n; i++) {
+            int next = visit | (1 << i);
+            if (w[node][i] == 0 || (visit & (1 << i)) != 0) continue;
+
+            long cost = tsp(i, next) + w[node][i];
+            if (cost < dp[node][visit]) {
+                dp[node][visit] = cost;
+                parent[node][visit] = i;
+            }
+        }
+        return dp[node][visit];
+    }
+
+    public void printOrder(int node, int visit, StringBuilder order) {
+        if (visit == (1 <<n) -1) {
+            return;
+        }
+
+        int nextNode = parent[node][visit];
+        order.append(nextNode).append(",");
+        printOrder(nextNode, visit | (1 << nextNode), order);
+    }
+
+
+
+
+
 }

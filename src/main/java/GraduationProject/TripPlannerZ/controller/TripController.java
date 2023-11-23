@@ -37,7 +37,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -52,7 +51,7 @@ public class TripController {
     private final MemberPartyRepository memberPartyRepository;
     private final SigunguRepository sigunguRepository;
     private final TripImageRepository tripImageRepository;
-    private final LocationService locationService;
+    private final AreaService locationService;
     private final CommentService commentService;
     private final SseEmitterService sseEmitterService;
     private final LoginService loginService;
