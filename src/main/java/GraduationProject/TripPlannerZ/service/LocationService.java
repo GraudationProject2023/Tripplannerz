@@ -6,6 +6,7 @@ import GraduationProject.TripPlannerZ.API.naver.ShortestTimeRouteRes;
 import GraduationProject.TripPlannerZ.domain.Location;
 import GraduationProject.TripPlannerZ.domain.Trip;
 import GraduationProject.TripPlannerZ.dto.LocationOrder;
+import GraduationProject.TripPlannerZ.dto.trip.LocationOptimize;
 import GraduationProject.TripPlannerZ.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,12 +37,20 @@ public class LocationService {
     }
 
     @Transactional
-    public ArrayList<LocationOrder> optimizeOrder(String tripUUID) {
+    public void optimizeOrder(LocationOptimize locationOptimize) {
 
-        Trip trip = tripService.findByUUID(tripUUID).get();
-        ArrayList<Location> locationList = locationRepository.findByTrip(trip);
+        Trip trip = tripService.findByUUID(locationOptimize.getTripUUID()).get();
+        Location prevStart = locationRepository.findStartNodeByTrip(trip);
 
+        if (prevStart != null) {
+            prevStart.setStart(false);
+        }
 
+        Location startNode = locationRepository.findNodeByNameInTrip(trip, locationOptimize.getName());
+        startNode.setStart(true);
+
+        ArrayList<Location> locationList = locationRepository.findFalseNodeByTrip(trip);
+        locationList.add(0, startNode);
 
         if (locationList.size() > 1) {
 
@@ -60,18 +69,11 @@ public class LocationService {
             for (int i = 0; i < arr.length; i++) {
                 Location tmp = locationList.get(Integer.parseInt(arr[i]));
                 tmp.setOrders((long)i);
-                al.add(new LocationOrder(tmp.getName(), tmp.getOrders()));
             }
             Collections.sort(al);
-//            for (int i = 0; i < al.size(); i++) {
-//                System.out.println(al.get(i).getOrders() + " " + al.get(i).getName());
-//            }
-
-            return al;
-
 
         } else {
-            return null;
+            return;
         }
 
 
@@ -140,6 +142,16 @@ public class LocationService {
         int nextNode = parent[node][visit];
         order.append(nextNode).append(",");
         printOrder(nextNode, visit | (1 << nextNode), order);
+    }
+
+    public ArrayList<LocationOrder> getLocationInOrder(String tripUUID) {
+
+        Trip trip = tripService.findByUUID(tripUUID).get();
+
+        ArrayList<LocationOrder> tripList = locationRepository.findByTrip(trip);
+        Collections.sort(tripList);
+        return tripList;
+
     }
 
 
