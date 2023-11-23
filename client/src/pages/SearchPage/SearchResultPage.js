@@ -162,16 +162,18 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     } 
 
-    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+    if(searchPlaceInput){
+      axios.post('http://localhost:8080/api/saveLocation', postToServer, {
           headers: {'Authorization' : `Bearer ${token}`}
-    }).then((res) => console.log(res))
+      }).then((res) => console.log(res))
 
-    setSearchPlace([...searchPlace, {
-      name: searchPlaceInput, 
-      x: latitude.split(',')[0], 
-      y: latitude.split(',')[1],
-      tripUUID: tripUuid
-    }])
+      setSearchPlace([...searchPlace, {
+        name: searchPlaceInput, 
+        x: latitude.split(',')[0], 
+        y: latitude.split(',')[1],
+        tripUUID: tripUuid
+      }])
+    }
     setSearchPlaceInput("")
   }
 
