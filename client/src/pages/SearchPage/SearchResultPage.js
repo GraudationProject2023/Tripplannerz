@@ -144,16 +144,16 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
-    // const postToServer = {
-    //   name: searchPlaceInput,
-    //   x: latitude.split(',')[0],
-    //   y: latitude.split(',')[1],
-    //   tripUUID: tripUuid
-    // } 
+    const postToServer = {
+      name: searchPlaceInput,
+      x: latitude.split(',')[0],
+      y: latitude.split(',')[1],
+      tripUUID: tripUuid
+    } 
 
-    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-    //       headers: {'Authorization' : `Bearer ${token}`}
-    // }).then((res) => console.log(res))
+    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+    }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -170,6 +170,10 @@ function SearchResultPage(props) {
   })): null
 
 
+  const handleChangeTimeLineItem = async() => {
+      const originalOrder = [...searchPlace]
+      if(originalOrder.length < 0)
+        
   const handleChangeTimeLineItem = () => {
       const originalOrder = [...searchPlace]
       if(originalOrder.length < 1)
@@ -178,15 +182,34 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
+      setSearchPlace(originalOrder.reverse());
+
+      const postToServer = {
+        tripUUID: tripUuid
+      }
+
+      const optimize = [];
+
+      const response = await axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+      })
+      
+      console.log(response);
+
+      response.data.forEach((data) => {
+        optimize.push(data.name);
+      })
+
+      console.log(optimize);
+
+      setSearchPlace(prevSearchPlace => (
+        prevSearchPlace.map((item, index) => ({
+          ...item,
+          name: optimize[index],
+        }))
+      ))
+    
       setSearchPlace(originalOrder.reverse())
-
-      // const postToServer = {
-      //   tripUUID: tripUuid
-      // }
-
-      // axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-      //     headers: {'Authorization' : `Bearer ${token}`}
-      // }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -205,6 +228,17 @@ function SearchResultPage(props) {
           <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
             <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <br />
+            <h3>{title}</h3>
+            <br />
+            <h5>
+            여행 기간 : {startingDate < comingDate ? (
+              `${startingDate} ~ ${comingDate}`
+            ) : (
+              `${comingDate} ~ ${startingDate}`
+            )}
+            </h5>
+            <br />
             <br />
             <h3>{title}</h3>
             <br />
