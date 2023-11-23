@@ -85,7 +85,7 @@ function MainPage() {
     <div>
       <NavBar />
       {token && <NavBar /> &&
-        <>
+        <div style={{height: 'calc(85vh)'}}>
           <ImageSlider />
           <br />
           {/* <TravelChart /> */}
@@ -102,7 +102,6 @@ function MainPage() {
                 {item.title}
               </h3>
               <hr />
-              {/* <KakaoMap width="200px" height="200px"/> */}
               <div style={{ color: '#666', marginBottom: '10px', fontSize: '1rem' }}>
                 <strong>인원 현황: </strong>
                   {item.currentNum} / {item.recruitNum}
@@ -110,12 +109,12 @@ function MainPage() {
                 <Progress percent={Math.floor((item.currentNum / item.recruitNum) * 100)} status="active" />
               </div>
               <div style={{ color: '#666', fontSize: '0.9rem' }}>
-                <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+                <strong>여행 기간:</strong> {item.startingDate < item.comingDate ? `${item.startingDate} ~ ${item.comingDate}` : `${item.comingDate} ~ ${item.startingDate}`} 
               </div>
             </Card>
             </List.Item>
           )}/>
-        </>
+        </div>
       }
       <FloatButton
         tooltip={<div>Questions</div>}

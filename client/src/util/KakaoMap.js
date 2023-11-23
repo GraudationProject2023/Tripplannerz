@@ -120,14 +120,14 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
       <div>
       {markers ? (
         <Table
-          dataSource={markers.slice(0, 5)}
+          dataSource={markers.slice(0, 3)}
           columns={[
           {
             title: '여행하실 장소들',
             dataIndex: 'content',
             key: 'content',
-            render: (text) => (
-              <h6 style={{ margin: '0', fontSize: '20px', color: '#333' }}>{text}</h6>
+            render: (text, record, index) => (
+              <h6 style={{ margin: '0', fontSize: '20px', color: '#333' }}>{(index + 1) + '. '+ text}</h6>
             ),
           },
           ]}

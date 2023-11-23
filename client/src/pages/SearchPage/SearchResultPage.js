@@ -144,16 +144,16 @@ function SearchResultPage(props) {
   const handleUpdateSearchInput = () => {
     const latitude = localStorage.getItem('latitude');
 
-    const postToServer = {
-      name: searchPlaceInput,
-      x: latitude.split(',')[0],
-      y: latitude.split(',')[1],
-      tripUUID: tripUuid
-    } 
+    // const postToServer = {
+    //   name: searchPlaceInput,
+    //   x: latitude.split(',')[0],
+    //   y: latitude.split(',')[1],
+    //   tripUUID: tripUuid
+    // } 
 
-    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-          headers: {'Authorization' : `Bearer ${token}`}
-    }).then((res) => console.log(res))
+    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+    //       headers: {'Authorization' : `Bearer ${token}`}
+    // }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -178,13 +178,15 @@ function SearchResultPage(props) {
         window.location.href = `/search/${arr[2]}`
       }
 
-      const postToServer = {
-        tripUUID: tripUuid
-      }
+      setSearchPlace(originalOrder.reverse())
 
-      axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
-          headers: {'Authorization' : `Bearer ${token}`}
-      }).then((res) => console.log(res))    
+      // const postToServer = {
+      //   tripUUID: tripUuid
+      // }
+
+      // axios.post(`http://localhost:8080/api/optimizeRoute`, postToServer, {
+      //     headers: {'Authorization' : `Bearer ${token}`}
+      // }).then((res) => console.log(res))    
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -200,31 +202,36 @@ function SearchResultPage(props) {
     <div>
       <Navbar />
         <Card>
-          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' ,flexDirection: 'row'}}>
+          <Card.Body style={{display: 'flex', justifyContent:'center', alignItems: 'center' , flexDirection: 'row'}}>
             <Kakao width="400px" height="400px" searchKeyword={searchPlaceInput} />
-            <div style={{marginTop: '-10%', maxHeight: '600px' ,overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <div className="CardInfo" style={{ borderRadius: '10px' , border: '2px solid skyblue', maxHeight: '750px' , overflowY: 'auto', marginLeft: '20px', flex: '1'}}>
+            <br />
             <h3>{title}</h3>
             <br />
-            <h4>
-            {startingDate < comingDate ? (
+            <h5>
+            여행 기간 : {startingDate < comingDate ? (
               `${startingDate} ~ ${comingDate}`
             ) : (
               `${comingDate} ~ ${startingDate}`
             )}
-            </h4>
+            </h5>
             <br />
-            <h5>내용: {content} </h5>
+            <h5>내용: {content ? content : "예시 여행입니다."} </h5>
             <br />
-            <Timeline>
+            <div style={{ textAlign: 'center', minHeight: '250px', maxHeight: '250px', overflowY: 'auto', border: '4px solid skyblue', borderRadius: '10px'}}>
+            <h4 style={{padding: '5px'}}><strong>TimeLine</strong></h4>
+            <hr />
+            <Timeline mode="alternate">
             {timeLineItem && timeLineItem.map((item,index) => (
               <Timeline.Item key={index}>
                 {item.children}
               </Timeline.Item>
             ))}
             </Timeline>
+            </div>
             <table>
-              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
-              <td><Button style={{backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
+              <td><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
+              <td style={{padding: '75px'}}><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
             </table>
             </div>
             <Modal 
