@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { comment } from "../../util/recoilState";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import {Input} from 'antd'
+import { Input, Radio, Space } from 'antd'
 import { Button, Form, Card, Modal } from "react-bootstrap";
 import {Timeline} from 'antd'
 import Navbar from "../../components/Navbar/Navbar"
@@ -49,11 +49,15 @@ function SearchResultPage(props) {
 
   const [searchPlace, setSearchPlace] = useState([])
 
+  const [searchPlaceForOptimize, setSearchPlaceForOptimize] = useState([]);
+
   const [searchPlaceInput, setSearchPlaceInput] = useState("")
 
-  useEffect(() => {
-    console.log(recoilComment);
+  const [optimizeModal, setOptimizeModal] = useState(false);
 
+  const [startLocation, setStartLocation] = useState("");
+
+  useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
       withCredentials: true,
@@ -76,6 +80,12 @@ function SearchResultPage(props) {
       setUserName(response.data.name)
     })
 
+    axios.get(`http://localhost:8080/api/getRoute&tripUUID=${tripUuid}`, {
+      headers: {'Authorization': `Bearer ${token}`},
+    }).then((response) => {
+      setSearchPlace(response.data)
+    })
+
   }, []);
 
   const handleOpenModal = () => {
@@ -94,7 +104,6 @@ function SearchResultPage(props) {
     if(review){
 
       setRecoilComment(review);
-      console.log(recoilComment);
 
       const postToServer = {
         review: review,
@@ -159,7 +168,6 @@ function SearchResultPage(props) {
       y: latitude.split(',')[1],
       tripUUID: tripUuid
     }])
-    console.log(searchPlace)
     setSearchPlaceInput("")
   }
 
@@ -170,13 +178,37 @@ function SearchResultPage(props) {
   const handleChangeTimeLineItem = async() => {
 
       const originalOrder = [...searchPlace]
-      if(originalOrder.length < 1)
+      if(originalOrder.length < 2)
       {
         alert('2개 이상의 경로를 입력해주세요')
         window.location.href = `/search/${arr[2]}`
       }
 
-      setSearchPlace(originalOrder.reverse());
+      setSearchPlaceForOptimize(originalOrder);
+      setOptimizeModal(true)
+  }
+
+  const handleCloseOptimizeModal = () => {
+    setOptimizeModal(false);
+  }
+
+  const handleSaveStartLocation = (event) => {
+    setStartLocation(event.target.value);
+  }
+
+  const sendStartLocationToServer = async() => {
+
+    const postToServer = {
+      name: startLocation,
+      tripUUID: tripUuid
+    }
+
+    const response = await axios.post('http://localhost:8080/api/optimizeRoute',postToServer, {
+      headers: {'Authorization': `Bearer ${token}`}
+    })
+
+    setOptimizeModal(false);
+    window.location.href = `/search/${arr[2]}`;
   }
 
   const handleDeleteCertainComment = (index) => {
@@ -220,7 +252,30 @@ function SearchResultPage(props) {
             </Timeline>
             </div>
             <table>
-              <td><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button></td>
+              <td><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleChangeTimeLineItem}>경로 최적화</Button>
+                  <Modal 
+                    show={optimizeModal}
+                    onHide={handleCloseOptimizeModal}
+                  >
+                  <Modal.Header closeButton>
+                    <Modal.Title>시작점 선택</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {optimizeModal && (
+                        <Radio.Group onChange={handleSaveStartLocation} value={startLocation}>
+                      {searchPlaceForOptimize.map((searchPlace, index) => (
+                          <Space direction="vertical" key={index}>
+                          <Radio value={searchPlace.name}>{searchPlace.name}</Radio>
+                          </Space>
+                      ))}
+                        </Radio.Group>
+                    )}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button onClick={sendStartLocationToServer}>확인</Button>
+                  </Modal.Footer>
+                  </Modal>
+              </td>
               <td style={{padding: '75px'}}><Button style={{width: '200px', backgroundColor: 'white', color: 'black'}} onClick={handleOpenModal}>동행 신청</Button></td>
             </table>
             </div>
