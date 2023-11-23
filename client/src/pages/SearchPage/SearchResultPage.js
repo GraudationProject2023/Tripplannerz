@@ -237,17 +237,6 @@ function SearchResultPage(props) {
             )}
             </h5>
             <br />
-            <br />
-            <h3>{title}</h3>
-            <br />
-            <h5>
-            여행 기간 : {startingDate < comingDate ? (
-              `${startingDate} ~ ${comingDate}`
-            ) : (
-              `${comingDate} ~ ${startingDate}`
-            )}
-            </h5>
-            <br />
             <h5>내용: {content ? content : "예시 여행입니다."} </h5>
             <br />
             <div style={{ textAlign: 'center', minHeight: '250px', maxHeight: '250px', overflowY: 'auto', border: '4px solid skyblue', borderRadius: '10px'}}>
