@@ -212,8 +212,12 @@ function SearchResultPage(props) {
     await axios.post('http://localhost:8080/api/optimizeRoute',postToServer, {
       headers: {'Authorization': `Bearer ${token}`}
     }).then((res) => {
-      setOptimizeModal(false);
-      window.location.href = `/search/${arr[2]}`;
+      const totalDuration = res.data.totalDuration;
+      console.log(totalDuration)
+      if(totalDuration){
+        alert(`총 예상 이동 시간은 ${totalDuration}분 입니다.`);
+        setOptimizeModal(false);
+      }
     })
   }
 
