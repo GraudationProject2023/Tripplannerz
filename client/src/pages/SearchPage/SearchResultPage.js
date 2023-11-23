@@ -55,6 +55,8 @@ function SearchResultPage(props) {
 
   const [optimizeModal, setOptimizeModal] = useState(false);
 
+  const [startLocation, setStartLocation] = useState("");
+
   useEffect(() => {
     axios.get(`http://localhost:8080/api/trip/detail/${arr[2]}`,{
       headers: {'Authorization': `Bearer ${token}`},
@@ -78,11 +80,11 @@ function SearchResultPage(props) {
       setUserName(response.data.name)
     })
 
-    // axios.get("", {
-    //   headers: {'Authorization': `Bearer ${token}`},
-    // }).then((response) => {
-
-    // })
+    axios.get(`http://localhost:8080/api/getRoute&tripUUID=${tripUuid}`, {
+      headers: {'Authorization': `Bearer ${token}`},
+    }).then((response) => {
+      setSearchPlace(response.data)
+    })
 
   }, []);
 
@@ -156,9 +158,9 @@ function SearchResultPage(props) {
       tripUUID: tripUuid
     } 
 
-    // axios.post('http://localhost:8080/api/saveLocation', postToServer, {
-    //       headers: {'Authorization' : `Bearer ${token}`}
-    // }).then((res) => console.log(res))
+    axios.post('http://localhost:8080/api/saveLocation', postToServer, {
+          headers: {'Authorization' : `Bearer ${token}`}
+    }).then((res) => console.log(res))
 
     setSearchPlace([...searchPlace, {
       name: searchPlaceInput, 
@@ -190,7 +192,21 @@ function SearchResultPage(props) {
     setOptimizeModal(false);
   }
 
-  const sendStartLocationToServer = () => {
+  const handleSaveStartLocation = (event) => {
+    setStartLocation(event.target.value);
+  }
+
+  const sendStartLocationToServer = async() => {
+
+    const postToServer = {
+      name: startLocation,
+      tripUUID: tripUuid
+    }
+
+    const response = await axios.post('http://localhost:8080/api/optimizeRoute',postToServer, {
+      headers: {'Authorization': `Bearer ${token}`}
+    })
+
     setOptimizeModal(false);
     window.location.href = `/search/${arr[2]}`;
   }
@@ -246,7 +262,7 @@ function SearchResultPage(props) {
                   </Modal.Header>
                   <Modal.Body>
                     {optimizeModal && (
-                        <Radio.Group>
+                        <Radio.Group onChange={handleSaveStartLocation} value={startLocation}>
                       {searchPlaceForOptimize.map((searchPlace, index) => (
                           <Space direction="vertical" key={index}>
                           <Radio value={searchPlace.name}>{searchPlace.name}</Radio>
