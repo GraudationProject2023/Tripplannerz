@@ -46,7 +46,7 @@ export const SignUpModal = ({ onSubmit, onChange, onClick }:SignUpModalProps) =>
           <Form.Control type="email" id="email" name="email" placeholder="이메일을 입력해주세요" onChange={onChange.handleEmailChange}/>
             <Button onClick={onClick.handleSendEmailToServer}>전송</Button>
           <Form.Control type="text" id="emailCode" name="emailCode" placeholder="이메일 인증 코드를 입력해주세요" onChange={onChange.handleEmailCodeChange}/>
-            <Button onClick={onClick.sendEmailCodeToServer}>확인</Button>
+            <Button onClick={onClick.handleSendEmailCodeToServer}>확인</Button>
           <Form.Control type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요" onChange={onChange.handlePasswordChange}/>
           <Form.Control type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 확인하세요" onChange={onChange.handleConfirmPasswordChange}/>
             <Button variant="secondary" onClick={openTagModal}>태그선택</Button>
