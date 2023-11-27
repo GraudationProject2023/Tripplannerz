@@ -1,19 +1,15 @@
 export interface SignUpModalProps {
-    show: boolean
-    tagModal: boolean
-    onHide: () => void
-    onSubmit: () => void
+    onSubmit: (event) => Promise<any>
     onChange: {
-        handleNameChange: () => void
-        handleGenderChange: () => void
-        handleEmailChange: () => void
-        handleEmailCodeChange: () => void
-        handlePasswordChange: () => void
-        handleConfirmPasswordChange: () => void
+        handleNameChange: (event) => void
+        handleGenderChange: (event) => void
+        handleEmailChange: (event) => void
+        handleEmailCodeChange: (event) => void
+        handlePasswordChange: (event) => void
+        handleConfirmPasswordChange: (event) => void
     }
     onClick: {
-        sendEmailToServer: () => void
-        sendEmailCodeToServer: () => void
-        openTagModal: () => void
+        handleSendEmailToServer: (event) => Promise<void>
+        handleSendEmailCodeToServer: (event) => Promise<void>
     }
 }

@@ -1,13 +1,8 @@
 export interface LoginModalProps {
-    show: boolean
-    onHide: () => void
-    onSubmit: () => void
+    onSubmit: (event) => Promise<void>
     onChange: {
-      handleEmailChange: () => void
-      handlePasswordChange: () => void
+      handleEmailChange: (event) => void
+      handlePasswordChange: (event) => void
     }
-    onClick: {
-      closeLoginModal: () => void
-      accessToService: () => void
-    }
+    onClick: (event) => Promise<void>
   }
