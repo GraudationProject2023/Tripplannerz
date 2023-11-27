@@ -17,7 +17,7 @@ function App() {
       <Suspense fallback = {<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<StartPage />}></Route> 
-          {token ? ( <Route path="/main" element={<MainPage />}></Route>) : (<Navigate to = "/" />)}
+          {token ? ( <Route path="/main" element={<MainPage />}></Route>) : (<Route path="/" element={<StartPage />}></Route>)}
         </Routes>
       </Suspense>
     </Router>
