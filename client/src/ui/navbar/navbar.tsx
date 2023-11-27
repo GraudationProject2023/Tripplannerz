@@ -1,11 +1,12 @@
 import {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Menu } from 'antd';
-// import { EventSourcePolyfill } from "event-source-polyfill";
 
+import { GetEventSource } from '@/application/api/navbar/getEventSource';
+import { ReceiveEventSourceMessage } from '@/application/navbar/receiveEventSourceMessage';
 import { MoveToMain } from '@/application/navbar/routes/moveToMain';
 import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
-
 
 import styles from '@/ui/navbar/navbar.module.css';
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
@@ -14,9 +15,12 @@ import { InnerMenu } from '@/ui/navbar/innerMenu/innerMenu';
 import { NoticeDrawer } from '@/ui/navbar/drawer/noticeDrawer';
 import { UserInfoDrawer } from '@/ui/navbar/drawer/userInfoDrawer';
 
+
 function Navbar() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const eventSourceRef = useRef(null);
 
     const [travelButtonState, setTravelButtonState] = useState<boolean>(false);
     const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
@@ -47,6 +51,12 @@ function Navbar() {
     const closeUserInfoDrawer = () => {
       setUserInfoDrawerState(false);
     }
+
+    useEffect(() => {
+       const eventSource = eventSourceRef.current || GetEventSource(token);
+       eventSourceRef.current = eventSource;
+       ReceiveEventSourceMessage();
+    },[dispatch, token])
 
     return(
         <Menu mode="horizontal" theme="light" className={styles.navbarContainer}>
