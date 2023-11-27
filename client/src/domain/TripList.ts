@@ -1,12 +1,16 @@
 export interface Trip { 
-    id: number
-    uuid: string
+    id?: number
+    uuid?: string
     title?: string
-    startingDate?: number
+    capacity?: number
+    closeRecruitDate?: number
+    goingDate?: number
     comingDate?: number
-    imagePath?: string
+    image?: string
     recruitNum?: number
     currentNum?: number
+    area?: string
+    sigungu?: string
 }
 
 export interface TripList {

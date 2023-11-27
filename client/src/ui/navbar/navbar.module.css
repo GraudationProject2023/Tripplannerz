@@ -1,0 +1,7 @@
+.navbarContainer {
+    display: 'flex'; 
+    justify-content: 'center';
+    align-items: 'center';
+    background-color: '#EEEEEE';
+    height: '100px';
+}
