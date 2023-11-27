@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Image } from 'antd';
 import type { Member } from '@/domain/Member';
 import { useDispatch } from 'react-redux';
-// import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { updateUserInfo } from '@/application/start/updateUserInfo'; 
 import { sendEmailToServer } from '@/application/start/sendEmailToServer';
