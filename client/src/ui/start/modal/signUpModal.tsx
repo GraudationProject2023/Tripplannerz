@@ -44,35 +44,23 @@ export const SignUpModal = ({ onSubmit, onChange, onClick }:SignUpModalProps) =>
             <option value="FEMALE">여</option>
           </Form.Select>
           <Form.Control type="email" id="email" name="email" placeholder="이메일을 입력해주세요" onChange={onChange.handleEmailChange}/>
-<<<<<<< HEAD
-            <Button onClick={onClick.sendEmailToServer}>전송</Button>
-=======
             <Button onClick={onClick.handleSendEmailToServer}>전송</Button>
->>>>>>> 0c71480bb4c334ce0d2a7ce6f079346086ae55b2
           <Form.Control type="text" id="emailCode" name="emailCode" placeholder="이메일 인증 코드를 입력해주세요" onChange={onChange.handleEmailCodeChange}/>
             <Button onClick={onClick.sendEmailCodeToServer}>확인</Button>
           <Form.Control type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요" onChange={onChange.handlePasswordChange}/>
           <Form.Control type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 확인하세요" onChange={onChange.handleConfirmPasswordChange}/>
-<<<<<<< HEAD
-            <Button variant="secondary" onClick={onClick.openTagModal}>태그선택</Button>
-              {tagModal && <SelectPreference /> }
-=======
             <Button variant="secondary" onClick={openTagModal}>태그선택</Button>
               {toggleTagModal && 
                 <TagModal 
                   show={toggleTagModal}
                   onHide={closeTagModal}
                   onClick={closeTagModal}  /> }
->>>>>>> 0c71480bb4c334ce0d2a7ce6f079346086ae55b2
           </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button type="submit" onClick={onSubmit}>저장하기</Button>
       </Modal.Footer>
     </Modal>
-<<<<<<< HEAD
-=======
   </div>
->>>>>>> 0c71480bb4c334ce0d2a7ce6f079346086ae55b2
   )
 }
