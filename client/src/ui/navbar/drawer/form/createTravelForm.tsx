@@ -1,29 +1,31 @@
 import { Cascader, Button, Form, Table} from 'antd';
 
 import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
-import { TravelCategoryCascaderOption } from "@/lib/info/travelCategoryCascaderOption";
-import { majorCategories, minorCategories, subCategories } from "@/lib/info/travelCatergoryList";
+import { TripCategoryCascaderOption } from "@/lib/info/tripCategoryCascaderOption";
+import { majorCategories, minorCategories, subCategories } from "@/lib/info/tripCatergoryList";
+
+import { createTripTableFirstRow, createTripTableSecondRow } from './table/createTravelTableRow';
 
 export const CreateTravelForm = () => {
     return(
         <>
         <h5>1. 여행 장소 선택</h5>
         <Form onFinish={SubmitTripInfoToServer}>
-        <Cascader onChange={handleCascaderChange} size="large" placeholder="지역을 선택하세요"  options = {TravelCategoryCascaderOption(majorCategories, minorCategories, subCategories)}/>
+        <Cascader onChange={handleCascaderChange} size="large" placeholder="지역을 선택하세요"  options = {TripCategoryCascaderOption(majorCategories, minorCategories, subCategories)}/>
         </Form>
         <hr />
         <h5>2. 여행 정보 입력</h5>
         <br />
         <Form onFinish={SubmitTripInfoToServer}>
         <Table
-         columns={columnsRow1}
+         columns={createTripTableFirstRow}
          dataSource={data}
          bordered
          pagination={false}
          rowKey={(record, index) => index}
         />
         <Table
-         columns={columnsRow2}
+         columns={createTripTableSecondRow}
          dataSource={data}
          bordered
          pagination={false}

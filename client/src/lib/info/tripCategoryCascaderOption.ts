@@ -1,4 +1,4 @@
-export const TravelCategoryCascaderOption = (mainCategories, minorCategories, subCategories) => {
+export const TripCategoryCascaderOption = (mainCategories, minorCategories, subCategories) => {
     return mainCategories.map((category) => ({
         value: category,
         label: category,
