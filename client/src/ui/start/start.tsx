@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Image } from 'antd';
 import type { Member } from '@/domain/Member';
+import { useDispatch } from 'react-redux';
 // import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { updateUserInfo } from '@/application/start/updateUserInfo'; 
@@ -17,6 +18,8 @@ import { SignUpModal } from '@/ui/start/modal/signUpModal';
 
 
 function StartPage() {
+
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState<Member>({
       name: '',
@@ -66,7 +69,7 @@ function StartPage() {
     event.preventDefault();
 
     try {
-      await accessToService(user);
+      await accessToService(user, dispatch);
     } catch(error){
       console.error(error);
     }

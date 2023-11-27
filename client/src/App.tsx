@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Navbar from "@/ui/navbar/navbar";
 
@@ -8,12 +9,15 @@ import MainPage from "@/ui/main/main";
 
 
 function App() {
+
+  const token: string | null = useSelector((state: any) => state.token.token);
+
   return(
     <Router>
       <Suspense fallback = {<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<StartPage />}></Route> 
-          <Route path="/main" element={<MainPage />}></Route>
+          {token ? ( <Route path="/main" element={<MainPage />}></Route>) : (<Navigate to = "/" />)}
         </Routes>
       </Suspense>
     </Router>
