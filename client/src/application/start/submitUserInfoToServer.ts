@@ -1,7 +1,9 @@
 import type { Member } from "@/domain/Member";
 import { postMemberRegister } from "@/application/api/start/postMemberRegister";
 
-export const submitUserInfoToServer = async(user:Member) => {
+export const SubmitUserInfoToServer = async(user:Member, selectedPreferenceList) => {
+
+    user.types = selectedPreferenceList;
 
     if(user.name && user.gender && user.email && user.pw && user.types){
       const response = await postMemberRegister(

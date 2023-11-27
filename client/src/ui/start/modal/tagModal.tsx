@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import type { TagModalProps } from '@/ui/start/modal/type/tagModal.types';
-// import { SelectPreference } from '@/ui/start/preference/selectPreference';
+import { SelectPreference } from '@/ui/start/preference/selectPreference';
 
 export const TagModal = ({show, onHide, onClick}: TagModalProps) => {
     return(
@@ -10,7 +10,7 @@ export const TagModal = ({show, onHide, onClick}: TagModalProps) => {
                <Modal.Title>태그</Modal.Title>
            </Modal.Header>
                <Modal.Body>
-                 {/* <SelectPreference /> */}
+                 <SelectPreference />
                </Modal.Body>
            <Modal.Footer>
                <Button type="submit" onClick={onClick}>확인</Button>

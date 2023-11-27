@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Image } from 'antd';
 import type { Member } from '@/domain/Member';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { updateUserInfo } from '@/application/start/updateUserInfo'; 
 import { sendEmailToServer } from '@/application/start/sendEmailToServer';
 import { sendEmailCodeToServer } from '@/application/start/sendEmailCodeToServer';
 import { accessToService } from '@/application/start/accessToService';
-import { submitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
+import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
 
 import sight from '@/lib/image/관광지.png';
 
@@ -19,6 +19,7 @@ import { SignUpModal } from '@/ui/start/modal/signUpModal';
 function StartPage() {
 
   const dispatch = useDispatch();
+  const selectedPreferenceList = useSelector((state:any) => state.types.types);
 
   const [user, setUser] = useState<Member>({
       name: '',
@@ -78,7 +79,7 @@ function StartPage() {
       event.preventDefault();
 
       try {
-        await submitUserInfoToServer(user);
+        await SubmitUserInfoToServer(user, selectedPreferenceList);
       } catch(error){
         console.log(error);
       }
