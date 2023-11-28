@@ -15,9 +15,10 @@ function App() {
   return(
     <Router>
       <Suspense fallback = {<div>Loading...</div>}>
+        {token && <Navbar />}
         <Routes>
           <Route path="/" element={<StartPage />}></Route> 
-          {token ? ( <Route path="/main" element={<MainPage />}></Route>) : (<Route path="/" element={<StartPage />}></Route>)}
+          {token && <Route path="/main" element={<MainPage />}></Route>}
         </Routes>
       </Suspense>
     </Router>
