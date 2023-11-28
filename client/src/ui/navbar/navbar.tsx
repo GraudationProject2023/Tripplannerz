@@ -25,7 +25,7 @@ function Navbar() {
     const dispatch = useDispatch();
 
     const token: string = useSelector((state: any) => state.token.token);
-    const notifications: string[] = useSelector((state: any) => state.notifications.notifications);
+    const notifications: string[] = useSelector((state: any) => state.notification.notifications || []);
 
     const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>(null);
     const [travelButtonState, setTravelButtonState] = useState<boolean>(false);
