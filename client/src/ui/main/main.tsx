@@ -3,6 +3,7 @@ import { Card, List, Progress, FloatButton } from "antd";
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import { getEntireTripList } from "@/application/api/getEntireTripList";
+import { useSelector } from "react-redux";
 // import NavBar from '../../components/Navbar/Navbar'
 // import Footer from '../../components/Footer/Footer'
 // import { ImageSlider } from "../../util/ImageSlider";
@@ -13,7 +14,9 @@ import { getEntireTripList } from "@/application/api/getEntireTripList";
 
 
 function MainPage() {
-  let token = localStorage.getItem("token");
+
+  const token = useSelector((state:any) => state.token.token);
+
   const [travelList, setTravelList] = useState([
   {
     title: '서울',
@@ -68,6 +71,7 @@ function MainPage() {
 
   useEffect(() => {
     fetchData();
+    console.log(token);
   }, [])
   
   function movetoSubPage(point) {
@@ -76,11 +80,8 @@ function MainPage() {
   
   return (
     <div>
-      <NavBar />
-      {token && <NavBar /> &&
-        <>
-          <ImageSlider />
-          <br />
+      {/* <ImageSlider /> */}
+      <br />
           {/* <TravelChart /> */}
           <List
             grid={{ gutter: 16, column: 6 }}
@@ -108,14 +109,11 @@ function MainPage() {
             </Card>
             </List.Item>
           )}/>
-        </>
-      }
       <FloatButton
         tooltip={<div>Questions</div>}
         style={{width: '60px', height: '60px'}}
         icon={<QuestionCircleOutlined/>}
       />
-      <Footer />
     </div>
   );
 }
