@@ -1,3 +1,8 @@
+import { DatePicker,Form, Input, Upload } from "antd";
+import ImgCrop from 'antd-img-crop';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 export const createTripTableFirstRow = [
     {
         title: '1) 사진 업로드',
