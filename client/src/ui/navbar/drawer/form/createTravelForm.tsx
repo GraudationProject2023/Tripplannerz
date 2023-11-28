@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Cascader, DatePicker, Form, Input, Upload, Table} from 'antd';
+import { Button, Cascader, DatePicker, Form, Input, Upload, Table } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import Slider from 'rc-slider';
 
@@ -14,11 +14,27 @@ import { majorCategories, minorCategories, subCategories } from "@/lib/info/trip
 
 export const CreateTravelForm = () => {
 
-  const [tripInfo, setTripInfo] = useState<Trip>({})
+  const [tripInfo, setTripInfo] = useState<Trip>({});
+  const [image, setImage] = useState([]);
+
+  const onImageChange = (info) => {
+    setImage(info.fileList);
+  };
+
+  const onImagePreview = (file) => {
+    const imgWindow = window.open(file.url);
+    imgWindow?.document.write(`<img src="${file.url}" alt="Preview" />`);
+  }
 
   const handleTripTitleChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'title', event.target.value))};
   const handleTripRecuritNumChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'recruitNum', event))};
   const handleTripCloseRecruitDateChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'closeRecruitDate', event))};
+  const handleTripGoingDateChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'goingDate', event))};
+  const handleTripComingDateChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'comingDate', event))};
+
+  const handleCascaderChange = (selectedOptions) => {
+    console.log(selectedOptions);
+  }
 
   const createTripTableFirstRow = [
     {
@@ -80,7 +96,7 @@ export const CreateTravelForm = () => {
       width: 100,
       render: () => (
         <Form.Item label="여행 시작 날짜">
-          <DatePicker selected={currentMonth} onChange={(date,dateString) => handleCurrentMonthChange(dateString)} placeholderText="가는 날 선택" popperPlacement="bottom-start" />
+          <DatePicker onChange={(date,dateString) => handleTripGoingDateChange(dateString)} placeholder="가는 날 선택" />
         </Form.Item>
       ),
     },
@@ -90,7 +106,7 @@ export const CreateTravelForm = () => {
       width: 100,
       render: () => (
         <Form.Item label="여행 종료 날짜">
-          <DatePicker selected={nextMonth} filterDate={disableNextMonthDates} onChange={(date,dateString) => handleNextMonthChange(dateString)} placeholderText="오는 날 선택" popperPlacement="bottom-start" />
+          <DatePicker onChange={(date,dateString) => handleTripComingDateChange(dateString)} placeholder="오는 날 선택" />
         </Form.Item>
       ),
     },
@@ -113,14 +129,14 @@ export const CreateTravelForm = () => {
          dataSource={initialData}
          bordered
          pagination={false}
-         rowKey={(record, index) => index}
+         rowKey={(record, index) => String(index)}
         />
         <Table
          columns={createTripTableSecondRow}
          dataSource={initialData}
          bordered
          pagination={false}
-         rowKey={(record,index) => index}
+         rowKey={(record,index) => String(index)}
         />
         </Form>
         <Form.Item>
