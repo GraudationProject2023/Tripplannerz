@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Image } from 'antd';
-import type { Member } from '@/domain/Member';
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
+
+import type { Member } from '@/domain/Member';
 
 import { updateUserInfo } from '@/application/start/updateUserInfo'; 
 import { sendEmailToServer } from '@/application/start/sendEmailToServer';
@@ -19,6 +21,7 @@ import { SignUpModal } from '@/ui/start/modal/signUpModal';
 function StartPage() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedPreferenceList = useSelector((state:any) => state.types.types);
 
   const [user, setUser] = useState<Member>({
@@ -69,7 +72,11 @@ function StartPage() {
     event.preventDefault();
 
     try {
-      await accessToService(user, dispatch);
+      const response=  await accessToService(user, dispatch);
+      if(response.status === 200){
+        navigate('/main');
+      }
+
     } catch(error){
       console.error(error);
     }
