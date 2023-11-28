@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Menu } from 'antd';
 
-import { GetEventSource } from '@/application/api/navbar/getEventSource';
-import { ReceiveEventSourceMessage } from '@/application/navbar/receiveEventSourceMessage';
 import { MoveToMain } from '@/application/navbar/routes/moveToMain';
 import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
 
@@ -52,11 +50,6 @@ function Navbar() {
       setUserInfoDrawerState(false);
     }
 
-    useEffect(() => {
-       const eventSource = eventSourceRef.current || GetEventSource(token);
-       eventSourceRef.current = eventSource;
-       ReceiveEventSourceMessage();
-    },[dispatch, token])
 
     return(
         <Menu mode="horizontal" theme="light" className={styles.navbarContainer}>
