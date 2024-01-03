@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 @Component
@@ -97,10 +98,10 @@ public class TestInitDb {
                     .build();
             em.persist(party5);
 
-//            Party party6 = Party.builder()
-//                    .memberPartyList(new ArrayList<>())
-//                    .build();
-//            em.persist(party6);
+            Party party6 = Party.builder()
+                    .memberPartyList(new ArrayList<>())
+                    .build();
+            em.persist(party6);
 
             MemberParty memberParty = MemberParty.addPartyMember(member, party);
             MemberParty memberParty1 = MemberParty.addPartyMember(member, party1);
@@ -108,7 +109,7 @@ public class TestInitDb {
             MemberParty memberParty3 = MemberParty.addPartyMember(member, party3);
             MemberParty memberParty4 = MemberParty.addPartyMember(member, party4);
             MemberParty memberParty5 = MemberParty.addPartyMember(member, party5);
-//            MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
+            MemberParty memberParty6 = MemberParty.addPartyMember(member, party6);
             MemberParty memberParty7 = MemberParty.addPartyMember(member2, party);
             em.persist(memberParty);
             em.persist(memberParty1);
@@ -116,10 +117,9 @@ public class TestInitDb {
             em.persist(memberParty3);
             em.persist(memberParty4);
             em.persist(memberParty5);
-//            em.persist(memberParty6);
+            em.persist(memberParty6);
             em.persist(memberParty7);
 
-            //em.persist(memberParty1);
 
             Trip trip = Trip.builder()
                     .comingDate("2023-11-19")
@@ -205,6 +205,19 @@ public class TestInitDb {
                     .build();
             em.persist(trip5);
 
+            Trip trip6 = Trip.builder()
+                    .comingDate("2023-05-05")
+                    .startingDate("2027-05-01")
+                    .title("광주")
+                    .areaCode(1)
+                    .tripImage(new ArrayList<>())
+                    .recruitNum(4)
+                    .currentNum(1)
+                    .party(party6)
+                    .creater(member)
+                    .closeRecruitDate("2023-04-11")
+                    .build();
+            em.persist(trip6);
         }
 
         public void setCityNum() {
