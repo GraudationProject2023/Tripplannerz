@@ -13,6 +13,7 @@ public class AccompanyRequest {
     String tripUUID;
     String comment;
 
+    //test
     @QueryProjection
     public AccompanyRequest(Long comment_id, String tripName, String senderName, String tripUUID, String comment) {
         this.comment_id = comment_id;
