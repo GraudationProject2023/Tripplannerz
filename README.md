@@ -1,31 +1,27 @@
-# Tripplannerz
+# ✈️ TripPlannerZ
 
-<h3>About Our Projects</h3>
-<h4>Travel Schedule Management & Companion Finding</h4>
+### 여행 일정 관리 및 동행자 찾기 플랫폼
 
+기간 : 2023.04 - 2023.11
 
-<h4>1. Outline </h4>
-<p>
-This project develops a travel schedule management and companion finding system.
-In this system, when members login to our system, they can share their travel schedules with others.
-Also, we provide support services so that they can be accompanied by people they agree with.
-Finally, members can get an information about finding shortest route through our service.
-</p>
+인원 : FE 1(이동욱), BE 2(홍용현, 최성보)
 
-<h4>2. Function </h4>
-<p>
+***
 
-1) Join Membership : A user must register as a member to use the group schedule management service. Enter the user's ID, name, email, and password.
+### 1. 프로젝트 개요
 
-2) Login / Logout : If you are registered as a member, you can log in with your registered ID and password, and you can also log out.
+최근 통계에 따르면, 코로나19 이후로 여가 활동과 관광/여행 분야에 대한 대중의 관심이 눈에 띄게 증가했습니다. 나홀로 여행을 선호하는 사람들 중 약 70%가 동행 없이 여행한 경험이 있으며, 이들 중 다수가 비용 절감과 새로운 사람들을 만나기 위해 동행자를 찾고자 합니다. 이러한 시장의 요구에 응답하여, TripPlannerZ는 사용자들이 여행 일정 및 예산을 쉽게 계획하고, 동행자를 찾을 수 있는 플랫폼을 개발하였습니다.
 
-3) Register your own itinerary(group invitation / public, private) : A new schedule can be added, and can be created on the home screen or schedule search page. When creating, you can invite other members by name and group, and you can share the schedule with other members by setting it to public/private.
+### 2. 시스템 아키텍처
 
-4) Chats among members : As it is a group travel schedule management, communication between group members is important, so a chat room is created within the schedule and conversations with members belonging to the group are possible.
+![시스템 아키텍처 최종](https://github.com/GraudationProject2023/Client/assets/97590636/fd894fdf-fb06-4fae-99ca-feaaa075a1af)
 
-5) View Mypage(Edit user information/ Withdrawal / Schedule inquiry(group invitation / public, private)) : Members can modify the password, ID, and e-mail information registered on My Page, and can also withdraw from membership, and the right to use this system expires at the same time as withdrawal. Members can view their ongoing or completed schedules on My Page.
+### 3. 주요 기능
 
-6) Suggestions for activites And Attractions : In the ongoing itinerary, group members can suggest tourist destinations and activities to visit during the trip, which are added to the itinerary when the group leader accepts.
+1. 여행 일정 생성 기능
 
-7) Shortest route recommendation : After registering all the tourist spots to visit, press the shortest route recommendation button to recommend the shortest route. The default factor for determining the shortest route is time, but it can be changed to distance.
-</p>
+2. 여행 일정 조회 기능
+
+3. 동행자 찾기 기능
+
+4. 여행 타임라인 구성 및 최단 경로 탐색 기능
